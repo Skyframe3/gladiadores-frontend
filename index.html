@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'/><meta name='viewport' content='width=device-width, initial-scale=1.0'/><title>Gladiadores Off Road</title>
+<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'/><meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0'/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/><meta name="mobile-web-app-capable" content="yes"/><title>Gladiadores Off Road</title>
 <meta property="og:title" content="Gladiadores Off Road — Rutas 4x4 en Chignahuapan"/>
 <meta property="og:description" content="No es un paseo, es una conquista. Rutas 4x4 extremas por la Sierra Norte de Puebla."/>
 <meta property="og:image" content="img/i2.jpg"/>
@@ -72,7 +72,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:66px;display:flex;ali
 .car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;background:rgba(8,10,7,0.4);border:1px solid rgba(143,255,42,0.3);color:var(--neon);width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:20px;backdrop-filter:blur(6px);transition:all .2s;}
 .car-arrow:hover{background:rgba(143,255,42,0.2);}
 .car-arrow.left{left:24px;}.car-arrow.right{right:24px;}
-.hero-location{position:absolute;bottom:34px;right:34px;z-index:5;display:flex;align-items:center;gap:8px;background:rgba(8,10,7,0.55);border:1px solid rgba(143,255,42,0.25);border-radius:100px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s;text-decoration:none;color:var(--ink);}
+.hero-location{display:flex;align-items:center;gap:8px;background:rgba(8,10,7,0.55);border:1px solid rgba(143,255,42,0.25);border-radius:100px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s;text-decoration:none;color:var(--ink);font-family:'Inter',sans-serif;}
 .hero-location:hover{border-color:var(--neon);box-shadow:0 0 20px rgba(143,255,42,0.3);}
 .hero-location .pin{color:var(--neon);font-size:16px;}
 .hero-location small{display:block;color:var(--muted);font-size:10px;letter-spacing:1px;}
@@ -231,7 +231,7 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(143,2
 .reg-sub{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6;}
 .reg-body{padding:22px 30px 30px;}
 .reg-field{margin-bottom:12px;}
-.reg-field input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:11px;padding:14px 16px;color:var(--ink);font-size:14px;font-family:'Inter';outline:none;transition:all .2s;}
+.reg-field input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:11px;padding:14px 16px;color:var(--ink);font-size:16px;font-family:'Inter';outline:none;transition:all .2s;}
 .reg-field input:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(143,255,42,0.12);}
 .reg-field input::placeholder{color:#5A6650;}
 .reg-submit{width:100%;background:var(--neon);color:#0A1400;border:none;border-radius:11px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;margin-top:8px;box-shadow:0 0 24px rgba(143,255,42,0.4);transition:all .2s;}
@@ -262,7 +262,7 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(143,2
 .opt-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
 .opt{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 18px;cursor:pointer;font-size:14px;transition:all .2s;}
 .opt.sel{background:rgba(143,255,42,0.12);border-color:var(--neon);color:var(--neon);}
-.date-in{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(143,255,42,0.3);border-radius:10px;padding:12px 16px;color:var(--ink);font-size:14px;margin-bottom:22px;font-family:'Inter';outline:none;}
+.date-in{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(143,255,42,0.3);border-radius:10px;padding:12px 16px;color:var(--ink);font-size:16px;margin-bottom:22px;font-family:'Inter';outline:none;}
 .unit-pick{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;}
 .unit-pick.sel{border-color:var(--neon);background:rgba(143,255,42,0.08);}
 .unit-pick b{font-size:15px;}
@@ -330,7 +330,21 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(143,2
 .cart-tv{font-family:'Barlow Condensed';color:var(--neon);font-weight:900;font-size:24px;}
 
 @media(max-width:860px){.chigna-grid{grid-template-columns:1fr;}.gal-grid{grid-template-columns:repeat(2,1fr);}.gal-big{grid-column:span 2;}}
-@media(max-width:640px){.nav-links{display:none;}.hero-location{bottom:80px;}.seat-row{gap:20px;}}
+@media(max-width:640px){.nav-links{display:none;}.hero-location{bottom:80px;}.seat-row{gap:20px;}.map-picker{flex-direction:column;bottom:auto;top:calc(100% + 8px);right:0;}.modal{max-height:100vh;border-radius:20px 20px 0 0;}.overlay{padding:0;align-items:flex-end;}.overlay.open{align-items:flex-end;}}
+
+/* OPTIMIZACIÓN GAMA BAJA/MEDIA: reducir animaciones pesadas si el usuario lo prefiere o el dispositivo es lento */
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
+@supports not (backdrop-filter: blur(1px)){nav,.overlay,.reg-overlay,.chat-win{background:rgba(8,10,7,0.96)!important;}}
+button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item{touch-action:manipulation;}
+.nav-cta,.btn-neon,.btn-fire,.btn-ghost,.btn-book,.btn-fw,.btn-next,.chat-fab{min-height:44px;}
+.seat{min-width:44px;min-height:44px;}
+
+/* MULTI-MAPA PICKER */
+.map-picker-wrap{position:relative;}
+.map-picker{display:none;position:absolute;bottom:calc(100% + 10px);right:0;background:var(--card);border:1px solid rgba(143,255,42,0.25);border-radius:12px;padding:8px;flex-direction:column;gap:4px;min-width:160px;box-shadow:0 12px 30px rgba(0,0,0,0.6);z-index:20;}
+.map-picker.open{display:flex;}
+.map-picker a{color:var(--ink);font-size:13px;text-decoration:none;padding:9px 12px;border-radius:8px;transition:background .2s;display:flex;align-items:center;gap:8px;}
+.map-picker a:hover{background:rgba(143,255,42,0.12);color:var(--neon);}
 
 /* ── SISTEMA VERDE + NARANJA ── */
 /* NARANJA = intensidad, extremo, temporada, urgencia */
@@ -397,7 +411,14 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(143,2
     <div class="slide-content"><div class="badge-special">💀 EDICIÓN ESPECIAL · TEMPORADA</div><h1 class="slide-special-title">RUTA <span>DÍA DE MUERTOS</span></h1><p class="slide-desc">Recorrido nocturno con veladoras y cempasúchil. Cupo limitado — 1 y 2 de noviembre.</p><div class="hero-btns"><button class="btn-neon" style="background:linear-gradient(90deg,#B026FF,#FF2AAD);color:#fff;" onclick="jump('rutas')">APARTAR MI LUGAR</button></div></div></div>
   <button class="car-arrow left" onclick="prevSlide()">‹</button><button class="car-arrow right" onclick="nextSlide()">›</button>
   <div class="carousel-dots" id="dots"></div>
-  <a class="hero-location" href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank"><span class="pin">📍</span><div><small>NUESTRA BASE</small><b>Chignahuapan, Puebla</b></div></a>
+  <div class="map-picker-wrap" style="position:absolute;bottom:34px;right:34px;z-index:5;">
+    <button class="hero-location" style="border:1px solid rgba(143,255,42,0.25);cursor:pointer;" onclick="toggleMapPicker(event)"><span class="pin">📍</span><div><small>NUESTRA BASE</small><b>Chignahuapan, Puebla</b></div></button>
+    <div class="map-picker" id="map-picker">
+      <a href="https://maps.apple.com/?q=Chignahuapan,Puebla" target="_blank"> Apple Maps</a>
+      <a href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank"> Google Maps</a>
+      <a href="https://waze.com/ul?q=Chignahuapan,Puebla" target="_blank"> Waze</a>
+    </div>
+  </div>
 </section>
 
 <!-- RUTAS -->
@@ -512,8 +533,6 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(143,2
 <!-- CART -->
 <div class="cart-ovl" id="cart-ovl"><div class="cart-bk" onclick="closeCart()"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">🛒 CARRITO</div><button class="cart-x" onclick="closeCart()">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
 <script>
-const API = "https://gladiadores-backend.vercel.app";
-
 const ROUTES=[
  {id:1,name:"Brisas del Bosque",tag:"POPULAR",exp:"panoramica",img:"img/i15.jpg",gal:5,acc:"#52A030",diffC:"#E8A020",diff:"MODERADA",dur:"3 hrs",dist:"45 km",desc:"Pinos centenarios, niebla mística y miradores sobre el Valle de Chignahuapan.",terrain:["🌲 Bosque","🌫️ Niebla","🔭 Miradores"],horarios:["08:00","12:00","16:00"],
    units:[{id:"U01",name:"Maverick X3",type:"SSV 4 plazas",seats:4,booked:[1,3],price:600},{id:"U02",name:"Commander Max",type:"SSV 6 plazas",seats:6,booked:[],price:550}]},
@@ -532,9 +551,14 @@ const UNITS_FLEET=[
 const MERCH=[{id:1,emo:"🥽",name:"Visor Táctico",price:450,tag:"PROTECCIÓN"},{id:2,emo:"🎽",name:"Jersey Oficial",price:650,tag:"EDICIÓN LTD"},{id:3,emo:"🧤",name:"Guantes de Ruta",price:390,tag:"GRIP PRO"},{id:4,emo:"🧢",name:"Gorra Táctica",price:280,tag:"ACCESORIOS"},{id:5,emo:"👕",name:"Playera Gladiador",price:320,tag:"ALGODÓN"},{id:6,emo:"🔦",name:"Linterna Táctica",price:395,tag:"EQUIPO"}];
 const EXTRAS=[{id:"e1",emo:"📸",name:"Sesión de fotos profesional",desc:"Fotógrafo con dron durante tu ruta",price:800},{id:"e2",emo:"🎥",name:"Video de la aventura",desc:"Edición cinematográfica de tu recorrido",price:1200},{id:"e3",emo:"🍔",name:"Comida en ruta",desc:"Picnic gourmet a media aventura",price:250},{id:"e4",emo:"🎉",name:"Decoración para evento especial",desc:"Cumpleaños, pedida de mano, aniversarios",price:1500}];
 
+const API = "https://gladiadores-backend.vercel.app";
 let cart=[],bRoute=null,bStep=1,bHorario=null,bUnit=null,bSeats=[],bExtras=[],bPayMode='anticipo',bPayMethod=null;
 
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+// SELECTOR DE MAPAS (Apple Maps / Google Maps / Waze)
+function toggleMapPicker(e){e.stopPropagation();document.getElementById('map-picker').classList.toggle('open');}
+document.addEventListener('click',(e)=>{const mp=document.getElementById('map-picker');if(mp&&mp.classList.contains('open')&&!e.target.closest('.map-picker-wrap'))mp.classList.remove('open');});
 
 function renderRoutes(filter){const f=filter||'todas';document.getElementById('routes-grid').innerHTML=ROUTES.filter(r=>f==='todas'||r.exp===f).map(r=>{const tot=r.units.reduce((s,u)=>s+u.seats,0),bk=r.units.reduce((s,u)=>s+u.booked.length,0),avl=tot-bk,minp=Math.min(...r.units.map(u=>u.price));return `<div class="rc ${r.exp==='extrema'?'extrema':''}" onclick="openBooking(${r.id})"><div class="rc-img" style="background-image:url(${r.img})"><div class="rc-img-ov"></div><div class="rc-tags-top"><span class="rc-tag" style="background:${r.acc}cc;color:#fff">${r.tag}</span><span class="rc-tag" style="background:${r.diffC}cc;color:#fff">${r.diff}</span></div><div class="rc-galcount">📷 ${r.gal} fotos</div><div class="rc-name">${r.name}</div></div><div class="rc-body"><div class="rc-desc">${r.desc}</div><div class="rc-tags">${r.terrain.map(t=>`<span class="rc-tr">${t}</span>`).join('')}</div><div class="rc-stats"><div class="rc-st"><div style="font-size:14px">⏱</div><div class="rc-sv">${r.dur}</div><div class="rc-sl">Duración</div></div><div class="rc-st"><div style="font-size:14px">📏</div><div class="rc-sv">${r.dist}</div><div class="rc-sl">Distancia</div></div><div class="rc-st"><div style="font-size:14px">💺</div><div class="rc-sv" style="color:${avl===0?'#FF5A5A':'var(--ink)'}">${avl}/${tot}</div><div class="rc-sl">Libres</div></div></div><div class="rc-foot"><div class="rc-price"><span class="from">desde</span>$${minp}<small>/asiento</small></div>${avl===0?`<div class="btn-full">🔒 LLENO</div>`:`<button class="btn-book" onclick="event.stopPropagation();openBooking(${r.id})">RESERVAR →</button>`}</div></div></div>`;}).join('');}
 function filterExp(f,el){document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderRoutes(f);}
@@ -567,6 +591,8 @@ function selUnit(id){bUnit=bRoute.units.find(u=>u.id===id);bSeats=[];renderStep(
 function tSeat(n,b){if(b)return;const i=bSeats.indexOf(n);if(i>=0)bSeats.splice(i,1);else bSeats.push(n);renderStep();}
 function tExtra(id){const i=bExtras.indexOf(id);if(i>=0)bExtras.splice(i,1);else bExtras.push(id);renderStep();}
 function confirmBooking(amt){const f='GR-'+Math.floor(Math.random()*9000+1000);bSeats.forEach(sn=>addToCart({label:`💺 ${bRoute.name} · ${bUnit.name} · A${sn}`,price:bUnit.price}));bExtras.forEach(id=>{const e=EXTRAS.find(x=>x.id===id);addToCart({label:`${e.emo} ${e.name}`,price:e.price});});
+  // Enviar la reserva al backend real (no bloquea la confirmación visual si falla)
+  fetch(`${API}/api/bookings`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({folio:f,ruta:bRoute.name,unidad:bUnit.name,horario:bHorario,asientos:bSeats,extras:bExtras,monto:amt,modoPago:bPayMode})}).catch(()=>{});
   document.getElementById('mbody').innerHTML=`<div style="text-align:center;padding:16px 0"><div style="font-size:64px;margin-bottom:16px">🎉</div><div style="font-family:Barlow Condensed;font-size:36px;font-weight:900;color:var(--neon);margin-bottom:8px">¡RESERVA CONFIRMADA!</div><p style="color:var(--muted);margin-bottom:20px">Folio <b style="color:var(--neon)">${f}</b> · Pagaste <b style="color:var(--ink)">$${amt}</b> (${bPayMode==='anticipo'?'anticipo':'completo'})</p><div style="background:rgba(143,255,42,0.08);border:1px solid rgba(143,255,42,0.2);border-radius:14px;padding:18px;text-align:left;margin-bottom:20px"><div style="display:flex;gap:10px;margin-bottom:12px;align-items:center"><span style="font-size:22px">📱</span><div><b style="color:var(--neon);font-size:14px">WhatsApp enviado</b><div style="color:var(--muted);font-size:12px">Confirmación a tu número en 2 min</div></div></div><div style="display:flex;gap:10px;margin-bottom:12px;align-items:center"><span style="font-size:22px">🔒</span><div><b style="color:var(--neon);font-size:14px">Asientos bloqueados</b><div style="color:var(--muted);font-size:12px">Nadie más puede tomarlos</div></div></div><div style="display:flex;gap:10px;align-items:center"><span style="font-size:22px">🛡️</span><div><b style="color:var(--neon);font-size:14px">Admin notificado</b><div style="color:var(--muted);font-size:12px">El dueño recibió tu reserva</div></div></div></div><button class="btn-fw" onclick="closeBooking()">¡LISTO! CERRAR</button></div>`;}
 
 // CARRUSEL
