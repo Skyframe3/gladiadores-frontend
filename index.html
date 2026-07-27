@@ -174,6 +174,19 @@ section.blk{padding:90px 34px;}
 .gal-big{grid-column:span 2;grid-row:span 2;}
 .gal-tall{grid-row:span 2;}
 
+/* UGC / INSTAGRAM */
+#ugc{background:var(--bg);}
+.ugc-grid{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.ugc-item{aspect-ratio:1;border-radius:14px;overflow:hidden;background-size:cover;background-position:center;position:relative;transition:transform .25s;}
+.ugc-item:not(.ugc-cta):hover{transform:scale(1.04);}
+.ugc-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,10,7,0.9));display:flex;align-items:flex-end;padding:10px;}
+.ugc-user{color:#fff;font-size:12px;font-weight:600;}
+.ugc-cta{background:var(--card);border:1px dashed rgba(143,255,42,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px;}
+.ugc-cta b{font-size:13px;margin-top:6px;}
+.ugc-cta small{color:var(--muted);font-size:11px;margin-top:2px;}
+@media(max-width:860px){.ugc-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:480px){.ugc-grid{grid-template-columns:repeat(2,1fr);}}
+
 /* LEALTAD */
 #lealtad{background:linear-gradient(160deg,var(--bg),#0A1206);}
 .loyalty-in{max-width:900px;margin:0 auto;text-align:center;}
@@ -218,33 +231,33 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(143,2
 .chat-wa-btn{width:100%;background:#25D366;color:#fff;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
 
 /* REG POPUP (reuse) */
-.reg-overlay{position:fixed;inset:0;z-index:2000;background:rgba(5,7,4,0.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .4s;}
+.reg-overlay{position:fixed;inset:0;z-index:2000;background:transparent;pointer-events:none;display:none;align-items:flex-end;justify-content:flex-end;padding:20px;opacity:0;transition:opacity .4s;}
 .reg-overlay.open{display:flex;opacity:1;}
-.reg-modal{background:linear-gradient(165deg,#12160E,#0A0C08);border:1px solid rgba(143,255,42,0.3);border-radius:22px;max-width:440px;width:100%;overflow:hidden;position:relative;transform:translateY(30px) scale(0.96);transition:transform .45s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 60px rgba(143,255,42,0.15);}
+.reg-modal{pointer-events:auto;background:linear-gradient(165deg,#12160E,#0A0C08);border:1px solid rgba(143,255,42,0.3);border-radius:18px;max-width:290px;width:100%;overflow:hidden;position:relative;transform:translateY(20px);transition:transform .4s cubic-bezier(.2,.8,.2,1);box-shadow:0 10px 40px rgba(0,0,0,0.5);}
 .reg-overlay.open .reg-modal{transform:none;}
-.reg-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:200px;height:200px;background:radial-gradient(circle,rgba(143,255,42,0.25),transparent 70%);pointer-events:none;}
-.reg-x{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.08);border:none;color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;z-index:3;}
-.reg-head{text-align:center;padding:34px 30px 0;position:relative;z-index:2;}
-.reg-helmet{width:66px;margin:0 auto 16px;display:block;filter:drop-shadow(0 0 14px rgba(143,255,42,0.6));}
-.reg-title{font-family:'Barlow Condensed';font-size:34px;font-weight:900;line-height:0.95;}
+.reg-glow{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:120px;height:120px;background:radial-gradient(circle,rgba(143,255,42,0.18),transparent 70%);pointer-events:none;}
+.reg-x{position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.08);border:none;color:var(--muted);width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:12px;z-index:3;}
+.reg-head{text-align:center;padding:18px 18px 0;position:relative;z-index:2;}
+.reg-helmet{width:34px;margin:0 auto 8px;display:block;filter:drop-shadow(0 0 10px rgba(143,255,42,0.6));}
+.reg-title{font-family:'Barlow Condensed';font-size:19px;font-weight:900;line-height:0.95;}
 .reg-title span{color:var(--neon);font-style:italic;}
-.reg-sub{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6;}
-.reg-body{padding:22px 30px 30px;}
-.reg-field{margin-bottom:12px;}
-.reg-field input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:11px;padding:14px 16px;color:var(--ink);font-size:16px;font-family:'Inter';outline:none;transition:all .2s;}
+.reg-sub{color:var(--muted);font-size:11px;margin-top:4px;line-height:1.4;}
+.reg-body{padding:12px 18px 18px;}
+.reg-field{margin-bottom:9px;}
+.reg-field input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:11px 13px;color:var(--ink);font-size:16px;font-family:'Inter';outline:none;transition:all .2s;}
 .reg-field input:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(143,255,42,0.12);}
 .reg-field input::placeholder{color:#5A6650;}
-.reg-submit{width:100%;background:var(--neon);color:#0A1400;border:none;border-radius:11px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;margin-top:8px;box-shadow:0 0 24px rgba(143,255,42,0.4);transition:all .2s;}
+.reg-submit{width:100%;background:var(--neon);color:#0A1400;border:none;border-radius:9px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.5px;margin-top:4px;box-shadow:0 0 18px rgba(143,255,42,0.35);transition:all .2s;}
 .reg-submit:hover{transform:translateY(-2px);}
-.reg-perk{display:flex;align-items:center;gap:10px;background:rgba(143,255,42,0.08);border:1px solid rgba(143,255,42,0.2);border-radius:12px;padding:12px 14px;margin-bottom:18px;}
-.reg-perk-icon{font-size:22px;}
-.reg-perk-txt{font-size:12px;color:#B8C4AC;line-height:1.4;}
+.reg-perk{display:flex;align-items:center;gap:8px;background:rgba(143,255,42,0.08);border:1px solid rgba(143,255,42,0.2);border-radius:10px;padding:9px 10px;margin-bottom:12px;}
+.reg-perk-icon{font-size:17px;}
+.reg-perk-txt{font-size:11px;color:#B8C4AC;line-height:1.3;}
 .reg-perk-txt b{color:var(--neon);}
-.reg-skip{text-align:center;margin-top:14px;}
-.reg-skip button{background:none;border:none;color:#5A6650;font-size:12px;cursor:pointer;text-decoration:underline;}
-.reg-success{text-align:center;padding:40px 30px;display:none;}
+.reg-skip{text-align:center;margin-top:10px;}
+.reg-skip button{background:none;border:none;color:#5A6650;font-size:11px;cursor:pointer;text-decoration:underline;}
+.reg-success{text-align:center;padding:22px 18px;display:none;}
 .reg-success.show{display:block;}
-.reg-success-check{width:72px;height:72px;border-radius:50%;background:rgba(143,255,42,0.15);border:2px solid var(--neon);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 18px;box-shadow:0 0 30px rgba(143,255,42,0.4);}
+.reg-success-check{width:44px;height:44px;border-radius:50%;background:rgba(143,255,42,0.15);border:2px solid var(--neon);display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px;box-shadow:0 0 20px rgba(143,255,42,0.4);}
 
 /* BOOKING MODAL */
 .overlay{display:none;position:fixed;inset:0;z-index:1800;background:rgba(5,7,4,0.9);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;}
@@ -390,6 +403,7 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
     <button class="nav-lnk" onclick="jump('chigna')">Chignahuapan</button>
     <button class="nav-lnk" onclick="jump('tienda')">Tienda</button>
     <button class="nav-lnk" onclick="jump('galeria')">Galería</button>
+    <button class="nav-lnk" onclick="jump('ugc')">Instagram</button>
     <button class="nav-lnk" onclick="jump('lealtad')">Puntos</button>
   </div>
   <div class="nav-right">
@@ -401,7 +415,7 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
 <!-- CARRUSEL -->
 <section class="hero-carousel" id="carousel">
   <div class="slide active"><div class="slide-bg" style="background-image:url(img/i2.jpg)"></div><div class="slide-ov" style="background:linear-gradient(180deg,rgba(8,10,7,0.55),rgba(8,10,7,0.35) 45%,rgba(8,10,7,0.9))"></div>
-    <div class="slide-content"><div class="slide-eyebrow">⚔️ SIERRA NORTE DE PUEBLA</div><h1 class="slide-h1">NO ES UN PASEO<span class="grad-text" style="display:block">es una conquista</span></h1><div class="slide-sub">GLADIADORES OFF ROAD</div>
+    <div class="slide-content"><div class="slide-eyebrow">SIERRA NORTE DE PUEBLA</div><h1 class="slide-h1">NO ES UN PASEO<span class="grad-text" style="display:block">es una conquista</span></h1><div class="slide-sub">GLADIADORES OFF ROAD</div>
     <div class="hero-btns"><button class="btn-neon" onclick="jump('rutas')">RESERVAR AVENTURA</button><button class="btn-ghost" onclick="jump('rutas')">Ver rutas →</button></div></div></div>
   <div class="slide"><div class="slide-bg" style="background-image:url(img/i3.jpg)"></div><div class="slide-ov" style="background:linear-gradient(90deg,rgba(8,10,7,0.85),rgba(8,10,7,0.3))"></div>
     <div class="slide-content" style="text-align:left;margin-left:2%;"><div class="slide-eyebrow chip-fire">🔥 RUTAS EXTREMAS</div><h1 class="slide-h1" style="text-align:left;">CRUZA EL RÍO<span class="fire-italic">siente el poder 4×4</span></h1><p class="slide-desc" style="margin-left:0;">Vados, lodo y adrenalina pura. Rutas para todos los niveles.</p><div class="hero-btns" style="justify-content:flex-start;"><button class="btn-fire" onclick="jump('rutas')">Explorar rutas</button></div></div></div>
@@ -424,7 +438,7 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
 <!-- RUTAS -->
 <section class="blk" id="rutas"><div class="sec-hdr reveal"><span class="sec-eye">NUESTRAS RUTAS</span><div class="sec-tit">ELIGE TU <em>TERRENO</em></div>
   <div class="divider-line" style="margin-top:24px"></div><div class="sec-sub">Cada ruta con galería, horarios, unidades y servicios extra</div></div>
-  <div class="exp-types reveal"><div class="exp-chip active" onclick="filterExp('todas',this)">🗺️ Todas</div><div class="exp-chip" onclick="filterExp('panoramica',this)">📸 Panorámicas / Contemplativas</div><div class="exp-chip fire-chip" onclick="filterExp('extrema',this)">🔥 Extremas</div></div>
+  <div class="exp-types reveal"><div class="exp-chip active" onclick="filterExp('todas',this)">Todas</div><div class="exp-chip" onclick="filterExp('panoramica',this)">Panorámicas / Contemplativas</div><div class="exp-chip fire-chip" onclick="filterExp('extrema',this)">Extremas</div></div>
   <div class="routes-grid reveal" id="routes-grid"></div>
 </section>
 
@@ -468,7 +482,17 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
   </div>
 </section>
 
-<!-- LEALTAD -->
+<!-- INSTAGRAM / FOTOS DE CLIENTES -->
+<section class="blk" id="ugc"><div class="sec-hdr reveal"><span class="sec-eye">COMUNIDAD</span><div class="sec-tit">ETIQUÉTANOS <em>@gladiadores.offroad</em></div><div class="sec-sub">Comparte tu foto con <b style="color:var(--neon)">#GladiadoresOffRoad</b> y aparece aquí</div></div>
+  <div class="ugc-grid reveal">
+    <div class="ugc-item" style="background-image:url(img/i7.jpg)"><div class="ugc-ov"><span class="ugc-user">@viajero_4x4</span></div></div>
+    <div class="ugc-item" style="background-image:url(img/i9.jpg)"><div class="ugc-ov"><span class="ugc-user">@ana.enruta</span></div></div>
+    <div class="ugc-item" style="background-image:url(img/i11.jpg)"><div class="ugc-ov"><span class="ugc-user">@carlos_offroad</span></div></div>
+    <div class="ugc-item" style="background-image:url(img/i13.jpg)"><div class="ugc-ov"><span class="ugc-user">@mariapty</span></div></div>
+    <div class="ugc-item" style="background-image:url(img/i8.jpg)"><div class="ugc-ov"><span class="ugc-user">@rutas.pue</span></div></div>
+    <div class="ugc-item ugc-cta"><span style="font-size:30px;">📸</span><b>Sube tu foto</b><small>Etiquétanos y aparece aquí</small><button class="btn-neon" style="margin-top:10px;padding:10px 20px;font-size:12px;" onclick="window.open('https://instagram.com/gladiadores.offroad','_blank')">IR A INSTAGRAM</button></div>
+  </div>
+</section>
 <section class="blk" id="lealtad"><div class="loyalty-in reveal"><div style="font-size:52px;margin-bottom:16px;">🏆</div><span class="sec-eye">PROGRAMA DE LEALTAD</span><div class="sec-tit">GLADIADOR <em>ÉLITE</em></div><p style="color:var(--muted);max-width:460px;margin:14px auto 0;line-height:1.8;">Regístrate, acumula recorridos y desbloquea recompensas. A más rutas, mayor rango.</p>
   <div class="ranks">
     <div class="rank-c" style="border-color:rgba(138,122,106,0.3);"><div style="font-size:30px;margin-bottom:8px;">🥉</div><div style="font-family:Barlow Condensed;font-weight:800;font-size:17px;color:#B8A890;">RECLUTA</div><div style="color:var(--muted);font-size:12px;margin-top:3px;">0–3 rutas</div><div style="font-size:12px;color:var(--muted);margin-top:8px;">Acceso + descuentos</div></div>
@@ -484,10 +508,10 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
   <div class="foot-top">
     <div class="foot-brand"><img src="img/i1.png"/><p>Rutas 4×4 extremas por la Sierra Norte de Puebla. Vive la aventura como un gladiador.</p><div class="foot-tagline">"No es un paseo, es una conquista"</div></div>
     <div class="foot-col"><h4>EXPLORA</h4><a onclick="jump('rutas')">Rutas</a><a onclick="jump('unidades')">Unidades</a><a onclick="jump('tienda')">Tienda oficial</a><a onclick="jump('galeria')">Galería</a><a onclick="jump('lealtad')">Programa de puntos</a></div>
-    <div class="foot-col"><h4>CONTACTO</h4><a href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank">📍 Chignahuapan, Puebla</a><a href="https://wa.me/527750000000" target="_blank">💬 WhatsApp: 775 000 0000</a><a>✉️ hola@gladiadoresoffroad.com</a></div>
+    <div class="foot-col"><h4>CONTACTO</h4><a href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank">Chignahuapan, Puebla</a><a href="https://wa.me/527750000000" target="_blank">WhatsApp: 775 000 0000</a><a>hola@gladiadoresoffroad.com</a></div>
     <div class="foot-col"><h4>SÍGUENOS</h4><div class="foot-social">
       <a class="fb" href="#" target="_blank" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
-      <a class="ig" href="#" target="_blank" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg></a>
+      <a class="ig" href="https://instagram.com/gladiadores.offroad" target="_blank" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg></a>
       <a class="tt" href="#" target="_blank" title="TikTok" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
       <a class="wa" href="https://wa.me/527750000000" target="_blank" title="WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
       <a class="map" href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank" title="Ubicación" aria-label="Ubicación"><svg viewBox="0 0 24 24"><path d="M12 0C7.802 0 4 3.403 4 7.602 4 11.8 7.469 16.812 12 24c4.531-7.188 8-12.2 8-16.398C20 3.403 16.199 0 12 0zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg></a>
@@ -498,7 +522,7 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
       <a href="https://waze.com/ul?q=Chignahuapan,Puebla" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Waze</a>
     </div></div>
   </div>
-  <div class="foot-bottom">© 2026 Gladiadores Off Road · Todos los derechos reservados · Hecho con ⚔️ en la Sierra Norte de Puebla</div>
+  <div class="foot-bottom">© 2026 Gladiadores Off Road · Todos los derechos reservados · Hecho en la Sierra Norte de Puebla</div>
 </footer>
 
 <!-- CHATBOT WHATSAPP -->
@@ -507,31 +531,31 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
   <div class="chat-head"><img src="img/i1.png"/><div class="ct"><b>Gladiadores Off Road</b><small>En línea · Responde al instante</small></div><button class="chat-x" onclick="toggleChat()">✕</button></div>
   <div class="chat-body" id="chat-body"><div class="chat-msg">¡Hola, gladiador! 👋 Soy el asistente de Gladiadores Off Road. ¿En qué te puedo ayudar?</div></div>
   <div class="chat-quick" id="chat-quick">
-    <button class="chat-q" onclick="chatAsk('rutas')">🗺️ ¿Qué rutas tienen?</button>
-    <button class="chat-q" onclick="chatAsk('precios')">💰 ¿Cuánto cuesta?</button>
-    <button class="chat-q" onclick="chatAsk('reserva')">📅 Quiero reservar</button>
-    <button class="chat-q" onclick="chatAsk('ubicacion')">📍 ¿Dónde están?</button>
+    <button class="chat-q" onclick="chatAsk('rutas')">¿Qué rutas tienen?</button>
+    <button class="chat-q" onclick="chatAsk('precios')">¿Cuánto cuesta?</button>
+    <button class="chat-q" onclick="chatAsk('reserva')">Quiero reservar</button>
+    <button class="chat-q" onclick="chatAsk('ubicacion')">¿Dónde están?</button>
   </div>
-  <div class="chat-foot"><button class="chat-wa-btn" onclick="goWhatsApp()">💬 Continuar en WhatsApp</button></div>
+  <div class="chat-foot"><button class="chat-wa-btn" onclick="goWhatsApp()">Continuar en WhatsApp</button></div>
 </div>
 
 <!-- POPUP REGISTRO -->
 <div class="reg-overlay" id="reg-overlay"><div class="reg-modal"><div class="reg-glow"></div><button class="reg-x" onclick="closeReg()">✕</button>
-  <div id="reg-form-wrap"><div class="reg-head"><img class="reg-helmet" src="img/i1.png"/><div class="reg-title">ÚNETE A LOS<br><span>GLADIADORES</span></div><div class="reg-sub">Regístrate y obtén promociones exclusivas, rutas especiales y tu primer descuento.</div></div>
-    <div class="reg-body"><div class="reg-perk"><span class="reg-perk-icon">🎁</span><div class="reg-perk-txt"><b>10% de descuento</b> en tu primera ruta solo por registrarte hoy.</div></div>
+  <div id="reg-form-wrap"><div class="reg-head"><img class="reg-helmet" src="img/i1.png"/><div class="reg-title">RECLAMA TU<br><span>RECOMPENSA</span></div><div class="reg-sub">10% off en tu primera ruta</div></div>
+    <div class="reg-body"><div class="reg-perk"><span class="reg-perk-icon">🎁</span><div class="reg-perk-txt">Regístrate hoy y obtén tu <b>descuento</b> al instante.</div></div>
       <div class="reg-field"><input type="text" placeholder="Nombre completo" id="r-nombre"/></div>
       <div class="reg-field"><input type="email" placeholder="Correo electrónico" id="r-email"/></div>
       <div class="reg-field"><input type="tel" placeholder="WhatsApp (10 dígitos)" id="r-tel"/></div>
-      <button class="reg-submit" onclick="submitReg()">QUIERO MI DESCUENTO ⚔️</button>
+      <button class="reg-submit" onclick="submitReg()">QUIERO MI DESCUENTO</button>
       <div class="reg-skip"><button onclick="closeReg()">Ahora no, gracias</button></div></div></div>
-  <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title" style="font-size:28px;">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub" style="margin-top:14px;">Tu descuento está activo. Te enviamos los detalles por WhatsApp y correo.</div><button class="reg-submit" style="margin-top:22px;" onclick="closeReg()">EMPEZAR A EXPLORAR</button></div>
+  <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title" style="font-size:17px;">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub" style="margin-top:6px;">Tu descuento está activo. Revisa tu WhatsApp.</div><button class="reg-submit" style="margin-top:12px;" onclick="closeReg()">EMPEZAR</button></div>
 </div></div>
 
 <!-- BOOKING MODAL -->
 <div class="overlay" id="book-overlay"><div class="modal"><div class="modal-hd"><div><div class="modal-step" id="mstep">PASO 1 DE 4 · RUTA</div><div class="modal-tit" id="mname">—</div></div><button class="modal-x" onclick="closeBooking()">✕</button></div><div class="modal-bd" id="mbody"></div></div></div>
 
 <!-- CART -->
-<div class="cart-ovl" id="cart-ovl"><div class="cart-bk" onclick="closeCart()"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">🛒 CARRITO</div><button class="cart-x" onclick="closeCart()">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
+<div class="cart-ovl" id="cart-ovl"><div class="cart-bk" onclick="closeCart()"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" onclick="closeCart()">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
 <script>
 const ROUTES=[
  {id:1,name:"Brisas del Bosque",tag:"POPULAR",exp:"panoramica",img:"img/i15.jpg",gal:5,acc:"#52A030",diffC:"#E8A020",diff:"MODERADA",dur:"3 hrs",dist:"45 km",desc:"Pinos centenarios, niebla mística y miradores sobre el Valle de Chignahuapan.",terrain:["🌲 Bosque","🌫️ Niebla","🔭 Miradores"],horarios:["08:00","12:00","16:00"],
@@ -571,7 +595,7 @@ function removeFromCart(c){cart=cart.filter(i=>i.cid!=c);updateBadge();renderCar
 function updateBadge(){const b=document.getElementById('cart-badge');if(cart.length){b.style.display='flex';b.textContent=cart.length;}else b.style.display='none';}
 function openCart(){renderCart();document.getElementById('cart-ovl').classList.add('open');}
 function closeCart(){document.getElementById('cart-ovl').classList.remove('open');}
-function renderCart(){const its=document.getElementById('cart-its'),ft=document.getElementById('cart-ft');if(!cart.length){its.innerHTML='<div class="cart-emp"><div style="font-size:48px;margin-bottom:12px">🛒</div><p>Tu carrito está vacío</p></div>';ft.innerHTML='';return;}its.innerHTML=cart.map(i=>`<div class="cart-it"><div><div class="cart-it-nm">${i.label}</div><div class="cart-it-pr">$${i.price}</div></div><button class="cart-rm" onclick="removeFromCart(${i.cid})">✕</button></div>`).join('');const t=cart.reduce((s,i)=>s+i.price,0);ft.innerHTML=`<div class="cart-tr"><span style="color:var(--muted)">Total</span><span class="cart-tv">$${t}</span></div><button class="btn-fw">PROCEDER AL PAGO</button>`;}
+function renderCart(){const its=document.getElementById('cart-its'),ft=document.getElementById('cart-ft');if(!cart.length){its.innerHTML='<div class="cart-emp"><div style="font-size:48px;margin-bottom:12px">🛍️</div><p>Tu carrito está vacío</p></div>';ft.innerHTML='';return;}its.innerHTML=cart.map(i=>`<div class="cart-it"><div><div class="cart-it-nm">${i.label}</div><div class="cart-it-pr">$${i.price}</div></div><button class="cart-rm" onclick="removeFromCart(${i.cid})">✕</button></div>`).join('');const t=cart.reduce((s,i)=>s+i.price,0);ft.innerHTML=`<div class="cart-tr"><span style="color:var(--muted)">Total</span><span class="cart-tv">$${t}</span></div><button class="btn-fw">PROCEDER AL PAGO</button>`;}
 
 function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=1;bHorario=null;bUnit=null;bSeats=[];bExtras=[];bPayMode='anticipo';bPayMethod=null;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
 function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
@@ -579,7 +603,7 @@ function closeBooking(){document.getElementById('book-overlay').classList.remove
 function renderStep(){const L=['PASO 1 DE 4 · HORARIO Y UNIDAD','PASO 2 DE 4 · ASIENTOS','PASO 3 DE 4 · EXTRAS','PASO 4 DE 4 · PAGO'];document.getElementById('mstep').textContent=L[bStep-1];const bd=document.getElementById('mbody');const bar=`<div class="step-bar">${[1,2,3,4].map(s=>`<div class="step-seg" style="background:${s<=bStep?'var(--neon)':'rgba(255,255,255,.1)'}"></div>`).join('')}</div>`;
 if(bStep===1){bd.innerHTML=bar+`<span class="field-lbl">FECHA</span><input type="date" class="date-in" value="2026-08-01"><span class="field-lbl">HORARIO DE SALIDA</span><div class="opt-row">${bRoute.horarios.map(h=>`<div class="opt ${bHorario===h?'sel':''}" onclick="bHorario='${h}';renderStep()">🕐 ${h}</div>`).join('')}</div><span class="field-lbl">ELIGE TU UNIDAD</span>${bRoute.units.map(u=>{const avl=u.seats-u.booked.length;return `<div class="unit-pick ${bUnit&&bUnit.id===u.id?'sel':''}" onclick="${avl===0?'':`selUnit('${u.id}')`}" style="${avl===0?'opacity:.5;cursor:not-allowed':''}"><div><b>🚙 ${u.name}</b><small>${u.type} · ${avl===0?'🔴 LLENA':'🟢 '+avl+' libres'}</small></div><div class="price">$${u.price}<div style="font-size:11px;color:var(--muted);font-weight:400">/asiento</div></div></div>`;}).join('')}<button class="btn-fw" style="margin-top:8px" ${(!bHorario||!bUnit)?'disabled':''} onclick="bStep=2;renderStep()">ELEGIR ASIENTOS →</button>`;}
 else if(bStep===2){const rows=[];const per=bUnit.seats<=2?bUnit.seats:2;let n=1;while(n<=bUnit.seats){const row=[];for(let k=0;k<per&&n<=bUnit.seats;k++){row.push(n);n++;}rows.push(row);}
-  bd.innerHTML=bar+`<p style="color:var(--muted);font-size:14px;margin-bottom:16px;text-align:center">Elige tus asientos en <b style="color:var(--ink)">${bUnit.name}</b> — como en el avión 🎫</p><div class="seatmap"><div class="vehicle-body"><div class="vehicle-front">▲ FRENTE DE LA UNIDAD ▲</div><div class="seat-rows">${rows.map(row=>`<div class="seat-row">${row.map(sn=>{const iB=bUnit.booked.includes(sn),iS=bSeats.includes(sn);return `<div class="seat ${iB?'s-b':iS?'s-s':'s-f'}" onclick="tSeat(${sn},${iB})">${iB?'🔒':iS?'✓':'💺'}<span>${sn}</span></div>`;}).join('')}</div>`).join('')}</div></div><div class="seat-legend"><span>🔒 Ocupado</span><span>💺 Libre</span><span style="color:var(--neon)">✓ Tú</span></div></div><div style="text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px">${bSeats.length} asiento(s) seleccionado(s) · <b style="color:var(--neon)">$${bSeats.length*bUnit.price}</b></div><div class="btns-row"><button class="btn-back" onclick="bStep=1;renderStep()">← ATRÁS</button><button class="btn-next" ${bSeats.length===0?'disabled':''} onclick="bStep=3;renderStep()">CONTINUAR →</button></div>`;}
+  bd.innerHTML=bar+`<p style="color:var(--muted);font-size:14px;margin-bottom:16px;text-align:center">Elige tus asientos en <b style="color:var(--ink)">${bUnit.name}</b></p><div class="seatmap"><div class="vehicle-body"><div class="vehicle-front">▲ FRENTE DE LA UNIDAD ▲</div><div class="seat-rows">${rows.map(row=>`<div class="seat-row">${row.map(sn=>{const iB=bUnit.booked.includes(sn),iS=bSeats.includes(sn);return `<div class="seat ${iB?'s-b':iS?'s-s':'s-f'}" onclick="tSeat(${sn},${iB})">${iB?'X':iS?'✓':'□'}<span>${sn}</span></div>`;}).join('')}</div>`).join('')}</div></div><div class="seat-legend"><span>X Ocupado</span><span>□ Libre</span><span style="color:var(--neon)">✓ Tu asiento</span></div></div><div style="text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px">${bSeats.length} asiento(s) seleccionado(s) · <b style="color:var(--neon)">$${bSeats.length*bUnit.price}</b></div><div class="btns-row"><button class="btn-back" onclick="bStep=1;renderStep()">← ATRÁS</button><button class="btn-next" ${bSeats.length===0?'disabled':''} onclick="bStep=3;renderStep()">CONTINUAR →</button></div>`;}
 else if(bStep===3){bd.innerHTML=bar+`<span class="field-lbl">SERVICIOS EXTRA (OPCIONAL)</span><div class="extras-list">${EXTRAS.map(e=>`<div class="extra-item ${bExtras.includes(e.id)?'sel':''}" onclick="tExtra('${e.id}')"><div class="extra-check">✓</div><span style="font-size:22px">${e.emo}</span><div class="ei-name" style="flex:1"><div>${e.name}</div><small style="color:var(--muted);font-weight:400">${e.desc}</small></div><div class="ei-price">+$${e.price}</div></div>`).join('')}</div><div class="btns-row"><button class="btn-back" onclick="bStep=2;renderStep()">← ATRÁS</button><button class="btn-next" onclick="bStep=4;renderStep()">IR AL PAGO →</button></div>`;}
 else if(bStep===4){const base=bSeats.length*bUnit.price;const extra=bExtras.reduce((s,id)=>s+EXTRAS.find(e=>e.id===id).price,0);const total=base+extra;const anticipo=Math.round(total*0.5);
   const exRows=bExtras.map(id=>{const e=EXTRAS.find(x=>x.id===id);return `<div class="summ-row"><span>${e.emo} ${e.name}</span><span>$${e.price}</span></div>`;}).join('');
@@ -609,7 +633,7 @@ function submitReg(){const n=document.getElementById('r-nombre').value,e=documen
 
 // CHATBOT
 function toggleChat(){document.getElementById('chat-win').classList.toggle('open');}
-function chatAsk(t){const body=document.getElementById('chat-body');const R={rutas:"Tenemos 4 rutas 🗺️: Brisas del Bosque, Cañón del Guerrero, Cruce del Río y Mirador del Valle. Desde panorámicas hasta extremas. ¿Quieres reservar una?",precios:"Nuestras rutas van desde $550 hasta $900 por asiento 💰, según la ruta y unidad. Puedes pagar solo el 50% de anticipo. ¿Te ayudo a reservar?",reserva:"¡Perfecto! 📅 Puedes reservar aquí mismo eligiendo ruta, horario, unidad y asientos. O si prefieres atención personalizada, te paso a WhatsApp.",ubicacion:"Estamos en Chignahuapan, Puebla 📍 (Sierra Norte). Toca el botón de abajo y te comparto la ubicación exacta por WhatsApp."};
+function chatAsk(t){const body=document.getElementById('chat-body');const R={rutas:"Tenemos 4 rutas: Brisas del Bosque, Cañón del Guerrero, Cruce del Río y Mirador del Valle. Desde panorámicas hasta extremas. ¿Quieres reservar una?",precios:"Nuestras rutas van desde $550 hasta $900 por asiento, según la ruta y unidad. Puedes pagar solo el 50% de anticipo. ¿Te ayudo a reservar?",reserva:"¡Perfecto! Puedes reservar aquí mismo eligiendo ruta, horario, unidad y asientos. O si prefieres atención personalizada, te paso a WhatsApp.",ubicacion:"Estamos en Chignahuapan, Puebla (Sierra Norte). Toca el botón de abajo y te comparto la ubicación exacta por WhatsApp."};
   const q=document.querySelector(`[onclick="chatAsk('${t}')"]`).textContent;
   body.innerHTML+=`<div class="chat-msg" style="background:var(--neon);color:#0A1400;align-self:flex-end;border-top-left-radius:12px;border-top-right-radius:2px">${q}</div>`;
   setTimeout(()=>{body.innerHTML+=`<div class="chat-msg">${R[t]}</div>`;body.scrollTop=body.scrollHeight;},500);
