@@ -1,0 +1,603 @@
+<!DOCTYPE html><html lang='es'><head><meta charset='UTF-8'/><meta name='viewport' content='width=device-width, initial-scale=1.0'/><title>Gladiadores Off Road</title>
+<meta property="og:title" content="Gladiadores Off Road — Rutas 4x4 en Chignahuapan"/>
+<meta property="og:description" content="No es un paseo, es una conquista. Rutas 4x4 extremas por la Sierra Norte de Puebla."/>
+<meta property="og:image" content="img/i2.jpg"/>
+<meta property="og:type" content="website"/>
+<meta name="theme-color" content="#080A07"/>
+<link rel="icon" href="img/i1.png"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--neon:#8FFF2A;--neon-dim:#6FD418;--fire:#FF6B1F;--fire-dim:#E8551F;--bg:#080A07;--bg2:#0D110B;--card:#12160E;--ink:#EAF2E2;--muted:#9AA890;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+::selection{background:var(--neon);color:#0A1400;}
+
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:3000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;transition:opacity .6s,visibility .6s;}
+#loader.hide{opacity:0;visibility:hidden;}
+.loader-helmet{width:110px;height:110px;position:relative;}
+.loader-helmet img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 18px var(--neon));animation:helmetPulse 1.4s ease-in-out infinite;}
+.loader-ring{position:absolute;inset:-18px;border:2px solid transparent;border-top-color:var(--neon);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes helmetPulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 12px var(--neon));}50%{transform:scale(1.08);filter:drop-shadow(0 0 28px var(--neon));}}
+.loader-txt{font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:6px;font-size:15px;color:var(--muted);animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:.4;}50%{opacity:1;}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;height:66px;display:flex;align-items:center;padding:0 34px;justify-content:space-between;background:rgba(8,10,7,0.55);backdrop-filter:blur(12px);border-bottom:1px solid rgba(143,255,42,0.12);transition:background .3s;}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;}
+.nav-logo img{height:40px;filter:drop-shadow(0 0 6px rgba(143,255,42,0.5));}
+.nav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;letter-spacing:1.5px;line-height:.85;}
+.nav-logo-txt span{color:var(--neon);}
+.nav-links{display:flex;gap:26px;}
+.nav-lnk{color:var(--muted);font-size:13.5px;cursor:pointer;font-weight:500;background:none;border:none;font-family:'Inter',sans-serif;position:relative;transition:color .2s;}
+.nav-lnk::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--neon);transition:width .25s;box-shadow:0 0 8px var(--neon);}
+.nav-lnk:hover{color:var(--ink);}
+.nav-lnk:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-cart{position:relative;background:none;border:none;color:var(--ink);font-size:20px;cursor:pointer;}
+.nav-cart-badge{position:absolute;top:-6px;right:-8px;background:var(--neon);color:#0A1400;font-size:10px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;}
+.nav-cta{background:var(--neon);color:#0A1400;border:none;border-radius:9px;padding:10px 18px;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:.5px;box-shadow:0 0 20px rgba(143,255,42,0.4);transition:all .2s;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 28px rgba(143,255,42,0.6);}
+
+/* CAROUSEL */
+.hero-carousel{position:relative;height:100vh;overflow:hidden;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease;display:flex;align-items:center;justify-content:center;}
+.slide.active{opacity:1;}
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.08);}
+.slide.active .slide-bg{animation:kenburns 7s ease-out forwards;}
+@keyframes kenburns{from{transform:scale(1.16);}to{transform:scale(1.0);}}
+.slide-ov{position:absolute;inset:0;}
+.slide-content{position:relative;z-index:3;text-align:center;padding:0 24px;max-width:1000px;}
+.slide-eyebrow{display:inline-block;background:rgba(143,255,42,0.12);border:1px solid rgba(143,255,42,0.5);color:var(--neon);border-radius:100px;padding:7px 22px;font-size:12px;font-weight:700;letter-spacing:3px;margin-bottom:26px;backdrop-filter:blur(4px);box-shadow:0 0 24px rgba(143,255,42,0.2);}
+.slide-h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(58px,11vw,140px);font-weight:900;line-height:0.84;letter-spacing:-2px;color:#fff;text-shadow:0 6px 40px rgba(0,0,0,0.6);}
+.slide-h1 .neon-italic{display:block;font-style:italic;font-weight:800;color:var(--neon);text-shadow:0 0 30px rgba(143,255,42,0.6);}
+.slide-sub{font-family:'Barlow Condensed',sans-serif;font-size:clamp(15px,2.4vw,24px);font-weight:700;letter-spacing:7px;color:rgba(255,255,255,0.6);margin-top:14px;}
+.slide-desc{color:#D4DCC8;font-size:16px;max-width:460px;margin:22px auto 0;line-height:1.75;text-shadow:0 2px 10px rgba(0,0,0,0.7);}
+.badge-special{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#B026FF,#FF2AAD);border:none;color:#fff;border-radius:100px;padding:8px 22px;font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:24px;box-shadow:0 0 30px rgba(176,38,255,0.5);animation:floatBadge 3s ease-in-out infinite;}
+@keyframes floatBadge{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.slide-special-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(46px,9vw,110px);font-weight:900;line-height:0.9;color:#fff;text-shadow:0 0 40px rgba(255,42,173,0.4);}
+.slide-special-title span{color:#FF6AC4;font-style:italic;}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:38px;}
+.btn-neon{background:var(--neon);color:#0A1400;border:none;border-radius:11px;padding:16px 38px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:1px;box-shadow:0 0 28px rgba(143,255,42,0.45);transition:all .2s;}
+.btn-neon:hover{transform:translateY(-3px);box-shadow:0 0 40px rgba(143,255,42,0.7);}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:11px;padding:16px 38px;font-size:15px;font-weight:600;cursor:pointer;backdrop-filter:blur(6px);transition:all .2s;}
+.btn-ghost:hover{background:rgba(143,255,42,0.15);border-color:var(--neon);}
+.carousel-dots{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:10px;}
+.dot{width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,0.25);cursor:pointer;transition:all .3s;overflow:hidden;position:relative;}
+.dot.active{background:rgba(143,255,42,0.3);}
+.dot.active::after{content:'';position:absolute;left:0;top:0;height:100%;width:100%;background:var(--neon);box-shadow:0 0 10px var(--neon);animation:fillDot 6s linear;}
+@keyframes fillDot{from{width:0;}to{width:100%;}}
+.car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;background:rgba(8,10,7,0.4);border:1px solid rgba(143,255,42,0.3);color:var(--neon);width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:20px;backdrop-filter:blur(6px);transition:all .2s;}
+.car-arrow:hover{background:rgba(143,255,42,0.2);}
+.car-arrow.left{left:24px;}.car-arrow.right{right:24px;}
+.hero-location{position:absolute;bottom:34px;right:34px;z-index:5;display:flex;align-items:center;gap:8px;background:rgba(8,10,7,0.55);border:1px solid rgba(143,255,42,0.25);border-radius:100px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s;text-decoration:none;color:var(--ink);}
+.hero-location:hover{border-color:var(--neon);box-shadow:0 0 20px rgba(143,255,42,0.3);}
+.hero-location .pin{color:var(--neon);font-size:16px;}
+.hero-location small{display:block;color:var(--muted);font-size:10px;letter-spacing:1px;}
+.hero-location b{font-size:13px;}
+
+/* SECTIONS COMMON */
+section.blk{padding:90px 34px;}
+.sec-hdr{text-align:center;margin-bottom:50px;}
+.sec-eye{color:var(--neon);font-size:12px;font-weight:700;letter-spacing:3px;display:block;margin-bottom:10px;}
+.sec-tit{font-family:'Barlow Condensed',sans-serif;font-size:clamp(42px,6vw,64px);font-weight:900;line-height:1;letter-spacing:-1px;}
+.sec-tit em{color:var(--neon);font-style:italic;}
+.sec-sub{color:var(--muted);font-size:15px;margin-top:10px;}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s;}
+.reveal.in{opacity:1;transform:none;}
+
+/* RUTAS */
+#rutas{background:var(--bg2);}
+.routes-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:24px;}
+.rc{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid rgba(143,255,42,0.1);cursor:pointer;transition:transform .3s,box-shadow .3s,border-color .3s;}
+.rc:hover{transform:translateY(-8px);box-shadow:0 26px 60px rgba(0,0,0,0.6);border-color:rgba(143,255,42,0.35);}
+.rc-img{height:220px;position:relative;background-size:cover;background-position:center;}
+.rc-img-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(18,22,14,0.96));}
+.rc-tags-top{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;z-index:2;}
+.rc-tag{border-radius:6px;padding:5px 11px;font-size:11px;font-weight:700;letter-spacing:1px;backdrop-filter:blur(4px);}
+.rc-galcount{position:absolute;bottom:12px;right:14px;z-index:2;background:rgba(8,10,7,0.7);border:1px solid rgba(143,255,42,0.3);color:var(--neon);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:600;}
+.rc-name{position:absolute;bottom:12px;left:18px;z-index:2;font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:#fff;line-height:1;text-shadow:0 2px 12px rgba(0,0,0,0.7);}
+.rc-body{padding:16px 20px 20px;}
+.rc-desc{color:var(--muted);font-size:13px;margin-bottom:14px;line-height:1.6;}
+.rc-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;}
+.rc-tr{background:rgba(143,255,42,0.08);border:1px solid rgba(143,255,42,0.15);border-radius:6px;padding:4px 10px;font-size:12px;color:#B8D89A;}
+.rc-stats{display:flex;background:rgba(0,0,0,0.35);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+.rc-st{flex:1;text-align:center;padding:11px 6px;border-left:1px solid rgba(255,255,255,0.05);}
+.rc-st:first-child{border-left:none;}
+.rc-sv{font-size:16px;font-weight:700;color:var(--ink);margin-top:1px;}
+.rc-sl{font-size:10px;color:var(--muted);}
+.rc-foot{display:flex;justify-content:space-between;align-items:center;}
+.rc-price{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;color:var(--neon);}
+.rc-price small{font-family:'Inter',sans-serif;font-size:12px;font-weight:400;color:var(--muted);}
+.rc-price .from{font-size:11px;color:var(--muted);display:block;font-family:'Inter';}
+.btn-book{background:var(--neon);color:#0A1400;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-book:hover{box-shadow:0 0 18px rgba(143,255,42,0.5);}
+.btn-full{color:#FF5A5A;font-size:13px;font-weight:700;background:none;border:none;}
+
+/* TIPO DE EXPERIENCIA toggle */
+.exp-types{max-width:1180px;margin:0 auto 34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.exp-chip{background:var(--card);border:1px solid rgba(143,255,42,0.15);border-radius:100px;padding:10px 22px;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.exp-chip.active,.exp-chip:hover{background:rgba(143,255,42,0.12);border-color:var(--neon);color:var(--neon);}
+
+/* UNIDADES */
+#unidades{background:var(--bg);}
+.units-banner{max-width:1100px;margin:0 auto 40px;background:linear-gradient(135deg,rgba(143,255,42,0.08),transparent);border:1px solid rgba(143,255,42,0.2);border-radius:18px;padding:26px 30px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center;text-align:center;}
+.units-banner .b{color:var(--neon);font-weight:800;font-family:'Barlow Condensed';font-size:22px;}
+.units-grid{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
+.uc{background:linear-gradient(160deg,var(--card),#0C0F08);border-radius:18px;border:1px solid rgba(143,255,42,0.1);overflow:hidden;transition:transform .25s,border-color .25s;}
+.uc:hover{transform:translateY(-6px);border-color:rgba(143,255,42,0.35);}
+.uc-img{height:210px;background:radial-gradient(ellipse at 50% 85%,rgba(143,255,42,0.10),transparent 65%),linear-gradient(180deg,#0A0D07,#0F1409);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}.uc-img::after{content:'';position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:70%;height:14px;background:radial-gradient(ellipse,rgba(0,0,0,0.65),transparent 70%);filter:blur(4px);}
+.uc-img img{width:90%;position:relative;z-index:2;filter:drop-shadow(0 14px 22px rgba(0,0,0,0.7));transition:transform .35s;}.uc:hover .uc-img img{transform:scale(1.06) translateY(-4px);}
+.uc-body{padding:20px 22px 22px;}
+.uc-cat{color:var(--neon);font-size:11px;font-weight:700;letter-spacing:2px;}
+.uc-name{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;line-height:1;margin:4px 0 12px;}
+.uc-specs{display:flex;gap:18px;margin-bottom:16px;}
+.uc-spec b{font-size:15px;display:block;}
+.uc-spec small{color:var(--muted);font-size:11px;}
+.uc-tag{display:inline-block;background:rgba(143,255,42,0.12);border:1px solid rgba(143,255,42,0.3);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--neon);}
+.canam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(143,255,42,0.25);border-radius:100px;padding:8px 18px;font-size:13px;font-weight:600;color:var(--ink);margin-top:6px;}
+
+/* CHIGNAHUAPAN */
+#chigna{background:var(--bg2);}
+.chigna-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center;}
+.chigna-txt h3{font-family:'Barlow Condensed';font-size:40px;font-weight:900;line-height:1;margin-bottom:16px;}
+.chigna-txt h3 em{color:var(--neon);font-style:italic;}
+.chigna-txt p{color:var(--muted);line-height:1.9;margin-bottom:20px;font-size:15px;}
+.chigna-list{display:flex;flex-direction:column;gap:12px;}
+.chigna-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid rgba(143,255,42,0.1);border-radius:12px;padding:14px 16px;}
+.chigna-item .ico{font-size:24px;}
+.chigna-item b{font-size:14px;}
+.chigna-item small{color:var(--muted);font-size:12px;display:block;}
+.chigna-img{height:420px;border-radius:18px;background-size:cover;background-position:center;border:1px solid rgba(143,255,42,0.15);}
+
+/* TIENDA */
+#tienda{background:var(--bg);}
+.merch-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:16px;}
+.mc{background:var(--card);border-radius:14px;overflow:hidden;border:1px solid rgba(143,255,42,0.1);text-align:center;transition:transform .2s,border-color .2s;}
+.mc:hover{transform:translateY(-5px);border-color:rgba(143,255,42,0.3);}
+.mc-emo{padding:26px 0 14px;font-size:50px;}
+.mc-tag{background:rgba(143,255,42,0.1);border-radius:6px;padding:3px 9px;font-size:10px;color:var(--neon);font-weight:700;letter-spacing:1px;display:inline-block;margin-bottom:8px;}
+.mc-name{font-weight:600;font-size:14px;margin-bottom:4px;padding:0 12px;}
+.mc-price{color:var(--neon);font-family:'Barlow Condensed';font-size:24px;font-weight:900;margin-bottom:14px;}
+.mc-btn{margin:0 14px 16px;width:calc(100% - 28px);background:rgba(143,255,42,0.12);border:1px solid rgba(143,255,42,0.3);border-radius:8px;padding:9px;font-size:12px;font-weight:700;color:var(--neon);cursor:pointer;transition:all .2s;font-family:'Inter';}
+.mc-btn:hover,.mc-btn.added{background:var(--neon);color:#0A1400;}
+
+/* GALERIA */
+#galeria{background:var(--bg2);}
+.gal-grid{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:12px;}
+.gal-item{border-radius:14px;overflow:hidden;background-size:cover;background-position:center;cursor:pointer;position:relative;transition:transform .3s;}
+.gal-item:hover{transform:scale(1.03);z-index:2;}
+.gal-item::after{content:'⚔';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--neon);opacity:0;background:rgba(8,10,7,0.5);transition:opacity .3s;}
+.gal-item:hover::after{opacity:1;}
+.gal-big{grid-column:span 2;grid-row:span 2;}
+.gal-tall{grid-row:span 2;}
+
+/* LEALTAD */
+#lealtad{background:linear-gradient(160deg,var(--bg),#0A1206);}
+.loyalty-in{max-width:900px;margin:0 auto;text-align:center;}
+.ranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:40px 0;}
+.rank-c{background:var(--card);border-radius:14px;padding:22px 14px;border-width:1px;border-style:solid;transition:transform .2s;}
+.rank-c:hover{transform:translateY(-5px);}
+
+/* FOOTER */
+footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(143,255,42,0.12);}
+.foot-top{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:34px;}
+.foot-brand img{height:56px;filter:drop-shadow(0 0 8px rgba(143,255,42,0.4));margin-bottom:12px;}
+.foot-brand p{color:var(--muted);font-size:13px;max-width:260px;line-height:1.6;}
+.foot-tagline{font-family:'Barlow Condensed';font-style:italic;color:var(--neon);font-size:18px;margin-top:14px;}
+.foot-col h4{font-family:'Barlow Condensed';font-size:16px;letter-spacing:1px;margin-bottom:14px;}
+.foot-col a{display:block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:9px;transition:color .2s;cursor:pointer;}
+.foot-col a:hover{color:var(--neon);}
+.foot-social{display:flex;gap:12px;margin-top:6px;flex-wrap:wrap;}
+.foot-social a{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(143,255,42,0.15);display:flex;align-items:center;justify-content:center;font-size:19px;transition:all .25s;text-decoration:none;}
+.foot-social a:hover{background:rgba(143,255,42,0.15);border-color:var(--neon);transform:translateY(-3px);box-shadow:0 0 18px rgba(143,255,42,0.3);}
+.foot-bottom{max-width:1100px;margin:34px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);text-align:center;color:#3A4432;font-size:12px;}
+
+/* CHATBOT WHATSAPP */
+.chat-fab{position:fixed;bottom:24px;right:24px;z-index:1200;width:60px;height:60px;border-radius:50%;background:#25D366;border:none;cursor:pointer;box-shadow:0 8px 30px rgba(37,211,102,0.5);display:flex;align-items:center;justify-content:center;font-size:30px;transition:transform .2s;animation:fabPulse 2.5s infinite;}
+.chat-fab:hover{transform:scale(1.1);}
+@keyframes fabPulse{0%,100%{box-shadow:0 8px 30px rgba(37,211,102,0.5);}50%{box-shadow:0 8px 30px rgba(37,211,102,0.5),0 0 0 12px rgba(37,211,102,0.08);}}
+.chat-win{position:fixed;bottom:96px;right:24px;z-index:1200;width:340px;max-width:calc(100vw - 48px);background:var(--card);border:1px solid rgba(143,255,42,0.2);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.6);display:none;flex-direction:column;animation:chatIn .3s ease;}
+.chat-win.open{display:flex;}
+@keyframes chatIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+.chat-head{background:#128C7E;padding:16px 18px;display:flex;align-items:center;gap:12px;}
+.chat-head img{width:38px;height:38px;border-radius:50%;background:#fff;padding:4px;}
+.chat-head .ct{flex:1;}
+.chat-head .ct b{font-size:14px;color:#fff;display:block;}
+.chat-head .ct small{font-size:11px;color:rgba(255,255,255,0.8);}
+.chat-head .ct small::before{content:'●';color:#8FFF2A;margin-right:4px;}
+.chat-x{background:none;border:none;color:#fff;cursor:pointer;font-size:18px;}
+.chat-body{padding:18px;background:#0A0C07;max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+.chat-msg{background:var(--card);border-radius:12px;border-top-left-radius:2px;padding:11px 14px;font-size:13px;color:var(--ink);max-width:85%;line-height:1.5;}
+.chat-quick{padding:12px 18px;display:flex;flex-direction:column;gap:8px;background:#0A0C07;}
+.chat-q{background:rgba(143,255,42,0.08);border:1px solid rgba(143,255,42,0.25);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--neon);cursor:pointer;text-align:left;transition:all .2s;font-family:'Inter';}
+.chat-q:hover{background:rgba(143,255,42,0.15);}
+.chat-foot{padding:14px 18px;background:var(--card);border-top:1px solid rgba(255,255,255,0.06);}
+.chat-wa-btn{width:100%;background:#25D366;color:#fff;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+
+/* REG POPUP (reuse) */
+.reg-overlay{position:fixed;inset:0;z-index:2000;background:rgba(5,7,4,0.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .4s;}
+.reg-overlay.open{display:flex;opacity:1;}
+.reg-modal{background:linear-gradient(165deg,#12160E,#0A0C08);border:1px solid rgba(143,255,42,0.3);border-radius:22px;max-width:440px;width:100%;overflow:hidden;position:relative;transform:translateY(30px) scale(0.96);transition:transform .45s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 60px rgba(143,255,42,0.15);}
+.reg-overlay.open .reg-modal{transform:none;}
+.reg-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:200px;height:200px;background:radial-gradient(circle,rgba(143,255,42,0.25),transparent 70%);pointer-events:none;}
+.reg-x{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.08);border:none;color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;z-index:3;}
+.reg-head{text-align:center;padding:34px 30px 0;position:relative;z-index:2;}
+.reg-helmet{width:66px;margin:0 auto 16px;display:block;filter:drop-shadow(0 0 14px rgba(143,255,42,0.6));}
+.reg-title{font-family:'Barlow Condensed';font-size:34px;font-weight:900;line-height:0.95;}
+.reg-title span{color:var(--neon);font-style:italic;}
+.reg-sub{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6;}
+.reg-body{padding:22px 30px 30px;}
+.reg-field{margin-bottom:12px;}
+.reg-field input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:11px;padding:14px 16px;color:var(--ink);font-size:14px;font-family:'Inter';outline:none;transition:all .2s;}
+.reg-field input:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(143,255,42,0.12);}
+.reg-field input::placeholder{color:#5A6650;}
+.reg-submit{width:100%;background:var(--neon);color:#0A1400;border:none;border-radius:11px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;margin-top:8px;box-shadow:0 0 24px rgba(143,255,42,0.4);transition:all .2s;}
+.reg-submit:hover{transform:translateY(-2px);}
+.reg-perk{display:flex;align-items:center;gap:10px;background:rgba(143,255,42,0.08);border:1px solid rgba(143,255,42,0.2);border-radius:12px;padding:12px 14px;margin-bottom:18px;}
+.reg-perk-icon{font-size:22px;}
+.reg-perk-txt{font-size:12px;color:#B8C4AC;line-height:1.4;}
+.reg-perk-txt b{color:var(--neon);}
+.reg-skip{text-align:center;margin-top:14px;}
+.reg-skip button{background:none;border:none;color:#5A6650;font-size:12px;cursor:pointer;text-decoration:underline;}
+.reg-success{text-align:center;padding:40px 30px;display:none;}
+.reg-success.show{display:block;}
+.reg-success-check{width:72px;height:72px;border-radius:50%;background:rgba(143,255,42,0.15);border:2px solid var(--neon);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 18px;box-shadow:0 0 30px rgba(143,255,42,0.4);}
+
+/* BOOKING MODAL */
+.overlay{display:none;position:fixed;inset:0;z-index:1800;background:rgba(5,7,4,0.9);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;}
+.overlay.open{display:flex;}
+.modal{background:var(--card);border-radius:20px;width:100%;max-width:640px;border:1px solid rgba(143,255,42,0.3);max-height:92vh;overflow-y:auto;}
+.modal::-webkit-scrollbar{width:5px;}.modal::-webkit-scrollbar-thumb{background:var(--neon-dim);border-radius:3px;}
+.modal-hd{padding:22px 26px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--card);z-index:10;}
+.modal-step{color:var(--neon);font-size:11px;font-weight:700;letter-spacing:2px;}
+.modal-tit{font-family:'Barlow Condensed';font-size:26px;font-weight:900;margin-top:2px;}
+.modal-x{background:rgba(255,255,255,0.06);border:none;border-radius:8px;padding:8px 11px;color:var(--muted);cursor:pointer;font-size:18px;}
+.modal-bd{padding:22px 26px;}
+.step-bar{display:flex;gap:6px;margin-bottom:22px;}
+.step-seg{flex:1;height:4px;border-radius:2px;}
+.field-lbl{color:#B8C4AC;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:10px;display:block;}
+.opt-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+.opt{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 18px;cursor:pointer;font-size:14px;transition:all .2s;}
+.opt.sel{background:rgba(143,255,42,0.12);border-color:var(--neon);color:var(--neon);}
+.date-in{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(143,255,42,0.3);border-radius:10px;padding:12px 16px;color:var(--ink);font-size:14px;margin-bottom:22px;font-family:'Inter';outline:none;}
+.unit-pick{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;}
+.unit-pick.sel{border-color:var(--neon);background:rgba(143,255,42,0.08);}
+.unit-pick b{font-size:15px;}
+.unit-pick small{color:var(--muted);font-size:12px;}
+.unit-pick .price{color:var(--neon);font-family:'Barlow Condensed';font-weight:800;font-size:20px;}
+
+/* SEAT MAP tipo avión */
+.seatmap{background:rgba(0,0,0,0.3);border-radius:14px;padding:20px;margin-bottom:20px;}
+.vehicle-body{max-width:280px;margin:0 auto;background:linear-gradient(180deg,rgba(143,255,42,0.05),transparent);border:2px solid rgba(143,255,42,0.2);border-radius:40px 40px 20px 20px;padding:24px 20px;position:relative;}
+.vehicle-front{text-align:center;color:var(--muted);font-size:11px;letter-spacing:2px;margin-bottom:16px;}
+.seat-rows{display:flex;flex-direction:column;gap:14px;}
+.seat-row{display:flex;justify-content:center;gap:30px;}
+.seat{width:56px;height:56px;border-radius:10px 10px 14px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:2px solid;cursor:pointer;transition:all .15s;font-size:10px;font-weight:700;position:relative;}
+.seat::before{content:'';position:absolute;top:-5px;left:8px;right:8px;height:6px;border-radius:4px 4px 0 0;background:inherit;opacity:0.6;}
+.seat:hover:not(.s-b){transform:scale(1.1);}
+.s-f{background:rgba(143,255,42,0.15);border-color:rgba(143,255,42,0.5);color:var(--neon);}
+.s-b{background:#2A0A0A;border-color:#5A2020;color:#7A4040;cursor:not-allowed;}
+.s-s{background:var(--neon);border-color:var(--neon);color:#0A1400;box-shadow:0 0 16px rgba(143,255,42,0.5);}
+.seat-legend{display:flex;gap:16px;justify-content:center;font-size:12px;color:var(--muted);margin-top:18px;}
+.extras-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.extra-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px 16px;cursor:pointer;transition:all .2s;}
+.extra-item.sel{border-color:var(--neon);background:rgba(143,255,42,0.08);}
+.extra-check{width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;color:#0A1400;}
+.extra-item.sel .extra-check{background:var(--neon);border-color:var(--neon);}
+.extra-item .ei-name{flex:1;font-size:14px;font-weight:600;}
+.extra-item .ei-price{color:var(--neon);font-weight:700;font-size:14px;}
+.summ-box{background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;margin-bottom:16px;}
+.summ-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:#C8D4BC;}
+.summ-tot{border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;}
+.summ-tot-p{font-family:'Barlow Condensed';color:var(--neon);font-weight:900;font-size:26px;}
+.pay-split{background:rgba(143,255,42,0.06);border:1px solid rgba(143,255,42,0.2);border-radius:12px;padding:14px 16px;margin-bottom:18px;}
+.pay-opt{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer;}
+.pay-radio{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);flex-shrink:0;position:relative;}
+.pay-opt.sel .pay-radio{border-color:var(--neon);}
+.pay-opt.sel .pay-radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--neon);}
+.pay-opt .po-name{flex:1;font-size:14px;font-weight:600;}
+.pay-opt .po-amt{color:var(--neon);font-weight:700;}
+.pay-mth{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;transition:all .2s;font-family:'Inter';}
+.pay-mth.sel{background:rgba(143,255,42,0.1);border-color:var(--neon);}
+.pay-mth .pm-name{font-weight:600;font-size:15px;}
+.pay-mth .pm-desc{color:var(--muted);font-size:12px;}
+.btns-row{display:flex;gap:12px;}
+.btn-back{flex:1;background:rgba(255,255,255,0.06);color:var(--muted);border:none;border-radius:10px;padding:14px;font-size:14px;cursor:pointer;font-family:'Inter';}
+.btn-next{flex:2;background:var(--neon);color:#0A1400;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter';transition:all .2s;}
+.btn-next:disabled{background:rgba(255,255,255,0.06);color:var(--muted);cursor:not-allowed;}
+.btn-fw{width:100%;background:var(--neon);color:#0A1400;border:none;border-radius:10px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter';}
+
+/* CART */
+.cart-ovl{display:none;position:fixed;inset:0;z-index:1700;}
+.cart-ovl.open{display:flex;}
+.cart-bk{flex:1;background:rgba(0,0,0,0.6);}
+.cart-drw{width:360px;max-width:90vw;background:var(--card);border-left:1px solid rgba(143,255,42,0.2);display:flex;flex-direction:column;animation:slideIn .3s;}
+@keyframes slideIn{from{transform:translateX(100%);}to{transform:none;}}
+.cart-hd{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;}
+.cart-tit{font-family:'Barlow Condensed';font-size:24px;font-weight:900;}
+.cart-x{background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;}
+.cart-its{flex:1;overflow:auto;padding:14px 22px;}
+.cart-emp{text-align:center;padding:40px 0;color:var(--muted);}
+.cart-it{background:rgba(255,255,255,0.04);border-radius:10px;padding:12px 14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.cart-it-nm{font-size:13px;font-weight:600;margin-bottom:2px;}
+.cart-it-pr{color:var(--neon);font-weight:700;font-size:15px;}
+.cart-rm{background:rgba(224,48,48,0.1);border:1px solid rgba(224,48,48,0.2);border-radius:6px;padding:5px 8px;color:#E05050;cursor:pointer;font-size:14px;flex-shrink:0;}
+.cart-ft{padding:16px 22px;border-top:1px solid rgba(255,255,255,0.06);}
+.cart-tr{display:flex;justify-content:space-between;margin-bottom:14px;}
+.cart-tv{font-family:'Barlow Condensed';color:var(--neon);font-weight:900;font-size:24px;}
+
+@media(max-width:860px){.chigna-grid{grid-template-columns:1fr;}.gal-grid{grid-template-columns:repeat(2,1fr);}.gal-big{grid-column:span 2;}}
+@media(max-width:640px){.nav-links{display:none;}.hero-location{bottom:80px;}.seat-row{gap:20px;}}
+
+/* ── SISTEMA VERDE + NARANJA ── */
+/* NARANJA = intensidad, extremo, temporada, urgencia */
+.fire{color:var(--fire);}
+.chip-fire{background:rgba(255,107,31,0.12)!important;border-color:rgba(255,107,31,0.45)!important;color:var(--fire)!important;}
+.exp-chip.fire-chip.active,.exp-chip.fire-chip:hover{background:rgba(255,107,31,0.14);border-color:var(--fire);color:var(--fire);}
+.btn-fire{background:var(--fire);color:#140600;border:none;border-radius:11px;padding:16px 38px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:1px;box-shadow:0 0 28px rgba(255,107,31,0.45);transition:all .2s;}
+.btn-fire:hover{transform:translateY(-3px);box-shadow:0 0 42px rgba(255,107,31,0.7);}
+.slide-h1 .fire-italic{display:block;font-style:italic;font-weight:800;color:var(--fire);text-shadow:0 0 30px rgba(255,107,31,0.6);}
+.grad-text{background:linear-gradient(100deg,var(--neon),var(--fire));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;}
+.rc.extrema{border-color:rgba(255,107,31,0.18);}
+.rc.extrema:hover{border-color:rgba(255,107,31,0.5);box-shadow:0 26px 60px rgba(0,0,0,.6),0 0 30px rgba(255,107,31,0.12);}
+.rc.extrema .rc-tr{background:rgba(255,107,31,0.08);border-color:rgba(255,107,31,0.18);color:#F0BE9A;}
+.sec-tit em.fire-em{color:var(--fire);font-style:italic;}
+.divider-line{max-width:1150px;margin:0 auto 46px;height:2px;background:linear-gradient(90deg,transparent,var(--neon),var(--fire),transparent);opacity:.5;border-radius:2px;}
+.units-banner{background:linear-gradient(120deg,rgba(143,255,42,0.08),rgba(255,107,31,0.06))!important;}
+.canam-badge{background:linear-gradient(100deg,rgba(143,255,42,0.10),rgba(255,107,31,0.08));}
+.loader-ring{border-top-color:var(--neon);border-right-color:rgba(255,107,31,0.6);}
+.rank-c.gold{border-color:rgba(255,107,31,0.45)!important;}
+.mc:hover{border-color:rgba(255,107,31,0.35);}
+.mc-btn:hover,.mc-btn.added{background:var(--fire)!important;color:#140600!important;border-color:var(--fire)!important;}
+/* Extras y urgencia */
+.urgency{display:inline-flex;align-items:center;gap:6px;background:rgba(255,107,31,0.12);border:1px solid rgba(255,107,31,0.4);color:var(--fire);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:1px;}
+/* Iconos sociales oficiales */
+.foot-social a svg{width:20px;height:20px;fill:var(--muted);transition:fill .25s;}
+.foot-social a:hover svg{fill:var(--neon);}
+.foot-social a.wa:hover{background:rgba(37,211,102,0.15);border-color:#25D366;}
+.foot-social a.wa:hover svg{fill:#25D366;}
+.foot-social a.ig:hover{background:rgba(255,107,31,0.15);border-color:var(--fire);}
+.foot-social a.ig:hover svg{fill:var(--fire);}
+.foot-social a.map:hover{background:rgba(255,107,31,0.15);border-color:var(--fire);}
+.foot-social a.map:hover svg{fill:var(--fire);}
+</style></head><body>
+<!-- LOADER -->
+<div id="loader"><div class="loader-helmet"><div class="loader-ring"></div><img src="img/i1.png"/></div><div class="loader-txt">CARGANDO LA AVENTURA</div></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo" onclick="scrollTo(0,0)"><img src="img/i1.png"/><div class="nav-logo-txt">GLADIADORES<br><span>OFF ROAD</span></div></div>
+  <div class="nav-links">
+    <button class="nav-lnk" onclick="jump('rutas')">Rutas</button>
+    <button class="nav-lnk" onclick="jump('unidades')">Unidades</button>
+    <button class="nav-lnk" onclick="jump('chigna')">Chignahuapan</button>
+    <button class="nav-lnk" onclick="jump('tienda')">Tienda</button>
+    <button class="nav-lnk" onclick="jump('galeria')">Galería</button>
+    <button class="nav-lnk" onclick="jump('lealtad')">Puntos</button>
+  </div>
+  <div class="nav-right">
+    <button class="nav-cart" onclick="openCart()">🛒<span class="nav-cart-badge" id="cart-badge">0</span></button>
+    <button class="nav-cta" onclick="jump('rutas')">RESERVAR</button>
+  </div>
+</nav>
+
+<!-- CARRUSEL -->
+<section class="hero-carousel" id="carousel">
+  <div class="slide active"><div class="slide-bg" style="background-image:url(img/i2.jpg)"></div><div class="slide-ov" style="background:linear-gradient(180deg,rgba(8,10,7,0.55),rgba(8,10,7,0.35) 45%,rgba(8,10,7,0.9))"></div>
+    <div class="slide-content"><div class="slide-eyebrow">⚔️ SIERRA NORTE DE PUEBLA</div><h1 class="slide-h1">NO ES UN PASEO<span class="grad-text" style="display:block">es una conquista</span></h1><div class="slide-sub">GLADIADORES OFF ROAD</div>
+    <div class="hero-btns"><button class="btn-neon" onclick="jump('rutas')">RESERVAR AVENTURA</button><button class="btn-ghost" onclick="jump('rutas')">Ver rutas →</button></div></div></div>
+  <div class="slide"><div class="slide-bg" style="background-image:url(img/i3.jpg)"></div><div class="slide-ov" style="background:linear-gradient(90deg,rgba(8,10,7,0.85),rgba(8,10,7,0.3))"></div>
+    <div class="slide-content" style="text-align:left;margin-left:2%;"><div class="slide-eyebrow chip-fire">🔥 RUTAS EXTREMAS</div><h1 class="slide-h1" style="text-align:left;">CRUZA EL RÍO<span class="fire-italic">siente el poder 4×4</span></h1><p class="slide-desc" style="margin-left:0;">Vados, lodo y adrenalina pura. Rutas para todos los niveles.</p><div class="hero-btns" style="justify-content:flex-start;"><button class="btn-fire" onclick="jump('rutas')">Explorar rutas</button></div></div></div>
+  <div class="slide"><div class="slide-bg" style="background-image:url(img/i4.jpg)"></div><div class="slide-ov" style="background:linear-gradient(180deg,rgba(8,10,7,0.5),rgba(8,10,7,0.85))"></div>
+    <div class="slide-content"><div class="slide-eyebrow">🏎️ FLOTA 100% CAN-AM</div><h1 class="slide-h1">MÁQUINAS<span class="neon-italic">de guerra</span></h1><p class="slide-desc">Maverick X3, Commander Max y Outlander. Potencia profesional.</p><div class="hero-btns"><button class="btn-neon" onclick="jump('unidades')">Ver unidades</button></div></div></div>
+  <div class="slide"><div class="slide-bg" style="background-image:url(img/i5.jpg)"></div><div class="slide-ov" style="background:linear-gradient(135deg,rgba(60,10,80,0.6),rgba(8,10,7,0.85))"></div>
+    <div class="slide-content"><div class="badge-special">💀 EDICIÓN ESPECIAL · TEMPORADA</div><h1 class="slide-special-title">RUTA <span>DÍA DE MUERTOS</span></h1><p class="slide-desc">Recorrido nocturno con veladoras y cempasúchil. Cupo limitado — 1 y 2 de noviembre.</p><div class="hero-btns"><button class="btn-neon" style="background:linear-gradient(90deg,#B026FF,#FF2AAD);color:#fff;" onclick="jump('rutas')">APARTAR MI LUGAR</button></div></div></div>
+  <button class="car-arrow left" onclick="prevSlide()">‹</button><button class="car-arrow right" onclick="nextSlide()">›</button>
+  <div class="carousel-dots" id="dots"></div>
+  <a class="hero-location" href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank"><span class="pin">📍</span><div><small>NUESTRA BASE</small><b>Chignahuapan, Puebla</b></div></a>
+</section>
+
+<!-- RUTAS -->
+<section class="blk" id="rutas"><div class="sec-hdr reveal"><span class="sec-eye">NUESTRAS RUTAS</span><div class="sec-tit">ELIGE TU <em>TERRENO</em></div>
+  <div class="divider-line" style="margin-top:24px"></div><div class="sec-sub">Cada ruta con galería, horarios, unidades y servicios extra</div></div>
+  <div class="exp-types reveal"><div class="exp-chip active" onclick="filterExp('todas',this)">🗺️ Todas</div><div class="exp-chip" onclick="filterExp('panoramica',this)">📸 Panorámicas / Contemplativas</div><div class="exp-chip fire-chip" onclick="filterExp('extrema',this)">🔥 Extremas</div></div>
+  <div class="routes-grid reveal" id="routes-grid"></div>
+</section>
+
+<!-- UNIDADES -->
+<section class="blk" id="unidades"><div class="sec-hdr reveal"><span class="sec-eye">NUESTRA FLOTA</span><div class="sec-tit">UNIDADES <em class="fire-em">CAN-AM</em></div><div class="sec-sub">Trabajamos exclusivamente con equipos 100% Can-Am</div></div>
+  <div class="units-banner reveal"><div>🛡️ <span class="b">100% CAN-AM</span></div><div style="color:var(--muted);max-width:520px;font-size:14px;">Toda nuestra flota es de la marca Can-Am, líder mundial en vehículos todoterreno. Además, <b style="color:var(--ink)">contamos con guías profesionales durante toda la ruta</b> para tu seguridad.</div></div>
+  <div class="units-grid reveal" id="units-grid"></div>
+</section>
+
+<!-- CHIGNAHUAPAN -->
+<section class="blk" id="chigna"><div class="sec-hdr reveal"><span class="sec-eye">EXPLORA LA REGIÓN</span><div class="sec-tit">QUÉ HACER EN <em>CHIGNAHUAPAN</em></div><div class="sec-sub">Un Pueblo Mágico que combina aventura, cultura y naturaleza</div></div>
+  <div class="chigna-grid reveal">
+    <div class="chigna-txt"><h3>Aventura en el <em>Pueblo Mágico</em></h3><p>Chignahuapan es uno de los destinos más bellos de la Sierra Norte de Puebla. Además de nuestras rutas 4×4, hay mucho por descubrir cuando nos visitas.</p>
+      <div class="chigna-list">
+        <div class="chigna-item"><span class="ico">💧</span><div><b>Grutas y Cascada de Quetzalapan</b><small>Aguas termales y naturaleza</small></div></div>
+        <div class="chigna-item"><span class="ico">⛪</span><div><b>Basílica y Centro Mágico</b><small>Arquitectura e historia</small></div></div>
+        <div class="chigna-item"><span class="ico">🎄</span><div><b>Feria de la Esfera</b><small>Tradición artesanal única</small></div></div>
+        <div class="chigna-item"><span class="ico">🌲</span><div><b>Bosques y miradores</b><small>Paisajes de ensueño</small></div></div>
+      </div></div>
+    <div class="chigna-img" style="background-image:url(img/i6.jpg)"></div>
+  </div>
+</section>
+
+<!-- TIENDA -->
+<section class="blk" id="tienda"><div class="sec-hdr reveal"><span class="sec-eye">EQUÍPATE</span><div class="sec-tit">NUESTRA <em class="fire-em">TIENDA</em></div><div class="sec-sub">Llega equipado como un verdadero gladiador</div></div>
+  <div class="merch-grid reveal" id="merch-grid"></div>
+</section>
+
+<!-- GALERIA -->
+<section class="blk" id="galeria"><div class="sec-hdr reveal"><span class="sec-eye">LA EXPERIENCIA</span><div class="sec-tit">GALERÍA <em>COMPLETA</em></div><div class="sec-sub">Momentos reales de nuestras rutas, unidades y Chignahuapan</div></div>
+  <div class="gal-grid reveal">
+    <div class="gal-item gal-big" style="background-image:url(img/i7.jpg)"></div>
+    <div class="gal-item" style="background-image:url(img/i8.jpg)"></div>
+    <div class="gal-item" style="background-image:url(img/i9.jpg)"></div>
+    <div class="gal-item gal-tall" style="background-image:url(img/i10.jpg)"></div>
+    <div class="gal-item" style="background-image:url(img/i11.jpg)"></div>
+    <div class="gal-item" style="background-image:url(img/i12.jpg)"></div>
+    <div class="gal-item gal-big" style="background-image:url(img/i4.jpg)"></div>
+    <div class="gal-item" style="background-image:url(img/i13.jpg)"></div>
+    <div class="gal-item" style="background-image:url(img/i14.jpg)"></div>
+  </div>
+</section>
+
+<!-- LEALTAD -->
+<section class="blk" id="lealtad"><div class="loyalty-in reveal"><div style="font-size:52px;margin-bottom:16px;">🏆</div><span class="sec-eye">PROGRAMA DE LEALTAD</span><div class="sec-tit">GLADIADOR <em>ÉLITE</em></div><p style="color:var(--muted);max-width:460px;margin:14px auto 0;line-height:1.8;">Regístrate, acumula recorridos y desbloquea recompensas. A más rutas, mayor rango.</p>
+  <div class="ranks">
+    <div class="rank-c" style="border-color:rgba(138,122,106,0.3);"><div style="font-size:30px;margin-bottom:8px;">🥉</div><div style="font-family:Barlow Condensed;font-weight:800;font-size:17px;color:#B8A890;">RECLUTA</div><div style="color:var(--muted);font-size:12px;margin-top:3px;">0–3 rutas</div><div style="font-size:12px;color:var(--muted);margin-top:8px;">Acceso + descuentos</div></div>
+    <div class="rank-c" style="border-color:rgba(160,176,192,0.3);"><div style="font-size:30px;margin-bottom:8px;">🥈</div><div style="font-family:Barlow Condensed;font-weight:800;font-size:17px;color:#B0C0D0;">SOLDADO</div><div style="color:var(--muted);font-size:12px;margin-top:3px;">4–9 rutas</div><div style="font-size:12px;color:var(--muted);margin-top:8px;">10% desc. + merch</div></div>
+    <div class="rank-c" style="border-color:rgba(143,255,42,0.4);"><div style="font-size:30px;margin-bottom:8px;">🥇</div><div style="font-family:Barlow Condensed;font-weight:800;font-size:17px;color:var(--neon);">GLADIADOR</div><div style="color:var(--muted);font-size:12px;margin-top:3px;">10–24 rutas</div><div style="font-size:12px;color:var(--muted);margin-top:8px;">20% desc. + kit VIP</div></div>
+    <div class="rank-c gold"><div style="font-size:30px;margin-bottom:8px;">👑</div><div style="font-family:Barlow Condensed;font-weight:800;font-size:17px;color:var(--fire);">LEYENDA</div><div style="color:var(--muted);font-size:12px;margin-top:3px;">25+ rutas</div><div style="font-size:12px;color:var(--muted);margin-top:8px;">Rutas gratis + VIP</div></div>
+  </div>
+  <button class="btn-neon" onclick="openReg()">CREAR CUENTA GRATUITA</button></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand"><img src="img/i1.png"/><p>Rutas 4×4 extremas por la Sierra Norte de Puebla. Vive la aventura como un gladiador.</p><div class="foot-tagline">"No es un paseo, es una conquista"</div></div>
+    <div class="foot-col"><h4>EXPLORA</h4><a onclick="jump('rutas')">Rutas</a><a onclick="jump('unidades')">Unidades</a><a onclick="jump('tienda')">Tienda oficial</a><a onclick="jump('galeria')">Galería</a><a onclick="jump('lealtad')">Programa de puntos</a></div>
+    <div class="foot-col"><h4>CONTACTO</h4><a href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank">📍 Chignahuapan, Puebla</a><a href="https://wa.me/527750000000" target="_blank">💬 WhatsApp: 775 000 0000</a><a>✉️ hola@gladiadoresoffroad.com</a></div>
+    <div class="foot-col"><h4>SÍGUENOS</h4><div class="foot-social">
+      <a class="fb" href="#" target="_blank" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
+      <a class="ig" href="#" target="_blank" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg></a>
+      <a class="tt" href="#" target="_blank" title="TikTok" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+      <a class="wa" href="https://wa.me/527750000000" target="_blank" title="WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+      <a class="map" href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank" title="Ubicación" aria-label="Ubicación"><svg viewBox="0 0 24 24"><path d="M12 0C7.802 0 4 3.403 4 7.602 4 11.8 7.469 16.812 12 24c4.531-7.188 8-12.2 8-16.398C20 3.403 16.199 0 12 0zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg></a>
+    </div><p style="color:var(--muted);font-size:12px;margin-top:14px;">@gladiadores.offroad</p>
+    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="https://maps.apple.com/?q=Chignahuapan,Puebla" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Apple Maps</a>
+      <a href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Google Maps</a>
+      <a href="https://waze.com/ul?q=Chignahuapan,Puebla" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Waze</a>
+    </div></div>
+  </div>
+  <div class="foot-bottom">© 2026 Gladiadores Off Road · Todos los derechos reservados · Hecho con ⚔️ en la Sierra Norte de Puebla</div>
+</footer>
+
+<!-- CHATBOT WHATSAPP -->
+<button class="chat-fab" onclick="toggleChat()" id="chat-fab">💬</button>
+<div class="chat-win" id="chat-win">
+  <div class="chat-head"><img src="img/i1.png"/><div class="ct"><b>Gladiadores Off Road</b><small>En línea · Responde al instante</small></div><button class="chat-x" onclick="toggleChat()">✕</button></div>
+  <div class="chat-body" id="chat-body"><div class="chat-msg">¡Hola, gladiador! 👋 Soy el asistente de Gladiadores Off Road. ¿En qué te puedo ayudar?</div></div>
+  <div class="chat-quick" id="chat-quick">
+    <button class="chat-q" onclick="chatAsk('rutas')">🗺️ ¿Qué rutas tienen?</button>
+    <button class="chat-q" onclick="chatAsk('precios')">💰 ¿Cuánto cuesta?</button>
+    <button class="chat-q" onclick="chatAsk('reserva')">📅 Quiero reservar</button>
+    <button class="chat-q" onclick="chatAsk('ubicacion')">📍 ¿Dónde están?</button>
+  </div>
+  <div class="chat-foot"><button class="chat-wa-btn" onclick="goWhatsApp()">💬 Continuar en WhatsApp</button></div>
+</div>
+
+<!-- POPUP REGISTRO -->
+<div class="reg-overlay" id="reg-overlay"><div class="reg-modal"><div class="reg-glow"></div><button class="reg-x" onclick="closeReg()">✕</button>
+  <div id="reg-form-wrap"><div class="reg-head"><img class="reg-helmet" src="img/i1.png"/><div class="reg-title">ÚNETE A LOS<br><span>GLADIADORES</span></div><div class="reg-sub">Regístrate y obtén promociones exclusivas, rutas especiales y tu primer descuento.</div></div>
+    <div class="reg-body"><div class="reg-perk"><span class="reg-perk-icon">🎁</span><div class="reg-perk-txt"><b>10% de descuento</b> en tu primera ruta solo por registrarte hoy.</div></div>
+      <div class="reg-field"><input type="text" placeholder="Nombre completo" id="r-nombre"/></div>
+      <div class="reg-field"><input type="email" placeholder="Correo electrónico" id="r-email"/></div>
+      <div class="reg-field"><input type="tel" placeholder="WhatsApp (10 dígitos)" id="r-tel"/></div>
+      <button class="reg-submit" onclick="submitReg()">QUIERO MI DESCUENTO ⚔️</button>
+      <div class="reg-skip"><button onclick="closeReg()">Ahora no, gracias</button></div></div></div>
+  <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title" style="font-size:28px;">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub" style="margin-top:14px;">Tu descuento está activo. Te enviamos los detalles por WhatsApp y correo.</div><button class="reg-submit" style="margin-top:22px;" onclick="closeReg()">EMPEZAR A EXPLORAR</button></div>
+</div></div>
+
+<!-- BOOKING MODAL -->
+<div class="overlay" id="book-overlay"><div class="modal"><div class="modal-hd"><div><div class="modal-step" id="mstep">PASO 1 DE 4 · RUTA</div><div class="modal-tit" id="mname">—</div></div><button class="modal-x" onclick="closeBooking()">✕</button></div><div class="modal-bd" id="mbody"></div></div></div>
+
+<!-- CART -->
+<div class="cart-ovl" id="cart-ovl"><div class="cart-bk" onclick="closeCart()"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">🛒 CARRITO</div><button class="cart-x" onclick="closeCart()">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
+<script>
+const API = "https://gladiadores-backend.vercel.app";
+
+const ROUTES=[
+ {id:1,name:"Brisas del Bosque",tag:"POPULAR",exp:"panoramica",img:"img/i15.jpg",gal:5,acc:"#52A030",diffC:"#E8A020",diff:"MODERADA",dur:"3 hrs",dist:"45 km",desc:"Pinos centenarios, niebla mística y miradores sobre el Valle de Chignahuapan.",terrain:["🌲 Bosque","🌫️ Niebla","🔭 Miradores"],horarios:["08:00","12:00","16:00"],
+   units:[{id:"U01",name:"Maverick X3",type:"SSV 4 plazas",seats:4,booked:[1,3],price:600},{id:"U02",name:"Commander Max",type:"SSV 6 plazas",seats:6,booked:[],price:550}]},
+ {id:2,name:"Cañón del Guerrero",tag:"EXTREMA",exp:"extrema",img:"img/i5.jpg",gal:8,acc:"#D46020",diffC:"#E03030",diff:"AVANZADA",dur:"5 hrs",dist:"80 km",desc:"El reto definitivo. Cañones verticales, paredes de roca viva y adrenalina pura.",terrain:["🏜️ Cañón","🪨 Roca","⚡ Extremo"],horarios:["07:00","13:00"],
+   units:[{id:"U03",name:"Maverick X3",type:"SSV 4 plazas",seats:4,booked:[2,4],price:900}]},
+ {id:3,name:"Cruce del Río",tag:"AVENTURA",exp:"extrema",img:"img/i13.jpg",gal:6,acc:"#2090C0",diffC:"#30B030",diff:"MODERADA",dur:"4 hrs",dist:"50 km",desc:"Vados, lodo y cruces de río. La ruta favorita para sentir el poder del 4×4.",terrain:["🌊 Río","💦 Vados","🌿 Verde"],horarios:["09:00","15:00"],
+   units:[{id:"U04",name:"Outlander ATV",type:"Cuatrimoto 2 plazas",seats:2,booked:[],price:700},{id:"U05",name:"Commander Max",type:"SSV 6 plazas",seats:6,booked:[1,2],price:650}]},
+ {id:4,name:"Mirador del Valle",tag:"FAMILIAR",exp:"panoramica",img:"img/i14.jpg",gal:4,acc:"#C09030",diffC:"#30B030",diff:"FÁCIL",dur:"3.5 hrs",dist:"38 km",desc:"Perfecta para contemplar. Praderas abiertas y vistas panorámicas al atardecer.",terrain:["🗺️ Panorámica","🌾 Praderas","📸 Fotos"],horarios:["10:00","17:00"],
+   units:[{id:"U06",name:"Commander Max",type:"SSV 6 plazas",seats:6,booked:[],price:550},{id:"U07",name:"Outlander ATV",type:"Cuatrimoto 2 plazas",seats:2,booked:[],price:600}]}
+];
+const UNITS_FLEET=[
+ {img:"img/i16.png",cat:"SSV BIPLAZA / 4 PLAZAS",name:"Maverick X3 Turbo",power:"195 HP",seats:"2-4 plazas",tag:"🔥 Máximo rendimiento"},
+ {img:"img/i17.png",cat:"SSV FAMILIAR",name:"Commander Max DPS",power:"700 cc",seats:"6 plazas",tag:"👨‍👩‍👧 Ideal para grupos"},
+ {img:"img/i18.png",cat:"ATV CUATRIMOTO",name:"Outlander 500",power:"500 cc",seats:"1-2 plazas",tag:"⚡ Ágil y potente"}
+];
+const MERCH=[{id:1,emo:"🥽",name:"Visor Táctico",price:450,tag:"PROTECCIÓN"},{id:2,emo:"🎽",name:"Jersey Oficial",price:650,tag:"EDICIÓN LTD"},{id:3,emo:"🧤",name:"Guantes de Ruta",price:390,tag:"GRIP PRO"},{id:4,emo:"🧢",name:"Gorra Táctica",price:280,tag:"ACCESORIOS"},{id:5,emo:"👕",name:"Playera Gladiador",price:320,tag:"ALGODÓN"},{id:6,emo:"🔦",name:"Linterna Táctica",price:395,tag:"EQUIPO"}];
+const EXTRAS=[{id:"e1",emo:"📸",name:"Sesión de fotos profesional",desc:"Fotógrafo con dron durante tu ruta",price:800},{id:"e2",emo:"🎥",name:"Video de la aventura",desc:"Edición cinematográfica de tu recorrido",price:1200},{id:"e3",emo:"🍔",name:"Comida en ruta",desc:"Picnic gourmet a media aventura",price:250},{id:"e4",emo:"🎉",name:"Decoración para evento especial",desc:"Cumpleaños, pedida de mano, aniversarios",price:1500}];
+
+let cart=[],bRoute=null,bStep=1,bHorario=null,bUnit=null,bSeats=[],bExtras=[],bPayMode='anticipo',bPayMethod=null;
+
+function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+function renderRoutes(filter){const f=filter||'todas';document.getElementById('routes-grid').innerHTML=ROUTES.filter(r=>f==='todas'||r.exp===f).map(r=>{const tot=r.units.reduce((s,u)=>s+u.seats,0),bk=r.units.reduce((s,u)=>s+u.booked.length,0),avl=tot-bk,minp=Math.min(...r.units.map(u=>u.price));return `<div class="rc ${r.exp==='extrema'?'extrema':''}" onclick="openBooking(${r.id})"><div class="rc-img" style="background-image:url(${r.img})"><div class="rc-img-ov"></div><div class="rc-tags-top"><span class="rc-tag" style="background:${r.acc}cc;color:#fff">${r.tag}</span><span class="rc-tag" style="background:${r.diffC}cc;color:#fff">${r.diff}</span></div><div class="rc-galcount">📷 ${r.gal} fotos</div><div class="rc-name">${r.name}</div></div><div class="rc-body"><div class="rc-desc">${r.desc}</div><div class="rc-tags">${r.terrain.map(t=>`<span class="rc-tr">${t}</span>`).join('')}</div><div class="rc-stats"><div class="rc-st"><div style="font-size:14px">⏱</div><div class="rc-sv">${r.dur}</div><div class="rc-sl">Duración</div></div><div class="rc-st"><div style="font-size:14px">📏</div><div class="rc-sv">${r.dist}</div><div class="rc-sl">Distancia</div></div><div class="rc-st"><div style="font-size:14px">💺</div><div class="rc-sv" style="color:${avl===0?'#FF5A5A':'var(--ink)'}">${avl}/${tot}</div><div class="rc-sl">Libres</div></div></div><div class="rc-foot"><div class="rc-price"><span class="from">desde</span>$${minp}<small>/asiento</small></div>${avl===0?`<div class="btn-full">🔒 LLENO</div>`:`<button class="btn-book" onclick="event.stopPropagation();openBooking(${r.id})">RESERVAR →</button>`}</div></div></div>`;}).join('');}
+function filterExp(f,el){document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderRoutes(f);}
+function renderUnits(){document.getElementById('units-grid').innerHTML=UNITS_FLEET.map(u=>`<div class="uc"><div class="uc-img"><img src="${u.img}"/></div><div class="uc-body"><div class="uc-cat">${u.cat}</div><div class="uc-name">${u.name}</div><div class="uc-specs"><div class="uc-spec"><b>${u.power}</b><small>Potencia</small></div><div class="uc-spec"><b>${u.seats}</b><small>Capacidad</small></div></div><span class="uc-tag">${u.tag}</span><br><span class="canam-badge">🛡️ 100% Can-Am</span></div></div>`).join('');}
+function renderMerch(){document.getElementById('merch-grid').innerHTML=MERCH.map(m=>`<div class="mc"><div class="mc-emo">${m.emo}</div><div class="mc-tag">${m.tag}</div><div class="mc-name">${m.name}</div><div class="mc-price">$${m.price}</div><button class="mc-btn" id="mb-${m.id}" onclick="addMerch(${m.id})">+ CARRITO</button></div>`).join('');}
+function addMerch(id){const m=MERCH.find(x=>x.id===id);addToCart({label:`${m.emo} ${m.name}`,price:m.price});const b=document.getElementById('mb-'+id);b.textContent='✓ AÑADIDO';b.classList.add('added');setTimeout(()=>{b.textContent='+ CARRITO';b.classList.remove('added');},1500);}
+
+function addToCart(i){cart.push({...i,cid:Date.now()+Math.random()});updateBadge();}
+function removeFromCart(c){cart=cart.filter(i=>i.cid!=c);updateBadge();renderCart();}
+function updateBadge(){const b=document.getElementById('cart-badge');if(cart.length){b.style.display='flex';b.textContent=cart.length;}else b.style.display='none';}
+function openCart(){renderCart();document.getElementById('cart-ovl').classList.add('open');}
+function closeCart(){document.getElementById('cart-ovl').classList.remove('open');}
+function renderCart(){const its=document.getElementById('cart-its'),ft=document.getElementById('cart-ft');if(!cart.length){its.innerHTML='<div class="cart-emp"><div style="font-size:48px;margin-bottom:12px">🛒</div><p>Tu carrito está vacío</p></div>';ft.innerHTML='';return;}its.innerHTML=cart.map(i=>`<div class="cart-it"><div><div class="cart-it-nm">${i.label}</div><div class="cart-it-pr">$${i.price}</div></div><button class="cart-rm" onclick="removeFromCart(${i.cid})">✕</button></div>`).join('');const t=cart.reduce((s,i)=>s+i.price,0);ft.innerHTML=`<div class="cart-tr"><span style="color:var(--muted)">Total</span><span class="cart-tv">$${t}</span></div><button class="btn-fw">PROCEDER AL PAGO</button>`;}
+
+function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=1;bHorario=null;bUnit=null;bSeats=[];bExtras=[];bPayMode='anticipo';bPayMethod=null;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
+function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
+
+function renderStep(){const L=['PASO 1 DE 4 · HORARIO Y UNIDAD','PASO 2 DE 4 · ASIENTOS','PASO 3 DE 4 · EXTRAS','PASO 4 DE 4 · PAGO'];document.getElementById('mstep').textContent=L[bStep-1];const bd=document.getElementById('mbody');const bar=`<div class="step-bar">${[1,2,3,4].map(s=>`<div class="step-seg" style="background:${s<=bStep?'var(--neon)':'rgba(255,255,255,.1)'}"></div>`).join('')}</div>`;
+if(bStep===1){bd.innerHTML=bar+`<span class="field-lbl">FECHA</span><input type="date" class="date-in" value="2026-08-01"><span class="field-lbl">HORARIO DE SALIDA</span><div class="opt-row">${bRoute.horarios.map(h=>`<div class="opt ${bHorario===h?'sel':''}" onclick="bHorario='${h}';renderStep()">🕐 ${h}</div>`).join('')}</div><span class="field-lbl">ELIGE TU UNIDAD</span>${bRoute.units.map(u=>{const avl=u.seats-u.booked.length;return `<div class="unit-pick ${bUnit&&bUnit.id===u.id?'sel':''}" onclick="${avl===0?'':`selUnit('${u.id}')`}" style="${avl===0?'opacity:.5;cursor:not-allowed':''}"><div><b>🚙 ${u.name}</b><small>${u.type} · ${avl===0?'🔴 LLENA':'🟢 '+avl+' libres'}</small></div><div class="price">$${u.price}<div style="font-size:11px;color:var(--muted);font-weight:400">/asiento</div></div></div>`;}).join('')}<button class="btn-fw" style="margin-top:8px" ${(!bHorario||!bUnit)?'disabled':''} onclick="bStep=2;renderStep()">ELEGIR ASIENTOS →</button>`;}
+else if(bStep===2){const rows=[];const per=bUnit.seats<=2?bUnit.seats:2;let n=1;while(n<=bUnit.seats){const row=[];for(let k=0;k<per&&n<=bUnit.seats;k++){row.push(n);n++;}rows.push(row);}
+  bd.innerHTML=bar+`<p style="color:var(--muted);font-size:14px;margin-bottom:16px;text-align:center">Elige tus asientos en <b style="color:var(--ink)">${bUnit.name}</b> — como en el avión 🎫</p><div class="seatmap"><div class="vehicle-body"><div class="vehicle-front">▲ FRENTE DE LA UNIDAD ▲</div><div class="seat-rows">${rows.map(row=>`<div class="seat-row">${row.map(sn=>{const iB=bUnit.booked.includes(sn),iS=bSeats.includes(sn);return `<div class="seat ${iB?'s-b':iS?'s-s':'s-f'}" onclick="tSeat(${sn},${iB})">${iB?'🔒':iS?'✓':'💺'}<span>${sn}</span></div>`;}).join('')}</div>`).join('')}</div></div><div class="seat-legend"><span>🔒 Ocupado</span><span>💺 Libre</span><span style="color:var(--neon)">✓ Tú</span></div></div><div style="text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px">${bSeats.length} asiento(s) seleccionado(s) · <b style="color:var(--neon)">$${bSeats.length*bUnit.price}</b></div><div class="btns-row"><button class="btn-back" onclick="bStep=1;renderStep()">← ATRÁS</button><button class="btn-next" ${bSeats.length===0?'disabled':''} onclick="bStep=3;renderStep()">CONTINUAR →</button></div>`;}
+else if(bStep===3){bd.innerHTML=bar+`<span class="field-lbl">SERVICIOS EXTRA (OPCIONAL)</span><div class="extras-list">${EXTRAS.map(e=>`<div class="extra-item ${bExtras.includes(e.id)?'sel':''}" onclick="tExtra('${e.id}')"><div class="extra-check">✓</div><span style="font-size:22px">${e.emo}</span><div class="ei-name" style="flex:1"><div>${e.name}</div><small style="color:var(--muted);font-weight:400">${e.desc}</small></div><div class="ei-price">+$${e.price}</div></div>`).join('')}</div><div class="btns-row"><button class="btn-back" onclick="bStep=2;renderStep()">← ATRÁS</button><button class="btn-next" onclick="bStep=4;renderStep()">IR AL PAGO →</button></div>`;}
+else if(bStep===4){const base=bSeats.length*bUnit.price;const extra=bExtras.reduce((s,id)=>s+EXTRAS.find(e=>e.id===id).price,0);const total=base+extra;const anticipo=Math.round(total*0.5);
+  const exRows=bExtras.map(id=>{const e=EXTRAS.find(x=>x.id===id);return `<div class="summ-row"><span>${e.emo} ${e.name}</span><span>$${e.price}</span></div>`;}).join('');
+  bd.innerHTML=bar+`<div class="summ-box"><div class="summ-row"><span>🗺️ ${bRoute.name} · ${bHorario}</span><span></span></div><div class="summ-row"><span>🚙 ${bUnit.name} · Asientos ${bSeats.join(', ')}</span><span>$${base}</span></div>${exRows}<div class="summ-tot"><span style="font-weight:600">Total</span><span class="summ-tot-p">$${total}</span></div></div>
+  <span class="field-lbl">¿CÓMO QUIERES PAGAR?</span><div class="pay-split"><div class="pay-opt ${bPayMode==='anticipo'?'sel':''}" onclick="bPayMode='anticipo';renderStep()"><div class="pay-radio"></div><div class="po-name">Solo anticipo (50%)<div style="font-size:12px;color:var(--muted);font-weight:400">Resto al llegar a la ruta</div></div><div class="po-amt">$${anticipo}</div></div><div class="pay-opt ${bPayMode==='completo'?'sel':''}" onclick="bPayMode='completo';renderStep()"><div class="pay-radio"></div><div class="po-name">Pago completo<div style="font-size:12px;color:var(--muted);font-weight:400">Listo, sin pagar nada más</div></div><div class="po-amt">$${total}</div></div></div>
+  <span class="field-lbl">MÉTODO DE PAGO</span>${[{id:'mp',emo:'🟡',name:'Mercado Pago',desc:'Tarjeta, SPEI u OXXO'},{id:'paypal',emo:'🔵',name:'PayPal',desc:'Tarjeta o saldo PayPal'}].map(m=>`<button class="pay-mth ${bPayMethod===m.id?'sel':''}" onclick="bPayMethod='${m.id}';renderStep()"><span style="font-size:24px">${m.emo}</span><div><div class="pm-name">${m.name}</div><div class="pm-desc">${m.desc}</div></div></button>`).join('')}
+  <div class="btns-row" style="margin-top:6px"><button class="btn-back" onclick="bStep=3;renderStep()">← ATRÁS</button><button class="btn-next" ${!bPayMethod?'disabled':''} onclick="confirmBooking(${bPayMode==='anticipo'?anticipo:total})">PAGAR $${bPayMode==='anticipo'?anticipo:total} →</button></div>`;}}
+function selUnit(id){bUnit=bRoute.units.find(u=>u.id===id);bSeats=[];renderStep();}
+function tSeat(n,b){if(b)return;const i=bSeats.indexOf(n);if(i>=0)bSeats.splice(i,1);else bSeats.push(n);renderStep();}
+function tExtra(id){const i=bExtras.indexOf(id);if(i>=0)bExtras.splice(i,1);else bExtras.push(id);renderStep();}
+function confirmBooking(amt){const f='GR-'+Math.floor(Math.random()*9000+1000);bSeats.forEach(sn=>addToCart({label:`💺 ${bRoute.name} · ${bUnit.name} · A${sn}`,price:bUnit.price}));bExtras.forEach(id=>{const e=EXTRAS.find(x=>x.id===id);addToCart({label:`${e.emo} ${e.name}`,price:e.price});});
+  document.getElementById('mbody').innerHTML=`<div style="text-align:center;padding:16px 0"><div style="font-size:64px;margin-bottom:16px">🎉</div><div style="font-family:Barlow Condensed;font-size:36px;font-weight:900;color:var(--neon);margin-bottom:8px">¡RESERVA CONFIRMADA!</div><p style="color:var(--muted);margin-bottom:20px">Folio <b style="color:var(--neon)">${f}</b> · Pagaste <b style="color:var(--ink)">$${amt}</b> (${bPayMode==='anticipo'?'anticipo':'completo'})</p><div style="background:rgba(143,255,42,0.08);border:1px solid rgba(143,255,42,0.2);border-radius:14px;padding:18px;text-align:left;margin-bottom:20px"><div style="display:flex;gap:10px;margin-bottom:12px;align-items:center"><span style="font-size:22px">📱</span><div><b style="color:var(--neon);font-size:14px">WhatsApp enviado</b><div style="color:var(--muted);font-size:12px">Confirmación a tu número en 2 min</div></div></div><div style="display:flex;gap:10px;margin-bottom:12px;align-items:center"><span style="font-size:22px">🔒</span><div><b style="color:var(--neon);font-size:14px">Asientos bloqueados</b><div style="color:var(--muted);font-size:12px">Nadie más puede tomarlos</div></div></div><div style="display:flex;gap:10px;align-items:center"><span style="font-size:22px">🛡️</span><div><b style="color:var(--neon);font-size:14px">Admin notificado</b><div style="color:var(--muted);font-size:12px">El dueño recibió tu reserva</div></div></div></div><button class="btn-fw" onclick="closeBooking()">¡LISTO! CERRAR</button></div>`;}
+
+// CARRUSEL
+let cur=0;const slides=document.querySelectorAll('.slide'),total=slides.length,dw=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>goSlide(i);dw.appendChild(d);});
+const dots=document.querySelectorAll('.dot');let timer=setInterval(()=>goSlide(cur+1),6000);
+function goSlide(i){slides[cur].classList.remove('active');dots[cur].classList.remove('active');cur=(i+total)%total;slides[cur].classList.add('active');dots[cur].classList.add('active');const bg=slides[cur].querySelector('.slide-bg');bg.style.animation='none';void bg.offsetWidth;bg.style.animation='';clearInterval(timer);timer=setInterval(()=>goSlide(cur+1),6000);}
+function nextSlide(){goSlide(cur+1);}function prevSlide(){goSlide(cur-1);}
+
+// REG
+function openReg(){document.getElementById('reg-overlay').classList.add('open');}
+function closeReg(){document.getElementById('reg-overlay').classList.remove('open');localStorage.setItem('reg_done','1');}
+function submitReg(){const n=document.getElementById('r-nombre').value,e=document.getElementById('r-email').value;if(!n||!e){alert('Completa nombre y correo');return;}document.getElementById('reg-form-wrap').style.display='none';document.getElementById('reg-success').classList.add('show');localStorage.setItem('reg_done','1');}
+
+// CHATBOT
+function toggleChat(){document.getElementById('chat-win').classList.toggle('open');}
+function chatAsk(t){const body=document.getElementById('chat-body');const R={rutas:"Tenemos 4 rutas 🗺️: Brisas del Bosque, Cañón del Guerrero, Cruce del Río y Mirador del Valle. Desde panorámicas hasta extremas. ¿Quieres reservar una?",precios:"Nuestras rutas van desde $550 hasta $900 por asiento 💰, según la ruta y unidad. Puedes pagar solo el 50% de anticipo. ¿Te ayudo a reservar?",reserva:"¡Perfecto! 📅 Puedes reservar aquí mismo eligiendo ruta, horario, unidad y asientos. O si prefieres atención personalizada, te paso a WhatsApp.",ubicacion:"Estamos en Chignahuapan, Puebla 📍 (Sierra Norte). Toca el botón de abajo y te comparto la ubicación exacta por WhatsApp."};
+  const q=document.querySelector(`[onclick="chatAsk('${t}')"]`).textContent;
+  body.innerHTML+=`<div class="chat-msg" style="background:var(--neon);color:#0A1400;align-self:flex-end;border-top-left-radius:12px;border-top-right-radius:2px">${q}</div>`;
+  setTimeout(()=>{body.innerHTML+=`<div class="chat-msg">${R[t]}</div>`;body.scrollTop=body.scrollHeight;},500);
+  body.scrollTop=body.scrollHeight;}
+function goWhatsApp(){window.open('https://wa.me/527750000000?text=Hola!%20Vengo%20de%20la%20p%C3%A1gina%20y%20quiero%20info%20sobre%20las%20rutas','_blank');}
+
+// REVEAL on scroll
+const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// NAV bg
+window.addEventListener('scroll',()=>{document.getElementById('nav').style.background=window.scrollY>60?'rgba(8,10,7,0.92)':'rgba(8,10,7,0.55)';});
+
+// INIT
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('hide'),1400);setTimeout(()=>{if(!localStorage.getItem('reg_done'))openReg();},2800);});
+renderRoutes();renderUnits();renderMerch();
+</script></body></html>
