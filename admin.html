@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Gladiadores Off Road</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #080A07;
+      color: #EAF2E2;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    h1 { color: #8FFF2A; margin-bottom: 2rem; }
+
+    /* LOGIN */
+    .login-box {
+      max-width: 400px;
+      margin: 5rem auto;
+      background: #12160E;
+      border: 1px solid rgba(143, 255, 42, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+    .login-box h2 { color: #8FFF2A; margin-bottom: 1.5rem; text-align: center; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; color: #B8C4AC; font-size: 0.9rem; }
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(143, 255, 42, 0.2);
+      border-radius: 8px;
+      color: #EAF2E2;
+      font-family: inherit;
+    }
+    .form-group input:focus { outline: none; border-color: #8FFF2A; box-shadow: 0 0 0 3px rgba(143, 255, 42, 0.1); }
+    .btn-login {
+      width: 100%;
+      padding: 0.75rem;
+      background: #8FFF2A;
+      color: #0A1400;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(143, 255, 42, 0.4); }
+    .error { color: #ff6b6b; font-size: 0.9rem; margin-top: 1rem; }
+
+    /* ADMIN PANEL */
+    .admin-panel { display: none; }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(143, 255, 42, 0.2);
+    }
+    .admin-user { color: #B8C4AC; font-size: 0.9rem; }
+    .btn-logout {
+      background: #ff6b6b;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn-logout:hover { background: #ff5252; }
+
+    /* TABLA DE RESERVAS */
+    .reservas-table {
+      background: #12160E;
+      border: 1px solid rgba(143, 255, 42, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th {
+      background: rgba(143, 255, 42, 0.1);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #8FFF2A;
+      border-bottom: 1px solid rgba(143, 255, 42, 0.2);
+    }
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    tr:hover { background: rgba(143, 255, 42, 0.05); }
+
+    /* ESTADOS */
+    .estado-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .estado-confirmada { background: rgba(76, 175, 80, 0.2); color: #4caf50; }
+    .estado-cancelada { background: rgba(244, 67, 54, 0.2); color: #f44336; }
+    .estado-completada { background: rgba(33, 150, 243, 0.2); color: #2196f3; }
+    .estado-no_show { background: rgba(255, 152, 0, 0.2); color: #ff9800; }
+
+    /* MODAL */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-content {
+      background: #12160E;
+      border: 1px solid rgba(143, 255, 42, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+    }
+    .modal-content h3 { color: #8FFF2A; margin-bottom: 1rem; }
+    .modal-body { margin-bottom: 1.5rem; max-height: 60vh; overflow-y: auto; }
+    .modal-detail { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .modal-detail b { color: #8FFF2A; }
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    .btn-modal {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: #8FFF2A; color: #0A1400; }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-secondary { background: rgba(255, 255, 255, 0.1); color: #EAF2E2; }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- LOGIN -->
+    <div id="login" class="login-box">
+      <h2>🔐 Admin</h2>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="password" placeholder="Contraseña">
+      </div>
+      <button class="btn-login" onclick="login()">INGRESAR</button>
+      <div id="login-error" class="error"></div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="panel" class="admin-panel">
+      <div class="admin-header">
+        <h1>📊 Panel de Admin</h1>
+        <div>
+          <div class="admin-user">Admin: <b id="admin-name"></b></div>
+          <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+      </div>
+
+      <div class="reservas-table">
+        <table id="tabla-reservas">
+          <thead>
+            <tr>
+              <th>Folio</th>
+              <th>Cliente</th>
+              <th>Email</th>
+              <th>Ruta</th>
+              <th>Fecha</th>
+              <th>Monto</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-reservas">
+            <tr><td colspan="8" style="text-align: center; color: #999;">Cargando reservas...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE DETALLES -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h3>Detalles de Reserva</h3>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-actions">
+        <select id="estado-select" class="btn-modal" style="background: rgba(255, 255, 255, 0.1); color: #EAF2E2; font-weight: 600; cursor: pointer;">
+          <option value="">-- Cambiar estado --</option>
+          <option value="confirmada">✓ Confirmada</option>
+          <option value="cancelada">✗ Cancelada</option>
+          <option value="completada">✅ Completada</option>
+          <option value="no_show">⊘ No Show</option>
+        </select>
+        <button class="btn-modal btn-secondary" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://api.gladiadoresoffroad.com';
+    let token = null;
+    let currentReservaId = null;
+
+    // Verificar si ya hay sesión
+    function checkSession() {
+      token = localStorage.getItem('admin_token');
+      if (token) {
+        loadPanel();
+      }
+    }
+
+    async function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorDiv = document.getElementById('login-error');
+
+      if (!email || !password) {
+        errorDiv.textContent = 'Completa email y contraseña';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (data.ok) {
+          token = data.token;
+          localStorage.setItem('admin_token', token);
+          loadPanel();
+        } else {
+          errorDiv.textContent = data.error || 'Error al autenticar';
+        }
+      } catch (err) {
+        errorDiv.textContent = 'Error de conexión';
+      }
+    }
+
+    async function loadPanel() {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('panel').style.display = 'block';
+
+      // Obtener datos del admin desde el token
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      document.getElementById('admin-name').textContent = payload.email;
+
+      // Cargar reservas
+      loadReservas();
+    }
+
+    async function loadReservas() {
+      try {
+        const res = await fetch(`${API_URL}/api/reservas`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        const data = await res.json();
+
+        if (data.ok && data.reservas) {
+          renderReservas(data.reservas);
+        } else {
+          document.getElementById('tbody-reservas').innerHTML = `<tr><td colspan="8" style="color: #ff6b6b;">Error: ${data.error}</td></tr>`;
+        }
+      } catch (err) {
+        document.getElementById('tbody-reservas').innerHTML = `<tr><td colspan="8" style="color: #ff6b6b;">Error de conexión</td></tr>`;
+      }
+    }
+
+    function renderReservas(reservas) {
+      const tbody = document.getElementById('tbody-reservas');
+      tbody.innerHTML = reservas.map(r => `
+        <tr>
+          <td><b>${r.folio}</b></td>
+          <td>${r.cliente.nombre}</td>
+          <td>${r.cliente.email}</td>
+          <td>${r.ruta}</td>
+          <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
+          <td>$${r.monto}</td>
+          <td><span class="estado-badge estado-${r.estado}">${r.estado}</span></td>
+          <td><button class="btn-modal btn-primary" onclick="openModal('${r._id}', ${JSON.stringify(r).replace(/'/g, '&#39;')})">Ver</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function openModal(id, reserva) {
+      currentReservaId = id;
+      const modal = document.getElementById('modal');
+      const body = document.getElementById('modal-body');
+      const select = document.getElementById('estado-select');
+
+      body.innerHTML = `
+        <div class="modal-detail"><b>Folio:</b> ${reserva.folio}</div>
+        <div class="modal-detail"><b>Cliente:</b> ${reserva.cliente.nombre}</div>
+        <div class="modal-detail"><b>Email:</b> ${reserva.cliente.email}</div>
+        <div class="modal-detail"><b>WhatsApp:</b> ${reserva.cliente.whatsapp}</div>
+        <div class="modal-detail"><b>Ruta:</b> ${reserva.ruta}</div>
+        <div class="modal-detail"><b>Unidad:</b> ${reserva.unidad}</div>
+        <div class="modal-detail"><b>Asientos:</b> ${reserva.asientos.join(', ')}</div>
+        <div class="modal-detail"><b>Monto:</b> $${reserva.monto}</div>
+        <div class="modal-detail"><b>Estado Actual:</b> <span class="estado-badge estado-${reserva.estado}">${reserva.estado}</span></div>
+      `;
+
+      select.value = reserva.estado;
+      modal.classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      currentReservaId = null;
+    }
+
+    async function changeEstado(event) {
+      const nuevoEstado = event.target.value;
+      if (!nuevoEstado || !currentReservaId) return;
+
+      try {
+        const res = await fetch(`${API_URL}/api/reservas/${currentReservaId}/estado`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ estado: nuevoEstado })
+        });
+
+        const data = await res.json();
+
+        if (data.ok) {
+          closeModal();
+          loadReservas();
+        }
+      } catch (err) {
+        alert('Error al actualizar estado');
+      }
+    }
+
+    document.getElementById('estado-select').addEventListener('change', changeEstado);
+
+    function logout() {
+      localStorage.removeItem('admin_token');
+      token = null;
+      document.getElementById('login').style.display = 'block';
+      document.getElementById('panel').style.display = 'none';
+      document.getElementById('email').value = '';
+      document.getElementById('password').value = '';
+    }
+
+    // Iniciar
+    checkSession();
+  </script>
+</body>
+</html>
