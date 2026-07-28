@@ -13,7 +13,9 @@
       min-height: 100vh;
     }
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-    h1 { color: #8FFF2A; margin-bottom: 2rem; }
+    h1 { color: #FF6B1F; margin-bottom: 2rem; }
+    .logo { width: 60px; height: 60px; margin-bottom: 2rem; }
+    .logo img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255, 107, 31, 0.6)); }
 
     /* LOGIN */
     .login-box {
@@ -24,7 +26,8 @@
       border-radius: 12px;
       padding: 2rem;
     }
-    .login-box h2 { color: #8FFF2A; margin-bottom: 1.5rem; text-align: center; }
+    .login-box h2 { color: #FF6B1F; margin-bottom: 1.5rem; text-align: center; }
+    .login-box .logo { text-align: center; margin-bottom: 1rem; }
     .form-group { margin-bottom: 1.5rem; }
     .form-group label { display: block; margin-bottom: 0.5rem; color: #B8C4AC; font-size: 0.9rem; }
     .form-group input {
@@ -36,19 +39,19 @@
       color: #EAF2E2;
       font-family: inherit;
     }
-    .form-group input:focus { outline: none; border-color: #8FFF2A; box-shadow: 0 0 0 3px rgba(143, 255, 42, 0.1); }
+    .form-group input:focus { outline: none; border-color: #FF6B1F; box-shadow: 0 0 0 3px rgba(255, 107, 31, 0.15); }
     .btn-login {
       width: 100%;
       padding: 0.75rem;
-      background: #8FFF2A;
-      color: #0A1400;
+      background: #FF6B1F;
+      color: #fff;
       border: none;
       border-radius: 8px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(143, 255, 42, 0.4); }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 107, 31, 0.5); }
     .error { color: #ff6b6b; font-size: 0.9rem; margin-top: 1rem; }
 
     /* ADMIN PANEL */
@@ -59,11 +62,11 @@
       align-items: center;
       margin-bottom: 2rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(143, 255, 42, 0.2);
+      border-bottom: 1px solid rgba(255, 107, 31, 0.2);
     }
     .admin-user { color: #B8C4AC; font-size: 0.9rem; }
     .btn-logout {
-      background: #ff6b6b;
+      background: #FF6B1F;
       color: white;
       padding: 0.5rem 1rem;
       border: none;
@@ -71,12 +74,12 @@
       cursor: pointer;
       font-weight: 600;
     }
-    .btn-logout:hover { background: #ff5252; }
+    .btn-logout:hover { background: #e8551f; }
 
     /* TABLA DE RESERVAS */
     .reservas-table {
       background: #12160E;
-      border: 1px solid rgba(143, 255, 42, 0.2);
+      border: 1px solid rgba(255, 107, 31, 0.2);
       border-radius: 12px;
       overflow: hidden;
     }
@@ -85,18 +88,18 @@
       border-collapse: collapse;
     }
     th {
-      background: rgba(143, 255, 42, 0.1);
+      background: rgba(255, 107, 31, 0.1);
       padding: 1rem;
       text-align: left;
       font-weight: 600;
-      color: #8FFF2A;
-      border-bottom: 1px solid rgba(143, 255, 42, 0.2);
+      color: #FF6B1F;
+      border-bottom: 1px solid rgba(255, 107, 31, 0.2);
     }
     td {
       padding: 1rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
-    tr:hover { background: rgba(143, 255, 42, 0.05); }
+    tr:hover { background: rgba(255, 107, 31, 0.08); }
 
     /* ESTADOS */
     .estado-badge {
@@ -116,16 +119,16 @@
     .modal.open { display: flex; }
     .modal-content {
       background: #12160E;
-      border: 1px solid rgba(143, 255, 42, 0.3);
+      border: 1px solid rgba(255, 107, 31, 0.3);
       border-radius: 12px;
       padding: 2rem;
       max-width: 500px;
       width: 90%;
     }
-    .modal-content h3 { color: #8FFF2A; margin-bottom: 1rem; }
+    .modal-content h3 { color: #FF6B1F; margin-bottom: 1rem; }
     .modal-body { margin-bottom: 1.5rem; max-height: 60vh; overflow-y: auto; }
     .modal-detail { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-    .modal-detail b { color: #8FFF2A; }
+    .modal-detail b { color: #FF6B1F; }
     .modal-actions {
       display: flex;
       gap: 1rem;
@@ -139,8 +142,8 @@
       font-weight: 600;
       transition: all 0.2s;
     }
-    .btn-primary { background: #8FFF2A; color: #0A1400; }
-    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-primary { background: #FF6B1F; color: #fff; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(255, 107, 31, 0.4); }
     .btn-secondary { background: rgba(255, 255, 255, 0.1); color: #EAF2E2; }
     .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
   </style>
@@ -149,6 +152,7 @@
   <div class="container">
     <!-- LOGIN -->
     <div id="login" class="login-box">
+      <div class="logo"><img src="img/i1.svg" alt="Logo"></div>
       <h2>🔐 Admin</h2>
       <div class="form-group">
         <label>Email</label>
