@@ -42,6 +42,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:66px;display:flex;ali
 .nav-cart-badge{position:absolute;top:-6px;right:-8px;background:var(--neon);color:#0A1400;font-size:10px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;}
 .nav-cta{background:var(--neon);color:#0A1400;border:none;border-radius:9px;padding:10px 18px;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:.5px;box-shadow:0 0 20px rgba(143,255,42,0.4);transition:all .2s;}
 .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 28px rgba(143,255,42,0.6);}
+.nav-hamburger{display:none;flex-direction:column;justify-content:space-between;width:24px;height:18px;background:none;border:none;cursor:pointer;padding:0;}
+.nav-hamburger span{display:block;width:100%;height:2px;background:var(--ink);border-radius:2px;transition:transform .32s ease,opacity .25s ease,width .25s ease;transform-origin:center;}
+.nav-hamburger.open span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;width:0;}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+.mob-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:920;pointer-events:none;transition:background .35s;}
+.mob-overlay.open{background:rgba(0,0,0,0.65);pointer-events:auto;}
+.mob-drawer{position:fixed;top:0;right:0;width:min(300px,84vw);height:100vh;background:rgba(8,10,7,0.98);border-left:1px solid rgba(143,255,42,0.18);z-index:930;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;padding:20px 24px 32px;box-shadow:-24px 0 60px rgba(0,0,0,0.6);}
+.mob-drawer.open{transform:translateX(0);}
+.mob-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid rgba(143,255,42,0.12);}
+.mob-head img{height:42px;filter:drop-shadow(0 0 10px rgba(143,255,42,0.5));}
+.mob-close{background:none;border:1px solid rgba(255,255,255,0.14);color:var(--ink);font-size:16px;cursor:pointer;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .2s;}
+.mob-close:hover{background:rgba(255,255,255,0.08);}
+.mob-links{flex:1;display:flex;flex-direction:column;gap:2px;overflow-y:auto;}
+.mob-lnk{background:none;border:none;color:rgba(234,242,226,0.75);font-size:19px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1.5px;text-align:left;padding:13px 14px;cursor:pointer;border-radius:10px;transition:background .2s,color .2s;display:flex;align-items:center;gap:10px;}
+.mob-lnk:hover{background:rgba(143,255,42,0.07);color:var(--neon);}
+.mob-lnk svg{flex-shrink:0;opacity:.6;}
+.mob-cta{margin-top:18px;background:var(--neon);color:#0A1400;border:none;border-radius:12px;padding:15px;font-weight:800;font-size:15px;letter-spacing:1px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;box-shadow:0 0 28px rgba(143,255,42,0.4);transition:all .2s;width:100%;min-height:48px;}
+.mob-cta:hover{transform:translateY(-2px);box-shadow:0 0 42px rgba(143,255,42,0.6);}
+.nav-cart-icon{width:22px;height:22px;display:block;}
 
 /* CAROUSEL */
 .hero-carousel{position:relative;height:100vh;overflow:hidden;}
@@ -348,7 +368,7 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(143,2
 .cart-tv{font-family:'Barlow Condensed';color:var(--neon);font-weight:900;font-size:24px;}
 
 @media(max-width:860px){.chigna-grid{grid-template-columns:1fr;}.gal-grid{grid-template-columns:repeat(2,1fr);}.gal-big{grid-column:span 2;}}
-@media(max-width:640px){.nav-links{display:none;}.hero-location{bottom:80px;}.seat-row{gap:20px;}.map-picker{flex-direction:column;bottom:auto;top:calc(100% + 8px);right:0;}.modal{max-height:100vh;border-radius:20px 20px 0 0;}.overlay{padding:0;align-items:flex-end;}.overlay.open{align-items:flex-end;}}
+@media(max-width:640px){.nav-links{display:none;}.nav-cta{display:none;}.nav-hamburger{display:flex;}.hero-location{bottom:80px;}.seat-row{gap:20px;}.map-picker{flex-direction:column;bottom:auto;top:calc(100% + 8px);right:0;}.modal{max-height:100vh;border-radius:20px 20px 0 0;}.overlay{padding:0;align-items:flex-end;}.overlay.open{align-items:flex-end;}}
 
 /* OPTIMIZACIÓN GAMA BAJA/MEDIA: reducir animaciones pesadas si el usuario lo prefiere o el dispositivo es lento */
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
@@ -517,10 +537,51 @@ section.blk>*{position:relative;z-index:1;}
     <button class="nav-lnk" onclick="jump('lealtad')">Puntos</button>
   </div>
   <div class="nav-right">
-    <button class="nav-cart" onclick="openCart()">CARRITO<span class="nav-cart-badge" id="cart-badge">0</span></button>
+    <button class="nav-cart" onclick="openCart()" aria-label="Carrito de compras">
+      <svg class="nav-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="nav-cart-badge" id="cart-badge">0</span>
+    </button>
     <button class="nav-cta" onclick="jump('rutas')">RESERVAR</button>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<div class="mob-overlay" id="mob-overlay" onclick="closeMobileMenu()"></div>
+<div class="mob-drawer" id="mob-drawer" role="dialog" aria-label="Menú de navegación">
+  <div class="mob-head">
+    <img src="img/i1.png" alt="Gladiadores Off Road"/>
+    <button class="mob-close" onclick="closeMobileMenu()" aria-label="Cerrar menú">✕</button>
+  </div>
+  <div class="mob-links">
+    <button class="mob-lnk" onclick="mobileJump('rutas')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>Rutas
+    </button>
+    <button class="mob-lnk" onclick="mobileJump('unidades')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="22" height="13" rx="2"/><path d="M16 21v-2a4 4 0 00-8 0v2"/></svg>Unidades
+    </button>
+    <button class="mob-lnk" onclick="mobileJump('chigna')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Chignahuapan
+    </button>
+    <button class="mob-lnk" onclick="mobileJump('tienda')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>Tienda
+    </button>
+    <button class="mob-lnk" onclick="mobileJump('galeria')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Galería
+    </button>
+    <button class="mob-lnk" onclick="mobileJump('ugc')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Instagram
+    </button>
+    <button class="mob-lnk" onclick="mobileJump('lealtad')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Puntos
+    </button>
+    <button class="mob-lnk" onclick="openCart();closeMobileMenu()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Carrito
+    </button>
+  </div>
+  <button class="mob-cta" onclick="mobileJump('rutas')">RESERVAR AVENTURA →</button>
+</div>
 
 <!-- CARRUSEL -->
 <section class="hero-carousel" id="carousel">
@@ -538,8 +599,8 @@ section.blk>*{position:relative;z-index:1;}
   <div class="map-picker-wrap" style="position:absolute;bottom:34px;right:34px;z-index:5;">
     <button class="hero-location" style="border:1px solid rgba(143,255,42,0.25);cursor:pointer;" onclick="toggleMapPicker(event)"><div><small>NUESTRA BASE</small><b>Chignahuapan, Puebla</b></div></button>
     <div class="map-picker" id="map-picker">
-      <a href="https://maps.apple.com/?q=Chignahuapan,Puebla" target="_blank"> Apple Maps</a>
-      <a href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank"> Google Maps</a>
+      <a href="https://maps.apple.com/?q=19.8125,-98.0345&ll=19.8125,-98.0345&q=Gladiadores+Off+Road" target="_blank"> Apple Maps</a>
+      <a href="https://maps.app.goo.gl/jjPaR5rrfHELM4r86?g_st=iw" target="_blank"> Google Maps</a>
       <a href="https://waze.com/ul?q=Chignahuapan,Puebla" target="_blank"> Waze</a>
     </div>
   </div>
@@ -659,7 +720,7 @@ section.blk>*{position:relative;z-index:1;}
       <div class="ig-cta-icon"><svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg></div>
       <h3>SUBE TU <span>AVENTURA</span></h3>
       <p>Etiquetanos en tu foto o usa nuestro hashtag y aparece en esta galeria automaticamente</p>
-      <button class="ig-follow-btn" onclick="window.open('https://instagram.com/gladiadores.offroad','_blank')">SEGUIR EN INSTAGRAM</button>
+      <button class="ig-follow-btn" onclick="window.open('https://www.instagram.com/gladiadores.off.road','_blank')">SEGUIR EN INSTAGRAM</button>
     </div>
   </div>
 </section>
@@ -678,17 +739,17 @@ section.blk>*{position:relative;z-index:1;}
   <div class="foot-top">
     <div class="foot-brand"><img src="img/i1.png"/><p>Rutas 4×4 extremas por la Sierra Norte de Puebla. Vive la aventura como un gladiador.</p><div class="foot-tagline">"No es un paseo, es una conquista"</div></div>
     <div class="foot-col"><h4>EXPLORA</h4><a onclick="jump('rutas')">Rutas</a><a onclick="jump('unidades')">Unidades</a><a onclick="jump('tienda')">Tienda oficial</a><a onclick="jump('galeria')">Galería</a><a onclick="jump('lealtad')">Programa de puntos</a></div>
-    <div class="foot-col"><h4>CONTACTO</h4><a href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank">Chignahuapan, Puebla</a><a href="https://wa.me/527750000000" target="_blank">WhatsApp: 775 000 0000</a><a>hola@gladiadoresoffroad.com</a></div>
+    <div class="foot-col"><h4>CONTACTO</h4><a href="https://maps.app.goo.gl/jjPaR5rrfHELM4r86?g_st=iw" target="_blank">Chignahuapan, Puebla</a><a href="https://wa.me/527750000000" target="_blank">WhatsApp: 775 000 0000</a><a>hola@gladiadoresoffroad.com</a></div>
     <div class="foot-col"><h4>SÍGUENOS</h4><div class="foot-social">
-      <a class="fb" href="#" target="_blank" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
-      <a class="ig" href="https://instagram.com/gladiadores.offroad" target="_blank" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg></a>
-      <a class="tt" href="#" target="_blank" title="TikTok" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+      <a class="fb" href="https://www.facebook.com/share/17zQC1pdYU/?mibextid=wwXIfr" target="_blank" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
+      <a class="ig" href="https://www.instagram.com/gladiadores.off.road?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg></a>
+      <a class="tt" href="https://www.tiktok.com/@gladiadoresoffroad?_r=1&_t=ZS-98OnIpJn92j" target="_blank" title="TikTok" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
       <a class="wa" href="https://wa.me/527750000000" target="_blank" title="WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
-      <a class="map" href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank" title="Ubicación" aria-label="Ubicación"><svg viewBox="0 0 24 24"><path d="M12 0C7.802 0 4 3.403 4 7.602 4 11.8 7.469 16.812 12 24c4.531-7.188 8-12.2 8-16.398C20 3.403 16.199 0 12 0zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg></a>
+      <a class="map" href="https://maps.app.goo.gl/jjPaR5rrfHELM4r86?g_st=iw" target="_blank" title="Ubicación" aria-label="Ubicación"><svg viewBox="0 0 24 24"><path d="M12 0C7.802 0 4 3.403 4 7.602 4 11.8 7.469 16.812 12 24c4.531-7.188 8-12.2 8-16.398C20 3.403 16.199 0 12 0zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg></a>
     </div><p style="color:var(--muted);font-size:12px;margin-top:14px;">@gladiadores.offroad</p>
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
-      <a href="https://maps.apple.com/?q=Chignahuapan,Puebla" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Apple Maps</a>
-      <a href="https://maps.google.com/?q=Chignahuapan,Puebla" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Google Maps</a>
+      <a href="https://maps.apple.com/?q=19.8125,-98.0345&ll=19.8125,-98.0345&q=Gladiadores+Off+Road" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Apple Maps</a>
+      <a href="https://maps.app.goo.gl/jjPaR5rrfHELM4r86?g_st=iw" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Google Maps</a>
       <a href="https://waze.com/ul?q=Chignahuapan,Puebla" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Waze</a>
     </div></div>
   </div>
@@ -749,6 +810,9 @@ const API = "https://api.gladiadoresoffroad.com";
 let cart=[],bRoute=null,bStep=1,bHorario=null,bUnit=null,bSeats=[],bExtras=[],bPayMode='anticipo',bPayMethod=null;
 
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function toggleMobileMenu(){const h=document.getElementById('nav-hamburger');const d=document.getElementById('mob-drawer');const o=document.getElementById('mob-overlay');if(d.classList.contains('open')){closeMobileMenu();}else{h.classList.add('open');d.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';}}
+function closeMobileMenu(){document.getElementById('nav-hamburger').classList.remove('open');document.getElementById('mob-drawer').classList.remove('open');document.getElementById('mob-overlay').classList.remove('open');document.body.style.overflow='';}
+function mobileJump(id){closeMobileMenu();setTimeout(()=>jump(id),200);}
 
 // SELECTOR DE MAPAS (Apple Maps / Google Maps / Waze)
 function toggleMapPicker(e){e.stopPropagation();document.getElementById('map-picker').classList.toggle('open');}
