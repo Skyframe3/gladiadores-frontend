@@ -222,12 +222,30 @@
     const API_URL = 'https://api.gladiadoresoffroad.com';
     let token = null;
     let currentReservaId = null;
+    let reservasCache = [];
 
-    // Verificar si ya hay sesión
+    function esc(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
     function checkSession() {
       token = localStorage.getItem('admin_token');
       if (token) {
-        loadPanel();
+        try {
+          const parts = token.split('.');
+          if (parts.length !== 3) throw new Error('bad token');
+          const payload = JSON.parse(atob(parts[1]));
+          if (payload.exp && payload.exp * 1000 < Date.now()) {
+            localStorage.removeItem('admin_token');
+            token = null;
+            return;
+          }
+          loadPanel();
+        } catch (e) {
+          localStorage.removeItem('admin_token');
+          token = null;
+        }
       }
     }
 
@@ -266,11 +284,9 @@
       document.getElementById('login').style.display = 'none';
       document.getElementById('panel').style.display = 'block';
 
-      // Obtener datos del admin desde el token
       const payload = JSON.parse(atob(token.split('.')[1]));
       document.getElementById('admin-name').textContent = payload.email;
 
-      // Cargar reservas
       loadReservas();
     }
 
@@ -283,29 +299,44 @@
         const data = await res.json();
 
         if (data.ok && data.reservas) {
+          reservasCache = data.reservas;
           renderReservas(data.reservas);
         } else {
-          document.getElementById('tbody-reservas').innerHTML = `<tr><td colspan="8" style="color: #ff6b6b;">Error: ${data.error}</td></tr>`;
+          const td = document.createElement('td');
+          td.colSpan = 8;
+          td.style.color = '#ff6b6b';
+          td.textContent = 'Error: ' + (data.error || 'Desconocido');
+          const tr = document.createElement('tr');
+          tr.appendChild(td);
+          const tbody = document.getElementById('tbody-reservas');
+          tbody.innerHTML = '';
+          tbody.appendChild(tr);
         }
       } catch (err) {
-        document.getElementById('tbody-reservas').innerHTML = `<tr><td colspan="8" style="color: #ff6b6b;">Error de conexión</td></tr>`;
+        document.getElementById('tbody-reservas').innerHTML = '<tr><td colspan="8" style="color: #ff6b6b;">Error de conexión</td></tr>';
       }
     }
 
     function renderReservas(reservas) {
       const tbody = document.getElementById('tbody-reservas');
-      tbody.innerHTML = reservas.map(r => `
+      tbody.innerHTML = reservas.map((r, idx) => `
         <tr>
-          <td><b>${r.folio}</b></td>
-          <td>${r.cliente.nombre}</td>
-          <td>${r.cliente.email}</td>
-          <td>${r.ruta}</td>
+          <td><b>${esc(r.folio)}</b></td>
+          <td>${esc(r.cliente?.nombre)}</td>
+          <td>${esc(r.cliente?.email)}</td>
+          <td>${esc(r.ruta)}</td>
           <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
-          <td>$${r.monto}</td>
-          <td><span class="estado-badge estado-${r.estado}">${r.estado}</span></td>
-          <td><button class="btn-modal btn-primary" onclick="openModal('${r._id}', ${JSON.stringify(r).replace(/'/g, '&#39;')})">Ver</button></td>
+          <td>$${esc(String(r.monto))}</td>
+          <td><span class="estado-badge estado-${esc(r.estado)}">${esc(r.estado)}</span></td>
+          <td><button class="btn-modal btn-primary" onclick="openModalByIdx(${idx})">Ver</button></td>
         </tr>
       `).join('');
+    }
+
+    function openModalByIdx(idx) {
+      const r = reservasCache[idx];
+      if (!r) return;
+      openModal(r._id, r);
     }
 
     function openModal(id, reserva) {
@@ -315,15 +346,15 @@
       const select = document.getElementById('estado-select');
 
       body.innerHTML = `
-        <div class="modal-detail"><b>Folio:</b> ${reserva.folio}</div>
-        <div class="modal-detail"><b>Cliente:</b> ${reserva.cliente.nombre}</div>
-        <div class="modal-detail"><b>Email:</b> ${reserva.cliente.email}</div>
-        <div class="modal-detail"><b>WhatsApp:</b> ${reserva.cliente.whatsapp}</div>
-        <div class="modal-detail"><b>Ruta:</b> ${reserva.ruta}</div>
-        <div class="modal-detail"><b>Unidad:</b> ${reserva.unidad}</div>
-        <div class="modal-detail"><b>Asientos:</b> ${reserva.asientos.join(', ')}</div>
-        <div class="modal-detail"><b>Monto:</b> $${reserva.monto}</div>
-        <div class="modal-detail"><b>Estado Actual:</b> <span class="estado-badge estado-${reserva.estado}">${reserva.estado}</span></div>
+        <div class="modal-detail"><b>Folio:</b> ${esc(reserva.folio)}</div>
+        <div class="modal-detail"><b>Cliente:</b> ${esc(reserva.cliente?.nombre)}</div>
+        <div class="modal-detail"><b>Email:</b> ${esc(reserva.cliente?.email)}</div>
+        <div class="modal-detail"><b>WhatsApp:</b> ${esc(reserva.cliente?.whatsapp)}</div>
+        <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)}</div>
+        <div class="modal-detail"><b>Unidad:</b> ${esc(reserva.unidad)}</div>
+        <div class="modal-detail"><b>Asientos:</b> ${esc(reserva.asientos?.join(', '))}</div>
+        <div class="modal-detail"><b>Monto:</b> $${esc(String(reserva.monto))}</div>
+        <div class="modal-detail"><b>Estado Actual:</b> <span class="estado-badge estado-${esc(reserva.estado)}">${esc(reserva.estado)}</span></div>
       `;
 
       select.value = reserva.estado;
@@ -338,9 +369,11 @@
     async function changeEstado(event) {
       const nuevoEstado = event.target.value;
       if (!nuevoEstado || !currentReservaId) return;
+      const validEstados = ['confirmada','cancelada','completada','no_show'];
+      if (!validEstados.includes(nuevoEstado)) return;
 
       try {
-        const res = await fetch(`${API_URL}/api/reservas/${currentReservaId}/estado`, {
+        const res = await fetch(`${API_URL}/api/reservas/${encodeURIComponent(currentReservaId)}/estado`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -371,7 +404,6 @@
       document.getElementById('password').value = '';
     }
 
-    // Iniciar
     checkSession();
   </script>
 </body>
