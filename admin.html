@@ -336,7 +336,7 @@
     function openModalByIdx(idx) {
       const r = reservasCache[idx];
       if (!r) return;
-      openModal(r._id, r);
+      openModal(r.folio, r);
     }
 
     function openModal(id, reserva) {
