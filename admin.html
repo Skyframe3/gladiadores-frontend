@@ -54,6 +54,68 @@
     .btn-login:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 107, 31, 0.5); }
     .error { color: #ff6b6b; font-size: 0.9rem; margin-top: 1rem; }
 
+    /* TABS */
+    .tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(143,255,42,0.15); }
+    .tab {
+      padding: 0.7rem 1.4rem; background: none; border: none; border-bottom: 2px solid transparent;
+      color: #B8C4AC; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+    }
+    .tab:hover { color: #EAF2E2; }
+    .tab.active { color: #8FFF2A; border-bottom-color: #8FFF2A; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-hint { color: #B8C4AC; font-size: 0.9rem; margin-bottom: 1.25rem; }
+
+    /* CATÁLOGO */
+    .ruta-card {
+      background: #12160E; border: 1px solid rgba(143,255,42,0.18); border-radius: 12px;
+      padding: 1.25rem; margin-bottom: 1rem;
+    }
+    .ruta-card.off { opacity: 0.5; }
+    .ruta-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .ruta-nombre { font-size: 1.1rem; font-weight: 700; color: #EAF2E2; }
+    .ruta-meta { color: #8A9680; font-size: 0.82rem; margin-top: 2px; }
+    .ruta-body { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid rgba(255,255,255,0.07); }
+    .bloque-lbl { color: #8FFF2A; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.1rem; }
+    .chip {
+      padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer;
+      background: rgba(143,255,42,0.13); border: 1px solid rgba(143,255,42,0.45); color: #8FFF2A;
+      font-family: inherit;
+    }
+    .chip.off { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); color: #6E7A66; text-decoration: line-through; }
+    .unidad-row {
+      display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+      padding: 0.7rem 0; border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .unidad-nombre { flex: 1; min-width: 150px; color: #EAF2E2; font-size: 0.92rem; }
+    .unidad-nombre small { display: block; color: #8A9680; font-size: 0.76rem; }
+    .precio-input {
+      width: 100px; padding: 0.45rem 0.6rem; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(143,255,42,0.2); border-radius: 8px; color: #EAF2E2; font-family: inherit;
+    }
+    .precio-input:focus { outline: none; border-color: #8FFF2A; }
+    .asientos { display: flex; gap: 4px; }
+    .asiento {
+      width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 0.8rem; font-weight: 700;
+      background: rgba(143,255,42,0.13); border: 1px solid rgba(143,255,42,0.45); color: #8FFF2A;
+      font-family: inherit;
+    }
+    .asiento.off { background: rgba(255,90,90,0.13); border-color: rgba(255,90,90,0.45); color: #FF5A5A; }
+    .switch {
+      padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; border: 1px solid;
+    }
+    .switch.on { background: rgba(143,255,42,0.13); border-color: rgba(143,255,42,0.5); color: #8FFF2A; }
+    .switch.off { background: rgba(255,90,90,0.1); border-color: rgba(255,90,90,0.4); color: #FF5A5A; }
+    .btn-guardar {
+      padding: 0.55rem 1.4rem; background: #FF6B1F; color: #fff; border: none; border-radius: 8px;
+      font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+    .btn-guardar:hover { box-shadow: 0 0 16px rgba(255,107,31,0.45); }
+    .btn-guardar:disabled { opacity: 0.5; cursor: default; box-shadow: none; }
+    .guardado { color: #8FFF2A; font-size: 0.85rem; }
+
     /* ADMIN PANEL */
     .admin-panel { display: none; }
     .admin-header {
@@ -178,7 +240,19 @@
         </div>
       </div>
 
-      <div class="reservas-table">
+      <div class="tabs">
+        <button class="tab active" data-tab="reservas" onclick="switchTab('reservas')">Reservas</button>
+        <button class="tab" data-tab="catalogo" onclick="switchTab('catalogo')">Catálogo</button>
+      </div>
+
+      <!-- CATÁLOGO -->
+      <div id="tab-catalogo" class="tab-panel">
+        <p class="tab-hint">Cambia precios, apaga rutas, unidades, horarios o asientos. Lo que apagues deja de verse en la página.</p>
+        <div id="catalogo-lista"><p style="color:#B8C4AC">Cargando catálogo...</p></div>
+      </div>
+
+      <!-- RESERVAS -->
+      <div id="tab-reservas" class="tab-panel active reservas-table">
         <table id="tabla-reservas">
           <thead>
             <tr>
@@ -395,7 +469,143 @@
 
     document.getElementById('estado-select').addEventListener('change', changeEstado);
 
+    /* ===== CATÁLOGO ===== */
+    let catalogoCache = [];
+
+    function switchTab(nombre) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === nombre));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + nombre));
+      if (nombre === 'catalogo' && catalogoCache.length === 0) loadCatalogo();
+    }
+
+    async function loadCatalogo() {
+      const cont = document.getElementById('catalogo-lista');
+      try {
+        const res = await fetch(`${API_URL}/api/catalogo/admin`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.ok && data.rutas) {
+          catalogoCache = data.rutas;
+          renderCatalogo();
+        } else {
+          cont.textContent = 'Error: ' + (data.error || 'No se pudo cargar el catálogo');
+          cont.style.color = '#ff6b6b';
+        }
+      } catch (err) {
+        cont.textContent = 'Error de conexión';
+        cont.style.color = '#ff6b6b';
+      }
+    }
+
+    function renderCatalogo() {
+      document.getElementById('catalogo-lista').innerHTML = catalogoCache.map((r, i) => {
+        const horarios = r.horarios.map((h, hi) =>
+          `<button class="chip ${h.activo ? '' : 'off'}" onclick="toggleHorario(${i},${hi})">${esc(h.hora)}</button>`
+        ).join('') || '<span style="color:#6E7A66;font-size:0.85rem">Sin horarios</span>';
+
+        const unidades = r.units.map((u, ui) => {
+          const asientos = Array.from({ length: u.seats }, (_, k) => {
+            const n = k + 1;
+            const bloqueado = u.booked.includes(n);
+            return `<button class="asiento ${bloqueado ? 'off' : ''}" title="${bloqueado ? 'Bloqueado' : 'Libre'}" onclick="toggleAsiento(${i},${ui},${n})">${n}</button>`;
+          }).join('');
+
+          return `<div class="unidad-row">
+            <div class="unidad-nombre">${esc(u.name)}<small>${esc(u.type)}</small></div>
+            <div>$<input class="precio-input" type="number" min="0" step="10" value="${esc(String(u.price))}" oninput="setPrecio(${i},${ui},this.value)"></div>
+            <div class="asientos">${asientos}</div>
+            <button class="switch ${u.activo ? 'on' : 'off'}" onclick="toggleUnidad(${i},${ui})">${u.activo ? 'Activa' : 'Apagada'}</button>
+          </div>`;
+        }).join('');
+
+        return `<div class="ruta-card ${r.activo ? '' : 'off'}">
+          <div class="ruta-top">
+            <div>
+              <div class="ruta-nombre">${esc(r.name)}</div>
+              <div class="ruta-meta">${esc(r.diff)} · ${esc(r.dur)} · ${esc(r.dist)}</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <span class="guardado" id="ok-${i}"></span>
+              <button class="switch ${r.activo ? 'on' : 'off'}" onclick="toggleRuta(${i})">${r.activo ? 'Publicada' : 'Oculta'}</button>
+              <button class="btn-guardar" id="save-${i}" onclick="guardarRuta(${i})">Guardar</button>
+            </div>
+          </div>
+          <div class="ruta-body">
+            <div class="bloque-lbl">HORARIOS</div>
+            <div class="chips">${horarios}</div>
+            <div class="bloque-lbl">UNIDADES Y ASIENTOS</div>
+            ${unidades || '<p style="color:#6E7A66;font-size:0.85rem">Sin unidades</p>'}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function toggleRuta(i) {
+      catalogoCache[i].activo = !catalogoCache[i].activo;
+      renderCatalogo();
+    }
+
+    function toggleHorario(i, hi) {
+      const h = catalogoCache[i].horarios[hi];
+      h.activo = !h.activo;
+      renderCatalogo();
+    }
+
+    function toggleUnidad(i, ui) {
+      const u = catalogoCache[i].units[ui];
+      u.activo = !u.activo;
+      renderCatalogo();
+    }
+
+    // Un asiento "bloqueado" no se puede reservar desde la página
+    function toggleAsiento(i, ui, n) {
+      const u = catalogoCache[i].units[ui];
+      const pos = u.booked.indexOf(n);
+      if (pos === -1) u.booked.push(n);
+      else u.booked.splice(pos, 1);
+      renderCatalogo();
+    }
+
+    function setPrecio(i, ui, valor) {
+      const precio = Number(valor);
+      if (Number.isFinite(precio) && precio >= 0) catalogoCache[i].units[ui].price = precio;
+    }
+
+    async function guardarRuta(i) {
+      const r = catalogoCache[i];
+      const btn = document.getElementById('save-' + i);
+      const ok = document.getElementById('ok-' + i);
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+
+      try {
+        const res = await fetch(`${API_URL}/api/catalogo/${r.rid}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({
+            activo: r.activo,
+            horarios: r.horarios.map(h => ({ hora: h.hora, activo: h.activo })),
+            units: r.units.map(u => ({ id: u.id, price: u.price, activo: u.activo, booked: u.booked }))
+          })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          ok.textContent = '✓ Guardado';
+          setTimeout(() => { ok.textContent = ''; }, 2500);
+        } else {
+          alert('Error: ' + (data.error || 'No se pudo guardar'));
+        }
+      } catch (err) {
+        alert('Error de conexión al guardar');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Guardar';
+      }
+    }
+
     function logout() {
+      catalogoCache = [];
       localStorage.removeItem('admin_token');
       token = null;
       document.getElementById('login').style.display = 'block';

@@ -816,7 +816,9 @@ section.blk>*{position:relative;z-index:1;}
 <!-- CART -->
 <div class="cart-ovl" id="cart-ovl"><div class="cart-bk" onclick="closeCart()"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" onclick="closeCart()">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
 <script>
-const ROUTES=[
+// Catálogo de respaldo. Al cargar se reemplaza con lo que el admin
+// tenga publicado en el panel; si la API no responde, se usa esto.
+let ROUTES=[
  {id:1,name:"Mirador de Cristal",tag:"POPULAR",exp:"panoramica",img:"img/i15.jpg",gal:5,acc:"#52A030",diffC:"#E8A020",diff:"MODERADA",dur:"3 hrs",dist:"45 km",desc:"Mirador de cristal, parque, cascada y bosque. Perfecta para contemplar y vivir el off road al mismo tiempo.",terrain:["Mirador","Cascada","Bosque"],horarios:["09:00","13:00"],
    units:[{id:"U01",name:"Maverick X3",type:"SSV 4 plazas",seats:4,booked:[1,3],price:600},{id:"U02",name:"Commander Max",type:"SSV 6 plazas",seats:6,booked:[],price:550}]},
  {id:2,name:"Ruta Gran Mirador",tag:"EXTREMA",exp:"extrema",img:"img/i5.jpg",gal:8,acc:"#D46020",diffC:"#E03030",diff:"EXTREMA",dur:"3 hrs",dist:"80 km",desc:"La ruta más extrema. El mejor mirador de la Sierra Norte. Bosque, rocas y subidas que ponen a prueba todo.",terrain:["Mirador","Rocas","Extremo"],horarios:["09:00","12:00"],
@@ -922,6 +924,12 @@ window.addEventListener('scroll',()=>{document.getElementById('nav').style.backg
 // INIT
 window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('hide'),1400);setTimeout(()=>{if(!localStorage.getItem('reg_done'))openReg();},2800);});
 renderRoutes();renderUnits();renderMerch();
+// Trae el catálogo que el admin publicó y vuelve a pintar las rutas.
+// Si falla, se queda el de respaldo y la página sigue funcionando.
+fetch('https://gladiadores-backend.vercel.app/api/catalogo')
+  .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
+  .then(d=>{if(d&&d.ok&&Array.isArray(d.rutas)&&d.rutas.length){ROUTES=d.rutas;renderRoutes();}})
+  .catch(e=>console.warn('Catálogo remoto no disponible, usando respaldo:',e.message));
 
 // ── DUST PARTICLE SYSTEM ──
 (function(){
