@@ -392,7 +392,10 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
 .btn-fire{background:var(--fire);color:#140600;border:none;border-radius:11px;padding:16px 38px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:1px;box-shadow:0 0 28px rgba(255,107,31,0.45);transition:all .2s;}
 .btn-fire:hover{transform:translateY(-3px);box-shadow:0 0 42px rgba(255,107,31,0.7);}
 .slide-h1 .fire-italic{display:block;font-style:italic;font-weight:800;color:var(--fire);text-shadow:0 0 30px rgba(255,107,31,0.6);}
-.grad-text{background:linear-gradient(100deg,var(--neon),var(--fire));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;}
+/* El degradado solo se pinta dentro de la caja del elemento. Con el
+   line-height apretado del h1, la cola de la "q" caía fuera y se cortaba.
+   El line-height propio y el padding dan aire para descendentes e itálica. */
+.grad-text{background:linear-gradient(100deg,var(--neon),var(--fire));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;line-height:1.06;padding-bottom:0.14em;padding-right:0.06em;}
 .rc.extrema{border-color:rgba(255,107,31,0.18);}
 .rc.extrema:hover{border-color:rgba(255,107,31,0.5);box-shadow:0 26px 60px rgba(0,0,0,.6),0 0 30px rgba(255,107,31,0.12);}
 .rc.extrema .rc-tr{background:rgba(255,107,31,0.08);border-color:rgba(255,107,31,0.18);color:#F0BE9A;}
