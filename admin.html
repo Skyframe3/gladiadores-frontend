@@ -8,42 +8,42 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #080A07;
-      color: #EAF2E2;
+      background: #0A0612;
+      color: #F2EAF7;
       min-height: 100vh;
     }
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-    h1 { color: #FF6B1F; margin-bottom: 2rem; }
+    h1 { color: #FF7A00; margin-bottom: 2rem; }
     .logo { width: 60px; height: 60px; margin-bottom: 2rem; }
-    .logo img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255, 107, 31, 0.6)); }
+    .logo img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,122,0, 0.6)); }
 
     /* LOGIN */
     .login-box {
       max-width: 400px;
       margin: 5rem auto;
-      background: #12160E;
-      border: 1px solid rgba(143, 255, 42, 0.3);
+      background: #16101F;
+      border: 1px solid rgba(176,38,255, 0.3);
       border-radius: 12px;
       padding: 2rem;
     }
-    .login-box h2 { color: #FF6B1F; margin-bottom: 1.5rem; text-align: center; }
+    .login-box h2 { color: #FF7A00; margin-bottom: 1.5rem; text-align: center; }
     .login-box .logo { text-align: center; margin-bottom: 1rem; }
     .form-group { margin-bottom: 1.5rem; }
-    .form-group label { display: block; margin-bottom: 0.5rem; color: #B8C4AC; font-size: 0.9rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; color: #BDB0C9; font-size: 0.9rem; }
     .form-group input {
       width: 100%;
       padding: 0.75rem;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(143, 255, 42, 0.2);
+      border: 1px solid rgba(176,38,255, 0.2);
       border-radius: 8px;
-      color: #EAF2E2;
+      color: #F2EAF7;
       font-family: inherit;
     }
-    .form-group input:focus { outline: none; border-color: #FF6B1F; box-shadow: 0 0 0 3px rgba(255, 107, 31, 0.15); }
+    .form-group input:focus { outline: none; border-color: #FF7A00; box-shadow: 0 0 0 3px rgba(255,122,0, 0.15); }
     .btn-login {
       width: 100%;
       padding: 0.75rem;
-      background: #FF6B1F;
+      background: #FF7A00;
       color: #fff;
       border: none;
       border-radius: 8px;
@@ -51,54 +51,54 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 107, 31, 0.5); }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(255,122,0, 0.5); }
     .error { color: #ff6b6b; font-size: 0.9rem; margin-top: 1rem; }
 
     /* TABS */
-    .tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(143,255,42,0.15); }
+    .tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(176,38,255,0.15); }
     .tab {
       padding: 0.7rem 1.4rem; background: none; border: none; border-bottom: 2px solid transparent;
-      color: #B8C4AC; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      color: #BDB0C9; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
     }
-    .tab:hover { color: #EAF2E2; }
-    .tab.active { color: #8FFF2A; border-bottom-color: #8FFF2A; }
+    .tab:hover { color: #F2EAF7; }
+    .tab.active { color: #B026FF; border-bottom-color: #B026FF; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
-    .tab-hint { color: #B8C4AC; font-size: 0.9rem; margin-bottom: 1.25rem; }
+    .tab-hint { color: #BDB0C9; font-size: 0.9rem; margin-bottom: 1.25rem; }
 
     /* CATÁLOGO */
     .ruta-card {
-      background: #12160E; border: 1px solid rgba(143,255,42,0.18); border-radius: 12px;
+      background: #16101F; border: 1px solid rgba(176,38,255,0.18); border-radius: 12px;
       padding: 1.25rem; margin-bottom: 1rem;
     }
     .ruta-card.off { opacity: 0.5; }
     .ruta-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .ruta-nombre { font-size: 1.1rem; font-weight: 700; color: #EAF2E2; }
-    .ruta-meta { color: #8A9680; font-size: 0.82rem; margin-top: 2px; }
+    .ruta-nombre { font-size: 1.1rem; font-weight: 700; color: #F2EAF7; }
+    .ruta-meta { color: #9186A0; font-size: 0.82rem; margin-top: 2px; }
     .ruta-body { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid rgba(255,255,255,0.07); }
-    .bloque-lbl { color: #8FFF2A; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .bloque-lbl { color: #B026FF; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
     .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.1rem; }
     .chip {
       padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer;
-      background: rgba(143,255,42,0.13); border: 1px solid rgba(143,255,42,0.45); color: #8FFF2A;
+      background: rgba(176,38,255,0.13); border: 1px solid rgba(176,38,255,0.45); color: #B026FF;
       font-family: inherit;
     }
-    .chip.off { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); color: #6E7A66; text-decoration: line-through; }
+    .chip.off { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); color: #6B6178; text-decoration: line-through; }
     .unidad-row {
       display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
       padding: 0.7rem 0; border-top: 1px solid rgba(255,255,255,0.05);
     }
-    .unidad-nombre { flex: 1; min-width: 150px; color: #EAF2E2; font-size: 0.92rem; }
-    .unidad-nombre small { display: block; color: #8A9680; font-size: 0.76rem; }
+    .unidad-nombre { flex: 1; min-width: 150px; color: #F2EAF7; font-size: 0.92rem; }
+    .unidad-nombre small { display: block; color: #9186A0; font-size: 0.76rem; }
     .precio-input {
       width: 100px; padding: 0.45rem 0.6rem; background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(143,255,42,0.2); border-radius: 8px; color: #EAF2E2; font-family: inherit;
+      border: 1px solid rgba(176,38,255,0.2); border-radius: 8px; color: #F2EAF7; font-family: inherit;
     }
-    .precio-input:focus { outline: none; border-color: #8FFF2A; }
+    .precio-input:focus { outline: none; border-color: #B026FF; }
     .asientos { display: flex; gap: 4px; }
     .asiento {
       width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 0.8rem; font-weight: 700;
-      background: rgba(143,255,42,0.13); border: 1px solid rgba(143,255,42,0.45); color: #8FFF2A;
+      background: rgba(176,38,255,0.13); border: 1px solid rgba(176,38,255,0.45); color: #B026FF;
       font-family: inherit;
     }
     .asiento.off { background: rgba(255,90,90,0.13); border-color: rgba(255,90,90,0.45); color: #FF5A5A; }
@@ -106,15 +106,15 @@
       padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
       font-family: inherit; border: 1px solid;
     }
-    .switch.on { background: rgba(143,255,42,0.13); border-color: rgba(143,255,42,0.5); color: #8FFF2A; }
+    .switch.on { background: rgba(176,38,255,0.13); border-color: rgba(176,38,255,0.5); color: #B026FF; }
     .switch.off { background: rgba(255,90,90,0.1); border-color: rgba(255,90,90,0.4); color: #FF5A5A; }
     .btn-guardar {
-      padding: 0.55rem 1.4rem; background: #FF6B1F; color: #fff; border: none; border-radius: 8px;
+      padding: 0.55rem 1.4rem; background: #FF7A00; color: #fff; border: none; border-radius: 8px;
       font-weight: 700; cursor: pointer; font-family: inherit;
     }
-    .btn-guardar:hover { box-shadow: 0 0 16px rgba(255,107,31,0.45); }
+    .btn-guardar:hover { box-shadow: 0 0 16px rgba(255,122,0,0.45); }
     .btn-guardar:disabled { opacity: 0.5; cursor: default; box-shadow: none; }
-    .guardado { color: #8FFF2A; font-size: 0.85rem; }
+    .guardado { color: #B026FF; font-size: 0.85rem; }
 
     /* ADMIN PANEL */
     .admin-panel { display: none; }
@@ -124,11 +124,11 @@
       align-items: center;
       margin-bottom: 2rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(255, 107, 31, 0.2);
+      border-bottom: 1px solid rgba(255,122,0, 0.2);
     }
-    .admin-user { color: #B8C4AC; font-size: 0.9rem; }
+    .admin-user { color: #BDB0C9; font-size: 0.9rem; }
     .btn-logout {
-      background: #FF6B1F;
+      background: #FF7A00;
       color: white;
       padding: 0.5rem 1rem;
       border: none;
@@ -136,12 +136,12 @@
       cursor: pointer;
       font-weight: 600;
     }
-    .btn-logout:hover { background: #e8551f; }
+    .btn-logout:hover { background: #e86200; }
 
     /* TABLA DE RESERVAS */
     .reservas-table {
-      background: #12160E;
-      border: 1px solid rgba(255, 107, 31, 0.2);
+      background: #16101F;
+      border: 1px solid rgba(255,122,0, 0.2);
       border-radius: 12px;
       overflow: hidden;
     }
@@ -150,18 +150,18 @@
       border-collapse: collapse;
     }
     th {
-      background: rgba(255, 107, 31, 0.1);
+      background: rgba(255,122,0, 0.1);
       padding: 1rem;
       text-align: left;
       font-weight: 600;
-      color: #FF6B1F;
-      border-bottom: 1px solid rgba(255, 107, 31, 0.2);
+      color: #FF7A00;
+      border-bottom: 1px solid rgba(255,122,0, 0.2);
     }
     td {
       padding: 1rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
-    tr:hover { background: rgba(255, 107, 31, 0.08); }
+    tr:hover { background: rgba(255,122,0, 0.08); }
 
     /* ESTADOS */
     .estado-badge {
@@ -180,17 +180,17 @@
     .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center; }
     .modal.open { display: flex; }
     .modal-content {
-      background: #12160E;
-      border: 1px solid rgba(255, 107, 31, 0.3);
+      background: #16101F;
+      border: 1px solid rgba(255,122,0, 0.3);
       border-radius: 12px;
       padding: 2rem;
       max-width: 500px;
       width: 90%;
     }
-    .modal-content h3 { color: #FF6B1F; margin-bottom: 1rem; }
+    .modal-content h3 { color: #FF7A00; margin-bottom: 1rem; }
     .modal-body { margin-bottom: 1.5rem; max-height: 60vh; overflow-y: auto; }
     .modal-detail { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-    .modal-detail b { color: #FF6B1F; }
+    .modal-detail b { color: #FF7A00; }
     .modal-actions {
       display: flex;
       gap: 1rem;
@@ -204,9 +204,9 @@
       font-weight: 600;
       transition: all 0.2s;
     }
-    .btn-primary { background: #FF6B1F; color: #fff; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(255, 107, 31, 0.4); }
-    .btn-secondary { background: rgba(255, 255, 255, 0.1); color: #EAF2E2; }
+    .btn-primary { background: #FF7A00; color: #fff; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(255,122,0, 0.4); }
+    .btn-secondary { background: rgba(255, 255, 255, 0.1); color: #F2EAF7; }
     .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
   </style>
 </head>
@@ -215,7 +215,7 @@
     <!-- LOGIN -->
     <div id="login" class="login-box">
       <div class="logo" style="text-align:center;">
-        <img src="img/i1.png" alt="Gladiadores Off Road" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 0 15px rgba(255,107,31,0.6));">
+        <img src="img/i1.png" alt="Gladiadores Off Road" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 0 15px rgba(255,122,0,0.6));">
       </div>
       <h2>Admin</h2>
       <div class="form-group">
@@ -248,7 +248,7 @@
       <!-- CATÁLOGO -->
       <div id="tab-catalogo" class="tab-panel">
         <p class="tab-hint">Cambia precios, apaga rutas, unidades, horarios o asientos. Lo que apagues deja de verse en la página.</p>
-        <div id="catalogo-lista"><p style="color:#B8C4AC">Cargando catálogo...</p></div>
+        <div id="catalogo-lista"><p style="color:#BDB0C9">Cargando catálogo...</p></div>
       </div>
 
       <!-- RESERVAS -->
@@ -280,7 +280,7 @@
       <h3>Detalles de Reserva</h3>
       <div class="modal-body" id="modal-body"></div>
       <div class="modal-actions">
-        <select id="estado-select" class="btn-modal" style="background: rgba(255, 255, 255, 0.1); color: #EAF2E2; font-weight: 600; cursor: pointer;">
+        <select id="estado-select" class="btn-modal" style="background: rgba(255, 255, 255, 0.1); color: #F2EAF7; font-weight: 600; cursor: pointer;">
           <option value="">-- Cambiar estado --</option>
           <option value="confirmada">✓ Confirmada</option>
           <option value="cancelada">✗ Cancelada</option>
@@ -502,7 +502,7 @@
       document.getElementById('catalogo-lista').innerHTML = catalogoCache.map((r, i) => {
         const horarios = r.horarios.map((h, hi) =>
           `<button class="chip ${h.activo ? '' : 'off'}" onclick="toggleHorario(${i},${hi})">${esc(h.hora)}</button>`
-        ).join('') || '<span style="color:#6E7A66;font-size:0.85rem">Sin horarios</span>';
+        ).join('') || '<span style="color:#6B6178;font-size:0.85rem">Sin horarios</span>';
 
         const unidades = r.units.map((u, ui) => {
           const asientos = Array.from({ length: u.seats }, (_, k) => {
@@ -535,7 +535,7 @@
             <div class="bloque-lbl">HORARIOS</div>
             <div class="chips">${horarios}</div>
             <div class="bloque-lbl">UNIDADES Y ASIENTOS</div>
-            ${unidades || '<p style="color:#6E7A66;font-size:0.85rem">Sin unidades</p>'}
+            ${unidades || '<p style="color:#6B6178;font-size:0.85rem">Sin unidades</p>'}
           </div>
         </div>`;
       }).join('');
