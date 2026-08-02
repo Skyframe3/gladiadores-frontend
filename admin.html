@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Gladiadores Off Road</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <title>Panel</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -230,6 +232,25 @@
       <div id="login-error" class="error"></div>
     </div>
 
+    <!-- PASO 2: CÓDIGO DE VERIFICACIÓN -->
+    <div id="paso-2fa" class="login-box" style="display:none">
+      <h2>Verificación</h2>
+      <p style="color:#BDB0C9;font-size:0.9rem;text-align:center;margin-bottom:1.5rem">
+        Escribe el código de 6 dígitos de tu app de autenticación.
+      </p>
+      <div class="form-group">
+        <label>Código</label>
+        <input type="text" id="codigo-2fa" inputmode="text" autocomplete="one-time-code"
+               maxlength="9" placeholder="000000" style="text-align:center;letter-spacing:0.3em;font-size:1.3rem"
+               onkeydown="if(event.key==='Enter')verificar2FA()">
+      </div>
+      <button class="btn-login" onclick="verificar2FA()">VERIFICAR</button>
+      <p style="color:#6B6178;font-size:0.8rem;text-align:center;margin-top:1rem">
+        ¿Perdiste el teléfono? Usa uno de tus códigos de respaldo.
+      </p>
+      <div id="error-2fa" class="error"></div>
+    </div>
+
     <!-- ADMIN PANEL -->
     <div id="panel" class="admin-panel">
       <div class="admin-header">
@@ -243,6 +264,13 @@
       <div class="tabs">
         <button class="tab active" data-tab="reservas" onclick="switchTab('reservas')">Reservas</button>
         <button class="tab" data-tab="catalogo" onclick="switchTab('catalogo')">Catálogo</button>
+        <button class="tab" data-tab="seguridad" onclick="switchTab('seguridad')">Seguridad</button>
+      </div>
+
+      <!-- SEGURIDAD -->
+      <div id="tab-seguridad" class="tab-panel">
+        <p class="tab-hint">Protege tu cuenta con un segundo factor. Aunque alguien descubra tu contraseña, no podrá entrar sin tu teléfono.</p>
+        <div id="seguridad-cuerpo"><p style="color:#BDB0C9">Cargando...</p></div>
       </div>
 
       <!-- CATÁLOGO -->
@@ -295,6 +323,7 @@
   <script>
     const API_URL = 'https://gladiadores-backend.vercel.app';
     let token = null;
+    let tempToken = null;
     let currentReservaId = null;
     let reservasCache = [];
 
@@ -342,7 +371,12 @@
 
         const data = await res.json();
 
-        if (data.ok) {
+        if (data.ok && data.requiere2FA) {
+          tempToken = data.tempToken;
+          document.getElementById('login').style.display = 'none';
+          document.getElementById('paso-2fa').style.display = 'block';
+          document.getElementById('codigo-2fa').focus();
+        } else if (data.ok && data.token) {
           token = data.token;
           localStorage.setItem('admin_token', token);
           loadPanel();
@@ -351,6 +385,35 @@
         }
       } catch (err) {
         errorDiv.textContent = 'Error de conexión';
+      }
+    }
+
+    async function verificar2FA() {
+      const codigo = document.getElementById('codigo-2fa').value.trim();
+      const err = document.getElementById('error-2fa');
+      err.textContent = '';
+      if (!codigo) { err.textContent = 'Escribe el código'; return; }
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/login/2fa`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tempToken, codigo })
+        });
+        const data = await res.json();
+
+        if (data.ok && data.token) {
+          token = data.token;
+          tempToken = null;
+          localStorage.setItem('admin_token', token);
+          document.getElementById('paso-2fa').style.display = 'none';
+          loadPanel();
+        } else {
+          err.textContent = data.error || 'Código incorrecto';
+          document.getElementById('codigo-2fa').value = '';
+        }
+      } catch (e) {
+        err.textContent = 'Error de conexión';
       }
     }
 
@@ -476,6 +539,137 @@
       document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === nombre));
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + nombre));
       if (nombre === 'catalogo' && catalogoCache.length === 0) loadCatalogo();
+      if (nombre === 'seguridad') loadSeguridad();
+    }
+
+    /* ===== SEGURIDAD / 2FA ===== */
+    async function loadSeguridad() {
+      const c = document.getElementById('seguridad-cuerpo');
+      try {
+        const res = await fetch(`${API_URL}/api/auth/verify`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (!data.ok) { c.textContent = 'No se pudo cargar'; return; }
+        renderSeguridad(data.admin.totpActivo);
+      } catch (e) {
+        c.textContent = 'Error de conexión';
+      }
+    }
+
+    function renderSeguridad(activo) {
+      document.getElementById('seguridad-cuerpo').innerHTML = activo
+        ? `<div class="ruta-card">
+             <div class="ruta-top">
+               <div>
+                 <div class="ruta-nombre">Segundo factor activo</div>
+                 <div class="ruta-meta">Tu cuenta pide un código además de la contraseña.</div>
+               </div>
+               <button class="switch off" onclick="desactivar2FA()">Desactivar</button>
+             </div>
+           </div>`
+        : `<div class="ruta-card">
+             <div class="ruta-top">
+               <div>
+                 <div class="ruta-nombre">Segundo factor desactivado</div>
+                 <div class="ruta-meta">Hoy tu cuenta solo está protegida por la contraseña.</div>
+               </div>
+               <button class="btn-guardar" onclick="preparar2FA()">Activar ahora</button>
+             </div>
+           </div>`;
+    }
+
+    async function preparar2FA() {
+      const c = document.getElementById('seguridad-cuerpo');
+      c.innerHTML = '<p style="color:#BDB0C9">Generando código...</p>';
+      try {
+        const res = await fetch(`${API_URL}/api/auth/2fa/preparar`, {
+          method: 'POST', headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const d = await res.json();
+        if (!d.ok) { c.textContent = d.error || 'Error'; return; }
+
+        c.innerHTML = `<div class="ruta-card">
+          <div class="ruta-nombre" style="margin-bottom:1rem">Escanea este código</div>
+          <p style="color:#BDB0C9;font-size:0.9rem;margin-bottom:1rem">
+            Ábrelo con Google Authenticator, Authy o 1Password. Si no puedes escanear,
+            captura esta clave a mano: <code style="color:#B026FF;letter-spacing:0.1em">${esc(d.secret)}</code>
+          </p>
+          <img src="${esc(d.qr)}" alt="Código QR" style="border-radius:10px;background:#fff;padding:8px">
+          <div style="margin-top:1.2rem;max-width:320px">
+            <label style="display:block;color:#BDB0C9;font-size:0.85rem;margin-bottom:0.5rem">
+              Escribe el código que aparece en la app
+            </label>
+            <div style="display:flex;gap:8px">
+              <input class="precio-input" id="codigo-activar" maxlength="6" inputmode="numeric"
+                     placeholder="000000" style="width:130px;text-align:center;letter-spacing:0.2em">
+              <button class="btn-guardar" onclick="activar2FA()">Confirmar</button>
+            </div>
+            <div id="error-activar" class="error"></div>
+          </div>
+        </div>`;
+      } catch (e) {
+        c.textContent = 'Error de conexión';
+      }
+    }
+
+    async function activar2FA() {
+      const codigo = document.getElementById('codigo-activar').value.trim();
+      const err = document.getElementById('error-activar');
+      err.textContent = '';
+      if (!codigo) { err.textContent = 'Escribe el código'; return; }
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/2fa/activar`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ codigo })
+        });
+        const d = await res.json();
+        if (!d.ok) { err.textContent = d.error || 'Código incorrecto'; return; }
+
+        // Los códigos de respaldo solo se muestran esta vez
+        document.getElementById('seguridad-cuerpo').innerHTML = `<div class="ruta-card">
+          <div class="ruta-nombre" style="color:#B026FF">Segundo factor activado</div>
+          <p style="color:#BDB0C9;font-size:0.9rem;margin:0.8rem 0">
+            Guarda estos códigos de respaldo en un lugar seguro. Sirven una sola vez cada uno
+            y son tu única forma de entrar si pierdes el teléfono.
+            <b style="color:#FF7A00">No se volverán a mostrar.</b>
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:1rem 0">
+            ${d.codigosRespaldo.map(c => `<code style="background:rgba(176,38,255,0.1);border:1px solid rgba(176,38,255,0.3);padding:0.5rem;border-radius:6px;text-align:center;color:#F2EAF7;letter-spacing:0.06em">${esc(c)}</code>`).join('')}
+          </div>
+          <button class="btn-guardar" onclick="copiarCodigos(this)"
+                  data-codigos="${esc(d.codigosRespaldo.join('\n'))}">Copiar códigos</button>
+          <button class="switch on" style="margin-left:8px" onclick="renderSeguridad(true)">Ya los guardé</button>
+        </div>`;
+      } catch (e) {
+        err.textContent = 'Error de conexión';
+      }
+    }
+
+    function copiarCodigos(btn) {
+      navigator.clipboard.writeText(btn.dataset.codigos).then(() => {
+        btn.textContent = 'Copiados';
+        setTimeout(() => { btn.textContent = 'Copiar códigos'; }, 2000);
+      });
+    }
+
+    async function desactivar2FA() {
+      const password = prompt('Confirma tu contraseña para desactivar el segundo factor:');
+      if (!password) return;
+      try {
+        const res = await fetch(`${API_URL}/api/auth/2fa/desactivar`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ password })
+        });
+        const d = await res.json();
+        if (d.ok) renderSeguridad(false);
+        else alert(d.error || 'No se pudo desactivar');
+      } catch (e) {
+        alert('Error de conexión');
+      }
     }
 
     async function loadCatalogo() {
@@ -606,6 +800,8 @@
 
     function logout() {
       catalogoCache = [];
+      tempToken = null;
+      document.getElementById('paso-2fa').style.display = 'none';
       localStorage.removeItem('admin_token');
       token = null;
       document.getElementById('login').style.display = 'block';
