@@ -24,7 +24,7 @@
       max-width: 400px;
       margin: 5rem auto;
       background: #16101F;
-      border: 1px solid rgba(176,38,255, 0.3);
+      border: 1px solid rgba(105,217,0, 0.3);
       border-radius: 12px;
       padding: 2rem;
     }
@@ -36,7 +36,7 @@
       width: 100%;
       padding: 0.75rem;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(176,38,255, 0.2);
+      border: 1px solid rgba(105,217,0, 0.2);
       border-radius: 8px;
       color: #F2EAF7;
       font-family: inherit;
@@ -57,20 +57,20 @@
     .error { color: #ff6b6b; font-size: 0.9rem; margin-top: 1rem; }
 
     /* TABS */
-    .tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(176,38,255,0.15); }
+    .tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(105,217,0,0.15); }
     .tab {
       padding: 0.7rem 1.4rem; background: none; border: none; border-bottom: 2px solid transparent;
       color: #BDB0C9; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
     }
     .tab:hover { color: #F2EAF7; }
-    .tab.active { color: #B026FF; border-bottom-color: #B026FF; }
+    .tab.active { color: #69D900; border-bottom-color: #69D900; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
     .tab-hint { color: #BDB0C9; font-size: 0.9rem; margin-bottom: 1.25rem; }
 
     /* CATÁLOGO */
     .ruta-card {
-      background: #16101F; border: 1px solid rgba(176,38,255,0.18); border-radius: 12px;
+      background: #16101F; border: 1px solid rgba(105,217,0,0.18); border-radius: 12px;
       padding: 1.25rem; margin-bottom: 1rem;
     }
     .ruta-card.off { opacity: 0.5; }
@@ -78,11 +78,11 @@
     .ruta-nombre { font-size: 1.1rem; font-weight: 700; color: #F2EAF7; }
     .ruta-meta { color: #9186A0; font-size: 0.82rem; margin-top: 2px; }
     .ruta-body { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid rgba(255,255,255,0.07); }
-    .bloque-lbl { color: #B026FF; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .bloque-lbl { color: #69D900; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
     .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.1rem; }
     .chip {
       padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer;
-      background: rgba(176,38,255,0.13); border: 1px solid rgba(176,38,255,0.45); color: #B026FF;
+      background: rgba(105,217,0,0.13); border: 1px solid rgba(105,217,0,0.45); color: #69D900;
       font-family: inherit;
     }
     .chip.off { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); color: #6B6178; text-decoration: line-through; }
@@ -94,13 +94,13 @@
     .unidad-nombre small { display: block; color: #9186A0; font-size: 0.76rem; }
     .precio-input {
       width: 100px; padding: 0.45rem 0.6rem; background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(176,38,255,0.2); border-radius: 8px; color: #F2EAF7; font-family: inherit;
+      border: 1px solid rgba(105,217,0,0.2); border-radius: 8px; color: #F2EAF7; font-family: inherit;
     }
-    .precio-input:focus { outline: none; border-color: #B026FF; }
+    .precio-input:focus { outline: none; border-color: #69D900; }
     .asientos { display: flex; gap: 4px; }
     .asiento {
       width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 0.8rem; font-weight: 700;
-      background: rgba(176,38,255,0.13); border: 1px solid rgba(176,38,255,0.45); color: #B026FF;
+      background: rgba(105,217,0,0.13); border: 1px solid rgba(105,217,0,0.45); color: #69D900;
       font-family: inherit;
     }
     .asiento.off { background: rgba(255,90,90,0.13); border-color: rgba(255,90,90,0.45); color: #FF5A5A; }
@@ -108,7 +108,7 @@
       padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
       font-family: inherit; border: 1px solid;
     }
-    .switch.on { background: rgba(176,38,255,0.13); border-color: rgba(176,38,255,0.5); color: #B026FF; }
+    .switch.on { background: rgba(105,217,0,0.13); border-color: rgba(105,217,0,0.5); color: #69D900; }
     .switch.off { background: rgba(255,90,90,0.1); border-color: rgba(255,90,90,0.4); color: #FF5A5A; }
     .btn-guardar {
       padding: 0.55rem 1.4rem; background: #FF7A00; color: #fff; border: none; border-radius: 8px;
@@ -116,7 +116,7 @@
     }
     .btn-guardar:hover { box-shadow: 0 0 16px rgba(255,122,0,0.45); }
     .btn-guardar:disabled { opacity: 0.5; cursor: default; box-shadow: none; }
-    .guardado { color: #B026FF; font-size: 0.85rem; }
+    .guardado { color: #69D900; font-size: 0.85rem; }
 
     /* ADMIN PANEL */
     .admin-panel { display: none; }
@@ -216,10 +216,10 @@
   <div class="container">
     <!-- LOGIN -->
     <div id="login" class="login-box">
-      <div class="logo" style="text-align:center;">
-        <img src="img/i1.png" alt="Gladiadores Off Road" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 0 15px rgba(255,122,0,0.6));">
+      <div style="width:100px;height:100px;margin:0 auto 1.2rem;">
+        <img src="img/i1.png" alt="Gladiadores Off Road" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 15px rgba(255,122,0,0.6));">
       </div>
-      <h2>Admin</h2>
+      <h2 style="text-align:center">Admin</h2>
       <div class="form-group">
         <label>Email</label>
         <input type="email" id="email" placeholder="tu@email.com">
@@ -589,7 +589,7 @@
             Instrucciones adicionales (promociones vigentes, tono, cosas que no debe decir). Se le inyectan al agente en cada conversación.
           </label>
           <textarea id="agente-instrucciones" rows="6" maxlength="2000"
-            style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(176,38,255,0.25);border-radius:10px;padding:0.8rem;color:#F2EAF7;font-family:inherit;font-size:0.9rem;resize:vertical"
+            style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(105,217,0,0.25);border-radius:10px;padding:0.8rem;color:#F2EAF7;font-family:inherit;font-size:0.9rem;resize:vertical"
             placeholder="Ej: Este fin de semana hay 15% de descuento en Ruta del Río. No ofrezcas descuentos que no estén aquí.">${esc(config.instrucciones || '')}</textarea>
           <div style="margin-top:0.8rem;display:flex;align-items:center;gap:12px">
             <button class="btn-guardar" onclick="guardarInstruccionesAgente()">Guardar</button>
@@ -683,7 +683,7 @@
           <div class="ruta-nombre" style="margin-bottom:1rem">Escanea este código</div>
           <p style="color:#BDB0C9;font-size:0.9rem;margin-bottom:1rem">
             Ábrelo con Google Authenticator, Authy o 1Password. Si no puedes escanear,
-            captura esta clave a mano: <code style="color:#B026FF;letter-spacing:0.1em">${esc(d.secret)}</code>
+            captura esta clave a mano: <code style="color:#69D900;letter-spacing:0.1em">${esc(d.secret)}</code>
           </p>
           <img src="${esc(d.qr)}" alt="Código QR" style="border-radius:10px;background:#fff;padding:8px">
           <div style="margin-top:1.2rem;max-width:320px">
@@ -720,14 +720,14 @@
 
         // Los códigos de respaldo solo se muestran esta vez
         document.getElementById('seguridad-cuerpo').innerHTML = `<div class="ruta-card">
-          <div class="ruta-nombre" style="color:#B026FF">Segundo factor activado</div>
+          <div class="ruta-nombre" style="color:#69D900">Segundo factor activado</div>
           <p style="color:#BDB0C9;font-size:0.9rem;margin:0.8rem 0">
             Guarda estos códigos de respaldo en un lugar seguro. Sirven una sola vez cada uno
             y son tu única forma de entrar si pierdes el teléfono.
             <b style="color:#FF7A00">No se volverán a mostrar.</b>
           </p>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:1rem 0">
-            ${d.codigosRespaldo.map(c => `<code style="background:rgba(176,38,255,0.1);border:1px solid rgba(176,38,255,0.3);padding:0.5rem;border-radius:6px;text-align:center;color:#F2EAF7;letter-spacing:0.06em">${esc(c)}</code>`).join('')}
+            ${d.codigosRespaldo.map(c => `<code style="background:rgba(105,217,0,0.1);border:1px solid rgba(105,217,0,0.3);padding:0.5rem;border-radius:6px;text-align:center;color:#F2EAF7;letter-spacing:0.06em">${esc(c)}</code>`).join('')}
           </div>
           <button class="btn-guardar" onclick="copiarCodigos(this)"
                   data-codigos="${esc(d.codigosRespaldo.join('\n'))}">Copiar códigos</button>
