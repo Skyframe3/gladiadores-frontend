@@ -818,7 +818,12 @@
           <div class="ruta-body">
             <div class="bloque-lbl">HORARIOS</div>
             <div class="chips">${horarios}</div>
-            <div class="bloque-lbl">UNIDADES Y ASIENTOS</div>
+            <div style="display:flex;gap:8px;margin-top:0.6rem;align-items:center">
+              <input type="time" id="nuevo-horario-${i}" class="precio-input" style="width:120px">
+              <button class="btn-guardar" style="padding:0.4rem 1rem;font-size:0.85rem" onclick="agregarHorario(${i})">+ Agregar horario</button>
+            </div>
+            <div class="bloque-lbl" style="margin-top:1.1rem">UNIDADES Y ASIENTOS</div>
+            <p class="ruta-meta" style="margin-bottom:0.8rem">Precio en $0 y apagada = no se vende en la página. Súbele precio y actívala para publicarla.</p>
             ${unidades || '<p style="color:#6B6178;font-size:0.85rem">Sin unidades</p>'}
           </div>
         </div>`;
@@ -833,6 +838,17 @@
     function toggleHorario(i, hi) {
       const h = catalogoCache[i].horarios[hi];
       h.activo = !h.activo;
+      renderCatalogo();
+    }
+
+    function agregarHorario(i) {
+      const input = document.getElementById('nuevo-horario-' + i);
+      const hora = input.value;
+      if (!hora) return;
+      const ya = catalogoCache[i].horarios.some(h => h.hora === hora);
+      if (ya) { alert('Ese horario ya existe en esta ruta'); return; }
+      catalogoCache[i].horarios.push({ hora, activo: true });
+      catalogoCache[i].horarios.sort((a, b) => a.hora.localeCompare(b.hora));
       renderCatalogo();
     }
 
