@@ -225,7 +225,7 @@ section.blk{padding:90px 34px;}
 .units-grid{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
 .uc{background:linear-gradient(160deg,var(--card),#0D0A16);border-radius:18px;border:1px solid rgba(105,217,0,0.1);overflow:hidden;transition:transform .25s,border-color .25s;}
 .uc:hover{transform:translateY(-6px);border-color:rgba(105,217,0,0.35);}
-.uc-img{height:280px;background:radial-gradient(ellipse at 50% 85%,rgba(105,217,0,0.10),transparent 65%),linear-gradient(180deg,#0A0D07,#0F1409);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}.uc-img::after{content:'';position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:70%;height:14px;background:radial-gradient(ellipse,rgba(0,0,0,0.65),transparent 70%);filter:blur(4px);}
+.uc-img{height:280px;background:radial-gradient(ellipse at 50% 85%,rgba(105,217,0,0.10),transparent 65%),rgba(8,10,7,0.55);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}.uc-img::after{content:'';position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:70%;height:14px;background:radial-gradient(ellipse,rgba(0,0,0,0.65),transparent 70%);filter:blur(4px);}
 .uc-img img{width:100%;height:100%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 14px 22px rgba(0,0,0,0.7));transition:transform .35s;padding:10px;}.uc:hover .uc-img img{transform:scale(1.06) translateY(-4px);}
 .uc-body{padding:20px 22px 22px;}
 .uc-cat{color:var(--neon);font-size:11px;font-weight:700;letter-spacing:2px;}
@@ -328,6 +328,16 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(105,2
 .chat-q:hover{background:rgba(105,217,0,0.15);}
 .chat-foot{padding:14px 18px;background:var(--card);border-top:1px solid rgba(255,255,255,0.06);}
 .chat-wa-btn{width:100%;background:#25D366;color:#fff;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.chat-input-row{padding:10px 18px;background:#0B0811;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;}
+.chat-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(105,217,0,0.25);border-radius:20px;padding:10px 16px;color:var(--ink);font-size:13px;font-family:'Inter';outline:none;}
+.chat-input:focus{border-color:var(--neon);}
+.chat-send{background:var(--neon);color:#0D0618;border:none;border-radius:50%;width:38px;height:38px;flex-shrink:0;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.chat-typing{display:flex;gap:4px;padding:11px 14px;background:var(--card);border-radius:12px;border-top-left-radius:2px;width:fit-content;}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:typingBounce 1.2s infinite;}
+.chat-typing span:nth-child(2){animation-delay:.2s;}
+.chat-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}
+.chat-msg.user{background:var(--neon);color:#0D0618;align-self:flex-end;border-top-left-radius:12px;border-top-right-radius:2px;}
 
 /* REG POPUP (reuse) */
 .reg-overlay{position:fixed;inset:0;z-index:2000;background:transparent;pointer-events:none;display:none;align-items:flex-end;justify-content:flex-end;padding:20px;opacity:0;transition:opacity .4s;}
@@ -901,18 +911,22 @@ section.blk>*{position:relative;z-index:1;}
   <div class="foot-bottom">© 2026 Gladiadores Off Road · Todos los derechos reservados · Hecho en la Sierra Norte de Puebla</div>
 </footer>
 
-<!-- CHATBOT WHATSAPP -->
+<!-- AGENTE DE CHAT -->
 <button class="chat-fab" onclick="toggleChat()" id="chat-fab" aria-label="Abrir chat"><img src="img/i1.png" alt=""/></button>
 <div class="chat-win" id="chat-win">
-  <div class="chat-head"><img src="img/i1.png"/><div class="ct"><b>Gladiadores Off Road</b><small>En línea · Responde al instante</small></div><button class="chat-x" onclick="toggleChat()">✕</button></div>
-  <div class="chat-body" id="chat-body"><div class="chat-msg">¡Hola! Soy el asistente de Gladiadores Off Road. ¿En qué te puedo ayudar?</div></div>
+  <div class="chat-head"><img src="img/i1.png"/><div class="ct"><b>Gladiadores Off Road</b><small>Agente virtual · Responde al instante</small></div><button class="chat-x" onclick="toggleChat()">✕</button></div>
+  <div class="chat-body" id="chat-body"><div class="chat-msg">¡Hola! Soy el agente de Gladiadores Off Road. Pregúntame por rutas, precios, horarios o cómo reservar.</div></div>
   <div class="chat-quick" id="chat-quick">
-    <button class="chat-q" onclick="chatAsk('rutas')">¿Qué rutas tienen?</button>
-    <button class="chat-q" onclick="chatAsk('precios')">¿Cuánto cuesta?</button>
-    <button class="chat-q" onclick="chatAsk('reserva')">Quiero reservar</button>
-    <button class="chat-q" onclick="chatAsk('ubicacion')">¿Dónde están?</button>
+    <button class="chat-q" onclick="chatSugerido('¿Qué rutas tienen?')">¿Qué rutas tienen?</button>
+    <button class="chat-q" onclick="chatSugerido('¿Cuánto cuesta?')">¿Cuánto cuesta?</button>
+    <button class="chat-q" onclick="chatSugerido('Quiero reservar')">Quiero reservar</button>
+    <button class="chat-q" onclick="chatSugerido('¿Dónde están ubicados?')">¿Dónde están?</button>
   </div>
-  <div class="chat-foot"><button class="chat-wa-btn" onclick="goWhatsApp()">Continuar en WhatsApp</button></div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu pregunta..." maxlength="600" onkeydown="if(event.key==='Enter')enviarChat();"/>
+    <button class="chat-send" onclick="enviarChat()" aria-label="Enviar">➤</button>
+  </div>
+  <div class="chat-foot"><button class="chat-wa-btn" onclick="goWhatsApp()">Hablar con un asesor por WhatsApp</button></div>
 </div>
 
 <!-- POPUP REGISTRO -->
@@ -962,10 +976,10 @@ let ROUTES=[
 // máquina viven en el backend (models/Unidad.js) y salen por /api/disponibilidad.
 const UNITS_FLEET=[
  {img:"img/i18.png",cat:"ATV CUATRIMOTO",name:"Outlander ATV",power:"500 cc",seats:"2 plazas",qty:"2 unidades",tag:"Ágil y potente"},
- {img:"img/i17.png",cat:"SSV FAMILIAR",name:"Commander Max",power:"700 cc",seats:"4 plazas",qty:"3 unidades",tag:"Ideal para grupos"},
- {img:"img/i17.png",cat:"SSV COMPACTO",name:"Commander Max",power:"700 cc",seats:"2 plazas",qty:"1 unidad",tag:"Compacta para parejas"},
- {img:"img/i16.png",cat:"SSV MÁXIMO RENDIMIENTO",name:"Maverick X3 Turbo",power:"195 HP",seats:"4 plazas",qty:"5 unidades",tag:"Máximo rendimiento"},
- {img:"img/i16.png",cat:"SSV BIPLAZA",name:"Maverick X3 Turbo",power:"195 HP",seats:"2 plazas",qty:"1 unidad",tag:"Adrenalina en pareja"}
+ {img:"img/unidades/commander-2p.avif",cat:"SSV COMPACTO",name:"Commander Max",power:"700 cc",seats:"2 plazas",qty:"1 unidad",tag:"Compacta para parejas"},
+ {img:"img/unidades/commander-2p.avif",cat:"SSV FAMILIAR",name:"Commander Max",power:"700 cc",seats:"4 plazas",qty:"3 unidades",tag:"Ideal para grupos"},
+ {img:"img/unidades/maverick-4p.avif",cat:"SSV MÁXIMO RENDIMIENTO",name:"Maverick X3 Turbo",power:"195 HP",seats:"4 plazas",qty:"5 unidades",tag:"Máximo rendimiento"},
+ {img:"img/unidades/maverick-2p.avif",cat:"SSV BIPLAZA",name:"Maverick X3 Turbo",power:"195 HP",seats:"2 plazas",qty:"1 unidad",tag:"Adrenalina en pareja"}
 ];
 const MERCH=[{id:1,emo:"",name:"Visor Táctico",price:450,tag:"PROTECCIÓN"},{id:2,emo:"",name:"Jersey Oficial",price:650,tag:"EDICIÓN LTD"},{id:3,emo:"",name:"Guantes de Ruta",price:390,tag:"GRIP PRO"},{id:4,emo:"",name:"Gorra Táctica",price:280,tag:"ACCESORIOS"},{id:5,emo:"",name:"Playera Gladiador",price:320,tag:"ALGODÓN"},{id:6,emo:"",name:"Linterna Táctica",price:395,tag:"EQUIPO"}];
 const EXTRAS=[{id:"e1",emo:"",name:"Sesión de fotos profesional",desc:"Fotógrafo con dron durante tu ruta",price:800},{id:"e2",emo:"",name:"Video de la aventura",desc:"Edición cinematográfica de tu recorrido",price:1200},{id:"e3",emo:"",name:"Comida en ruta",desc:"Picnic gourmet a media aventura",price:250},{id:"e4",emo:"",name:"Decoración para evento especial",desc:"Cumpleaños, pedida de mano, aniversarios",price:1500}];
@@ -1030,12 +1044,69 @@ function closeReg(){document.getElementById('reg-overlay').classList.remove('ope
 function submitReg(){const n=document.getElementById('r-nombre').value,e=document.getElementById('r-email').value;if(!n||!e){alert('Completa nombre y correo');return;}document.getElementById('reg-form-wrap').style.display='none';document.getElementById('reg-success').classList.add('show');localStorage.setItem('reg_done','1');}
 
 // CHATBOT
-function toggleChat(){document.getElementById('chat-win').classList.toggle('open');}
-function chatAsk(t){const body=document.getElementById('chat-body');const R={rutas:"Tenemos más de 9 rutas 100% garantizadas: Ruta del Río, La Ruta Clásica, Senderos y Cascada, Ruta Gran Mirador, Aventura Nocturna, Cascada Iluminada, Luciérnagas (temporada), Amanecer en la Montaña, Experiencia Mezcal y Expedición al Volcán. ¿Cuál te llama la atención?",precios:"Nuestras rutas van desde $550 hasta $900 por asiento según la ruta y unidad. Solo pagas el 25% de anticipo para apartar tu lugar. ¿Te ayudo a reservar?",reserva:"¡Perfecto! Puedes reservar aquí mismo eligiendo ruta, horario, unidad y asientos. O si prefieres atención personalizada, te paso a WhatsApp.",ubicacion:"Estamos en Chignahuapan, Puebla (Sierra Norte). Toca el botón de abajo y te comparto la ubicación exacta por WhatsApp."};
-  const q=document.querySelector(`[onclick="chatAsk('${t}')"]`).textContent;
-  body.innerHTML+=`<div class="chat-msg" style="background:var(--neon);color:#0D0618;align-self:flex-end;border-top-left-radius:12px;border-top-right-radius:2px">${q}</div>`;
-  setTimeout(()=>{body.innerHTML+=`<div class="chat-msg">${R[t]}</div>`;body.scrollTop=body.scrollHeight;},500);
-  body.scrollTop=body.scrollHeight;}
+function toggleChat(){document.getElementById('chat-win').classList.toggle('open');document.getElementById('chat-input').focus();}
+
+// Agente real (Claude) del lado del backend. El historial se manda completo
+// en cada mensaje porque el servidor no guarda sesión de chat.
+let chatHistorial=[];
+let chatEnviando=false;
+
+function pintarMsg(texto,esUsuario){
+  const body=document.getElementById('chat-body');
+  const div=document.createElement('div');
+  div.className='chat-msg'+(esUsuario?' user':'');
+  div.textContent=texto;
+  body.appendChild(div);
+  body.scrollTop=body.scrollHeight;
+}
+
+function mostrarEscribiendo(){
+  const body=document.getElementById('chat-body');
+  const t=document.createElement('div');
+  t.className='chat-typing';t.id='chat-typing-ind';
+  t.innerHTML='<span></span><span></span><span></span>';
+  body.appendChild(t);
+  body.scrollTop=body.scrollHeight;
+}
+function quitarEscribiendo(){document.getElementById('chat-typing-ind')?.remove();}
+
+function chatSugerido(texto){
+  document.getElementById('chat-input').value=texto;
+  enviarChat();
+}
+
+async function enviarChat(){
+  if(chatEnviando)return;
+  const input=document.getElementById('chat-input');
+  const texto=input.value.trim();
+  if(!texto)return;
+
+  document.getElementById('chat-quick').style.display='none';
+  pintarMsg(texto,true);
+  chatHistorial.push({role:'user',content:texto});
+  input.value='';
+  chatEnviando=true;
+  mostrarEscribiendo();
+
+  try{
+    const res=await fetch(`${API}/api/chatbot/mensaje`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({conversacion:chatHistorial})
+    });
+    const data=await res.json();
+    quitarEscribiendo();
+    const respuesta=data.respuesta||'Tuve un problema. Mejor escríbeme por WhatsApp.';
+    pintarMsg(respuesta,false);
+    chatHistorial.push({role:'assistant',content:respuesta});
+  }catch(err){
+    quitarEscribiendo();
+    pintarMsg('No pude conectar. Escríbeme directo por WhatsApp para ayudarte mejor.',false);
+  }finally{
+    chatEnviando=false;
+  }
+}
+
 function goWhatsApp(){window.open('https://wa.me/527971001929?text=Hola!%20Vengo%20de%20la%20p%C3%A1gina%20y%20quiero%20info%20sobre%20las%20rutas','_blank');}
 
 // REVEAL on scroll

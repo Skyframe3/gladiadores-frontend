@@ -265,6 +265,13 @@
         <button class="tab active" data-tab="reservas" onclick="switchTab('reservas')">Reservas</button>
         <button class="tab" data-tab="catalogo" onclick="switchTab('catalogo')">Catálogo</button>
         <button class="tab" data-tab="seguridad" onclick="switchTab('seguridad')">Seguridad</button>
+        <button class="tab" data-tab="agente" id="tab-btn-agente" onclick="switchTab('agente')" style="display:none">Agente IA</button>
+      </div>
+
+      <!-- AGENTE IA (solo dueño) -->
+      <div id="tab-agente" class="tab-panel">
+        <p class="tab-hint">El agente responde en el chat del sitio con Claude, usando las rutas y la flota activas. Solo el dueño puede tocar esto.</p>
+        <div id="agente-cuerpo"><p style="color:#BDB0C9">Cargando...</p></div>
       </div>
 
       <!-- SEGURIDAD -->
@@ -424,6 +431,13 @@
       const payload = JSON.parse(atob(token.split('.')[1]));
       document.getElementById('admin-name').textContent = payload.email;
 
+      // El botón de Agente IA solo lo ve el dueño: el backend igual lo
+      // bloquea con ownerMiddleware, esto es nada más para no confundir
+      // a un manager con un botón que le va a dar 403.
+      if (payload.role === 'owner') {
+        document.getElementById('tab-btn-agente').style.display = '';
+      }
+
       loadReservas();
     }
 
@@ -540,6 +554,82 @@
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + nombre));
       if (nombre === 'catalogo' && catalogoCache.length === 0) loadCatalogo();
       if (nombre === 'seguridad') loadSeguridad();
+      if (nombre === 'agente') loadAgente();
+    }
+
+    /* ===== AGENTE IA (solo dueño) ===== */
+    async function loadAgente() {
+      const c = document.getElementById('agente-cuerpo');
+      c.innerHTML = '<p style="color:#BDB0C9">Cargando...</p>';
+      try {
+        const res = await fetch(`${API_URL}/api/admin/agente`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const d = await res.json();
+        if (!d.ok) { c.textContent = d.error || 'No se pudo cargar'; return; }
+        renderAgente(d.config);
+      } catch (e) {
+        c.textContent = 'Error de conexión';
+      }
+    }
+
+    function renderAgente(config) {
+      document.getElementById('agente-cuerpo').innerHTML = `
+        <div class="ruta-card">
+          <div class="ruta-top">
+            <div>
+              <div class="ruta-nombre">${config.activo ? 'Agente activo' : 'Agente apagado'}</div>
+              <div class="ruta-meta">${config.activo ? 'Responde en el chat del sitio ahora mismo.' : 'El chat cae directo a WhatsApp mientras esté apagado.'}</div>
+            </div>
+            <button class="switch ${config.activo ? 'on' : 'off'}" onclick="toggleAgente(${!config.activo})">${config.activo ? 'Apagar' : 'Encender'}</button>
+          </div>
+        </div>
+        <div class="ruta-card" style="margin-top:1rem">
+          <label style="display:block;color:#BDB0C9;font-size:0.85rem;margin-bottom:0.6rem">
+            Instrucciones adicionales (promociones vigentes, tono, cosas que no debe decir). Se le inyectan al agente en cada conversación.
+          </label>
+          <textarea id="agente-instrucciones" rows="6" maxlength="2000"
+            style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(105,217,0,0.25);border-radius:10px;padding:0.8rem;color:#F2EAF7;font-family:inherit;font-size:0.9rem;resize:vertical"
+            placeholder="Ej: Este fin de semana hay 15% de descuento en Ruta del Río. No ofrezcas descuentos que no estén aquí.">${esc(config.instrucciones || '')}</textarea>
+          <div style="margin-top:0.8rem;display:flex;align-items:center;gap:12px">
+            <button class="btn-guardar" onclick="guardarInstruccionesAgente()">Guardar</button>
+            <span id="agente-guardado" class="guardado" style="opacity:0"></span>
+          </div>
+        </div>`;
+    }
+
+    async function toggleAgente(nuevoValor) {
+      try {
+        const res = await fetch(`${API_URL}/api/admin/agente`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ activo: nuevoValor })
+        });
+        const d = await res.json();
+        if (d.ok) renderAgente(d.config);
+        else alert(d.error || 'No se pudo actualizar');
+      } catch (e) {
+        alert('Error de conexión');
+      }
+    }
+
+    async function guardarInstruccionesAgente() {
+      const instrucciones = document.getElementById('agente-instrucciones').value;
+      try {
+        const res = await fetch(`${API_URL}/api/admin/agente`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ instrucciones })
+        });
+        const d = await res.json();
+        if (!d.ok) { alert(d.error || 'No se pudo guardar'); return; }
+        const aviso = document.getElementById('agente-guardado');
+        aviso.textContent = 'Guardado';
+        aviso.style.opacity = 1;
+        setTimeout(() => { aviso.style.opacity = 0; }, 2000);
+      } catch (e) {
+        alert('Error de conexión');
+      }
     }
 
     /* ===== SEGURIDAD / 2FA ===== */
