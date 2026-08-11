@@ -827,6 +827,27 @@
               <button class="btn-guardar" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="guardarFoto(${i})">Guardar foto</button>
               <span class="guardado" id="ok-img-${i}"></span>
             </div>
+
+            <div class="bloque-lbl">GALERÍA (hasta 10 fotos) Y VIDEO</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0.8rem">
+              ${(r.galeria || []).map((g, gi) => `
+                <div style="position:relative">
+                  <img src="${esc(g)}" onerror="this.style.opacity='0.25'" style="width:70px;height:50px;object-fit:cover;border-radius:6px;border:1px solid rgba(105,217,0,0.2)">
+                  <button onclick="quitarFotoGaleria(${i},${gi})" title="Quitar" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#ff5a5a;color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1">✕</button>
+                </div>`).join('') || '<span style="color:#6B6178;font-size:0.85rem">Sin fotos en la galería</span>'}
+            </div>
+            ${(r.galeria || []).length >= 10
+              ? '<p class="ruta-meta" style="margin-bottom:0.8rem">Ya tienes 10 fotos (el máximo). Quita alguna para agregar otra.</p>'
+              : `<div style="display:flex;gap:8px;margin-bottom:0.8rem;align-items:center">
+                  <input type="text" id="nueva-foto-${i}" class="precio-input" style="flex:1;width:auto" placeholder="Ruta o URL de otra foto para la galería">
+                  <button class="btn-guardar" style="padding:0.4rem 1rem;font-size:0.85rem" onclick="agregarFotoGaleria(${i})">+ Agregar a galería</button>
+                </div>`}
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:1.1rem">
+              <input type="text" id="video-${i}" class="precio-input" style="flex:1;width:auto" placeholder="Liga de YouTube o Instagram (opcional)" value="${esc(r.video || '')}">
+              <button class="btn-guardar" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="guardarGaleria(${i})">Guardar galería y video</button>
+              <span class="guardado" id="ok-gal-${i}"></span>
+            </div>
+
             <div class="bloque-lbl">HORARIOS</div>
             <div class="chips">${horarios}</div>
             <div style="display:flex;gap:8px;margin-top:0.6rem;align-items:center">
@@ -951,6 +972,45 @@
         alert('Error de conexión al guardar la foto');
       }
       setTimeout(() => { const el = document.getElementById('ok-img-' + i); if (el) el.textContent = ''; }, 2500);
+    }
+
+    function agregarFotoGaleria(i) {
+      const input = document.getElementById('nueva-foto-' + i);
+      const url = input.value.trim();
+      if (!url) return;
+      if (!catalogoCache[i].galeria) catalogoCache[i].galeria = [];
+      if (catalogoCache[i].galeria.length >= 10) { alert('Ya tienes 10 fotos, el máximo por ruta'); return; }
+      catalogoCache[i].galeria.push(url);
+      renderCatalogo();
+    }
+
+    function quitarFotoGaleria(i, gi) {
+      catalogoCache[i].galeria.splice(gi, 1);
+      renderCatalogo();
+    }
+
+    async function guardarGaleria(i) {
+      const videoInput = document.getElementById('video-' + i);
+      catalogoCache[i].video = videoInput.value.trim();
+      const ok = document.getElementById('ok-gal-' + i);
+      ok.textContent = '...';
+      try {
+        const res = await fetch(`${API_URL}/api/catalogo/${catalogoCache[i].rid}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ galeria: catalogoCache[i].galeria || [], video: catalogoCache[i].video })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          ok.textContent = '✓ Guardado';
+          renderCatalogo();
+        } else {
+          alert('Error: ' + (data.error || 'No se pudo guardar la galería'));
+        }
+      } catch (err) {
+        alert('Error de conexión al guardar la galería');
+      }
+      setTimeout(() => { const el = document.getElementById('ok-gal-' + i); if (el) el.textContent = ''; }, 2500);
     }
 
     function logout() {
