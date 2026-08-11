@@ -884,10 +884,10 @@
           </div>
           <div class="ruta-body">
             <div class="bloque-lbl">FOTO DE PORTADA</div>
-            <div style="display:flex;gap:12px;align-items:center;margin-bottom:1.1rem">
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:1.1rem;flex-wrap:wrap">
               <img src="${esc(r.img || '')}" onerror="this.style.display='none'" style="width:90px;height:60px;object-fit:cover;border-radius:8px;border:1px solid rgba(105,217,0,0.2);background:rgba(255,255,255,0.03)">
-              <input type="text" id="img-${i}" class="precio-input" style="flex:1;width:auto" placeholder="Ruta o URL de la imagen (ej. img/i15.jpg)" value="${esc(r.img || '')}">
-              <button class="btn-guardar" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="guardarFoto(${i})">Guardar foto</button>
+              <input type="file" id="file-portada-${i}" accept="image/*" style="display:none" onchange="subirPortada(${i}, this)">
+              <button class="btn-guardar" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="document.getElementById('file-portada-${i}').click()">Elegir foto de mi compu</button>
               <span class="guardado" id="ok-img-${i}"></span>
             </div>
 
@@ -902,12 +902,13 @@
             ${(r.galeria || []).length >= 10
               ? '<p class="ruta-meta" style="margin-bottom:0.8rem">Ya tienes 10 fotos (el máximo). Quita alguna para agregar otra.</p>'
               : `<div style="display:flex;gap:8px;margin-bottom:0.8rem;align-items:center">
-                  <input type="text" id="nueva-foto-${i}" class="precio-input" style="flex:1;width:auto" placeholder="Ruta o URL de otra foto para la galería">
-                  <button class="btn-guardar" style="padding:0.4rem 1rem;font-size:0.85rem" onclick="agregarFotoGaleria(${i})">+ Agregar a galería</button>
+                  <input type="file" id="file-galeria-${i}" accept="image/*" multiple style="display:none" onchange="subirGaleria(${i}, this)">
+                  <button class="btn-guardar" style="padding:0.4rem 1rem;font-size:0.85rem" onclick="document.getElementById('file-galeria-${i}').click()">+ Agregar fotos de mi compu</button>
+                  <span class="guardado" id="ok-subida-${i}"></span>
                 </div>`}
             <div style="display:flex;gap:8px;align-items:center;margin-bottom:1.1rem">
               <input type="text" id="video-${i}" class="precio-input" style="flex:1;width:auto" placeholder="Liga de YouTube o Instagram (opcional)" value="${esc(r.video || '')}">
-              <button class="btn-guardar" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="guardarGaleria(${i})">Guardar galería y video</button>
+              <button class="btn-guardar" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="guardarGaleria(${i})">Guardar video</button>
               <span class="guardado" id="ok-gal-${i}"></span>
             </div>
 
@@ -1013,43 +1014,86 @@
       setTimeout(() => { ok.textContent = ''; }, 2000);
     }
 
-    async function guardarFoto(i) {
-      const input = document.getElementById('img-' + i);
-      catalogoCache[i].img = input.value.trim();
+    // Sube el archivo real al servidor y devuelve su URL pública.
+    // Guardar la ruta local del archivo (/Users/.../foto.jpg) no sirve:
+    // el navegador de un visitante no puede leer el disco del dueño.
+    async function subirArchivo(file) {
+      const fd = new FormData();
+      fd.append('foto', file);
+      const res = await fetch(`${API_URL}/api/admin/upload`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: fd
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'No se pudo subir la foto');
+      return data.url;
+    }
+
+    async function guardarCampoRuta(i, campos) {
+      const res = await fetch(`${API_URL}/api/catalogo/${catalogoCache[i].rid}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(campos)
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'No se pudo guardar');
+      return data;
+    }
+
+    async function subirPortada(i, input) {
+      const file = input.files[0];
+      if (!file) return;
       const ok = document.getElementById('ok-img-' + i);
-      ok.textContent = '...';
+      ok.textContent = 'Subiendo...';
       try {
-        const res = await fetch(`${API_URL}/api/catalogo/${catalogoCache[i].rid}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ img: catalogoCache[i].img })
-        });
-        const data = await res.json();
-        if (data.ok) {
-          ok.textContent = '✓ Guardado';
-          renderCatalogo();
-        } else {
-          alert('Error: ' + (data.error || 'No se pudo guardar la foto'));
-        }
+        const url = await subirArchivo(file);
+        catalogoCache[i].img = url;
+        await guardarCampoRuta(i, { img: url });
+        ok.textContent = '✓ Guardado';
+        renderCatalogo();
       } catch (err) {
-        alert('Error de conexión al guardar la foto');
+        ok.textContent = '';
+        alert(err.message);
       }
-      setTimeout(() => { const el = document.getElementById('ok-img-' + i); if (el) el.textContent = ''; }, 2500);
+      input.value = '';
     }
 
-    function agregarFotoGaleria(i) {
-      const input = document.getElementById('nueva-foto-' + i);
-      const url = input.value.trim();
-      if (!url) return;
+    async function subirGaleria(i, input) {
+      const files = Array.from(input.files || []);
+      if (!files.length) return;
       if (!catalogoCache[i].galeria) catalogoCache[i].galeria = [];
-      if (catalogoCache[i].galeria.length >= 10) { alert('Ya tienes 10 fotos, el máximo por ruta'); return; }
-      catalogoCache[i].galeria.push(url);
-      renderCatalogo();
+
+      const espacio = 10 - catalogoCache[i].galeria.length;
+      if (espacio <= 0) { alert('Ya tienes 10 fotos, el máximo por ruta'); input.value = ''; return; }
+      const aSubir = files.slice(0, espacio);
+      if (files.length > espacio) alert(`Solo caben ${espacio} foto(s) más; se subirán las primeras ${espacio}.`);
+
+      const ok = document.getElementById('ok-subida-' + i);
+      try {
+        for (let n = 0; n < aSubir.length; n++) {
+          if (ok) ok.textContent = `Subiendo ${n + 1} de ${aSubir.length}...`;
+          const url = await subirArchivo(aSubir[n]);
+          catalogoCache[i].galeria.push(url);
+        }
+        await guardarCampoRuta(i, { galeria: catalogoCache[i].galeria });
+        if (ok) ok.textContent = '✓ Guardado';
+        renderCatalogo();
+      } catch (err) {
+        if (ok) ok.textContent = '';
+        alert(err.message);
+      }
+      input.value = '';
     }
 
-    function quitarFotoGaleria(i, gi) {
+    async function quitarFotoGaleria(i, gi) {
       catalogoCache[i].galeria.splice(gi, 1);
       renderCatalogo();
+      try {
+        await guardarCampoRuta(i, { galeria: catalogoCache[i].galeria });
+      } catch (err) {
+        alert('Se quitó de la vista pero no se pudo guardar: ' + err.message);
+      }
     }
 
     async function guardarGaleria(i) {
@@ -1058,20 +1102,11 @@
       const ok = document.getElementById('ok-gal-' + i);
       ok.textContent = '...';
       try {
-        const res = await fetch(`${API_URL}/api/catalogo/${catalogoCache[i].rid}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({ galeria: catalogoCache[i].galeria || [], video: catalogoCache[i].video })
-        });
-        const data = await res.json();
-        if (data.ok) {
-          ok.textContent = '✓ Guardado';
-          renderCatalogo();
-        } else {
-          alert('Error: ' + (data.error || 'No se pudo guardar la galería'));
-        }
+        await guardarCampoRuta(i, { video: catalogoCache[i].video });
+        ok.textContent = '✓ Guardado';
       } catch (err) {
-        alert('Error de conexión al guardar la galería');
+        ok.textContent = '';
+        alert(err.message);
       }
       setTimeout(() => { const el = document.getElementById('ok-gal-' + i); if (el) el.textContent = ''; }, 2500);
     }
