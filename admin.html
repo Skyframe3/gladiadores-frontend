@@ -264,8 +264,19 @@
       <div class="tabs">
         <button class="tab active" data-tab="reservas" onclick="switchTab('reservas')">Reservas</button>
         <button class="tab" data-tab="catalogo" onclick="switchTab('catalogo')">Catálogo</button>
+        <button class="tab" data-tab="flotilla" onclick="switchTab('flotilla')">Flotilla</button>
         <button class="tab" data-tab="seguridad" onclick="switchTab('seguridad')">Seguridad</button>
         <button class="tab" data-tab="agente" id="tab-btn-agente" onclick="switchTab('agente')" style="display:none">Agente IA</button>
+      </div>
+
+      <!-- FLOTILLA: disponibilidad real por fecha -->
+      <div id="tab-flotilla" class="tab-panel">
+        <p class="tab-hint">Aquí ves, para cualquier fecha, cuáles de tus 12 unidades ya están apartadas y en qué ruta. Esto es lo que de verdad se descuenta cuando alguien reserva en la página — no depende de lo que apagues a mano en Catálogo.</p>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:1.2rem">
+          <input type="date" id="flotilla-fecha" class="precio-input" style="width:170px">
+          <button class="btn-guardar" onclick="cargarFlotilla()">Consultar</button>
+        </div>
+        <div id="flotilla-cuerpo"><p style="color:#BDB0C9">Elige una fecha</p></div>
       </div>
 
       <!-- AGENTE IA (solo dueño) -->
@@ -555,6 +566,58 @@
       if (nombre === 'catalogo' && catalogoCache.length === 0) loadCatalogo();
       if (nombre === 'seguridad') loadSeguridad();
       if (nombre === 'agente') loadAgente();
+      if (nombre === 'flotilla') {
+        const input = document.getElementById('flotilla-fecha');
+        if (!input.value) input.value = new Date().toISOString().slice(0, 10);
+        cargarFlotilla();
+      }
+    }
+
+    /* ===== FLOTILLA: disponibilidad real por fecha ===== */
+    const NOMBRE_TIPO = { cuatrimoto: 'Cuatrimotos', commander: 'Commanders', maverick: 'Mavericks' };
+
+    async function cargarFlotilla() {
+      const fecha = document.getElementById('flotilla-fecha').value;
+      const cuerpo = document.getElementById('flotilla-cuerpo');
+      if (!fecha) { cuerpo.innerHTML = '<p style="color:#BDB0C9">Elige una fecha</p>'; return; }
+      cuerpo.innerHTML = '<p style="color:#BDB0C9">Consultando...</p>';
+      try {
+        const res = await fetch(`${API_URL}/api/disponibilidad?fecha=${fecha}`);
+        const data = await res.json();
+        if (!data.ok) { cuerpo.textContent = data.error || 'No se pudo consultar'; return; }
+        renderFlotilla(data.todas || []);
+      } catch (err) {
+        cuerpo.textContent = 'Error de conexión';
+      }
+    }
+
+    function renderFlotilla(todas) {
+      const cuerpo = document.getElementById('flotilla-cuerpo');
+      const libres = todas.filter(u => u.libre).length;
+      const grupos = {};
+      todas.forEach(u => { (grupos[u.tipo] = grupos[u.tipo] || []).push(u); });
+
+      const resumen = `<p class="ruta-meta" style="margin-bottom:1rem">
+        <b style="color:#69D900">${libres} libres</b> de ${todas.length} unidades ese día.
+      </p>`;
+
+      const bloques = Object.entries(grupos).map(([tipo, lista]) => `
+        <div class="bloque-lbl" style="margin-top:0.9rem">${NOMBRE_TIPO[tipo] || tipo}</div>
+        ${lista.map(u => `
+          <div class="unidad-row">
+            <div class="unidad-nombre">${esc(u.apodo)}<small>${esc(u.nombreCompleto)}${!u.activo ? ' · en mantenimiento' : ''}</small></div>
+            <div>
+              ${u.libre
+                ? '<span class="switch on">Libre</span>'
+                : `<span class="switch off">${u.activo ? 'Ocupada' : 'Fuera de servicio'}</span>`}
+            </div>
+            <div style="flex:1;text-align:right;color:#BDB0C9;font-size:0.85rem">
+              ${u.ocupacion ? `Folio ${esc(u.ocupacion.folio)} · ${esc(u.ocupacion.ruta)} · ${esc(u.ocupacion.cliente || '')}` : ''}
+            </div>
+          </div>`).join('')}
+      `).join('');
+
+      cuerpo.innerHTML = resumen + bloques;
     }
 
     /* ===== AGENTE IA (solo dueño) ===== */
