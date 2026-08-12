@@ -3,12 +3,68 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.gladiadoresoffroad.com/</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://www.gladiadoresoffroad.com/img/i2.jpg</image:loc>
-      <image:title>Gladiadores Off Road — Rutas 4x4 en la Sierra Norte de Puebla</image:title>
+      <image:title>Gladiadores Off Road — Rutas 4x4 en Chignahuapan, Sierra Norte de Puebla</image:title>
+      <image:caption>Vehículos 4x4 Can-Am recorriendo senderos de la Sierra Norte de Puebla</image:caption>
     </image:image>
+    <image:image>
+      <image:loc>https://www.gladiadoresoffroad.com/img/i3.jpg</image:loc>
+      <image:title>Ruta extrema cruzando río en vehículo 4x4</image:title>
+      <image:caption>Maverick X3 cruzando un vado en la Sierra Norte de Puebla</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.gladiadoresoffroad.com/img/i4.jpg</image:loc>
+      <image:title>Flota Can-Am de Gladiadores Off Road</image:title>
+      <image:caption>Maverick X3, Commander Max y cuatrimotos Can-Am listos para la aventura</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.gladiadoresoffroad.com/img/i5.jpg</image:loc>
+      <image:title>Ruta nocturna especial en Chignahuapan</image:title>
+      <image:caption>Recorrido nocturno por los bosques de Chignahuapan, Puebla</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.gladiadoresoffroad.com/img/i1.png</image:loc>
+      <image:title>Logo de Gladiadores Off Road</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.gladiadoresoffroad.com/img/i6.jpg</image:loc>
+      <image:title>Paisajes de la Sierra Norte de Puebla desde un mirador</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.gladiadoresoffroad.com/img/i7.jpg</image:loc>
+      <image:title>Grupo de aventureros en vehículos 4x4 en Chignahuapan</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.gladiadoresoffroad.com/img/i10.jpg</image:loc>
+      <image:title>Cascada en la ruta 4x4 de Chignahuapan</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.gladiadoresoffroad.com/img/i11.jpg</image:loc>
+      <image:title>Bosque de la Sierra Norte durante recorrido off road</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gladiadoresoffroad.com/#rutas</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.gladiadoresoffroad.com/#unidades</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.gladiadoresoffroad.com/#chigna</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gladiadoresoffroad.com/#galeria</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
