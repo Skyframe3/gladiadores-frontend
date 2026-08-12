@@ -1023,27 +1023,21 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="bloque-lbl">Foto de portada</div>
-            <div style="display:flex;gap:12px;align-items:center;margin-bottom:1rem;flex-wrap:wrap">
-              <img src="${esc(r.img || '')}" onerror="this.style.display='none'" style="width:90px;height:60px;object-fit:cover;border-radius:8px;border:1px solid #333;background:#222428">
-              <input type="file" id="file-portada-${i}" accept="image/*" style="display:none" onchange="subirPortada(${i}, this)">
-              <button class="btn-action sm secondary" onclick="document.getElementById('file-portada-${i}').click()">Elegir foto</button>
-              <span class="saved" id="ok-img-${i}"></span>
-            </div>
-
-            <div class="bloque-lbl">Galería (hasta 10 fotos) y video</div>
+            <div class="bloque-lbl">Fotos (hasta 10) — haz clic en una para hacerla portada</div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0.8rem">
-              ${(r.galeria || []).map((g, gi) => `
-                <div style="position:relative">
-                  <img src="${esc(g)}" onerror="this.style.opacity='0.25'" style="width:70px;height:50px;object-fit:cover;border-radius:6px;border:1px solid #333">
-                  <button onclick="quitarFotoGaleria(${i},${gi})" title="Quitar" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#ff5a5a;color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1">✕</button>
-                </div>`).join('') || '<span style="color:#555;font-size:0.82rem">Sin fotos</span>'}
+              ${(r.galeria || []).map((g, gi) => {
+                const esPortada = g === r.img;
+                return `<div style="position:relative;cursor:pointer" onclick="hacerPortada(${i},${gi})" title="${esPortada ? 'Esta es la portada' : 'Hacer portada'}">
+                  <img src="${esc(g)}" onerror="this.style.opacity='0.25'" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:2px solid ${esPortada ? '#FF7A00' : '#333'};${esPortada ? 'box-shadow:0 0 8px rgba(255,122,0,0.4)' : ''}">
+                  ${esPortada ? '<span style="position:absolute;bottom:2px;left:2px;background:#FF7A00;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;letter-spacing:0.05em">PORTADA</span>' : ''}
+                  <button onclick="event.stopPropagation();quitarFotoGaleria(${i},${gi})" title="Quitar" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#ff5a5a;color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1">✕</button>
+                </div>`}).join('') || '<span style="color:#555;font-size:0.82rem">Sin fotos — sube la primera</span>'}
             </div>
             ${(r.galeria || []).length >= 10
               ? '<p style="color:#777;font-size:0.82rem;margin-bottom:0.8rem">Máximo de 10 fotos alcanzado.</p>'
               : `<div style="display:flex;gap:8px;margin-bottom:0.8rem;align-items:center">
                   <input type="file" id="file-galeria-${i}" accept="image/*" multiple style="display:none" onchange="subirGaleria(${i}, this)">
-                  <button class="btn-action sm secondary" onclick="document.getElementById('file-galeria-${i}').click()">Agregar fotos</button>
+                  <button class="btn-action sm secondary" onclick="document.getElementById('file-galeria-${i}').click()">Subir fotos</button>
                   <span class="saved" id="ok-subida-${i}"></span>
                 </div>`}
             <div style="display:flex;gap:8px;align-items:center;margin-bottom:1rem">
@@ -1155,22 +1149,16 @@
       return data;
     }
 
-    async function subirPortada(i, input) {
-      const file = input.files[0];
-      if (!file) return;
-      const ok = document.getElementById('ok-img-' + i);
-      ok.textContent = 'Subiendo...';
+    async function hacerPortada(i, gi) {
+      const url = catalogoCache[i].galeria[gi];
+      if (!url || url === catalogoCache[i].img) return;
+      catalogoCache[i].img = url;
+      renderCatalogo();
       try {
-        const url = await subirArchivo(file);
-        catalogoCache[i].img = url;
         await guardarCampoRuta(i, { img: url });
-        ok.textContent = 'Guardado';
-        renderCatalogo();
       } catch (err) {
-        ok.textContent = '';
-        alert(err.message);
+        alert('No se pudo guardar la portada: ' + err.message);
       }
-      input.value = '';
     }
 
     async function subirGaleria(i, input) {
@@ -1190,7 +1178,12 @@
           const url = await subirArchivo(aSubir[n]);
           catalogoCache[i].galeria.push(url);
         }
-        await guardarCampoRuta(i, { galeria: catalogoCache[i].galeria });
+        const campos = { galeria: catalogoCache[i].galeria };
+        if (!catalogoCache[i].img && catalogoCache[i].galeria.length > 0) {
+          catalogoCache[i].img = catalogoCache[i].galeria[0];
+          campos.img = catalogoCache[i].img;
+        }
+        await guardarCampoRuta(i, campos);
         if (ok) ok.textContent = 'Guardado';
         renderCatalogo();
       } catch (err) {
@@ -1201,10 +1194,15 @@
     }
 
     async function quitarFotoGaleria(i, gi) {
-      catalogoCache[i].galeria.splice(gi, 1);
+      const quitada = catalogoCache[i].galeria.splice(gi, 1)[0];
+      const campos = { galeria: catalogoCache[i].galeria };
+      if (catalogoCache[i].img === quitada) {
+        catalogoCache[i].img = catalogoCache[i].galeria[0] || '';
+        campos.img = catalogoCache[i].img;
+      }
       renderCatalogo();
       try {
-        await guardarCampoRuta(i, { galeria: catalogoCache[i].galeria });
+        await guardarCampoRuta(i, campos);
       } catch (err) {
         alert('Se quitó de la vista pero no se pudo guardar: ' + err.message);
       }
