@@ -5,43 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
   <meta name="referrer" content="no-referrer">
-  <title>Panel</title>
+  <title>Panel — Gladiadores Off Road</title>
+  <link rel="icon" href="img/i1.png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0A0612;
-      color: #F2EAF7;
+      background: #111214;
+      color: #E8E8E8;
       min-height: 100vh;
     }
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-    h1 { color: #FF7A00; margin-bottom: 2rem; }
-    .logo { width: 60px; height: 60px; margin-bottom: 2rem; }
-    .logo img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,122,0, 0.6)); }
 
     /* LOGIN */
     .login-box {
       max-width: 400px;
       margin: 5rem auto;
-      background: #16101F;
-      border: 1px solid rgba(105,217,0, 0.3);
+      background: #1A1C1F;
+      border: 1px solid #2A2D32;
       border-radius: 12px;
       padding: 2rem;
     }
-    .login-box h2 { color: #FF7A00; margin-bottom: 1.5rem; text-align: center; }
-    .login-box .logo { text-align: center; margin-bottom: 1rem; }
+    .login-box h2 { color: #E8E8E8; margin-bottom: 1.5rem; text-align: center; font-size: 1.3rem; font-weight: 700; }
     .form-group { margin-bottom: 1.5rem; }
-    .form-group label { display: block; margin-bottom: 0.5rem; color: #BDB0C9; font-size: 0.9rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; color: #999; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
     .form-group input {
       width: 100%;
       padding: 0.75rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(105,217,0, 0.2);
+      background: #222428;
+      border: 1px solid #333;
       border-radius: 8px;
-      color: #F2EAF7;
+      color: #E8E8E8;
       font-family: inherit;
+      font-size: 0.95rem;
     }
-    .form-group input:focus { outline: none; border-color: #FF7A00; box-shadow: 0 0 0 3px rgba(255,122,0, 0.15); }
+    .form-group input:focus { outline: none; border-color: #FF7A00; box-shadow: 0 0 0 3px rgba(255,122,0,0.12); }
     .btn-login {
       width: 100%;
       padding: 0.75rem;
@@ -50,176 +48,218 @@
       border: none;
       border-radius: 8px;
       font-weight: 700;
+      font-size: 0.95rem;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(255,122,0, 0.5); }
-    .error { color: #ff6b6b; font-size: 0.9rem; margin-top: 1rem; }
+    .btn-login:hover { background: #e86e00; }
+    .error { color: #ff6b6b; font-size: 0.85rem; margin-top: 1rem; }
 
-    /* TABS */
-    .tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(105,217,0,0.15); }
-    .tab {
-      padding: 0.7rem 1.4rem; background: none; border: none; border-bottom: 2px solid transparent;
-      color: #BDB0C9; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
-    }
-    .tab:hover { color: #F2EAF7; }
-    .tab.active { color: #69D900; border-bottom-color: #69D900; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-    .tab-hint { color: #BDB0C9; font-size: 0.9rem; margin-bottom: 1.25rem; }
-
-    /* CATÁLOGO */
-    .ruta-card {
-      background: #16101F; border: 1px solid rgba(105,217,0,0.18); border-radius: 12px;
-      padding: 1.25rem; margin-bottom: 1rem;
-    }
-    .ruta-card.off { opacity: 0.5; }
-    .ruta-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .ruta-nombre { font-size: 1.1rem; font-weight: 700; color: #F2EAF7; }
-    .ruta-meta { color: #9186A0; font-size: 0.82rem; margin-top: 2px; }
-    .ruta-body { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid rgba(255,255,255,0.07); }
-    .bloque-lbl { color: #69D900; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
-    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.1rem; }
-    .chip {
-      padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.85rem; cursor: pointer;
-      background: rgba(105,217,0,0.13); border: 1px solid rgba(105,217,0,0.45); color: #69D900;
-      font-family: inherit;
-    }
-    .chip.off { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); color: #6B6178; text-decoration: line-through; }
-    .unidad-row {
-      display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
-      padding: 0.7rem 0; border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    .unidad-nombre { flex: 1; min-width: 150px; color: #F2EAF7; font-size: 0.92rem; }
-    .unidad-nombre small { display: block; color: #9186A0; font-size: 0.76rem; }
-    .precio-input {
-      width: 100px; padding: 0.45rem 0.6rem; background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(105,217,0,0.2); border-radius: 8px; color: #F2EAF7; font-family: inherit;
-    }
-    .precio-input:focus { outline: none; border-color: #69D900; }
-    .asientos { display: flex; gap: 4px; }
-    .asiento {
-      width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 0.8rem; font-weight: 700;
-      background: rgba(105,217,0,0.13); border: 1px solid rgba(105,217,0,0.45); color: #69D900;
-      font-family: inherit;
-    }
-    .asiento.off { background: rgba(255,90,90,0.13); border-color: rgba(255,90,90,0.45); color: #FF5A5A; }
-    .switch {
-      padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
-      font-family: inherit; border: 1px solid;
-    }
-    .switch.on { background: rgba(105,217,0,0.13); border-color: rgba(105,217,0,0.5); color: #69D900; }
-    .switch.off { background: rgba(255,90,90,0.1); border-color: rgba(255,90,90,0.4); color: #FF5A5A; }
-    .btn-guardar {
-      padding: 0.55rem 1.4rem; background: #FF7A00; color: #fff; border: none; border-radius: 8px;
-      font-weight: 700; cursor: pointer; font-family: inherit;
-    }
-    .btn-guardar:hover { box-shadow: 0 0 16px rgba(255,122,0,0.45); }
-    .btn-guardar:disabled { opacity: 0.5; cursor: default; box-shadow: none; }
-    .guardado { color: #69D900; font-size: 0.85rem; }
-
-    /* ADMIN PANEL */
-    .admin-panel { display: none; }
+    /* HEADER */
     .admin-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(255,122,0, 0.2);
+      border-bottom: 1px solid #2A2D32;
     }
-    .admin-user { color: #BDB0C9; font-size: 0.9rem; }
+    .admin-title { font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+    .admin-user { color: #888; font-size: 0.85rem; margin-bottom: 6px; }
     .btn-logout {
-      background: #FF7A00;
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
+      background: transparent;
+      color: #999;
+      padding: 0.45rem 0.9rem;
+      border: 1px solid #333;
       border-radius: 6px;
       cursor: pointer;
       font-weight: 600;
-    }
-    .btn-logout:hover { background: #e86200; }
-
-    /* TABLA DE RESERVAS */
-    .reservas-table {
-      background: #16101F;
-      border: 1px solid rgba(255,122,0, 0.2);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th {
-      background: rgba(255,122,0, 0.1);
-      padding: 1rem;
-      text-align: left;
-      font-weight: 600;
-      color: #FF7A00;
-      border-bottom: 1px solid rgba(255,122,0, 0.2);
-    }
-    td {
-      padding: 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    tr:hover { background: rgba(255,122,0, 0.08); }
-
-    /* ESTADOS */
-    .estado-badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    .estado-confirmada { background: rgba(76, 175, 80, 0.2); color: #4caf50; }
-    .estado-cancelada { background: rgba(244, 67, 54, 0.2); color: #f44336; }
-    .estado-completada { background: rgba(33, 150, 243, 0.2); color: #2196f3; }
-    .estado-no_show { background: rgba(255, 152, 0, 0.2); color: #ff9800; }
-
-    /* MODAL */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center; }
-    .modal.open { display: flex; }
-    .modal-content {
-      background: #16101F;
-      border: 1px solid rgba(255,122,0, 0.3);
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 500px;
-      width: 90%;
-    }
-    .modal-content h3 { color: #FF7A00; margin-bottom: 1rem; }
-    .modal-body { margin-bottom: 1.5rem; max-height: 60vh; overflow-y: auto; }
-    .modal-detail { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-    .modal-detail b { color: #FF7A00; }
-    .modal-actions {
-      display: flex;
-      gap: 1rem;
-    }
-    .btn-modal {
-      flex: 1;
-      padding: 0.75rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
+      font-size: 0.85rem;
       transition: all 0.2s;
     }
+    .btn-logout:hover { border-color: #ff6b6b; color: #ff6b6b; }
+
+    /* TABS */
+    .tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; border-bottom: 1px solid #2A2D32; overflow-x: auto; }
+    .tab {
+      padding: 0.65rem 1.2rem; background: none; border: none; border-bottom: 2px solid transparent;
+      color: #777; font-family: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: color 0.2s;
+    }
+    .tab:hover { color: #ccc; }
+    .tab.active { color: #FF7A00; border-bottom-color: #FF7A00; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-hint { color: #777; font-size: 0.85rem; margin-bottom: 1.25rem; line-height: 1.6; }
+
+    /* CARDS */
+    .card {
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 10px;
+      padding: 1.25rem; margin-bottom: 0.75rem;
+    }
+    .card.off { opacity: 0.45; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .card-name { font-size: 1.05rem; font-weight: 700; color: #fff; }
+    .card-meta { color: #777; font-size: 0.8rem; margin-top: 2px; }
+    .card-body { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #222428; }
+    .bloque-lbl { color: #FF7A00; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+    .chip {
+      padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.82rem; cursor: pointer;
+      background: rgba(255,122,0,0.08); border: 1px solid rgba(255,122,0,0.3); color: #FF7A00;
+      font-family: inherit; transition: all 0.15s;
+    }
+    .chip:hover { background: rgba(255,122,0,0.15); }
+    .chip.off { background: #1E2024; border-color: #333; color: #555; text-decoration: line-through; }
+    .unidad-row {
+      display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+      padding: 0.7rem 0; border-top: 1px solid #222428;
+    }
+    .unidad-nombre { flex: 1; min-width: 150px; color: #E8E8E8; font-size: 0.9rem; }
+    .unidad-nombre small { display: block; color: #777; font-size: 0.75rem; }
+    .precio-input {
+      width: 100px; padding: 0.45rem 0.6rem; background: #222428;
+      border: 1px solid #333; border-radius: 8px; color: #E8E8E8; font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .precio-input:focus { outline: none; border-color: #FF7A00; }
+    .asientos { display: flex; gap: 4px; }
+    .asiento {
+      width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 0.8rem; font-weight: 700;
+      background: rgba(255,122,0,0.08); border: 1px solid rgba(255,122,0,0.3); color: #FF7A00;
+      font-family: inherit;
+    }
+    .asiento.off { background: rgba(255,90,90,0.08); border-color: rgba(255,90,90,0.3); color: #FF5A5A; }
+    .switch {
+      padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; border: 1px solid; transition: all 0.15s;
+    }
+    .switch.on { background: rgba(76,175,80,0.1); border-color: rgba(76,175,80,0.4); color: #4caf50; }
+    .switch.off { background: rgba(255,90,90,0.08); border-color: rgba(255,90,90,0.3); color: #FF5A5A; }
+    .btn-action {
+      padding: 0.5rem 1.2rem; background: #FF7A00; color: #fff; border: none; border-radius: 8px;
+      font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+    .btn-action:hover { background: #e86e00; }
+    .btn-action:disabled { opacity: 0.4; cursor: default; }
+    .btn-action.sm { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
+    .btn-action.secondary { background: transparent; border: 1px solid #333; color: #999; }
+    .btn-action.secondary:hover { border-color: #FF7A00; color: #FF7A00; }
+    .btn-action.danger { background: transparent; border: 1px solid #333; color: #ff6b6b; }
+    .btn-action.danger:hover { border-color: #ff6b6b; background: rgba(255,90,90,0.08); }
+    .saved { color: #4caf50; font-size: 0.82rem; }
+
+    /* ADMIN PANEL */
+    .admin-panel { display: none; }
+
+    /* TABLE */
+    .table-wrap {
+      background: #1A1C1F;
+      border: 1px solid #2A2D32;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: #1E2024;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #999;
+      border-bottom: 1px solid #2A2D32;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    td { padding: 0.85rem 1rem; border-bottom: 1px solid #222428; font-size: 0.9rem; }
+    tr:hover { background: rgba(255,122,0,0.03); }
+    .estado-badge {
+      display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+    .estado-confirmada { background: rgba(76,175,80,0.12); color: #4caf50; }
+    .estado-cancelada { background: rgba(244,67,54,0.12); color: #f44336; }
+    .estado-completada { background: rgba(33,150,243,0.12); color: #2196f3; }
+    .estado-no_show { background: rgba(255,152,0,0.12); color: #ff9800; }
+
+    /* MODAL */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-content {
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 12px;
+      padding: 2rem; max-width: 500px; width: 90%;
+    }
+    .modal-content h3 { color: #fff; margin-bottom: 1rem; font-size: 1.1rem; }
+    .modal-body { margin-bottom: 1.5rem; max-height: 60vh; overflow-y: auto; }
+    .modal-detail { margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #222428; font-size: 0.9rem; }
+    .modal-detail b { color: #FF7A00; }
+    .modal-actions { display: flex; gap: 0.8rem; }
+    .btn-modal {
+      flex: 1; padding: 0.65rem; border: none; border-radius: 8px;
+      cursor: pointer; font-weight: 600; font-size: 0.88rem; transition: all 0.2s;
+    }
     .btn-primary { background: #FF7A00; color: #fff; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(255,122,0, 0.4); }
-    .btn-secondary { background: rgba(255, 255, 255, 0.1); color: #F2EAF7; }
-    .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+    .btn-primary:hover { background: #e86e00; }
+    .btn-secondary { background: #222428; color: #999; border: 1px solid #333; }
+    .btn-secondary:hover { border-color: #555; color: #ccc; }
+
+    /* FLOTILLA */
+    .flotilla-grid { display: grid; gap: 6px; }
+    .flotilla-tipo { color: #FF7A00; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 1rem; margin-bottom: 0.4rem; }
+    .flotilla-unit {
+      display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.8rem;
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 8px;
+    }
+    .flotilla-unit img { width: 56px; height: 40px; object-fit: contain; border-radius: 6px; flex-shrink: 0; }
+    .flotilla-unit .fu-name { flex: 1; }
+    .flotilla-unit .fu-name b { font-size: 0.88rem; color: #E8E8E8; }
+    .flotilla-unit .fu-name small { display: block; color: #777; font-size: 0.75rem; }
+    .flotilla-unit .fu-info { text-align: right; color: #777; font-size: 0.82rem; }
+
+    /* PROMOS */
+    .promo-grid { display: grid; gap: 8px; }
+    .promo-card {
+      display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem;
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 10px;
+      flex-wrap: wrap;
+    }
+    .promo-card.expired { opacity: 0.4; }
+    .promo-code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 1.1rem; font-weight: 800; color: #FF7A00; letter-spacing: 0.05em; min-width: 120px; }
+    .promo-detail { flex: 1; min-width: 200px; }
+    .promo-detail b { color: #E8E8E8; }
+    .promo-detail small { display: block; color: #777; font-size: 0.78rem; margin-top: 2px; }
+    .promo-stats { text-align: right; min-width: 100px; }
+    .promo-stats b { color: #E8E8E8; font-size: 0.95rem; }
+    .promo-stats small { display: block; color: #777; font-size: 0.78rem; }
+
+    /* CREATE PROMO FORM */
+    .promo-form {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 10px;
+      padding: 1.25rem; margin-bottom: 1.25rem;
+    }
+    .promo-form label { display: block; color: #999; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .promo-form input { width: 100%; }
+
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .tabs { gap: 0; }
+      .tab { padding: 0.6rem 0.8rem; font-size: 0.82rem; }
+      table { font-size: 0.82rem; }
+      th, td { padding: 0.6rem 0.5rem; }
+      .promo-form { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- LOGIN -->
     <div id="login" class="login-box">
-      <div style="width:100px;height:100px;margin:0 auto 1.2rem;">
-        <img src="img/i1.png" alt="Gladiadores Off Road" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 15px rgba(255,122,0,0.6));">
+      <div style="width:80px;height:80px;margin:0 auto 1.2rem;">
+        <img src="img/i1.png" alt="Gladiadores Off Road" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,122,0,0.4));">
       </div>
-      <h2 style="text-align:center">Admin</h2>
+      <h2>Panel de Administración</h2>
       <div class="form-group">
         <label>Email</label>
         <input type="email" id="email" placeholder="tu@email.com">
@@ -235,7 +275,7 @@
     <!-- PASO 2: CÓDIGO DE VERIFICACIÓN -->
     <div id="paso-2fa" class="login-box" style="display:none">
       <h2>Verificación</h2>
-      <p style="color:#BDB0C9;font-size:0.9rem;text-align:center;margin-bottom:1.5rem">
+      <p style="color:#999;font-size:0.88rem;text-align:center;margin-bottom:1.5rem">
         Escribe el código de 6 dígitos de tu app de autenticación.
       </p>
       <div class="form-group">
@@ -245,7 +285,7 @@
                onkeydown="if(event.key==='Enter')verificar2FA()">
       </div>
       <button class="btn-login" onclick="verificar2FA()">VERIFICAR</button>
-      <p style="color:#6B6178;font-size:0.8rem;text-align:center;margin-top:1rem">
+      <p style="color:#666;font-size:0.8rem;text-align:center;margin-top:1rem">
         ¿Perdiste el teléfono? Usa uno de tus códigos de respaldo.
       </p>
       <div id="error-2fa" class="error"></div>
@@ -254,10 +294,10 @@
     <!-- ADMIN PANEL -->
     <div id="panel" class="admin-panel">
       <div class="admin-header">
-        <h1>📊 Panel de Admin</h1>
-        <div>
-          <div class="admin-user">Admin: <b id="admin-name"></b></div>
-          <button class="btn-logout" onclick="logout()">Logout</button>
+        <div class="admin-title">Panel de Administración</div>
+        <div style="text-align:right">
+          <div class="admin-user"><span id="admin-name"></span></div>
+          <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
         </div>
       </div>
 
@@ -265,57 +305,91 @@
         <button class="tab active" data-tab="reservas" onclick="switchTab('reservas')">Reservas</button>
         <button class="tab" data-tab="catalogo" onclick="switchTab('catalogo')">Catálogo</button>
         <button class="tab" data-tab="flotilla" onclick="switchTab('flotilla')">Flotilla</button>
+        <button class="tab" data-tab="promos" id="tab-btn-promos" onclick="switchTab('promos')" style="display:none">Promociones</button>
         <button class="tab" data-tab="seguridad" onclick="switchTab('seguridad')">Seguridad</button>
         <button class="tab" data-tab="agente" id="tab-btn-agente" onclick="switchTab('agente')" style="display:none">Agente IA</button>
       </div>
 
-      <!-- FLOTILLA: disponibilidad real por fecha -->
+      <!-- FLOTILLA -->
       <div id="tab-flotilla" class="tab-panel">
-        <p class="tab-hint">Aquí ves, para cualquier fecha, cuáles de tus 12 unidades ya están apartadas y en qué ruta. Esto es lo que de verdad se descuenta cuando alguien reserva en la página — no depende de lo que apagues a mano en Catálogo.</p>
+        <p class="tab-hint">Disponibilidad real por fecha. Lo que aquí aparece es lo que de verdad se descuenta cuando alguien reserva — no depende de lo que apagues a mano en Catálogo.</p>
         <div style="display:flex;gap:10px;align-items:center;margin-bottom:1.2rem">
           <input type="date" id="flotilla-fecha" class="precio-input" style="width:170px">
-          <button class="btn-guardar" onclick="cargarFlotilla()">Consultar</button>
+          <button class="btn-action" onclick="cargarFlotilla()">Consultar</button>
         </div>
-        <div id="flotilla-cuerpo"><p style="color:#BDB0C9">Elige una fecha</p></div>
+        <div id="flotilla-cuerpo"><p style="color:#777">Elige una fecha</p></div>
+      </div>
+
+      <!-- PROMOS (solo owner) -->
+      <div id="tab-promos" class="tab-panel">
+        <p class="tab-hint">Crea códigos de descuento con vigencia y límite de usos. Compártelos con clientes en redes o WhatsApp.</p>
+        <div class="promo-form" id="promo-form">
+          <div>
+            <label>Código</label>
+            <input class="precio-input" id="promo-codigo" placeholder="GLADIADOR10" maxlength="30" style="width:100%;text-transform:uppercase">
+          </div>
+          <div>
+            <label>Descuento %</label>
+            <input class="precio-input" id="promo-porcentaje" type="number" min="1" max="100" placeholder="10" style="width:100%">
+          </div>
+          <div>
+            <label>Usos máximos</label>
+            <input class="precio-input" id="promo-usos" type="number" min="1" max="10000" placeholder="50" style="width:100%">
+          </div>
+          <div>
+            <label>Válido desde</label>
+            <input class="precio-input" id="promo-inicio" type="date" style="width:100%">
+          </div>
+          <div>
+            <label>Válido hasta</label>
+            <input class="precio-input" id="promo-fin" type="date" style="width:100%">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-action" onclick="crearPromo()" style="width:100%">Crear código</button>
+          </div>
+        </div>
+        <div id="promo-error" class="error" style="margin-bottom:1rem"></div>
+        <div id="promos-lista"><p style="color:#777">Cargando...</p></div>
       </div>
 
       <!-- AGENTE IA (solo dueño) -->
       <div id="tab-agente" class="tab-panel">
-        <p class="tab-hint">El agente responde en el chat del sitio con Claude, usando las rutas y la flota activas. Solo el dueño puede tocar esto.</p>
-        <div id="agente-cuerpo"><p style="color:#BDB0C9">Cargando...</p></div>
+        <p class="tab-hint">El agente responde en el chat del sitio con Claude, usando las rutas y la flota activas.</p>
+        <div id="agente-cuerpo"><p style="color:#777">Cargando...</p></div>
       </div>
 
       <!-- SEGURIDAD -->
       <div id="tab-seguridad" class="tab-panel">
         <p class="tab-hint">Protege tu cuenta con un segundo factor. Aunque alguien descubra tu contraseña, no podrá entrar sin tu teléfono.</p>
-        <div id="seguridad-cuerpo"><p style="color:#BDB0C9">Cargando...</p></div>
+        <div id="seguridad-cuerpo"><p style="color:#777">Cargando...</p></div>
       </div>
 
       <!-- CATÁLOGO -->
       <div id="tab-catalogo" class="tab-panel">
-        <p class="tab-hint">Cambia precios, apaga rutas, unidades, horarios o asientos. Lo que apagues deja de verse en la página.</p>
-        <div id="catalogo-lista"><p style="color:#BDB0C9">Cargando catálogo...</p></div>
+        <p class="tab-hint">Cambia precios, apaga rutas, unidades o horarios. Lo que apagues deja de verse en la página.</p>
+        <div id="catalogo-lista"><p style="color:#777">Cargando catálogo...</p></div>
       </div>
 
       <!-- RESERVAS -->
-      <div id="tab-reservas" class="tab-panel active reservas-table">
-        <table id="tabla-reservas">
-          <thead>
-            <tr>
-              <th>Folio</th>
-              <th>Cliente</th>
-              <th>Email</th>
-              <th>Ruta</th>
-              <th>Fecha</th>
-              <th>Monto</th>
-              <th>Estado</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-reservas">
-            <tr><td colspan="8" style="text-align: center; color: #999;">Cargando reservas...</td></tr>
-          </tbody>
-        </table>
+      <div id="tab-reservas" class="tab-panel active">
+        <div class="table-wrap">
+          <table id="tabla-reservas">
+            <thead>
+              <tr>
+                <th>Folio</th>
+                <th>Cliente</th>
+                <th>Ruta</th>
+                <th>Fecha</th>
+                <th>Monto</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-reservas">
+              <tr><td colspan="7" style="text-align:center;color:#777">Cargando reservas...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -326,12 +400,12 @@
       <h3>Detalles de Reserva</h3>
       <div class="modal-body" id="modal-body"></div>
       <div class="modal-actions">
-        <select id="estado-select" class="btn-modal" style="background: rgba(255, 255, 255, 0.1); color: #F2EAF7; font-weight: 600; cursor: pointer;">
-          <option value="">-- Cambiar estado --</option>
-          <option value="confirmada">✓ Confirmada</option>
-          <option value="cancelada">✗ Cancelada</option>
-          <option value="completada">✅ Completada</option>
-          <option value="no_show">⊘ No Show</option>
+        <select id="estado-select" class="btn-modal btn-secondary" style="cursor:pointer;">
+          <option value="">Cambiar estado</option>
+          <option value="confirmada">Confirmada</option>
+          <option value="cancelada">Cancelada</option>
+          <option value="completada">Completada</option>
+          <option value="no_show">No Show</option>
         </select>
         <button class="btn-modal btn-secondary" onclick="closeModal()">Cerrar</button>
       </div>
@@ -344,6 +418,15 @@
     let tempToken = null;
     let currentReservaId = null;
     let reservasCache = [];
+    let userRole = null;
+
+    const UNIT_IMAGES = {
+      'cuatrimoto': 'img/unidades/cuatrimoto-2p.avif',
+      'commander-2': 'img/unidades/commander-2p.avif',
+      'commander-4': 'img/unidades/commander-4p.avif',
+      'maverick-2': 'img/unidades/maverick-2p.avif',
+      'maverick-4': 'img/unidades/maverick-4p.avif'
+    };
 
     function esc(s) {
       if (s == null) return '';
@@ -374,11 +457,7 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       const errorDiv = document.getElementById('login-error');
-
-      if (!email || !password) {
-        errorDiv.textContent = 'Completa email y contraseña';
-        return;
-      }
+      if (!email || !password) { errorDiv.textContent = 'Completa email y contraseña'; return; }
 
       try {
         const res = await fetch(`${API_URL}/api/auth/login`, {
@@ -386,7 +465,6 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
-
         const data = await res.json();
 
         if (data.ok && data.requiere2FA) {
@@ -419,7 +497,6 @@
           body: JSON.stringify({ tempToken, codigo })
         });
         const data = await res.json();
-
         if (data.ok && data.token) {
           token = data.token;
           tempToken = null;
@@ -441,56 +518,44 @@
 
       const payload = JSON.parse(atob(token.split('.')[1]));
       document.getElementById('admin-name').textContent = payload.email;
+      userRole = payload.role;
 
-      // El botón de Agente IA solo lo ve el dueño: el backend igual lo
-      // bloquea con ownerMiddleware, esto es nada más para no confundir
-      // a un manager con un botón que le va a dar 403.
       if (payload.role === 'owner') {
         document.getElementById('tab-btn-agente').style.display = '';
+        document.getElementById('tab-btn-promos').style.display = '';
       }
 
       loadReservas();
     }
 
+    /* ===== RESERVAS ===== */
     async function loadReservas() {
       try {
-        const res = await fetch(`${API_URL}/api/reservas`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-
+        const res = await fetch(`${API_URL}/api/reservas`, { headers: { 'Authorization': `Bearer ${token}` } });
         const data = await res.json();
-
         if (data.ok && data.reservas) {
           reservasCache = data.reservas;
           renderReservas(data.reservas);
         } else {
-          const td = document.createElement('td');
-          td.colSpan = 8;
-          td.style.color = '#ff6b6b';
-          td.textContent = 'Error: ' + (data.error || 'Desconocido');
-          const tr = document.createElement('tr');
-          tr.appendChild(td);
-          const tbody = document.getElementById('tbody-reservas');
-          tbody.innerHTML = '';
-          tbody.appendChild(tr);
+          document.getElementById('tbody-reservas').innerHTML = `<tr><td colspan="7" style="color:#ff6b6b">${esc(data.error || 'Error')}</td></tr>`;
         }
       } catch (err) {
-        document.getElementById('tbody-reservas').innerHTML = '<tr><td colspan="8" style="color: #ff6b6b;">Error de conexión</td></tr>';
+        document.getElementById('tbody-reservas').innerHTML = '<tr><td colspan="7" style="color:#ff6b6b">Error de conexión</td></tr>';
       }
     }
 
     function renderReservas(reservas) {
       const tbody = document.getElementById('tbody-reservas');
+      if (!reservas.length) { tbody.innerHTML = '<tr><td colspan="7" style="color:#777;text-align:center">Sin reservas</td></tr>'; return; }
       tbody.innerHTML = reservas.map((r, idx) => `
         <tr>
           <td><b>${esc(r.folio)}</b></td>
           <td>${esc(r.cliente?.nombre)}</td>
-          <td>${esc(r.cliente?.email)}</td>
           <td>${esc(r.ruta)}</td>
           <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
           <td>$${esc(String(r.monto))}</td>
           <td><span class="estado-badge estado-${esc(r.estado)}">${esc(r.estado)}</span></td>
-          <td><button class="btn-modal btn-primary" onclick="openModalByIdx(${idx})">Ver</button></td>
+          <td><button class="btn-action sm secondary" onclick="openModalByIdx(${idx})">Ver</button></td>
         </tr>
       `).join('');
     }
@@ -503,10 +568,7 @@
 
     function openModal(id, reserva) {
       currentReservaId = id;
-      const modal = document.getElementById('modal');
       const body = document.getElementById('modal-body');
-      const select = document.getElementById('estado-select');
-
       body.innerHTML = `
         <div class="modal-detail"><b>Folio:</b> ${esc(reserva.folio)}</div>
         <div class="modal-detail"><b>Cliente:</b> ${esc(reserva.cliente?.nombre)}</div>
@@ -516,11 +578,10 @@
         <div class="modal-detail"><b>Unidad:</b> ${esc(reserva.unidad)}</div>
         <div class="modal-detail"><b>Asientos:</b> ${esc(reserva.asientos?.join(', '))}</div>
         <div class="modal-detail"><b>Monto:</b> $${esc(String(reserva.monto))}</div>
-        <div class="modal-detail"><b>Estado Actual:</b> <span class="estado-badge estado-${esc(reserva.estado)}">${esc(reserva.estado)}</span></div>
+        <div class="modal-detail"><b>Estado:</b> <span class="estado-badge estado-${esc(reserva.estado)}">${esc(reserva.estado)}</span></div>
       `;
-
-      select.value = reserva.estado;
-      modal.classList.add('open');
+      document.getElementById('estado-select').value = reserva.estado;
+      document.getElementById('modal').classList.add('open');
     }
 
     function closeModal() {
@@ -531,33 +592,23 @@
     async function changeEstado(event) {
       const nuevoEstado = event.target.value;
       if (!nuevoEstado || !currentReservaId) return;
-      const validEstados = ['confirmada','cancelada','completada','no_show'];
-      if (!validEstados.includes(nuevoEstado)) return;
+      if (!['confirmada','cancelada','completada','no_show'].includes(nuevoEstado)) return;
 
       try {
         const res = await fetch(`${API_URL}/api/reservas/${encodeURIComponent(currentReservaId)}/estado`, {
           method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ estado: nuevoEstado })
         });
-
         const data = await res.json();
-
-        if (data.ok) {
-          closeModal();
-          loadReservas();
-        }
+        if (data.ok) { closeModal(); loadReservas(); }
       } catch (err) {
         alert('Error al actualizar estado');
       }
     }
-
     document.getElementById('estado-select').addEventListener('change', changeEstado);
 
-    /* ===== CATÁLOGO ===== */
+    /* ===== TABS ===== */
     let catalogoCache = [];
 
     function switchTab(nombre) {
@@ -566,6 +617,7 @@
       if (nombre === 'catalogo' && catalogoCache.length === 0) loadCatalogo();
       if (nombre === 'seguridad') loadSeguridad();
       if (nombre === 'agente') loadAgente();
+      if (nombre === 'promos') loadPromos();
       if (nombre === 'flotilla') {
         const input = document.getElementById('flotilla-fecha');
         if (!input.value) input.value = new Date().toISOString().slice(0, 10);
@@ -573,14 +625,14 @@
       }
     }
 
-    /* ===== FLOTILLA: disponibilidad real por fecha ===== */
+    /* ===== FLOTILLA ===== */
     const NOMBRE_TIPO = { cuatrimoto: 'Cuatrimotos', commander: 'Commanders', maverick: 'Mavericks' };
 
     async function cargarFlotilla() {
       const fecha = document.getElementById('flotilla-fecha').value;
       const cuerpo = document.getElementById('flotilla-cuerpo');
-      if (!fecha) { cuerpo.innerHTML = '<p style="color:#BDB0C9">Elige una fecha</p>'; return; }
-      cuerpo.innerHTML = '<p style="color:#BDB0C9">Consultando...</p>';
+      if (!fecha) { cuerpo.innerHTML = '<p style="color:#777">Elige una fecha</p>'; return; }
+      cuerpo.innerHTML = '<p style="color:#777">Consultando...</p>';
       try {
         const res = await fetch(`${API_URL}/api/disponibilidad?fecha=${fecha}`);
         const data = await res.json();
@@ -597,66 +649,177 @@
       const grupos = {};
       todas.forEach(u => { (grupos[u.tipo] = grupos[u.tipo] || []).push(u); });
 
-      const resumen = `<p class="ruta-meta" style="margin-bottom:1rem">
-        <b style="color:#69D900">${libres} libres</b> de ${todas.length} unidades ese día.
+      const resumen = `<p style="color:#999;margin-bottom:1rem">
+        <b style="color:#4caf50">${libres} libres</b> de ${todas.length} unidades ese día
       </p>`;
 
       const bloques = Object.entries(grupos).map(([tipo, lista]) => `
-        <div class="bloque-lbl" style="margin-top:0.9rem">${NOMBRE_TIPO[tipo] || tipo}</div>
-        ${lista.map(u => `
-          <div class="unidad-row">
-            <div class="unidad-nombre">${esc(u.apodo)}<small>${esc(u.nombreCompleto)}${!u.activo ? ' · en mantenimiento' : ''}</small></div>
+        <div class="flotilla-tipo">${NOMBRE_TIPO[tipo] || tipo}</div>
+        ${lista.map(u => {
+          const tipoId = tipo === 'cuatrimoto' ? 'cuatrimoto' : `${tipo}-${u.plazas || 4}`;
+          const imgSrc = UNIT_IMAGES[tipoId] || '';
+          return `<div class="flotilla-unit">
+            ${imgSrc ? `<img src="${esc(imgSrc)}" alt="${esc(u.apodo)}" onerror="this.style.display='none'">` : ''}
+            <div class="fu-name">
+              <b>${esc(u.apodo)}</b>
+              <small>${esc(u.nombreCompleto)}${!u.activo ? ' · mantenimiento' : ''}</small>
+            </div>
             <div>
               ${u.libre
-                ? '<span class="switch on">Libre</span>'
-                : `<span class="switch off">${u.activo ? 'Ocupada' : 'Fuera de servicio'}</span>`}
+                ? '<span class="switch on" style="cursor:default">Libre</span>'
+                : `<span class="switch off" style="cursor:default">${u.activo ? 'Ocupada' : 'Fuera de servicio'}</span>`}
             </div>
-            <div style="flex:1;text-align:right;color:#BDB0C9;font-size:0.85rem">
-              ${u.ocupacion ? `Folio ${esc(u.ocupacion.folio)} · ${esc(u.ocupacion.ruta)} · ${esc(u.ocupacion.cliente || '')}` : ''}
+            <div class="fu-info">
+              ${u.ocupacion ? `${esc(u.ocupacion.folio)} · ${esc(u.ocupacion.ruta)}` : ''}
             </div>
-          </div>`).join('')}
+          </div>`;
+        }).join('')}
       `).join('');
 
       cuerpo.innerHTML = resumen + bloques;
     }
 
-    /* ===== AGENTE IA (solo dueño) ===== */
-    async function loadAgente() {
-      const c = document.getElementById('agente-cuerpo');
-      c.innerHTML = '<p style="color:#BDB0C9">Cargando...</p>';
+    /* ===== PROMOS ===== */
+    let promosCache = [];
+
+    async function loadPromos() {
+      const lista = document.getElementById('promos-lista');
       try {
-        const res = await fetch(`${API_URL}/api/admin/agente`, {
+        const res = await fetch(`${API_URL}/api/admin/promos`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const data = await res.json();
+        if (data.ok) { promosCache = data.promos; renderPromos(); }
+        else lista.textContent = data.error || 'Error';
+      } catch (e) {
+        lista.textContent = 'Error de conexión';
+      }
+    }
+
+    function renderPromos() {
+      const lista = document.getElementById('promos-lista');
+      if (!promosCache.length) { lista.innerHTML = '<p style="color:#777">No hay códigos promocionales. Crea uno arriba.</p>'; return; }
+
+      lista.innerHTML = '<div class="promo-grid">' + promosCache.map(p => {
+        const ahora = new Date();
+        const fin = new Date(p.vigenciaFin);
+        const inicio = new Date(p.vigenciaInicio);
+        const expirado = fin < ahora;
+        const agotado = p.usosActuales >= p.usosMaximos;
+        const pendiente = inicio > ahora;
+
+        let estado = '';
+        if (!p.activo) estado = '<span style="color:#ff6b6b">Desactivado</span>';
+        else if (expirado) estado = '<span style="color:#ff6b6b">Expirado</span>';
+        else if (agotado) estado = '<span style="color:#ff9800">Agotado</span>';
+        else if (pendiente) estado = '<span style="color:#2196f3">Pendiente</span>';
+        else estado = '<span style="color:#4caf50">Activo</span>';
+
+        return `<div class="promo-card ${expirado || agotado ? 'expired' : ''}">
+          <div class="promo-code">${esc(p.codigo)}</div>
+          <div class="promo-detail">
+            <b>${p.porcentaje}% de descuento</b>
+            <small>${inicio.toLocaleDateString('es-MX')} — ${fin.toLocaleDateString('es-MX')}</small>
+          </div>
+          <div class="promo-stats">
+            <b>${p.usosActuales} / ${p.usosMaximos}</b>
+            <small>usos</small>
+          </div>
+          <div>${estado}</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn-action sm ${p.activo ? 'danger' : 'secondary'}" onclick="togglePromo('${esc(p._id)}', ${!p.activo})">${p.activo ? 'Desactivar' : 'Activar'}</button>
+            <button class="btn-action sm danger" onclick="eliminarPromo('${esc(p._id)}')">Eliminar</button>
+          </div>
+        </div>`;
+      }).join('') + '</div>';
+    }
+
+    async function crearPromo() {
+      const errEl = document.getElementById('promo-error');
+      errEl.textContent = '';
+      const body = {
+        codigo: document.getElementById('promo-codigo').value,
+        porcentaje: document.getElementById('promo-porcentaje').value,
+        usosMaximos: document.getElementById('promo-usos').value,
+        vigenciaInicio: document.getElementById('promo-inicio').value,
+        vigenciaFin: document.getElementById('promo-fin').value
+      };
+      if (!body.codigo || !body.porcentaje || !body.usosMaximos || !body.vigenciaInicio || !body.vigenciaFin) {
+        errEl.textContent = 'Completa todos los campos'; return;
+      }
+      try {
+        const res = await fetch(`${API_URL}/api/admin/promos`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (data.ok) {
+          document.getElementById('promo-codigo').value = '';
+          document.getElementById('promo-porcentaje').value = '';
+          document.getElementById('promo-usos').value = '';
+          loadPromos();
+        } else {
+          errEl.textContent = data.error || 'Error al crear código';
+        }
+      } catch (e) {
+        errEl.textContent = 'Error de conexión';
+      }
+    }
+
+    async function togglePromo(id, activo) {
+      try {
+        await fetch(`${API_URL}/api/admin/promos/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ activo })
+        });
+        loadPromos();
+      } catch (e) { alert('Error de conexión'); }
+    }
+
+    async function eliminarPromo(id) {
+      if (!confirm('¿Eliminar este código? No se puede deshacer.')) return;
+      try {
+        await fetch(`${API_URL}/api/admin/promos/${id}`, {
+          method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
+        loadPromos();
+      } catch (e) { alert('Error de conexión'); }
+    }
+
+    /* ===== AGENTE IA ===== */
+    async function loadAgente() {
+      const c = document.getElementById('agente-cuerpo');
+      c.innerHTML = '<p style="color:#777">Cargando...</p>';
+      try {
+        const res = await fetch(`${API_URL}/api/admin/agente`, { headers: { 'Authorization': `Bearer ${token}` } });
         const d = await res.json();
         if (!d.ok) { c.textContent = d.error || 'No se pudo cargar'; return; }
         renderAgente(d.config);
-      } catch (e) {
-        c.textContent = 'Error de conexión';
-      }
+      } catch (e) { c.textContent = 'Error de conexión'; }
     }
 
     function renderAgente(config) {
       document.getElementById('agente-cuerpo').innerHTML = `
-        <div class="ruta-card">
-          <div class="ruta-top">
+        <div class="card">
+          <div class="card-top">
             <div>
-              <div class="ruta-nombre">${config.activo ? 'Agente activo' : 'Agente apagado'}</div>
-              <div class="ruta-meta">${config.activo ? 'Responde en el chat del sitio ahora mismo.' : 'El chat cae directo a WhatsApp mientras esté apagado.'}</div>
+              <div class="card-name">${config.activo ? 'Agente activo' : 'Agente apagado'}</div>
+              <div class="card-meta">${config.activo ? 'Responde en el chat del sitio.' : 'El chat cae directo a WhatsApp mientras esté apagado.'}</div>
             </div>
             <button class="switch ${config.activo ? 'on' : 'off'}" onclick="toggleAgente(${!config.activo})">${config.activo ? 'Apagar' : 'Encender'}</button>
           </div>
         </div>
-        <div class="ruta-card" style="margin-top:1rem">
-          <label style="display:block;color:#BDB0C9;font-size:0.85rem;margin-bottom:0.6rem">
-            Instrucciones adicionales (promociones vigentes, tono, cosas que no debe decir). Se le inyectan al agente en cada conversación.
+        <div class="card" style="margin-top:0.75rem">
+          <label style="display:block;color:#999;font-size:0.82rem;margin-bottom:0.6rem">
+            Instrucciones adicionales (promociones vigentes, tono, cosas que no debe decir).
           </label>
           <textarea id="agente-instrucciones" rows="6" maxlength="2000"
-            style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(105,217,0,0.25);border-radius:10px;padding:0.8rem;color:#F2EAF7;font-family:inherit;font-size:0.9rem;resize:vertical"
+            style="width:100%;background:#222428;border:1px solid #333;border-radius:10px;padding:0.8rem;color:#E8E8E8;font-family:inherit;font-size:0.88rem;resize:vertical"
             placeholder="Ej: Este fin de semana hay 15% de descuento en Ruta del Río. No ofrezcas descuentos que no estén aquí.">${esc(config.instrucciones || '')}</textarea>
           <div style="margin-top:0.8rem;display:flex;align-items:center;gap:12px">
-            <button class="btn-guardar" onclick="guardarInstruccionesAgente()">Guardar</button>
-            <span id="agente-guardado" class="guardado" style="opacity:0"></span>
+            <button class="btn-action" onclick="guardarInstruccionesAgente()">Guardar</button>
+            <span id="agente-guardado" class="saved" style="opacity:0"></span>
           </div>
         </div>`;
     }
@@ -671,9 +834,7 @@
         const d = await res.json();
         if (d.ok) renderAgente(d.config);
         else alert(d.error || 'No se pudo actualizar');
-      } catch (e) {
-        alert('Error de conexión');
-      }
+      } catch (e) { alert('Error de conexión'); }
     }
 
     async function guardarInstruccionesAgente() {
@@ -690,51 +851,45 @@
         aviso.textContent = 'Guardado';
         aviso.style.opacity = 1;
         setTimeout(() => { aviso.style.opacity = 0; }, 2000);
-      } catch (e) {
-        alert('Error de conexión');
-      }
+      } catch (e) { alert('Error de conexión'); }
     }
 
     /* ===== SEGURIDAD / 2FA ===== */
     async function loadSeguridad() {
       const c = document.getElementById('seguridad-cuerpo');
       try {
-        const res = await fetch(`${API_URL}/api/auth/verify`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const res = await fetch(`${API_URL}/api/auth/verify`, { headers: { 'Authorization': `Bearer ${token}` } });
         const data = await res.json();
         if (!data.ok) { c.textContent = 'No se pudo cargar'; return; }
         renderSeguridad(data.admin.totpActivo);
-      } catch (e) {
-        c.textContent = 'Error de conexión';
-      }
+      } catch (e) { c.textContent = 'Error de conexión'; }
     }
 
     function renderSeguridad(activo) {
       document.getElementById('seguridad-cuerpo').innerHTML = activo
-        ? `<div class="ruta-card">
-             <div class="ruta-top">
+        ? `<div class="card">
+             <div class="card-top">
                <div>
-                 <div class="ruta-nombre">Segundo factor activo</div>
-                 <div class="ruta-meta">Tu cuenta pide un código además de la contraseña.</div>
+                 <div class="card-name">Segundo factor activo</div>
+                 <div class="card-meta">Tu cuenta pide un código además de la contraseña.</div>
                </div>
                <button class="switch off" onclick="desactivar2FA()">Desactivar</button>
              </div>
            </div>`
-        : `<div class="ruta-card">
-             <div class="ruta-top">
+        : `<div class="card">
+             <div class="card-top">
                <div>
-                 <div class="ruta-nombre">Segundo factor desactivado</div>
-                 <div class="ruta-meta">Hoy tu cuenta solo está protegida por la contraseña.</div>
+                 <div class="card-name">Segundo factor desactivado</div>
+                 <div class="card-meta">Tu cuenta solo está protegida por la contraseña.</div>
                </div>
-               <button class="btn-guardar" onclick="preparar2FA()">Activar ahora</button>
+               <button class="btn-action" onclick="preparar2FA()">Activar ahora</button>
              </div>
            </div>`;
     }
 
     async function preparar2FA() {
       const c = document.getElementById('seguridad-cuerpo');
-      c.innerHTML = '<p style="color:#BDB0C9">Generando código...</p>';
+      c.innerHTML = '<p style="color:#777">Generando código...</p>';
       try {
         const res = await fetch(`${API_URL}/api/auth/2fa/preparar`, {
           method: 'POST', headers: { 'Authorization': `Bearer ${token}` }
@@ -742,28 +897,26 @@
         const d = await res.json();
         if (!d.ok) { c.textContent = d.error || 'Error'; return; }
 
-        c.innerHTML = `<div class="ruta-card">
-          <div class="ruta-nombre" style="margin-bottom:1rem">Escanea este código</div>
-          <p style="color:#BDB0C9;font-size:0.9rem;margin-bottom:1rem">
+        c.innerHTML = `<div class="card">
+          <div class="card-name" style="margin-bottom:1rem">Escanea este código</div>
+          <p style="color:#999;font-size:0.88rem;margin-bottom:1rem">
             Ábrelo con Google Authenticator, Authy o 1Password. Si no puedes escanear,
-            captura esta clave a mano: <code style="color:#69D900;letter-spacing:0.1em">${esc(d.secret)}</code>
+            usa esta clave: <code style="color:#FF7A00;letter-spacing:0.1em">${esc(d.secret)}</code>
           </p>
           <img src="${esc(d.qr)}" alt="Código QR" style="border-radius:10px;background:#fff;padding:8px">
           <div style="margin-top:1.2rem;max-width:320px">
-            <label style="display:block;color:#BDB0C9;font-size:0.85rem;margin-bottom:0.5rem">
+            <label style="display:block;color:#999;font-size:0.82rem;margin-bottom:0.5rem">
               Escribe el código que aparece en la app
             </label>
             <div style="display:flex;gap:8px">
               <input class="precio-input" id="codigo-activar" maxlength="6" inputmode="numeric"
                      placeholder="000000" style="width:130px;text-align:center;letter-spacing:0.2em">
-              <button class="btn-guardar" onclick="activar2FA()">Confirmar</button>
+              <button class="btn-action" onclick="activar2FA()">Confirmar</button>
             </div>
             <div id="error-activar" class="error"></div>
           </div>
         </div>`;
-      } catch (e) {
-        c.textContent = 'Error de conexión';
-      }
+      } catch (e) { c.textContent = 'Error de conexión'; }
     }
 
     async function activar2FA() {
@@ -781,20 +934,18 @@
         const d = await res.json();
         if (!d.ok) { err.textContent = d.error || 'Código incorrecto'; return; }
 
-        // Los códigos de respaldo solo se muestran esta vez
-        document.getElementById('seguridad-cuerpo').innerHTML = `<div class="ruta-card">
-          <div class="ruta-nombre" style="color:#69D900">Segundo factor activado</div>
-          <p style="color:#BDB0C9;font-size:0.9rem;margin:0.8rem 0">
-            Guarda estos códigos de respaldo en un lugar seguro. Sirven una sola vez cada uno
+        document.getElementById('seguridad-cuerpo').innerHTML = `<div class="card">
+          <div class="card-name" style="color:#4caf50">Segundo factor activado</div>
+          <p style="color:#999;font-size:0.88rem;margin:0.8rem 0">
+            Guarda estos códigos de respaldo. Sirven una sola vez cada uno
             y son tu única forma de entrar si pierdes el teléfono.
             <b style="color:#FF7A00">No se volverán a mostrar.</b>
           </p>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:1rem 0">
-            ${d.codigosRespaldo.map(c => `<code style="background:rgba(105,217,0,0.1);border:1px solid rgba(105,217,0,0.3);padding:0.5rem;border-radius:6px;text-align:center;color:#F2EAF7;letter-spacing:0.06em">${esc(c)}</code>`).join('')}
+            ${d.codigosRespaldo.map(c => `<code style="background:#222428;border:1px solid #333;padding:0.5rem;border-radius:6px;text-align:center;color:#E8E8E8;letter-spacing:0.06em">${esc(c)}</code>`).join('')}
           </div>
-          <button class="btn-guardar" onclick="copiarCodigos(this)"
-                  data-codigos="${esc(d.codigosRespaldo.join('\n'))}">Copiar códigos</button>
-          <button class="switch on" style="margin-left:8px" onclick="renderSeguridad(true)">Ya los guardé</button>
+          <button class="btn-action" onclick="copiarCodigos(this)" data-codigos="${esc(d.codigosRespaldo.join('\n'))}">Copiar códigos</button>
+          <button class="btn-action secondary" style="margin-left:8px" onclick="renderSeguridad(true)">Ya los guardé</button>
         </div>`;
       } catch (e) {
         err.textContent = 'Error de conexión';
@@ -820,36 +971,25 @@
         const d = await res.json();
         if (d.ok) renderSeguridad(false);
         else alert(d.error || 'No se pudo desactivar');
-      } catch (e) {
-        alert('Error de conexión');
-      }
+      } catch (e) { alert('Error de conexión'); }
     }
 
+    /* ===== CATÁLOGO ===== */
     async function loadCatalogo() {
       const cont = document.getElementById('catalogo-lista');
       try {
-        const res = await fetch(`${API_URL}/api/catalogo/admin`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const res = await fetch(`${API_URL}/api/catalogo/admin`, { headers: { 'Authorization': `Bearer ${token}` } });
         const data = await res.json();
-        if (data.ok && data.rutas) {
-          catalogoCache = data.rutas;
-          renderCatalogo();
-        } else {
-          cont.textContent = 'Error: ' + (data.error || 'No se pudo cargar el catálogo');
-          cont.style.color = '#ff6b6b';
-        }
-      } catch (err) {
-        cont.textContent = 'Error de conexión';
-        cont.style.color = '#ff6b6b';
-      }
+        if (data.ok && data.rutas) { catalogoCache = data.rutas; renderCatalogo(); }
+        else { cont.textContent = 'Error: ' + (data.error || 'No se pudo cargar'); cont.style.color = '#ff6b6b'; }
+      } catch (err) { cont.textContent = 'Error de conexión'; cont.style.color = '#ff6b6b'; }
     }
 
     function renderCatalogo() {
       document.getElementById('catalogo-lista').innerHTML = catalogoCache.map((r, i) => {
         const horarios = r.horarios.map((h, hi) =>
           `<button class="chip ${h.activo ? '' : 'off'}" onclick="toggleHorario(${i},${hi})">${esc(h.hora)}</button>`
-        ).join('') || '<span style="color:#6B6178;font-size:0.85rem">Sin horarios</span>';
+        ).join('') || '<span style="color:#555;font-size:0.82rem">Sin horarios</span>';
 
         const unidades = r.units.map((u, ui) => {
           const asientos = Array.from({ length: u.seats }, (_, k) => {
@@ -862,118 +1002,98 @@
             <div class="unidad-nombre">${esc(u.name)}<small>${esc(u.type)}</small></div>
             <div style="display:flex;align-items:center;gap:6px">
               $<input class="precio-input" id="precio-${i}-${ui}" type="number" min="0" step="10" value="${esc(String(u.price))}" oninput="setPrecio(${i},${ui},this.value)">
-              <button class="btn-guardar" style="padding:0.4rem 0.7rem;font-size:0.8rem" onclick="guardarPrecio(${i},${ui})" title="Guardar este precio ahora">Guardar</button>
-              <span class="guardado" id="ok-precio-${i}-${ui}"></span>
+              <button class="btn-action sm" onclick="guardarPrecio(${i},${ui})" title="Guardar precio">Guardar</button>
+              <span class="saved" id="ok-precio-${i}-${ui}"></span>
             </div>
             <div class="asientos">${asientos}</div>
             <button class="switch ${u.activo ? 'on' : 'off'}" onclick="toggleUnidad(${i},${ui})">${u.activo ? 'Activa' : 'Apagada'}</button>
           </div>`;
         }).join('');
 
-        return `<div class="ruta-card ${r.activo ? '' : 'off'}">
-          <div class="ruta-top">
+        return `<div class="card ${r.activo ? '' : 'off'}">
+          <div class="card-top">
             <div>
-              <div class="ruta-nombre">${esc(r.name)}</div>
-              <div class="ruta-meta">${esc(r.diff)} · ${esc(r.dur)} · ${esc(r.dist)}</div>
+              <div class="card-name">${esc(r.name)}</div>
+              <div class="card-meta">${esc(r.diff)} · ${esc(r.dur)} · ${esc(r.dist)}</div>
             </div>
-            <div style="display:flex;gap:10px;align-items:center">
-              <span class="guardado" id="ok-${i}"></span>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span class="saved" id="ok-${i}"></span>
               <button class="switch ${r.activo ? 'on' : 'off'}" onclick="toggleRuta(${i})">${r.activo ? 'Publicada' : 'Oculta'}</button>
-              <button class="btn-guardar" id="save-${i}" onclick="guardarRuta(${i})">Guardar</button>
+              <button class="btn-action" id="save-${i}" onclick="guardarRuta(${i})">Guardar</button>
             </div>
           </div>
-          <div class="ruta-body">
-            <div class="bloque-lbl">FOTO DE PORTADA</div>
-            <div style="display:flex;gap:12px;align-items:center;margin-bottom:1.1rem;flex-wrap:wrap">
-              <img src="${esc(r.img || '')}" onerror="this.style.display='none'" style="width:90px;height:60px;object-fit:cover;border-radius:8px;border:1px solid rgba(105,217,0,0.2);background:rgba(255,255,255,0.03)">
+          <div class="card-body">
+            <div class="bloque-lbl">Foto de portada</div>
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:1rem;flex-wrap:wrap">
+              <img src="${esc(r.img || '')}" onerror="this.style.display='none'" style="width:90px;height:60px;object-fit:cover;border-radius:8px;border:1px solid #333;background:#222428">
               <input type="file" id="file-portada-${i}" accept="image/*" style="display:none" onchange="subirPortada(${i}, this)">
-              <button class="btn-guardar" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="document.getElementById('file-portada-${i}').click()">Elegir foto de mi compu</button>
-              <span class="guardado" id="ok-img-${i}"></span>
+              <button class="btn-action sm secondary" onclick="document.getElementById('file-portada-${i}').click()">Elegir foto</button>
+              <span class="saved" id="ok-img-${i}"></span>
             </div>
 
-            <div class="bloque-lbl">GALERÍA (hasta 10 fotos) Y VIDEO</div>
+            <div class="bloque-lbl">Galería (hasta 10 fotos) y video</div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0.8rem">
               ${(r.galeria || []).map((g, gi) => `
                 <div style="position:relative">
-                  <img src="${esc(g)}" onerror="this.style.opacity='0.25'" style="width:70px;height:50px;object-fit:cover;border-radius:6px;border:1px solid rgba(105,217,0,0.2)">
+                  <img src="${esc(g)}" onerror="this.style.opacity='0.25'" style="width:70px;height:50px;object-fit:cover;border-radius:6px;border:1px solid #333">
                   <button onclick="quitarFotoGaleria(${i},${gi})" title="Quitar" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#ff5a5a;color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1">✕</button>
-                </div>`).join('') || '<span style="color:#6B6178;font-size:0.85rem">Sin fotos en la galería</span>'}
+                </div>`).join('') || '<span style="color:#555;font-size:0.82rem">Sin fotos</span>'}
             </div>
             ${(r.galeria || []).length >= 10
-              ? '<p class="ruta-meta" style="margin-bottom:0.8rem">Ya tienes 10 fotos (el máximo). Quita alguna para agregar otra.</p>'
+              ? '<p style="color:#777;font-size:0.82rem;margin-bottom:0.8rem">Máximo de 10 fotos alcanzado.</p>'
               : `<div style="display:flex;gap:8px;margin-bottom:0.8rem;align-items:center">
                   <input type="file" id="file-galeria-${i}" accept="image/*" multiple style="display:none" onchange="subirGaleria(${i}, this)">
-                  <button class="btn-guardar" style="padding:0.4rem 1rem;font-size:0.85rem" onclick="document.getElementById('file-galeria-${i}').click()">+ Agregar fotos de mi compu</button>
-                  <span class="guardado" id="ok-subida-${i}"></span>
+                  <button class="btn-action sm secondary" onclick="document.getElementById('file-galeria-${i}').click()">Agregar fotos</button>
+                  <span class="saved" id="ok-subida-${i}"></span>
                 </div>`}
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:1.1rem">
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:1rem">
               <input type="text" id="video-${i}" class="precio-input" style="flex:1;width:auto" placeholder="Liga de YouTube o Instagram (opcional)" value="${esc(r.video || '')}">
-              <button class="btn-guardar" style="padding:0.5rem 1rem;font-size:0.85rem" onclick="guardarGaleria(${i})">Guardar video</button>
-              <span class="guardado" id="ok-gal-${i}"></span>
+              <button class="btn-action sm" onclick="guardarGaleria(${i})">Guardar video</button>
+              <span class="saved" id="ok-gal-${i}"></span>
             </div>
 
-            <div class="bloque-lbl">HORARIOS</div>
+            <div class="bloque-lbl">Horarios</div>
             <div class="chips">${horarios}</div>
-            <div style="display:flex;gap:8px;margin-top:0.6rem;align-items:center">
+            <div style="display:flex;gap:8px;margin-top:0.5rem;align-items:center">
               <input type="time" id="nuevo-horario-${i}" class="precio-input" style="width:120px">
-              <button class="btn-guardar" style="padding:0.4rem 1rem;font-size:0.85rem" onclick="agregarHorario(${i})">+ Agregar horario</button>
+              <button class="btn-action sm secondary" onclick="agregarHorario(${i})">Agregar horario</button>
             </div>
-            <div class="bloque-lbl" style="margin-top:1.1rem">UNIDADES Y ASIENTOS</div>
-            <p class="ruta-meta" style="margin-bottom:0.8rem">Precio en $0 y apagada = no se vende en la página. Súbele precio y actívala para publicarla. El Commander y el Maverick de 2 plazas son unidad única: si la apagas aquí, se apaga sola en todas las demás rutas.</p>
-            ${unidades || '<p style="color:#6B6178;font-size:0.85rem">Sin unidades</p>'}
+
+            <div class="bloque-lbl" style="margin-top:1rem">Unidades y asientos</div>
+            <p class="card-meta" style="margin-bottom:0.8rem">Commander y Maverick de 2 plazas son unidad única: si la apagas aquí, se apaga en todas las rutas.</p>
+            ${unidades || '<p style="color:#555;font-size:0.82rem">Sin unidades</p>'}
           </div>
         </div>`;
       }).join('');
     }
 
-    function toggleRuta(i) {
-      catalogoCache[i].activo = !catalogoCache[i].activo;
-      renderCatalogo();
-    }
-
-    function toggleHorario(i, hi) {
-      const h = catalogoCache[i].horarios[hi];
-      h.activo = !h.activo;
-      renderCatalogo();
-    }
+    function toggleRuta(i) { catalogoCache[i].activo = !catalogoCache[i].activo; renderCatalogo(); }
+    function toggleHorario(i, hi) { catalogoCache[i].horarios[hi].activo = !catalogoCache[i].horarios[hi].activo; renderCatalogo(); }
 
     function agregarHorario(i) {
       const input = document.getElementById('nuevo-horario-' + i);
       const hora = input.value;
       if (!hora) return;
-      const ya = catalogoCache[i].horarios.some(h => h.hora === hora);
-      if (ya) { alert('Ese horario ya existe en esta ruta'); return; }
+      if (catalogoCache[i].horarios.some(h => h.hora === hora)) { alert('Ese horario ya existe'); return; }
       catalogoCache[i].horarios.push({ hora, activo: true });
       catalogoCache[i].horarios.sort((a, b) => a.hora.localeCompare(b.hora));
       renderCatalogo();
     }
 
-    function toggleUnidad(i, ui) {
-      const u = catalogoCache[i].units[ui];
-      u.activo = !u.activo;
-      renderCatalogo();
-    }
-
-    // Un asiento "bloqueado" no se puede reservar desde la página
+    function toggleUnidad(i, ui) { catalogoCache[i].units[ui].activo = !catalogoCache[i].units[ui].activo; renderCatalogo(); }
     function toggleAsiento(i, ui, n) {
       const u = catalogoCache[i].units[ui];
       const pos = u.booked.indexOf(n);
-      if (pos === -1) u.booked.push(n);
-      else u.booked.splice(pos, 1);
+      if (pos === -1) u.booked.push(n); else u.booked.splice(pos, 1);
       renderCatalogo();
     }
-
-    function setPrecio(i, ui, valor) {
-      const precio = Number(valor);
-      if (Number.isFinite(precio) && precio >= 0) catalogoCache[i].units[ui].price = precio;
-    }
+    function setPrecio(i, ui, valor) { const p = Number(valor); if (Number.isFinite(p) && p >= 0) catalogoCache[i].units[ui].price = p; }
 
     async function guardarRuta(i) {
       const r = catalogoCache[i];
       const btn = document.getElementById('save-' + i);
       const ok = document.getElementById('ok-' + i);
-      btn.disabled = true;
-      btn.textContent = 'Guardando...';
+      btn.disabled = true; btn.textContent = 'Guardando...';
 
       try {
         const res = await fetch(`${API_URL}/api/catalogo/${r.rid}`, {
@@ -988,36 +1108,30 @@
         const data = await res.json();
         if (data.ok) {
           ok.textContent = data.rutasSincronizadas > 0
-            ? `✓ Guardado (sincronizado en ${data.rutasSincronizadas} ruta${data.rutasSincronizadas === 1 ? '' : 's'} más)`
-            : '✓ Guardado';
+            ? `Guardado (sincronizado en ${data.rutasSincronizadas} ruta${data.rutasSincronizadas === 1 ? '' : 's'} más)`
+            : 'Guardado';
           setTimeout(() => { ok.textContent = ''; }, 3000);
-          // Si sincronizó otras rutas (unidad única apagada/prendida en cascada),
-          // hay que recargar todo el catálogo para que se vea reflejado ahí también.
           if (data.rutasSincronizadas > 0) await loadCatalogo();
         } else {
           alert('Error: ' + (data.error || 'No se pudo guardar'));
         }
       } catch (err) {
-        alert('Error de conexión al guardar');
+        alert('Error de conexión');
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = 'Guardar'; }
       }
     }
 
-    // Guarda solo el precio/estado de una unidad puntual, con feedback inmediato
-    // justo al lado del campo — sin tener que buscar el botón grande de arriba.
     async function guardarPrecio(i, ui) {
       const ok = document.getElementById(`ok-precio-${i}-${ui}`);
       ok.textContent = '...';
       await guardarRuta(i);
-      ok.textContent = '✓';
+      ok.textContent = 'Guardado';
       setTimeout(() => { ok.textContent = ''; }, 2000);
     }
 
-    // Sube el archivo real al servidor y devuelve su URL pública.
-    // Guardar la ruta local del archivo (/Users/.../foto.jpg) no sirve:
-    // el navegador de un visitante no puede leer el disco del dueño.
     async function subirArchivo(file) {
+      if (file.size > 4 * 1024 * 1024) throw new Error('La foto pesa más de 4 MB. Usa una más ligera.');
       const fd = new FormData();
       fd.append('foto', file);
       const res = await fetch(`${API_URL}/api/admin/upload`, {
@@ -1050,7 +1164,7 @@
         const url = await subirArchivo(file);
         catalogoCache[i].img = url;
         await guardarCampoRuta(i, { img: url });
-        ok.textContent = '✓ Guardado';
+        ok.textContent = 'Guardado';
         renderCatalogo();
       } catch (err) {
         ok.textContent = '';
@@ -1067,17 +1181,17 @@
       const espacio = 10 - catalogoCache[i].galeria.length;
       if (espacio <= 0) { alert('Ya tienes 10 fotos, el máximo por ruta'); input.value = ''; return; }
       const aSubir = files.slice(0, espacio);
-      if (files.length > espacio) alert(`Solo caben ${espacio} foto(s) más; se subirán las primeras ${espacio}.`);
+      if (files.length > espacio) alert(`Solo caben ${espacio} foto(s) más.`);
 
       const ok = document.getElementById('ok-subida-' + i);
       try {
         for (let n = 0; n < aSubir.length; n++) {
-          if (ok) ok.textContent = `Subiendo ${n + 1} de ${aSubir.length}...`;
+          if (ok) ok.textContent = `Subiendo ${n + 1}/${aSubir.length}...`;
           const url = await subirArchivo(aSubir[n]);
           catalogoCache[i].galeria.push(url);
         }
         await guardarCampoRuta(i, { galeria: catalogoCache[i].galeria });
-        if (ok) ok.textContent = '✓ Guardado';
+        if (ok) ok.textContent = 'Guardado';
         renderCatalogo();
       } catch (err) {
         if (ok) ok.textContent = '';
@@ -1103,7 +1217,7 @@
       ok.textContent = '...';
       try {
         await guardarCampoRuta(i, { video: catalogoCache[i].video });
-        ok.textContent = '✓ Guardado';
+        ok.textContent = 'Guardado';
       } catch (err) {
         ok.textContent = '';
         alert(err.message);
@@ -1113,10 +1227,12 @@
 
     function logout() {
       catalogoCache = [];
+      promosCache = [];
       tempToken = null;
       document.getElementById('paso-2fa').style.display = 'none';
       localStorage.removeItem('admin_token');
       token = null;
+      userRole = null;
       document.getElementById('login').style.display = 'block';
       document.getElementById('panel').style.display = 'none';
       document.getElementById('email').value = '';
