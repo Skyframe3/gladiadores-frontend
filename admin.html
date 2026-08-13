@@ -247,6 +247,24 @@
     .cal-day.empty { pointer-events: none; }
     .cal-day.past { opacity: 0.35; }
 
+    /* CALENDARIO DE DÍAS ACTIVOS */
+    .dias-cal { max-width: 380px; margin-top: 0.5rem; }
+    .dias-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+    .dias-cal-header span { font-size: 0.88rem; font-weight: 700; color: #E8E8E8; }
+    .dias-cal-nav { background: #222428; border: 1px solid #333; color: #999; border-radius: 6px; padding: 0.25rem 0.55rem; cursor: pointer; font-size: 0.85rem; }
+    .dias-cal-nav:hover { border-color: #FF7A00; color: #FF7A00; }
+    .dias-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .dias-cal-dow { text-align: center; font-size: 0.65rem; color: #555; font-weight: 600; padding: 0.2rem 0; }
+    .dias-cal-day {
+      text-align: center; padding: 0.35rem 0; border-radius: 6px; cursor: pointer;
+      font-size: 0.78rem; color: #555; border: 1px solid transparent; transition: all 0.12s;
+    }
+    .dias-cal-day:hover { background: #222428; color: #ccc; }
+    .dias-cal-day.activo { background: rgba(76,175,80,0.15); border-color: rgba(76,175,80,0.4); color: #4caf50; font-weight: 700; }
+    .dias-cal-day.empty { pointer-events: none; }
+    .dias-cal-day.past { opacity: 0.3; pointer-events: none; }
+    .dias-cal-btns { display: flex; gap: 6px; margin-top: 0.5rem; flex-wrap: wrap; }
+
     /* PROMOS */
     .promo-grid { display: grid; gap: 8px; }
     .promo-card {
@@ -1142,12 +1160,112 @@
               <button class="btn-action sm secondary" onclick="agregarHorario(${i})">Agregar horario</button>
             </div>
 
+            <div class="bloque-lbl" style="margin-top:1rem">Días activos</div>
+            <p class="card-meta" style="margin-bottom:0.5rem">Los clientes solo pueden reservar los días verdes. Toca un día para activar o desactivar.</p>
+            <div id="dias-cal-${i}" class="dias-cal"></div>
+
             <div class="bloque-lbl" style="margin-top:1rem">Unidades y asientos</div>
             <p class="card-meta" style="margin-bottom:0.8rem">Commander y Maverick de 2 plazas son unidad única: si la apagas aquí, se apaga en todas las rutas.</p>
             ${unidades || '<p style="color:#555;font-size:0.82rem">Sin unidades</p>'}
           </div>
         </div>`;
       }).join('');
+
+      catalogoCache.forEach((_, i) => renderDiasCal(i));
+    }
+
+    const diasCalMes = {};
+    function renderDiasCal(i) {
+      const cont = document.getElementById('dias-cal-' + i);
+      if (!cont) return;
+      if (!diasCalMes[i]) { const d = new Date(); diasCalMes[i] = { y: d.getFullYear(), m: d.getMonth() }; }
+      const { y, m } = diasCalMes[i];
+      const dias = catalogoCache[i].diasActivos || [];
+      const set = new Set(dias);
+      const hoyISO = new Date().toISOString().slice(0, 10);
+      const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      const first = new Date(y, m, 1);
+      const startDow = (first.getDay() + 6) % 7;
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+      let html = `<div class="dias-cal-header"><button class="dias-cal-nav" onclick="diasCalNav(${i},-1)">←</button><span>${meses[m]} ${y}</span><button class="dias-cal-nav" onclick="diasCalNav(${i},1)">→</button></div>`;
+      html += '<div class="dias-cal-grid">';
+      ['L','M','X','J','V','S','D'].forEach(d => { html += `<div class="dias-cal-dow">${d}</div>`; });
+      for (let e = 0; e < startDow; e++) html += '<div class="dias-cal-day empty"></div>';
+      for (let d = 1; d <= daysInMonth; d++) {
+        const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const past = iso < hoyISO;
+        const on = set.has(iso);
+        html += `<div class="dias-cal-day${on ? ' activo' : ''}${past ? ' past' : ''}" onclick="toggleDia(${i},'${iso}')">${d}</div>`;
+      }
+      html += '</div>';
+      html += `<div class="dias-cal-btns"><button class="btn-action sm secondary" onclick="diasFines(${i})">+ Fines de semana</button><button class="btn-action sm secondary" onclick="diasTodoMes(${i})">+ Todo el mes</button><button class="btn-action sm danger" onclick="diasLimpiarMes(${i})">Limpiar mes</button><button class="btn-action sm" onclick="guardarDias(${i})">Guardar días</button><span class="saved" id="ok-dias-${i}"></span></div>`;
+      cont.innerHTML = html;
+    }
+
+    function diasCalNav(i, dir) {
+      diasCalMes[i].m += dir;
+      if (diasCalMes[i].m > 11) { diasCalMes[i].m = 0; diasCalMes[i].y++; }
+      if (diasCalMes[i].m < 0) { diasCalMes[i].m = 11; diasCalMes[i].y--; }
+      renderDiasCal(i);
+    }
+
+    function toggleDia(i, iso) {
+      if (!catalogoCache[i].diasActivos) catalogoCache[i].diasActivos = [];
+      const arr = catalogoCache[i].diasActivos;
+      const idx = arr.indexOf(iso);
+      if (idx === -1) arr.push(iso); else arr.splice(idx, 1);
+      arr.sort();
+      renderDiasCal(i);
+    }
+
+    function diasFines(i) {
+      const { y, m } = diasCalMes[i];
+      const hoy = new Date().toISOString().slice(0, 10);
+      if (!catalogoCache[i].diasActivos) catalogoCache[i].diasActivos = [];
+      const set = new Set(catalogoCache[i].diasActivos);
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dt = new Date(y, m, d);
+        const dow = dt.getDay();
+        if (dow === 0 || dow === 6) {
+          const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+          if (iso >= hoy) set.add(iso);
+        }
+      }
+      catalogoCache[i].diasActivos = [...set].sort();
+      renderDiasCal(i);
+    }
+
+    function diasTodoMes(i) {
+      const { y, m } = diasCalMes[i];
+      const hoy = new Date().toISOString().slice(0, 10);
+      if (!catalogoCache[i].diasActivos) catalogoCache[i].diasActivos = [];
+      const set = new Set(catalogoCache[i].diasActivos);
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      for (let d = 1; d <= daysInMonth; d++) {
+        const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        if (iso >= hoy) set.add(iso);
+      }
+      catalogoCache[i].diasActivos = [...set].sort();
+      renderDiasCal(i);
+    }
+
+    function diasLimpiarMes(i) {
+      const { y, m } = diasCalMes[i];
+      const prefix = `${y}-${String(m + 1).padStart(2, '0')}`;
+      catalogoCache[i].diasActivos = (catalogoCache[i].diasActivos || []).filter(d => !d.startsWith(prefix));
+      renderDiasCal(i);
+    }
+
+    async function guardarDias(i) {
+      const ok = document.getElementById('ok-dias-' + i);
+      ok.textContent = '...';
+      try {
+        await guardarCampoRuta(i, { diasActivos: catalogoCache[i].diasActivos || [] });
+        ok.textContent = 'Guardado';
+      } catch (err) { ok.textContent = ''; alert(err.message); }
+      setTimeout(() => { const el = document.getElementById('ok-dias-' + i); if (el) el.textContent = ''; }, 2500);
     }
 
     function toggleRuta(i) { catalogoCache[i].activo = !catalogoCache[i].activo; renderCatalogo(); }
