@@ -218,6 +218,12 @@
       background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 8px;
     }
     .flotilla-unit img { width: 56px; height: 40px; object-fit: contain; border-radius: 6px; flex-shrink: 0; }
+    /* Número de la máquina: "la 7" identifica al vehículo mejor que el apodo */
+    .flotilla-unit .fu-num {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px;
+      display: grid; place-items: center; font-size: 0.8rem; font-weight: 800;
+      background: rgba(255,122,0,0.12); border: 1px solid rgba(255,122,0,0.35); color: #FF7A00;
+    }
     .flotilla-unit .fu-name { flex: 1; }
     .flotilla-unit .fu-name b { font-size: 0.88rem; color: #E8E8E8; }
     .flotilla-unit .fu-name small { display: block; color: #777; font-size: 0.75rem; }
@@ -737,6 +743,7 @@
           const tipoId = tipo === 'cuatrimoto' ? 'cuatrimoto' : `${tipo}-${u.plazas || 4}`;
           const imgSrc = UNIT_IMAGES[tipoId] || '';
           return `<div class="flotilla-unit">
+            ${u.numero ? `<span class="fu-num">${esc(String(u.numero))}</span>` : ''}
             ${imgSrc ? `<img src="${esc(imgSrc)}" alt="${esc(u.apodo)}" onerror="this.style.display='none'">` : ''}
             <div class="fu-name">
               <b>${esc(u.apodo)}</b>
