@@ -123,6 +123,12 @@
       font-size: 0.9rem;
     }
     .precio-input:focus { outline: none; border-color: #FF7A00; }
+    /* Tarifas: un precio por cada número de personas (el cobro es por vehículo) */
+    .tarifas { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .tarifa { display: flex; align-items: center; gap: 3px; font-size: 0.8rem; color: #999; }
+    .tarifa b { color: #FF7A00; font-size: 0.78rem; min-width: 22px; }
+    .tarifa .precio-input { width: 74px; padding: 0.35rem 0.45rem; }
+    .sin-tarifa { color: #FF5A5A; font-size: 0.78rem; }
     .asientos { display: flex; gap: 4px; }
     .asiento {
       width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 0.8rem; font-weight: 700;
@@ -442,11 +448,12 @@
     let userRole = null;
 
     const UNIT_IMAGES = {
-      'cuatrimoto': 'img/unidades/cuatrimoto-2p.avif',
+      'cuatrimoto': 'img/i18.png',
+      'cuatrimoto-2': 'img/i18.png',
       'commander-2': 'img/unidades/commander-2p.avif',
       'commander-4': 'img/unidades/commander-4p.avif',
-      'maverick-2': 'img/unidades/maverick-2p.avif',
-      'maverick-4': 'img/unidades/maverick-4p.avif'
+      'maverick-2': 'img/unidades/maverick-x3-rs-2p.avif',
+      'maverick-4': 'img/unidades/maverick-x3-max-4p.avif'
     };
 
     function esc(s) {
@@ -1071,10 +1078,14 @@
 
           return `<div class="unidad-row">
             <div class="unidad-nombre">${esc(u.name)}<small>${esc(u.type)}</small></div>
-            <div style="display:flex;align-items:center;gap:6px">
-              $<input class="precio-input" id="precio-${i}-${ui}" type="number" min="0" step="10" value="${esc(String(u.price))}" oninput="setPrecio(${i},${ui},this.value)">
-              <button class="btn-action sm" onclick="guardarPrecio(${i},${ui})" title="Guardar precio">Guardar</button>
+            <div class="tarifas">
+              ${nivelesDe(u).map(n => {
+                const t = (u.tarifas || []).find(x => x.personas === n);
+                return `<label class="tarifa"><b>${n}p</b>$<input class="precio-input" type="number" min="0" step="50" placeholder="0" value="${t && t.precio ? esc(String(t.precio)) : ''}" oninput="setTarifa(${i},${ui},${n},this.value)"></label>`;
+              }).join('')}
+              <button class="btn-action sm" onclick="guardarPrecio(${i},${ui})" title="Guardar tarifas">Guardar</button>
               <span class="saved" id="ok-precio-${i}-${ui}"></span>
+              ${(u.tarifas || []).some(t => t.precio > 0) ? '' : '<span class="sin-tarifa">sin precio: no se muestra</span>'}
             </div>
             <div class="asientos">${asientos}</div>
             <button class="switch ${u.activo ? 'on' : 'off'}" onclick="toggleUnidad(${i},${ui})">${u.activo ? 'Activa' : 'Apagada'}</button>
@@ -1152,7 +1163,25 @@
       if (pos === -1) u.booked.push(n); else u.booked.splice(pos, 1);
       renderCatalogo();
     }
-    function setPrecio(i, ui, valor) { const p = Number(valor); if (Number.isFinite(p) && p >= 0) catalogoCache[i].units[ui].price = p; }
+    // Escalones de precio de cada unidad: la cuatrimoto se cotiza desde 1
+    // persona y los SSV desde 2, igual que en los flyers.
+    function nivelesDe(u) {
+      const desde = String(u.id).startsWith('cuatrimoto') ? 1 : 2;
+      const niveles = [];
+      for (let n = desde; n <= u.seats; n++) niveles.push(n);
+      return niveles;
+    }
+
+    function setTarifa(i, ui, personas, valor) {
+      const unidad = catalogoCache[i].units[ui];
+      const precio = Number(valor);
+      if (!Number.isFinite(precio) || precio < 0) return;
+      if (!Array.isArray(unidad.tarifas)) unidad.tarifas = [];
+      const t = unidad.tarifas.find(x => x.personas === personas);
+      if (t) t.precio = precio;
+      else unidad.tarifas.push({ personas, precio });
+      unidad.tarifas.sort((a, b) => a.personas - b.personas);
+    }
 
     async function guardarRuta(i) {
       const r = catalogoCache[i];
@@ -1167,7 +1196,12 @@
           body: JSON.stringify({
             activo: r.activo,
             horarios: r.horarios.map(h => ({ hora: h.hora, activo: h.activo })),
-            units: r.units.map(u => ({ id: u.id, price: u.price, activo: u.activo, booked: u.booked }))
+            units: r.units.map(u => ({
+              id: u.id,
+              tarifas: (u.tarifas || []).filter(t => t.precio > 0),
+              activo: u.activo,
+              booked: u.booked
+            }))
           })
         });
         const data = await res.json();
