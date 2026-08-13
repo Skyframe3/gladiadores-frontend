@@ -217,6 +217,24 @@
     .flotilla-unit .fu-name small { display: block; color: #777; font-size: 0.75rem; }
     .flotilla-unit .fu-info { text-align: right; color: #777; font-size: 0.82rem; }
 
+    /* CALENDARIO */
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .cal-header h3 { font-size: 1.1rem; font-weight: 700; color: #E8E8E8; }
+    .cal-nav { background: #222428; border: 1px solid #333; color: #999; border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; font-size: 0.9rem; }
+    .cal-nav:hover { border-color: #FF7A00; color: #FF7A00; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 1.2rem; max-width: 520px; }
+    .cal-header { max-width: 520px; }
+    .cal-dow { text-align: center; font-size: 0.7rem; color: #666; font-weight: 600; letter-spacing: 0.05em; padding: 0.3rem 0; }
+    .cal-day { text-align: center; padding: 0.5rem 0.2rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; color: #999; transition: all 0.15s; border: 1px solid transparent; }
+    .cal-day:hover { background: #222428; color: #E8E8E8; }
+    .cal-day.today { border-color: #FF7A00; color: #FF7A00; font-weight: 700; }
+    .cal-day.selected, .cal-day.selected.past { background: #FF7A00; color: #fff; font-weight: 700; opacity: 1; }
+    .cal-day.selected::after { background: #fff !important; }
+    .cal-day.has-reservas { position: relative; color: #E8E8E8; }
+    .cal-day.has-reservas::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; background: #FF7A00; border-radius: 50%; }
+    .cal-day.empty { pointer-events: none; }
+    .cal-day.past { opacity: 0.35; }
+
     /* PROMOS */
     .promo-grid { display: grid; gap: 8px; }
     .promo-card {
@@ -310,14 +328,17 @@
         <button class="tab" data-tab="agente" id="tab-btn-agente" onclick="switchTab('agente')" style="display:none">Agente IA</button>
       </div>
 
-      <!-- FLOTILLA -->
+      <!-- FLOTILLA / CALENDARIO -->
       <div id="tab-flotilla" class="tab-panel">
-        <p class="tab-hint">Disponibilidad real por fecha. Lo que aquí aparece es lo que de verdad se descuenta cuando alguien reserva — no depende de lo que apagues a mano en Catálogo.</p>
-        <div style="display:flex;gap:10px;align-items:center;margin-bottom:1.2rem">
-          <input type="date" id="flotilla-fecha" class="precio-input" style="width:170px">
-          <button class="btn-action" onclick="cargarFlotilla()">Consultar</button>
+        <p class="tab-hint">Calendario de disponibilidad. Toca un día para ver qué unidades están rentadas y cuáles están libres.</p>
+        <div class="cal-header">
+          <button class="cal-nav" onclick="calNav(-1)">&larr;</button>
+          <h3 id="cal-title"></h3>
+          <button class="cal-nav" onclick="calNav(1)">&rarr;</button>
         </div>
-        <div id="flotilla-cuerpo"><p style="color:#777">Elige una fecha</p></div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <div id="cal-fecha-label" style="font-size:0.9rem;font-weight:700;color:#FF7A00;margin-bottom:0.8rem;display:none"></div>
+        <div id="flotilla-cuerpo"><p style="color:#777">Selecciona un día del calendario</p></div>
       </div>
 
       <!-- PROMOS (solo owner) -->
@@ -618,20 +639,70 @@
       if (nombre === 'seguridad') loadSeguridad();
       if (nombre === 'agente') loadAgente();
       if (nombre === 'promos') loadPromos();
-      if (nombre === 'flotilla') {
-        const input = document.getElementById('flotilla-fecha');
-        if (!input.value) input.value = new Date().toISOString().slice(0, 10);
-        cargarFlotilla();
-      }
+      if (nombre === 'flotilla') { renderCalendar(); }
     }
 
-    /* ===== FLOTILLA ===== */
+    /* ===== FLOTILLA / CALENDARIO ===== */
     const NOMBRE_TIPO = { cuatrimoto: 'Cuatrimotos', commander: 'Commanders', maverick: 'Mavericks' };
+    const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const DIAS_SEM = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+    let calYear = new Date().getFullYear();
+    let calMonth = new Date().getMonth();
+    let calSelected = null;
+    let calReservasDots = {};
 
-    async function cargarFlotilla() {
-      const fecha = document.getElementById('flotilla-fecha').value;
+    function calNav(dir) { calMonth += dir; if (calMonth > 11) { calMonth = 0; calYear++; } if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
+
+    async function loadCalendarDots() {
+      if (!reservasCache.length) { try { await loadReservas(); } catch (e) {} }
+      calReservasDots = {};
+      reservasCache.forEach(r => {
+        if (r.estado === 'cancelada') return;
+        const f = new Date(r.fecha).toISOString().slice(0, 10);
+        calReservasDots[f] = (calReservasDots[f] || 0) + 1;
+      });
+    }
+
+    async function renderCalendar() {
+      await loadCalendarDots();
+      drawCalendar();
+    }
+
+    function drawCalendar() {
+      const grid = document.getElementById('cal-grid');
+      document.getElementById('cal-title').textContent = MESES[calMonth] + ' ' + calYear;
+      const hoy = new Date().toISOString().slice(0, 10);
+      const primerDia = new Date(calYear, calMonth, 1);
+      let diaInicio = primerDia.getDay();
+      diaInicio = diaInicio === 0 ? 6 : diaInicio - 1;
+      const diasEnMes = new Date(calYear, calMonth + 1, 0).getDate();
+      let html = DIAS_SEM.map(d => `<div class="cal-dow">${d}</div>`).join('');
+      for (let i = 0; i < diaInicio; i++) html += '<div class="cal-day empty"></div>';
+      for (let d = 1; d <= diasEnMes; d++) {
+        const iso = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const clases = ['cal-day'];
+        if (iso === hoy) clases.push('today');
+        if (iso === calSelected) clases.push('selected');
+        if (iso < hoy) clases.push('past');
+        if (calReservasDots[iso]) clases.push('has-reservas');
+        html += `<div class="${clases.join(' ')}" onclick="calSelectDay('${iso}')">${d}</div>`;
+      }
+      grid.innerHTML = html;
+    }
+
+    function calSelectDay(iso) {
+      calSelected = iso;
+      const label = document.getElementById('cal-fecha-label');
+      const parts = iso.split('-');
+      label.textContent = `${parseInt(parts[2])} de ${MESES[parseInt(parts[1])-1]} ${parts[0]}`;
+      label.style.display = 'block';
+      drawCalendar();
+      cargarFlotilla(iso);
+    }
+
+    async function cargarFlotilla(fecha) {
       const cuerpo = document.getElementById('flotilla-cuerpo');
-      if (!fecha) { cuerpo.innerHTML = '<p style="color:#777">Elige una fecha</p>'; return; }
+      if (!fecha) { cuerpo.innerHTML = '<p style="color:#777">Selecciona un día del calendario</p>'; return; }
       cuerpo.innerHTML = '<p style="color:#777">Consultando...</p>';
       try {
         const res = await fetch(`${API_URL}/api/disponibilidad?fecha=${fecha}`);
