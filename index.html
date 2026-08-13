@@ -166,9 +166,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overfl
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:900;height:66px;display:flex;align-items:center;padding:0 34px;justify-content:space-between;background:rgba(8,10,7,0.55);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,122,0,0.12);transition:background .3s;}
 .nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;}
-.nav-logo img{height:40px;filter:drop-shadow(0 0 6px rgba(255,122,0,0.5));}
+.nav-logo img{height:40px;filter:drop-shadow(0 0 6px rgba(163,214,60,0.5));}
 .nav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;letter-spacing:1.5px;line-height:.85;}
-.nav-logo-txt span{color:var(--fire);}
+.nav-logo-txt span{color:var(--gladio);}
 .nav-links{display:flex;gap:26px;}
 .nav-lnk{color:var(--muted);font-size:13.5px;cursor:pointer;font-weight:500;background:none;border:none;font-family:'Inter',sans-serif;position:relative;transition:color .2s;}
 .nav-lnk::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--fire);transition:width .25s;box-shadow:0 0 8px var(--fire);}
@@ -542,7 +542,7 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
 /* El degradado solo se pinta dentro de la caja del elemento. Con el
    line-height apretado del h1, la cola de la "q" caía fuera y se cortaba.
    El line-height propio y el padding dan aire para descendentes e itálica. */
-.grad-text{background:linear-gradient(100deg,var(--fire),var(--gladio));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;line-height:1.06;padding-bottom:0.14em;padding-right:0.06em;}
+.grad-text{background:linear-gradient(100deg,var(--fire),var(--fire-dim));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;line-height:1.06;padding-bottom:0.14em;padding-right:0.06em;}
 .rc.extrema{border-color:rgba(163,214,60,0.18);}
 .rc.extrema:hover{border-color:rgba(163,214,60,0.5);box-shadow:0 26px 60px rgba(0,0,0,.6),0 0 30px rgba(163,214,60,0.12);}
 .rc.extrema .rc-tr{background:rgba(163,214,60,0.08);border-color:rgba(163,214,60,0.18);color:#F0BE9A;}
