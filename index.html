@@ -211,7 +211,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:66px;display:flex;ali
 .slide-content{position:relative;z-index:3;text-align:center;padding:0 24px;max-width:1000px;}
 .slide-eyebrow{display:inline-block;background:rgba(255,122,0,0.12);border:1px solid rgba(255,122,0,0.5);color:var(--fire);border-radius:100px;padding:7px 22px;font-size:12px;font-weight:700;letter-spacing:3px;margin-bottom:26px;backdrop-filter:blur(4px);box-shadow:0 0 24px rgba(255,122,0,0.2);}
 .slide-h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(58px,11vw,140px);font-weight:900;line-height:0.84;letter-spacing:-2px;color:#fff;text-shadow:0 6px 40px rgba(0,0,0,0.6);}
-.slide-h1 .neon-italic{display:block;font-style:italic;font-weight:800;color:var(--fire);text-shadow:0 0 30px rgba(255,122,0,0.6);}
 .slide-sub{font-family:'Barlow Condensed',sans-serif;font-size:clamp(15px,2.4vw,24px);font-weight:700;letter-spacing:7px;color:rgba(255,255,255,0.6);margin-top:14px;}
 .slide-desc{color:#D4DCC8;font-size:16px;max-width:460px;margin:22px auto 0;line-height:1.75;text-shadow:0 2px 10px rgba(0,0,0,0.7);}
 .badge-special{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#FF7A00,#B026FF);border:none;color:#fff;border-radius:100px;padding:8px 22px;font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:24px;box-shadow:0 0 30px rgba(255,122,0,0.5);animation:floatBadge 3s ease-in-out infinite;}
@@ -538,11 +537,13 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
 .exp-chip.fire-chip.active,.exp-chip.fire-chip:hover{background:rgba(163,214,60,0.14);border-color:var(--gladio);color:var(--gladio);}
 .btn-fire{background:var(--gladio);color:#0A0806;border:none;border-radius:11px;padding:16px 38px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:1px;box-shadow:0 0 28px rgba(163,214,60,0.45);transition:all .2s;}
 .btn-fire:hover{transform:translateY(-3px);box-shadow:0 0 42px rgba(163,214,60,0.7);}
-.slide-h1 .fire-italic{display:block;font-style:italic;font-weight:800;color:var(--gladio);text-shadow:0 0 30px rgba(163,214,60,0.6);}
+.slide-h1 .hero-gladio{display:block;font-style:italic;font-weight:800;color:var(--gladio);text-shadow:0 0 30px rgba(163,214,60,0.6);}
 /* El degradado solo se pinta dentro de la caja del elemento. Con el
    line-height apretado del h1, la cola de la "q" caía fuera y se cortaba.
    El line-height propio y el padding dan aire para descendentes e itálica. */
-.grad-text{background:linear-gradient(100deg,var(--fire),var(--fire-dim));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;line-height:1.06;padding-bottom:0.14em;padding-right:0.06em;}
+/* Naranja sólido a propósito: con background-clip:text la sombra negra del
+   h1 se colaba por detrás de las letras y apagaba el color. */
+.slide-h1 .hero-fire{display:block;font-style:italic;font-weight:800;color:var(--fire);text-shadow:0 0 30px rgba(255,122,0,0.6);line-height:1.06;padding-bottom:0.14em;padding-right:0.06em;}
 .rc.extrema{border-color:rgba(163,214,60,0.18);}
 .rc.extrema:hover{border-color:rgba(163,214,60,0.5);box-shadow:0 26px 60px rgba(0,0,0,.6),0 0 30px rgba(163,214,60,0.12);}
 .rc.extrema .rc-tr{background:rgba(163,214,60,0.08);border-color:rgba(163,214,60,0.18);color:#F0BE9A;}
@@ -733,12 +734,12 @@ section.blk>*{position:relative;z-index:1;}
 <!-- CARRUSEL -->
 <section class="hero-carousel" id="carousel">
   <div class="slide active"><div class="slide-bg" style="background-image:url(img/i2.jpg)"></div><div class="slide-ov" style="background:linear-gradient(180deg,rgba(8,10,7,0.55),rgba(8,10,7,0.35) 45%,rgba(8,10,7,0.9))"></div>
-    <div class="slide-content"><div class="slide-eyebrow">SIERRA NORTE DE PUEBLA</div><h1 class="slide-h1">NO ES UN PASEO<span class="grad-text" style="display:block">es una conquista</span></h1><div class="slide-sub">GLADIADORES OFF ROAD</div>
+    <div class="slide-content"><div class="slide-eyebrow">SIERRA NORTE DE PUEBLA</div><h1 class="slide-h1">NO ES UN PASEO<span class="hero-fire" style="display:block">es una conquista</span></h1><div class="slide-sub">GLADIADORES OFF ROAD</div>
     <div class="hero-btns"><button class="btn-neon" onclick="jump('rutas')">RESERVAR AVENTURA</button><button class="btn-ghost" onclick="jump('rutas')">Ver rutas →</button></div></div></div>
   <div class="slide"><div class="slide-bg" style="background-image:url(img/i3.jpg)"></div><div class="slide-ov" style="background:linear-gradient(90deg,rgba(8,10,7,0.85),rgba(8,10,7,0.3))"></div>
-    <div class="slide-content" style="text-align:left;margin-left:2%;"><div class="slide-eyebrow chip-fire">RUTAS EXTREMAS</div><h1 class="slide-h1" style="text-align:left;">CRUZA EL RÍO<span class="fire-italic">siente el poder 4×4</span></h1><p class="slide-desc" style="margin-left:0;">Vados, lodo y adrenalina pura. Rutas para todos los niveles.</p><div class="hero-btns" style="justify-content:flex-start;"><button class="btn-fire" onclick="jump('rutas')">Explorar rutas</button></div></div></div>
+    <div class="slide-content" style="text-align:left;margin-left:2%;"><div class="slide-eyebrow chip-fire">RUTAS EXTREMAS</div><h1 class="slide-h1" style="text-align:left;">CRUZA EL RÍO<span class="hero-gladio">siente el poder 4×4</span></h1><p class="slide-desc" style="margin-left:0;">Vados, lodo y adrenalina pura. Rutas para todos los niveles.</p><div class="hero-btns" style="justify-content:flex-start;"><button class="btn-fire" onclick="jump('rutas')">Explorar rutas</button></div></div></div>
   <div class="slide"><div class="slide-bg" style="background-image:url(img/i4.jpg)"></div><div class="slide-ov" style="background:linear-gradient(180deg,rgba(8,7,6,0.5),rgba(8,10,7,0.85))"></div>
-    <div class="slide-content"><div class="slide-eyebrow">FLOTA 100% CAN-AM</div><h1 class="slide-h1">MÁQUINAS<span class="neon-italic">de guerra</span></h1><p class="slide-desc">Maverick X3, Commander Max y Outlander. Equipo profesional.</p><div class="hero-btns"><button class="btn-neon" onclick="jump('unidades')">Ver unidades</button></div></div></div>
+    <div class="slide-content"><div class="slide-eyebrow">FLOTA 100% CAN-AM</div><h1 class="slide-h1">MÁQUINAS<span class="hero-fire">de guerra</span></h1><p class="slide-desc">Maverick X3, Commander Max y Outlander. Equipo profesional.</p><div class="hero-btns"><button class="btn-neon" onclick="jump('unidades')">Ver unidades</button></div></div></div>
   <div class="slide"><div class="slide-bg" style="background-image:url(img/i5.jpg)"></div><div class="slide-ov" style="background:linear-gradient(135deg,rgba(60,10,80,0.6),rgba(8,10,7,0.85))"></div>
     <div class="slide-content"><div class="badge-special">EDICIÓN ESPECIAL · TEMPORADA</div><h1 class="slide-special-title">RUTA <span>DÍA DE MUERTOS</span></h1><p class="slide-desc">Recorrido nocturno con veladoras y cempasúchil. Cupo limitado — 1 y 2 de noviembre.</p><div class="hero-btns"><button class="btn-neon" style="background:linear-gradient(90deg,#FF7A00,#B026FF);color:#fff;" onclick="jump('rutas')">APARTAR MI LUGAR</button></div></div></div>
   <button class="car-arrow left" onclick="prevSlide()">‹</button><button class="car-arrow right" onclick="nextSlide()">›</button>
