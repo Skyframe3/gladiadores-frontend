@@ -431,7 +431,10 @@
       <div id="tab-reservas" class="tab-panel active">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.8rem;flex-wrap:wrap;gap:8px">
           <p class="tab-hint" style="margin-bottom:0"><span class="live-dot"></span> En vivo — <span id="reservas-actualizado">cargando…</span></p>
-          <button class="btn-action sm secondary" onclick="loadReservas()">↻ Actualizar ahora</button>
+          <div style="display:flex;gap:8px">
+            <button class="btn-action sm secondary" onclick="loadReservas()">↻ Actualizar ahora</button>
+            <button class="btn-action sm secondary" onclick="exportarReservasCSV(this)">⬇ Descargar CSV</button>
+          </div>
         </div>
         <div class="table-wrap">
           <table id="tabla-reservas">
@@ -638,6 +641,58 @@ function renderReservas(reservas) {
           <td><button class="btn-action sm secondary" onclick="openModalByIdx(${idx})">Ver</button></td>
         </tr>
       `).join('');
+    }
+
+    // Descarga todas las reservas cargadas como CSV, para que el dueño se
+    // lleve su propia copia y no dependa solo de lo que viva en Mongo.
+    // Se pide la lista completa al servidor (no solo lo que ya está en
+    // caché) para que el CSV siempre sea el respaldo más reciente.
+    async function exportarReservasCSV(btn) {
+      if (btn) { btn.disabled = true; btn.textContent = 'Descargando...'; }
+      try {
+        const res = await fetch(`${API_URL}/api/reservas`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const data = await res.json();
+        if (!data.ok || !data.reservas) throw new Error(data.error || 'No se pudo descargar');
+        const filas = data.reservas;
+
+        const encabezados = ['Folio','Nombre','Email','WhatsApp','Ruta','Fecha','Horario','Unidad','Personas','Monto Pagado','Monto Total','Modo Pago','Estado','Creada'];
+        const csvEscape = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+        const lineas = [encabezados.map(csvEscape).join(',')];
+        filas.forEach(r => {
+          lineas.push([
+            r.folio,
+            r.cliente?.nombre,
+            r.cliente?.email,
+            r.cliente?.whatsapp,
+            r.ruta,
+            new Date(r.fecha).toLocaleDateString('es-MX'),
+            r.horario,
+            r.unidad,
+            r.personas,
+            r.monto,
+            r.montoTotal,
+            r.modoPago,
+            r.estado,
+            new Date(r.creadaEn).toLocaleString('es-MX')
+          ].map(csvEscape).join(','));
+        });
+
+        const csv = '﻿' + lineas.join('\r\n'); // BOM para que Excel abra bien los acentos
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const hoy = new Date().toISOString().slice(0, 10);
+        a.href = url;
+        a.download = `reservas-gladiadores-${hoy}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        alert('No se pudo descargar el CSV: ' + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '⬇ Descargar CSV'; }
+      }
     }
 
     function openModalByIdx(idx) {
