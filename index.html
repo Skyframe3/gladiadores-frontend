@@ -447,6 +447,8 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(255,1
 .opt{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 18px;cursor:pointer;font-size:14px;transition:all .2s;}
 .opt.sel{background:rgba(255,122,0,0.12);border-color:var(--fire);color:var(--fire);}
 .date-in{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,122,0,0.3);border-radius:10px;padding:12px 16px;color:var(--ink);font-size:16px;margin-bottom:22px;font-family:'Inter';outline:none;}
+.chk-box{flex-shrink:0;width:19px;height:19px;border-radius:5px;border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;transition:all .15s;margin-top:1px;}
+.chk-box.on{background:var(--fire);border-color:var(--fire);}
 .unit-pick{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;}
 .unit-pick.sel{border-color:var(--fire);background:rgba(255,122,0,0.08);}
 .unit-pick b{font-size:15px;}
@@ -669,6 +671,14 @@ section.blk>*{position:relative;z-index:1;}
 
 @media(max-width:860px){.ig-feed{grid-template-columns:1fr 1fr;}}
 @media(max-width:480px){.ig-feed{grid-template-columns:1fr;}}
+
+/* Ticket de reserva: al imprimir/guardar, solo se ve el ticket */
+@media print{
+  body *{visibility:hidden;}
+  #ticket-print,#ticket-print *{visibility:visible;color:#000!important;}
+  #ticket-print{position:absolute;top:0;left:0;width:100%;background:#fff!important;}
+  #ticket-print button{display:none;}
+}
 </style></head><body>
 <div id="scroll-progress"></div>
 <canvas id="dust-canvas"></canvas>
@@ -968,7 +978,7 @@ section.blk>*{position:relative;z-index:1;}
       <a href="https://waze.com/ul?q=Chignahuapan,Puebla" target="_blank" style="font-size:11px;color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:5px 10px;text-decoration:none;">Waze</a>
     </div></div>
   </div>
-  <div class="foot-bottom">© 2026 Gladiadores Off Road · Todos los derechos reservados · Hecho en la Sierra Norte de Puebla</div>
+  <div class="foot-bottom">© 2026 Gladiadores Off Road · Todos los derechos reservados · Hecho en la Sierra Norte de Puebla · <a href="aviso-privacidad.html" style="color:var(--muted)">Aviso de Privacidad</a></div>
 </footer>
 
 <!-- AGENTE DE CHAT -->
@@ -996,6 +1006,7 @@ section.blk>*{position:relative;z-index:1;}
       <div class="reg-field"><input type="text" placeholder="Nombre completo" id="r-nombre"/></div>
       <div class="reg-field"><input type="email" placeholder="Correo electrónico" id="r-email"/></div>
       <div class="reg-field"><input type="tel" placeholder="WhatsApp (10 dígitos)" id="r-tel"/></div>
+      <label style="display:flex;align-items:flex-start;gap:8px;margin:2px 0 14px;cursor:pointer" onclick="event.preventDefault();tRegPrivacidad()"><div id="chk-reg-privacidad" class="chk-box"></div><span style="font-size:11.5px;color:var(--muted);line-height:1.5">Acepto el <a href="aviso-privacidad.html" target="_blank" onclick="event.stopPropagation()" style="color:var(--fire)">Aviso de Privacidad</a>.</span></label>
       <button class="reg-submit" onclick="submitReg()">QUIERO MI DESCUENTO</button>
       <div class="reg-skip"><button onclick="closeReg()">Ahora no, gracias</button></div></div></div>
   <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title" style="font-size:17px;">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub" style="margin-top:6px;">Tu descuento está activo. Revisa tu WhatsApp.</div><button class="reg-submit" style="margin-top:12px;" onclick="closeReg()">EMPEZAR</button></div>
@@ -1006,6 +1017,7 @@ section.blk>*{position:relative;z-index:1;}
 
 <!-- CART -->
 <div class="cart-ovl" id="cart-ovl"><div class="cart-bk" onclick="closeCart()"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" onclick="closeCart()">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
+<script src="js/qrcode.min.js"></script>
 <script>
 // Catálogo de respaldo. Al cargar se reemplaza con lo que el admin
 // tenga publicado en el panel; si la API no responde, se usa esto.
@@ -1148,11 +1160,12 @@ function openCart(){renderCart();document.getElementById('cart-ovl').classList.a
 function closeCart(){document.getElementById('cart-ovl').classList.remove('open');}
 function renderCart(){const its=document.getElementById('cart-its'),ft=document.getElementById('cart-ft');if(!cart.length){its.innerHTML='<div class="cart-emp"><p>Tu carrito está vacío</p></div>';ft.innerHTML='';return;}its.innerHTML=cart.map(i=>`<div class="cart-it"><div><div class="cart-it-nm">${i.label}</div><div class="cart-it-pr">$${i.price}</div></div><button class="cart-rm" onclick="removeFromCart(${i.cid})">✕</button></div>`).join('');const t=cart.reduce((s,i)=>s+i.price,0);ft.innerHTML=`<div class="cart-tr"><span style="color:var(--muted)">Total</span><span class="cart-tv">$${t}</span></div><button class="btn-fw">PROCEDER AL PAGO</button>`;}
 
-function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
+function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
 function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
 
 function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function checkDatos(){const b=document.getElementById('btn-datos');if(b)b.disabled=!bNombre||!bEmail||!bWhatsapp||bWhatsapp.length!==10;}
+function checkDatos(){const b=document.getElementById('btn-datos');if(b)b.disabled=!bNombre||!bEmail||!bWhatsapp||bWhatsapp.length!==10||!bPrivacidad;}
+function tPrivacidad(){bPrivacidad=!bPrivacidad;checkDatos();const c=document.getElementById('chk-privacidad');if(c)c.classList.toggle('on',bPrivacidad);}
 function renderStep(){const L=['PASO 1 DE 4 · UNIDAD Y PERSONAS','PASO 2 DE 4 · FECHA Y HORARIO','PASO 3 DE 4 · TUS DATOS',RESERVAS_EN_LINEA?'PASO 4 DE 4 · PAGO':'PASO 4 DE 4 · ENVIAR SOLICITUD'];document.getElementById('mstep').textContent=L[bStep];const bd=document.getElementById('mbody');const bar=`<div class="step-bar">${[0,1,2,3].map(s=>`<div class="step-seg" style="background:${s<=bStep?'var(--fire)':'rgba(255,255,255,.1)'}"></div>`).join('')}</div>`;
 if(bStep===0){bd.innerHTML=bar+`<span class="field-lbl">ELIGE TU UNIDAD</span><div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">${unitsOf(bRoute).map(u=>{const cap=capacidadDe(u);const sel=bUnit&&bUnit.id===u.id;const unitImg=UNITS_FLEET.find(f=>f.uid===u.id);const imgSrc=unitImg?unitImg.img:'';
 const pax=sel?`<div style="width:100%;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,122,0,0.2)"><div style="color:var(--muted);font-size:12px;margin-bottom:8px">¿Cuántos van?</div><div style="display:flex;gap:8px;flex-wrap:wrap">${tarifasDe(u).map(t=>`<div class="opt ${bPersonas===t.personas?'sel':''}" style="flex:1;min-width:110px;text-align:center" onclick="event.stopPropagation();selPax(${t.personas})"><b>${t.personas} ${t.personas===1?'persona':'personas'}</b><div style="font-size:14px;font-weight:800;color:${bPersonas===t.personas?'inherit':'var(--fire)'}">$${t.precio}</div></div>`).join('')}</div></div>`:'';
@@ -1166,7 +1179,8 @@ else if(bStep===2){const subtotal=precioDe(bUnit,bPersonas);bd.innerHTML=bar+`<s
     <textarea id="input-nota" class="date-in" rows="2" placeholder="Cuéntanos qué necesitas..." style="resize:vertical;min-height:56px;font-family:'Inter',sans-serif" oninput="bNota=this.value">${esc(bNota)}</textarea>
   </div>
   <div style="background:var(--card);border:1px solid rgba(255,122,0,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:center"><div style="color:var(--muted);font-size:12px">Subtotal</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:var(--fire)">$${subtotal}</div></div>
-  <div class="btns-row"><button class="btn-back" onclick="bStep=1;renderStep()">← ATRÁS</button><button class="btn-next" id="btn-datos" ${(!bNombre||!bEmail||!bWhatsapp||bWhatsapp.length!==10)?'disabled':''} onclick="bStep=3;renderStep()">${RESERVAS_EN_LINEA?'IR AL PAGO →':'REVISAR SOLICITUD →'}</button></div>`;}
+  <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:16px;cursor:pointer" onclick="event.preventDefault();tPrivacidad()"><div id="chk-privacidad" class="chk-box ${bPrivacidad?'on':''}">${bPrivacidad?'✓':''}</div><span style="font-size:12.5px;color:var(--muted);line-height:1.5">He leído y acepto el <a href="aviso-privacidad.html" target="_blank" onclick="event.stopPropagation()" style="color:var(--fire)">Aviso de Privacidad</a> y el tratamiento de mis datos para gestionar esta reserva.</span></label>
+  <div class="btns-row"><button class="btn-back" onclick="bStep=1;renderStep()">← ATRÁS</button><button class="btn-next" id="btn-datos" ${(!bNombre||!bEmail||!bWhatsapp||bWhatsapp.length!==10||!bPrivacidad)?'disabled':''} onclick="bStep=3;renderStep()">${RESERVAS_EN_LINEA?'IR AL PAGO →':'REVISAR SOLICITUD →'}</button></div>`;}
 else if(bStep===3){bPayMethod=bPayMethod||'mercadopago';const total=precioDe(bUnit,bPersonas);const anticipo=Math.round(total*0.25);const monto=bPayMode==='anticipo'?anticipo:total;
   bd.innerHTML=bar+`<div class="summ-box"><div class="summ-row"><span style="color:var(--fire);font-weight:600">Cliente</span><span>${esc(bNombre)}</span></div><div class="summ-row"><span style="color:var(--muted);font-size:12px">${esc(bEmail)} · ${esc(bWhatsapp)}</span></div><div style="border-top:1px solid rgba(255,255,255,.1);margin:10px 0;padding-top:10px;margin-bottom:10px"><div class="summ-row"><span>${bRoute.name} · ${bFecha} · ${bHorario}</span><span></span></div><div class="summ-row"><span>${bUnit.name} · ${bPersonas} ${bPersonas===1?'persona':'personas'}</span><span>$${total}</span></div></div><div class="summ-tot"><span style="font-weight:600">Total</span><span class="summ-tot-p">$${total}</span></div></div>
   <span class="field-lbl">¿CÓMO QUIERES PAGAR?</span><div class="pay-split"><div class="pay-opt ${bPayMode==='anticipo'?'sel':''}" onclick="bPayMode='anticipo';renderStep()"><div class="pay-radio"></div><div class="po-name">Solo anticipo (25%)<div style="font-size:12px;color:var(--muted);font-weight:400">Resto el día de la ruta</div></div><div class="po-amt">$${anticipo}</div></div><div class="pay-opt ${bPayMode==='completo'?'sel':''}" onclick="bPayMode='completo';renderStep()"><div class="pay-radio"></div><div class="po-name">Pago completo<div style="font-size:12px;color:var(--muted);font-weight:400">Listo, sin pagar nada más</div></div><div class="po-amt">$${total}</div></div></div>
@@ -1176,35 +1190,66 @@ else if(bStep===3){bPayMethod=bPayMethod||'mercadopago';const total=precioDe(bUn
     <div style="font-weight:700;font-size:15px;color:var(--fire);margin-bottom:6px">Tu lugar se confirma por WhatsApp</div>
     <div style="color:var(--muted);font-size:13px;line-height:1.7">Pronto podrás pagar aquí mismo con Mercado Pago (tarjeta, SPEI u OXXO). Por ahora manda tu solicitud y te contestamos con la disponibilidad y las formas de pago.</div>
   </div>
-  <div class="btns-row" style="margin-top:6px"><button class="btn-back" onclick="bStep=2;renderStep()">← ATRÁS</button><button class="btn-next" onclick="enviarSolicitud(${total})">ENVIAR POR WHATSAPP →</button></div>`}`;}}
+  <div class="btns-row" style="margin-top:6px"><button class="btn-back" onclick="bStep=2;renderStep()">← ATRÁS</button><button class="btn-next" onclick="enviarSolicitud()">ENVIAR POR WHATSAPP →</button></div>`}`;}}
 
 // Arma la solicitud como texto y la abre en WhatsApp. No toca la base de
 // datos: mientras no haya pasarela de pago, apartar el lugar es una
 // decisión manual del equipo.
-function enviarSolicitud(total){
-  const anticipo=Math.round(total*0.25);
-  const lineas=[
-    'Hola! Quiero reservar una ruta:',
-    '',
-    'Ruta: '+bRoute.name,
-    'Fecha: '+bFecha,
-    'Horario: '+bHorario,
-    'Unidad: '+bUnit.name,
-    'Personas: '+bPersonas,
-    'Total: $'+total,
-    bPayMode==='anticipo'?'Pago: anticipo 25% ($'+anticipo+') y el resto el día de la ruta':'Pago: completo ($'+total+')',
-    '',
-    'Nombre: '+bNombre,
-    'Correo: '+bEmail,
-    'WhatsApp: '+bWhatsapp
-  ];
-  if(bNota.trim())lineas.push('','Algo especial: '+bNota.trim());
-  window.open('https://wa.me/527971001929?text='+encodeURIComponent(lineas.join('\n')),'_blank');
-  document.getElementById('mbody').innerHTML=`<div style="text-align:center;padding:24px 0">
-    <div style="font-family:Barlow Condensed;font-size:34px;font-weight:900;color:var(--fire);margin-bottom:10px">SOLICITUD ENVIADA</div>
-    <p style="color:var(--muted);margin-bottom:22px;line-height:1.7">Se abrió WhatsApp con todos los datos de tu ruta. Mándanos el mensaje y te confirmamos disponibilidad y el pago.</p>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:22px">¿No se abrió? Escríbenos al <b style="color:var(--ink)">797 100 1929</b></p>
-    <button class="btn-fw" onclick="closeBooking()">LISTO, CERRAR</button></div>`;
+// Guarda la reserva de verdad en el servidor (el precio lo calcula el
+// servidor a partir de la tarifa real, nunca confía en lo que traiga el
+// navegador) y solo entonces muestra el ticket y abre WhatsApp con el
+// folio real. Si el servidor rechaza la reserva (unidad ya no libre,
+// fecha ya no disponible), se avisa en vez de fingir que se envió.
+async function enviarSolicitud(){
+  const btn=document.querySelector('#mbody .btn-next');
+  if(btn){btn.disabled=true;btn.textContent='Enviando...';}
+  const reservaData={nombre:bNombre,email:bEmail,whatsapp:bWhatsapp,ruta:bRoute.name,rutaId:bRoute.id,categoriaId:bUnit.id,horario:bHorario,fecha:bFecha,personas:bPersonas,modoPago:bPayMode};
+  try{
+    const res=await fetch('https://gladiadores-backend.vercel.app/api/reservas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(reservaData)});
+    const data=await res.json();
+    if(!res.ok||!data.ok||!data.folio)throw new Error(data.error||'No se pudo crear la reserva. Intenta de nuevo.');
+    mostrarTicket(data);
+  }catch(err){
+    document.getElementById('mbody').innerHTML=`<div style="text-align:center;padding:20px;color:#ff6b6b"><div style="font-size:24px;margin-bottom:10px">⚠ ${esc(err.message||'Error de conexión')}</div><button class="btn-fw" style="background:#ff6b6b;margin-top:16px;" onclick="bStep=3;renderStep()">← REINTENTAR</button></div>`;
+  }
+}
+
+// Ticket de confirmación: folio grande, QR con los datos de la reserva
+// (para que el staff en la base pueda escanearlo sin depender de señal) y
+// botón para mandarlo por WhatsApp con el folio real ya generado.
+function mostrarTicket(data){
+  const falta=data.montoTotal-data.monto;
+  const fechaLegible=new Date(bFecha+'T00:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const qrTexto=['GLADIADORES OFF ROAD',data.folio,bRoute.name,fechaLegible+' · '+bHorario,data.unidad+' · '+bPersonas+(bPersonas===1?' persona':' personas'),'Total: $'+data.montoTotal].join('\n');
+  let qrSvg='';
+  try{const qr=qrcode(0,'M');qr.addData(qrTexto);qr.make();qrSvg=qr.createSvgTag({cellSize:5,margin:8});}catch(e){}
+
+  const lineasWa=['Hola! Mi reserva ya quedó registrada:','','Folio: '+data.folio,'Ruta: '+bRoute.name,'Fecha: '+bFecha,'Horario: '+bHorario,'Unidad: '+data.unidad,'Personas: '+bPersonas,bPayMode==='anticipo'?'Anticipo pagado: $'+data.monto+' · Resto en la ruta: $'+falta:'Pago completo: $'+data.monto,'','Nombre: '+bNombre,'WhatsApp: '+bWhatsapp];
+  if(bNota.trim())lineasWa.push('','Algo especial: '+bNota.trim());
+  window.open('https://wa.me/527971001929?text='+encodeURIComponent(lineasWa.join('\n')),'_blank');
+
+  document.getElementById('mbody').innerHTML=`
+  <div id="ticket-print" style="text-align:center;padding:8px 0">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;color:var(--fire);margin-bottom:4px">RESERVA CONFIRMADA</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:18px">Se abrió WhatsApp con tu folio. Mándanos el mensaje y confirmamos disponibilidad.</p>
+    <div style="background:var(--card);border:1px solid rgba(255,122,0,0.3);border-radius:16px;padding:22px 18px;margin-bottom:16px">
+      <img src="img/i1.png" alt="Gladiadores Off Road" width="44" height="44" style="margin-bottom:8px">
+      <div style="color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Folio</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:900;color:var(--fire);letter-spacing:1px;margin-bottom:14px">${esc(data.folio)}</div>
+      <div style="display:flex;justify-content:center;margin-bottom:14px">${qrSvg}</div>
+      <div style="text-align:left;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;font-size:13.5px;color:var(--ink);line-height:2">
+        <div><b style="color:var(--muted);font-weight:400">Ruta:</b> ${esc(bRoute.name)}</div>
+        <div><b style="color:var(--muted);font-weight:400">Fecha:</b> ${fechaLegible} · ${esc(bHorario)}</div>
+        <div><b style="color:var(--muted);font-weight:400">Unidad:</b> ${esc(data.unidad)} · ${bPersonas} ${bPersonas===1?'persona':'personas'}</div>
+        <div style="border-top:1px solid rgba(255,255,255,.1);margin-top:6px;padding-top:6px"><b style="color:var(--muted);font-weight:400">${bPayMode==='anticipo'?'Anticipo pagado:':'Pagado:'}</b> <span style="color:var(--fire);font-weight:700">$${data.monto}</span>${bPayMode==='anticipo'?` <span style="color:var(--muted)">· resto en la ruta $${falta}</span>`:''}</div>
+      </div>
+    </div>
+    <p style="color:var(--muted);font-size:12.5px;margin-bottom:18px">Muestra este ticket (o el QR) al llegar a la base. ¿No se abrió WhatsApp? Escríbenos al <b style="color:var(--ink)">797 100 1929</b></p>
+    <div style="display:flex;gap:10px">
+      <button class="btn-fw" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--ink)" onclick="window.print()">IMPRIMIR / GUARDAR</button>
+      <button class="btn-fw" onclick="closeBooking()">LISTO, CERRAR</button>
+    </div>
+  </div>`;
 }
 function selUnit(id){bUnit=bRoute.units.find(u=>u.id===id);bPersonas=0;renderStep();}
 function selPax(n){bPersonas=n;renderStep();}
@@ -1250,9 +1295,11 @@ function goSlide(i){slides[cur].classList.remove('active');dots[cur].classList.r
 function nextSlide(){goSlide(cur+1);}function prevSlide(){goSlide(cur-1);}
 
 // REG
-function openReg(){document.getElementById('reg-overlay').classList.add('open');}
+let regPrivacidad=false;
+function openReg(){regPrivacidad=false;const c=document.getElementById('chk-reg-privacidad');if(c)c.classList.remove('on');document.getElementById('reg-overlay').classList.add('open');}
 function closeReg(){document.getElementById('reg-overlay').classList.remove('open');localStorage.setItem('reg_done','1');}
-function submitReg(){const n=document.getElementById('r-nombre').value,e=document.getElementById('r-email').value;if(!n||!e){alert('Completa nombre y correo');return;}document.getElementById('reg-form-wrap').style.display='none';document.getElementById('reg-success').classList.add('show');localStorage.setItem('reg_done','1');}
+function tRegPrivacidad(){regPrivacidad=!regPrivacidad;document.getElementById('chk-reg-privacidad').classList.toggle('on',regPrivacidad);}
+function submitReg(){const n=document.getElementById('r-nombre').value,e=document.getElementById('r-email').value;if(!n||!e){alert('Completa nombre y correo');return;}if(!regPrivacidad){alert('Acepta el Aviso de Privacidad para continuar');return;}document.getElementById('reg-form-wrap').style.display='none';document.getElementById('reg-success').classList.add('show');localStorage.setItem('reg_done','1');}
 
 // CHATBOT
 function toggleChat(){document.getElementById('chat-win').classList.toggle('open');document.getElementById('chat-input').focus();}

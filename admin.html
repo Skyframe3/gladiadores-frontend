@@ -188,6 +188,12 @@
     .estado-cancelada { background: rgba(244,67,54,0.12); color: #f44336; }
     .estado-completada { background: rgba(33,150,243,0.12); color: #2196f3; }
     .estado-no_show { background: rgba(255,152,0,0.12); color: #ff9800; }
+    /* Anticipo vs pago completo: se ve de un vistazo qué reservas todavía deben dinero */
+    .pago-pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+    .pago-pill.anticipo { background: rgba(255,152,0,0.12); color: #ff9800; }
+    .pago-pill.completo { background: rgba(76,175,80,0.12); color: #4caf50; }
+    .live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #4caf50; margin-right: 4px; animation: livePulse 2s infinite; }
+    @keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 
     /* MODAL */
     .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
@@ -423,6 +429,10 @@
 
       <!-- RESERVAS -->
       <div id="tab-reservas" class="tab-panel active">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.8rem;flex-wrap:wrap;gap:8px">
+          <p class="tab-hint" style="margin-bottom:0"><span class="live-dot"></span> En vivo — <span id="reservas-actualizado">cargando…</span></p>
+          <button class="btn-action sm secondary" onclick="loadReservas()">↻ Actualizar ahora</button>
+        </div>
         <div class="table-wrap">
           <table id="tabla-reservas">
             <thead>
@@ -578,9 +588,25 @@
       }
 
       loadReservas();
+      startPolling();
     }
 
     /* ===== RESERVAS ===== */
+    // El panel se refresca solo mientras la pestaña está visible y no hay un
+    // modal abierto (para no jalarle la tabla al dueño mientras está viendo
+    // el detalle de una reserva). No es websockets — es un jalón cada rato,
+    // suficiente para que el panel nunca se sienta viejo.
+    let pollTimer = null;
+    function startPolling() {
+      if (pollTimer) return;
+      pollTimer = setInterval(() => {
+        if (document.hidden) return;
+        if (document.getElementById('modal').classList.contains('open')) return;
+        if (document.getElementById('tab-reservas').classList.contains('active')) loadReservas();
+        else if (document.getElementById('tab-flotilla').classList.contains('active') && calSelected) cargarFlotilla(calSelected);
+      }, 20000);
+    }
+
     async function loadReservas() {
       try {
         const res = await fetch(`${API_URL}/api/reservas`, { headers: { 'Authorization': `Bearer ${token}` } });
@@ -588,6 +614,8 @@
         if (data.ok && data.reservas) {
           reservasCache = data.reservas;
           renderReservas(data.reservas);
+          const marca = document.getElementById('reservas-actualizado');
+          if (marca) marca.textContent = 'actualizado a las ' + new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
         } else {
           document.getElementById('tbody-reservas').innerHTML = `<tr><td colspan="7" style="color:#ff6b6b">${esc(data.error || 'Error')}</td></tr>`;
         }
@@ -596,7 +624,7 @@
       }
     }
 
-    function renderReservas(reservas) {
+function renderReservas(reservas) {
       const tbody = document.getElementById('tbody-reservas');
       if (!reservas.length) { tbody.innerHTML = '<tr><td colspan="7" style="color:#777;text-align:center">Sin reservas</td></tr>'; return; }
       tbody.innerHTML = reservas.map((r, idx) => `
@@ -605,7 +633,7 @@
           <td>${esc(r.cliente?.nombre)}</td>
           <td>${esc(r.ruta)}</td>
           <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
-          <td>$${esc(String(r.monto))}</td>
+          <td>$${esc(String(r.monto))}${r.modoPago === 'anticipo' ? ` <span class="pago-pill anticipo">anticipo · falta $${esc(String((r.montoTotal || r.monto) - r.monto))}</span>` : ` <span class="pago-pill completo">completo</span>`}</td>
           <td><span class="estado-badge estado-${esc(r.estado)}">${esc(r.estado)}</span></td>
           <td><button class="btn-action sm secondary" onclick="openModalByIdx(${idx})">Ver</button></td>
         </tr>
@@ -621,15 +649,18 @@
     function openModal(id, reserva) {
       currentReservaId = id;
       const body = document.getElementById('modal-body');
+      const falta = (reserva.montoTotal || reserva.monto) - reserva.monto;
       body.innerHTML = `
         <div class="modal-detail"><b>Folio:</b> ${esc(reserva.folio)}</div>
         <div class="modal-detail"><b>Cliente:</b> ${esc(reserva.cliente?.nombre)}</div>
         <div class="modal-detail"><b>Email:</b> ${esc(reserva.cliente?.email)}</div>
-        <div class="modal-detail"><b>WhatsApp:</b> ${esc(reserva.cliente?.whatsapp)}</div>
-        <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)}</div>
+        <div class="modal-detail"><b>WhatsApp:</b> <a href="https://wa.me/52${esc(reserva.cliente?.whatsapp)}" target="_blank" style="color:#4caf50">${esc(reserva.cliente?.whatsapp)}</a></div>
+        <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)} · ${new Date(reserva.fecha).toLocaleDateString('es-MX')} · ${esc(reserva.horario)}</div>
         <div class="modal-detail"><b>Unidad:</b> ${esc(reserva.unidad)}</div>
-        <div class="modal-detail"><b>Asientos:</b> ${esc(reserva.asientos?.join(', '))}</div>
-        <div class="modal-detail"><b>Monto:</b> $${esc(String(reserva.monto))}</div>
+        <div class="modal-detail"><b>Personas:</b> ${esc(String(reserva.personas ?? '—'))}</div>
+        <div class="modal-detail"><b>Pago:</b> ${reserva.modoPago === 'completo'
+          ? `$${esc(String(reserva.monto))} (completo)`
+          : `Anticipo $${esc(String(reserva.monto))} de $${esc(String(reserva.montoTotal || reserva.monto))} · falta $${esc(String(falta))}`}</div>
         <div class="modal-detail"><b>Estado:</b> <span class="estado-badge estado-${esc(reserva.estado)}">${esc(reserva.estado)}</span></div>
       `;
       document.getElementById('estado-select').value = reserva.estado;
