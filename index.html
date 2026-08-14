@@ -245,6 +245,18 @@ section.blk{padding:90px 34px;}
 .sec-sub{color:var(--muted);font-size:15px;margin-top:10px;}
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s,transform .7s;}
 .reveal.in{opacity:1;transform:none;}
+/* Encabezados de sección: ojo, título y subtítulo entran en cascada
+   (uno tras otro) en vez de aparecer todos de golpe. */
+.sec-hdr .sec-eye,.sec-hdr .sec-tit,.sec-hdr .sec-sub{opacity:0;transform:translateY(16px);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1);}
+.sec-hdr.in .sec-eye{opacity:1;transform:none;transition-delay:0s;}
+.sec-hdr.in .sec-tit{opacity:1;transform:none;transition-delay:.12s;}
+.sec-hdr.in .sec-sub{opacity:1;transform:none;transition-delay:.24s;}
+/* Divisor "huella de llanta": se dibuja de izquierda a derecha al entrar
+   en pantalla, como si algo acabara de pasar por ahí. Se usa suelto entre
+   un par de secciones, no es un bloque grande. */
+.tread-divider{max-width:640px;margin:0 auto 8px;height:22px;opacity:.6;clip-path:inset(0 100% 0 0);transition:clip-path 1.15s cubic-bezier(.16,1,.3,1);}
+.tread-divider svg{width:100%;height:100%;display:block;}
+.tread-divider.in{clip-path:inset(0 0% 0 0);}
 
 /* RUTAS */
 #rutas{background:var(--bg2);}
@@ -680,61 +692,7 @@ section.blk>*{position:relative;z-index:1;}
   #ticket-print button{display:none;}
 }
 
-/* ═══ SCROLLYTELLING: LA RUTA ═══
-   5 pantallas de alto, una viewport fija adentro (sticky) que va cambiando
-   de escena según cuánto se ha scrolleado la sección completa. Todo el
-   movimiento (parallax, polvo, inclinación del vehículo, color del cielo)
-   lo calcula un solo rAF loop en JS que lee el scroll — ver storyEngine. */
-.offroad-story{position:relative;height:500vh;background:var(--bg);}
-.story-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
-.story-sky{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#1a1512,#2b1f14);transition:background .1s linear;}
-.story-sky::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(0,0,0,0)0%,rgba(0,0,0,.55)100%);}
-.story-layer{position:absolute;left:-30%;width:160%;bottom:0;z-index:2;will-change:transform;}
-.story-mountains-far{height:42%;z-index:2;}
-.story-mountains-far svg{width:100%;height:100%;display:block;}
-.story-mountains-near{height:32%;z-index:3;}
-.story-mountains-near svg{width:100%;height:100%;display:block;}
-.story-trees{height:16%;z-index:4;}
-.story-trees svg{width:100%;height:100%;display:block;}
-.story-road{position:absolute;left:-30%;width:160%;bottom:0;height:14%;z-index:5;background:
-  repeating-linear-gradient(90deg,rgba(245,241,236,.55)0 26px,transparent 26px 64px) center 38%/100% 5px no-repeat,
-  linear-gradient(180deg,#2a2019,#120d09);
-  will-change:transform;}
-.story-vehicle{position:relative;z-index:6;width:min(52vw,560px);max-width:640px;margin-bottom:8vh;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6));will-change:transform;}
-.story-dust{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.08;transition:opacity .4s;}
-.story-dust span{position:absolute;bottom:8%;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(230,210,180,.5),transparent 70%);filter:blur(6px);}
-.story-dust span:nth-child(1){left:38%;animation:dustFloat 6s ease-in-out infinite;}
-.story-dust span:nth-child(2){left:48%;width:90px;height:90px;animation:dustFloat 7.5s ease-in-out infinite .8s;}
-.story-dust span:nth-child(3){left:58%;width:150px;height:150px;animation:dustFloat 5.2s ease-in-out infinite 1.6s;}
-@keyframes dustFloat{0%{transform:translate(0,0) scale(1);opacity:.6;}100%{transform:translate(-40px,-60px) scale(1.6);opacity:0;}}
-.story-eyebrow-fixed{position:absolute;top:34px;left:50%;transform:translateX(-50%);z-index:9;color:var(--muted);font-size:12px;letter-spacing:3px;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
-.story-eyebrow-fixed b{color:var(--fire);}
-.story-beats{position:absolute;left:0;right:0;bottom:14%;z-index:9;padding:0 8%;pointer-events:none;}
-.story-beat{position:absolute;left:8%;right:8%;bottom:0;opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease;}
-.story-beat.active{opacity:1;transform:none;}
-.story-beat .st-eye{display:block;color:var(--fire);font-size:12px;font-weight:800;letter-spacing:3px;margin-bottom:6px;}
-.story-beat h3{font-family:'Barlow Condensed',sans-serif;font-size:clamp(32px,6vw,64px);font-weight:900;color:var(--ink);line-height:.95;margin-bottom:8px;text-shadow:0 4px 24px rgba(0,0,0,.6);}
-.story-beat p{color:var(--muted);font-size:clamp(13px,1.6vw,16px);max-width:440px;}
-.story-beat.final h3{color:var(--fire);}
-.story-waypoints{position:absolute;right:5%;top:50%;transform:translateY(-50%);z-index:9;display:flex;flex-direction:column;gap:16px;align-items:center;}
-.story-waypoints::before{content:'';position:absolute;top:6px;bottom:6px;width:1px;background:rgba(255,255,255,.15);z-index:-1;}
-.story-wp{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);transition:all .3s;}
-.story-wp.on{background:var(--fire);border-color:var(--fire);box-shadow:0 0 10px rgba(255,122,0,.7);}
-.story-scrollhint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:9;color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:1;transition:opacity .4s;animation:hintBob 1.8s ease-in-out infinite;}
-.story-scrollhint.hide{opacity:0;}
-@keyframes hintBob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,6px);}}
-@media(max-width:760px){
-  .offroad-story{height:400vh;}
-  .story-vehicle{width:78vw;}
-  .story-beats{bottom:20%;}
-  .story-waypoints{right:14px;gap:12px;}
-  .story-beat p{display:none;}
-}
-@media(prefers-reduced-motion:reduce){
-  .story-layer,.story-road,.story-vehicle{transform:none!important;transition:none!important;}
-  .story-dust span{animation:none!important;opacity:0!important;}
-  .story-scrollhint{animation:none;}
-}
+
 </style></head><body>
 <div id="scroll-progress"></div>
 <canvas id="dust-canvas"></canvas>
@@ -820,64 +778,7 @@ section.blk>*{position:relative;z-index:1;}
   </div>
 </section>
 
-<!-- SCROLLYTELLING: LA RUTA -->
-<section class="offroad-story" id="historia" aria-label="La ruta, contada mientras avanzas">
-  <div class="story-sticky">
-    <div class="story-sky" id="storySky"></div>
-
-    <div class="story-layer story-mountains-far" id="storyMtFar">
-      <svg viewBox="0 0 1600 300" preserveAspectRatio="none" aria-hidden="true">
-        <path fill="#1c140f" d="M0,300 L0,180 L120,130 L240,170 L360,90 L520,150 L640,60 L800,140 L960,80 L1120,160 L1280,100 L1440,170 L1600,120 L1600,300 Z"/>
-      </svg>
-    </div>
-
-    <div class="story-layer story-mountains-near" id="storyMtNear">
-      <svg viewBox="0 0 1600 300" preserveAspectRatio="none" aria-hidden="true">
-        <path fill="#2a1d14" d="M0,300 L0,240 L80,150 L180,220 L280,110 L400,200 L520,70 L620,190 L740,90 L860,210 L980,60 L1100,180 L1220,100 L1340,220 L1460,130 L1600,210 L1600,300 Z"/>
-      </svg>
-    </div>
-
-    <div class="story-layer story-trees" id="storyTrees">
-      <svg viewBox="0 0 1600 140" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <pattern id="pineTile" width="70" height="140" patternUnits="userSpaceOnUse">
-            <rect x="30" y="108" width="8" height="28" fill="#0c0906"/>
-            <polygon points="10,112 60,112 35,72" fill="#0d1209"/>
-            <polygon points="14,86 56,86 35,50" fill="#0d1209"/>
-            <polygon points="18,60 52,60 35,24" fill="#0d1209"/>
-          </pattern>
-        </defs>
-        <rect width="1600" height="140" fill="url(#pineTile)"/>
-      </svg>
-    </div>
-
-    <div class="story-road" id="storyRoad"></div>
-
-    <div class="story-dust" id="storyDust"><span></span><span></span><span></span></div>
-
-    <img class="story-vehicle" id="storyVehicle" src="img/unidades/maverick-x3-max-4p.avif" alt="Maverick X3 conquistando la Sierra Norte de Puebla" loading="lazy">
-
-    <div class="story-eyebrow-fixed"><b>●</b> LA RUTA</div>
-
-    <div class="story-beats">
-      <div class="story-beat active" data-beat="0"><span class="st-eye">CHIGNAHUAPAN · KM 0</span><h3>SALES DEL PUEBLO</h3><p>El asfalto se acaba y empieza la Sierra Norte de Puebla.</p></div>
-      <div class="story-beat" data-beat="1"><span class="st-eye">EL BOSQUE</span><h3>CRUZAS LA MONTAÑA</h3><p>Pinos cerrados, curvas ciegas y el motor Rotax al 100%.</p></div>
-      <div class="story-beat" data-beat="2"><span class="st-eye">EL VADO</span><h3>VADEAS EL RÍO</h3><p>Agua hasta el toldo. Nadie dijo que sería limpio.</p></div>
-      <div class="story-beat" data-beat="3"><span class="st-eye">LA SUBIDA</span><h3>ATACAS LA CUESTA</h3><p>Polvo, roca suelta y 4x4 bloqueado a fondo.</p></div>
-      <div class="story-beat final" data-beat="4"><span class="st-eye">LA CIMA</span><h3>NO ES UN PASEO,<br>ES UNA CONQUISTA</h3><p>Chignahuapan abajo, la Sierra entera enfrente.</p></div>
-    </div>
-
-    <div class="story-waypoints" aria-hidden="true">
-      <span class="story-wp on" data-wp="0"></span>
-      <span class="story-wp" data-wp="1"></span>
-      <span class="story-wp" data-wp="2"></span>
-      <span class="story-wp" data-wp="3"></span>
-      <span class="story-wp" data-wp="4"></span>
-    </div>
-
-    <div class="story-scrollhint" id="storyHint">Desliza para vivir la ruta ↓</div>
-  </div>
-</section>
+<div class="tread-divider" aria-hidden="true"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><defs><pattern id="tread1" width="40" height="22" patternUnits="userSpaceOnUse"><path d="M0,22 L13,0 L20,0 L7,22 Z" fill="var(--fire)"/><path d="M20,22 L33,0 L40,0 L27,22 Z" fill="var(--gladio)"/></pattern></defs><rect width="400" height="22" fill="url(#tread1)"/></svg></div>
 
 <!-- RUTAS -->
 <section class="blk" id="rutas"><div class="sec-hdr reveal"><span class="sec-eye">NUESTRAS RUTAS</span><div class="sec-tit">ELIGE TU <em>TERRENO</em></div>
@@ -900,6 +801,8 @@ section.blk>*{position:relative;z-index:1;}
     En temporada alta contamos, sujeto a confirmación, con unidades externas de apoyo (1 Maverick X3 y 1 Polaris Pro R). La disponibilidad que ves aquí refleja solo nuestras unidades propias.
   </div>
 </section>
+
+<div class="tread-divider" aria-hidden="true"><svg viewBox="0 0 400 22" preserveAspectRatio="none"><defs><pattern id="tread2" width="40" height="22" patternUnits="userSpaceOnUse"><path d="M0,22 L13,0 L20,0 L7,22 Z" fill="var(--gladio)"/><path d="M20,22 L33,0 L40,0 L27,22 Z" fill="var(--fire)"/></pattern></defs><rect width="400" height="22" fill="url(#tread2)"/></svg></div>
 
 <!-- HORARIOS Y CALENDARIO -->
 <section class="blk" id="horarios" style="background:var(--bg2);">
@@ -1484,7 +1387,7 @@ function goWhatsApp(){window.open('https://wa.me/527971001929?text=Hola!%20Vengo
 
 // REVEAL on scroll
 const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+document.querySelectorAll('.reveal,.tread-divider').forEach(el=>obs.observe(el));
 
 // NAV bg
 window.addEventListener('scroll',()=>{document.getElementById('nav').style.background=window.scrollY>60?'rgba(8,10,7,0.92)':'rgba(8,10,7,0.55)';});
@@ -1503,6 +1406,9 @@ fetch('https://gladiadores-backend.vercel.app/api/catalogo',{cache:'no-store'})
   .finally(()=>renderRoutes(lastFilter));
 
 // ── DUST PARTICLE SYSTEM ──
+// El polvo de fondo reacciona a qué tan rápido se scrollea la página, como
+// si scrollear fuera "manejar": entre más rápido, más se levanta el polvo
+// y más se acelera hacia arriba; en reposo vuelve a flotar tranquilo.
 (function(){
   const c=document.getElementById('dust-canvas');if(!c)return;
   const ctx=c.getContext('2d');
@@ -1521,14 +1427,24 @@ fetch('https://gladiadores-backend.vercel.app/api/catalogo',{cache:'no-store'})
       color:Math.random()>0.7?'rgba(163,214,60,':'rgba(255,122,0,'
     });
   }
+  let kick=0,lastY=window.scrollY,lastT=performance.now();
+  window.addEventListener('scroll',()=>{
+    const now=performance.now();
+    const dt=Math.max(16,now-lastT);
+    const v=Math.abs(window.scrollY-lastY)/dt;
+    kick=Math.min(2.2,kick+v*10);
+    lastY=window.scrollY;lastT=now;
+  },{passive:true});
   function draw(){
     ctx.clearRect(0,0,W,H);
+    kick*=0.94;
     particles.forEach(p=>{
       ctx.beginPath();
       ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=p.color+p.o+')';
+      ctx.fillStyle=p.color+Math.min(1,p.o*(1+kick*0.6))+')';
       ctx.fill();
-      p.x+=p.dx;p.y+=p.dy;
+      p.x+=p.dx*(1+kick);
+      p.y+=p.dy*(1+kick*1.8);
       if(p.y>H+10){p.y=-10;p.x=Math.random()*W;}
       if(p.x<-10)p.x=W+10;
       if(p.x>W+10)p.x=-10;
@@ -1552,10 +1468,14 @@ const revealObs=new IntersectionObserver((entries)=>{
       e.target.classList.add('in');
       const children=e.target.querySelectorAll('.ig-card,.rc,.uc,.mc,.rank-c,.gal-item,.chigna-item');
       children.forEach((ch,i)=>{
+        // Entrada tipo "brinco de terracería": cada tarjeta cae con una
+        // leve inclinación alterna y se asienta derecha, en vez de un
+        // deslizamiento uniforme sin carácter.
+        const tilt=i%2===0?-2.5:2.5;
         ch.style.opacity='0';
-        ch.style.transform='translateY(30px)';
-        ch.style.transition='opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1)';
-        ch.style.transitionDelay=(i*0.1)+'s';
+        ch.style.transform=`translateY(34px) rotate(${tilt}deg)`;
+        ch.style.transition='opacity .6s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.34,1.4,.4,1)';
+        ch.style.transitionDelay=(i*0.08)+'s';
         setTimeout(()=>{ch.style.opacity='1';ch.style.transform='none';},50);
       });
     }
@@ -1616,86 +1536,4 @@ window.addEventListener('scroll',()=>{
   lastScroll=sy;
 });
 
-// ── SCROLLYTELLING "LA RUTA" ──
-// Una sola sección de 500vh con un viewport fijo (sticky) adentro. Se lee
-// cuánto se ha scrolleado la sección completa (0 a 1) y de ahí se calcula
-// en qué de las 5 escenas ("beats") se está y qué tan avanzado va dentro
-// de esa escena. Todo el movimiento sale de ese único número — nada de
-// scroll listeners sueltos por capa.
-(function(){
-  const story=document.getElementById('historia');
-  if(!story)return;
-  const sky=document.getElementById('storySky');
-  const mtFar=document.getElementById('storyMtFar');
-  const mtNear=document.getElementById('storyMtNear');
-  const trees=document.getElementById('storyTrees');
-  const road=document.getElementById('storyRoad');
-  const dust=document.getElementById('storyDust');
-  const vehicle=document.getElementById('storyVehicle');
-  const hint=document.getElementById('storyHint');
-  const beats=[...story.querySelectorAll('.story-beat')];
-  const waypoints=[...story.querySelectorAll('.story-wp')];
-  const N=beats.length;
-  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Color del cielo por escena: amanecer al salir del pueblo → verde frío
-  // del bosque → azul del río → dorado de la subida → morado de la cima
-  // (el morado es el color que la marca reserva para lo especial).
-  const SKY=[
-    ['#1a1512','#2b1f14'],
-    ['#0f1a10','#0a140c'],
-    ['#0a1620','#08101a'],
-    ['#2a1608','#170b04'],
-    ['#2a1030','#150818']
-  ];
-
-  let ticking=false;
-  function update(){
-    ticking=false;
-    const rect=story.getBoundingClientRect();
-    const total=story.offsetHeight-window.innerHeight;
-    const progress=total>0?Math.min(1,Math.max(0,-rect.top/total)):0;
-
-    if(hint)hint.classList.toggle('hide',progress>0.03);
-
-    if(reduceMotion){
-      const zone=Math.min(N-1,Math.floor(progress*N));
-      beats.forEach((b,i)=>b.classList.toggle('active',i===zone));
-      waypoints.forEach((w,i)=>w.classList.toggle('on',i<=zone));
-      return;
-    }
-
-    const zoneFloat=progress*N;
-    const zone=Math.min(N-1,Math.floor(zoneFloat));
-    const localP=zoneFloat-zone;
-
-    mtFar.style.transform=`translateX(${-progress*50}px)`;
-    mtNear.style.transform=`translateX(${-progress*110}px)`;
-    trees.style.transform=`translateX(${-progress*200}px)`;
-    road.style.transform=`translateX(${-progress*520}px)`;
-
-    const climbTilt=zone===3?-7*Math.sin(localP*Math.PI):0;
-    const bob=Math.sin(progress*50)*4;
-    vehicle.style.transform=`translateY(${bob}px) rotate(${climbTilt}deg)`;
-
-    const dustByZone=[0.08,0.4,0.15,0.6,0.2];
-    dust.style.opacity=dustByZone[zone];
-
-    const [c1,c2]=SKY[zone];
-    const [n1,n2]=SKY[Math.min(N-1,zone+1)];
-    if(CSS.supports('color','color-mix(in srgb, red, blue)')){
-      const pct=Math.round((1-localP)*100);
-      sky.style.background=`linear-gradient(180deg,color-mix(in srgb, ${c1} ${pct}%, ${n1}),color-mix(in srgb, ${c2} ${pct}%, ${n2}))`;
-    }else{
-      sky.style.background=`linear-gradient(180deg,${c1},${c2})`;
-    }
-
-    beats.forEach((b,i)=>b.classList.toggle('active',i===zone));
-    waypoints.forEach((w,i)=>w.classList.toggle('on',i<=zone));
-  }
-  function onScroll(){if(!ticking){requestAnimationFrame(update);ticking=true;}}
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',onScroll);
-  update();
-})();
 </script></body></html>
