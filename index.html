@@ -452,6 +452,30 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(255,1
 .modal-tit{font-family:'Barlow Condensed';font-size:26px;font-weight:900;margin-top:2px;}
 .modal-x{background:rgba(255,255,255,0.06);border:none;border-radius:8px;padding:8px 11px;color:var(--muted);cursor:pointer;font-size:18px;}
 .modal-bd{padding:22px 26px;}
+/* FICHA DE RUTA: visor de fotos + info, para explorar antes de reservar */
+.rf-viewer{position:relative;width:100%;aspect-ratio:16/10;background:var(--bg2);overflow:hidden;}
+.rf-viewer img{width:100%;height:100%;object-fit:cover;display:block;}
+.rf-nav{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(8,7,6,0.6);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.rf-nav.prev{left:14px;}.rf-nav.next{right:14px;}
+.rf-nav:hover{background:var(--fire);border-color:var(--fire);}
+.rf-count{position:absolute;bottom:14px;right:14px;background:rgba(8,7,6,0.7);color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:100px;backdrop-filter:blur(4px);}
+.rf-thumbs{display:flex;gap:8px;padding:12px 26px 0;overflow-x:auto;}
+.rf-thumb{flex-shrink:0;width:64px;height:48px;border-radius:8px;object-fit:cover;cursor:pointer;opacity:.5;border:2px solid transparent;transition:all .15s;}
+.rf-thumb.sel{opacity:1;border-color:var(--fire);}
+.rf-thumb:hover{opacity:.85;}
+.rf-info{padding:20px 26px 0;}
+.rf-tags{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.rf-tag{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:800;letter-spacing:.5px;}
+.rf-desc{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:16px;}
+.rf-terrain{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+.rf-tr{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--muted);font-size:12px;padding:5px 11px;border-radius:100px;}
+.rf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.rf-st{background:var(--bg2);border-radius:12px;padding:12px;text-align:center;}
+.rf-st b{display:block;font-family:'Barlow Condensed',sans-serif;font-size:20px;color:var(--ink);}
+.rf-st small{color:var(--muted);font-size:10.5px;letter-spacing:.5px;}
+.rf-video{display:inline-flex;align-items:center;gap:8px;color:var(--gladio);font-size:13px;font-weight:700;text-decoration:none;margin-bottom:18px;}
+.rf-video:hover{text-decoration:underline;}
+.rf-footer{display:flex;gap:10px;padding:0 26px;}
 .step-bar{display:flex;gap:6px;margin-bottom:22px;}
 .step-seg{flex:1;height:4px;border-radius:2px;}
 .field-lbl{color:#BFB5A8;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:10px;display:block;}
@@ -1030,6 +1054,9 @@ section.blk>*{position:relative;z-index:1;}
   <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title" style="font-size:17px;">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub" style="margin-top:6px;">Tu descuento está activo. Revisa tu WhatsApp.</div><button class="reg-submit" style="margin-top:12px;" onclick="closeReg()">EMPEZAR</button></div>
 </div></div>
 
+<!-- FICHA DE RUTA -->
+<div class="overlay" id="route-overlay"><div class="modal" style="max-width:720px"><div class="modal-hd"><div><div class="modal-step">FICHA DE RUTA</div><div class="modal-tit" id="rf-name">—</div></div><button class="modal-x" onclick="closeRouteFicha()">✕</button></div><div class="modal-bd" id="rf-body" style="padding:0 0 22px"></div></div></div>
+
 <!-- BOOKING MODAL -->
 <div class="overlay" id="book-overlay"><div class="modal"><div class="modal-hd"><div><div class="modal-step" id="mstep">PASO 1 DE 4 · RUTA</div><div class="modal-tit" id="mname">—</div></div><button class="modal-x" onclick="closeBooking()">✕</button></div><div class="modal-bd" id="mbody"></div></div></div>
 
@@ -1165,7 +1192,7 @@ function tarifasDe(u){return (u.tarifas||[]).filter(t=>t.precio>0&&t.personas<=c
 function desdeDe(u){const t=tarifasDe(u);return t.length?t[0].precio:0;}
 function precioDe(u,p){const t=tarifasDe(u).find(x=>x.personas===p);return t?t.precio:0;}
 function unitsOf(r){return (r.units||[]).filter(u=>u.activo!==false&&tarifasDe(u).length);}
-function renderRoutes(filter){const f=filter||'todas';lastFilter=f;document.getElementById('routes-grid').innerHTML=ROUTES.filter(r=>f==='todas'||r.exp===f).filter(r=>unitsOf(r).length).map(r=>{const us=unitsOf(r);const tot=us.reduce((s,u)=>s+u.seats,0),bk=us.reduce((s,u)=>s+u.booked.length,0),avl=tot-bk,minp=Math.min(...us.map(desdeDe));const imgStyle=r.img?`background-image:url(${r.img})`:`background:linear-gradient(135deg,var(--card) 0%,rgba(255,122,0,0.12) 50%,rgba(163,214,60,0.08) 100%)`;return `<div class="rc ${r.exp==='extrema'?'extrema':''}" onclick="openBooking(${r.id})"><div class="rc-img" style="${imgStyle}"><div class="rc-img-ov"></div><div class="rc-tags-top"><span class="rc-tag" style="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${r.tag}</span><span class="rc-tag" style="background:rgb(${colorDif(r)});color:${tinta(colorDif(r))}">${r.diff}</span></div>${r.gal?`<div class="rc-galcount">${r.gal} fotos</div>`:''}<div class="rc-name">${r.name}</div></div><div class="rc-body"><div class="rc-desc">${r.desc}</div><div class="rc-tags">${r.terrain.map(t=>`<span class="rc-tr">${t}</span>`).join('')}</div><div class="rc-stats"><div class="rc-st"><div class="rc-st-lbl">DUR</div><div class="rc-sv">${r.dur}</div><div class="rc-sl">Duración</div></div><div class="rc-st"><div class="rc-st-lbl">DIST</div><div class="rc-sv">${r.dist}</div><div class="rc-sl">Distancia</div></div><div class="rc-st"><div class="rc-st-lbl">ASIENTOS</div><div class="rc-sv" style="color:${avl===0?'#FF5A5A':'var(--ink)'}">${avl}/${tot}</div><div class="rc-sl">Libres</div></div></div><div class="rc-foot"><div class="rc-price"><span class="from">desde</span>$${minp}<small>/unidad</small></div>${avl===0?`<div class="btn-full">LLENO</div>`:`<button class="btn-book" onclick="event.stopPropagation();openBooking(${r.id})">RESERVAR →</button>`}</div></div></div>`;}).join('');}
+function renderRoutes(filter){const f=filter||'todas';lastFilter=f;document.getElementById('routes-grid').innerHTML=ROUTES.filter(r=>f==='todas'||r.exp===f).filter(r=>unitsOf(r).length).map(r=>{const us=unitsOf(r);const tot=us.reduce((s,u)=>s+u.seats,0),bk=us.reduce((s,u)=>s+u.booked.length,0),avl=tot-bk,minp=Math.min(...us.map(desdeDe));const imgStyle=r.img?`background-image:url(${r.img})`:`background:linear-gradient(135deg,var(--card) 0%,rgba(255,122,0,0.12) 50%,rgba(163,214,60,0.08) 100%)`;return `<div class="rc ${r.exp==='extrema'?'extrema':''}" onclick="openRouteFicha(${r.id})"><div class="rc-img" style="${imgStyle}"><div class="rc-img-ov"></div><div class="rc-tags-top"><span class="rc-tag" style="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${r.tag}</span><span class="rc-tag" style="background:rgb(${colorDif(r)});color:${tinta(colorDif(r))}">${r.diff}</span></div>${r.gal?`<div class="rc-galcount">${r.gal} fotos</div>`:''}<div class="rc-name">${r.name}</div></div><div class="rc-body"><div class="rc-desc">${r.desc}</div><div class="rc-tags">${r.terrain.map(t=>`<span class="rc-tr">${t}</span>`).join('')}</div><div class="rc-stats"><div class="rc-st"><div class="rc-st-lbl">DUR</div><div class="rc-sv">${r.dur}</div><div class="rc-sl">Duración</div></div><div class="rc-st"><div class="rc-st-lbl">DIST</div><div class="rc-sv">${r.dist}</div><div class="rc-sl">Distancia</div></div><div class="rc-st"><div class="rc-st-lbl">ASIENTOS</div><div class="rc-sv" style="color:${avl===0?'#FF5A5A':'var(--ink)'}">${avl}/${tot}</div><div class="rc-sl">Libres</div></div></div><div class="rc-foot"><div class="rc-price"><span class="from">desde</span>$${minp}<small>/unidad</small></div>${avl===0?`<div class="btn-full">LLENO</div>`:`<button class="btn-book" onclick="event.stopPropagation();openBooking(${r.id})">RESERVAR →</button>`}</div></div></div>`;}).join('');}
 function filterExp(f,el){document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderRoutes(f);}
 function renderUnits(){document.getElementById('units-grid').innerHTML=UNITS_FLEET.map(u=>`<div class="uc"><div class="uc-img"><img src="${u.img}" alt="${u.name} — vehículo 4x4 Can-Am de Gladiadores Off Road" loading="lazy" width="300" height="280"/></div><div class="uc-body"><div class="uc-cat">${u.cat}</div><div class="uc-name">${u.name}</div><div class="uc-specs"><div class="uc-spec"><b>${u.seats}</b><small>Capacidad</small></div><div class="uc-spec"><b>${u.qty}</b><small>Disponibles</small></div></div><span class="uc-tag">${u.tag}</span><br><span class="canam-badge">100% Can-Am</span></div></div>`).join('');}
 function renderMerch(){document.getElementById('merch-grid').innerHTML=MERCH.map(m=>`<div class="mc"><div class="mc-emo">${m.emo}</div><div class="mc-tag">${m.tag}</div><div class="mc-name">${m.name}</div><div class="mc-price">$${m.price}</div><button class="mc-btn" id="mb-${m.id}" onclick="addMerch(${m.id})">+ CARRITO</button></div>`).join('');}
@@ -1177,6 +1204,39 @@ function updateBadge(){const b=document.getElementById('cart-badge');if(cart.len
 function openCart(){renderCart();document.getElementById('cart-ovl').classList.add('open');}
 function closeCart(){document.getElementById('cart-ovl').classList.remove('open');}
 function renderCart(){const its=document.getElementById('cart-its'),ft=document.getElementById('cart-ft');if(!cart.length){its.innerHTML='<div class="cart-emp"><p>Tu carrito está vacío</p></div>';ft.innerHTML='';return;}its.innerHTML=cart.map(i=>`<div class="cart-it"><div><div class="cart-it-nm">${i.label}</div><div class="cart-it-pr">$${i.price}</div></div><button class="cart-rm" onclick="removeFromCart(${i.cid})">✕</button></div>`).join('');const t=cart.reduce((s,i)=>s+i.price,0);ft.innerHTML=`<div class="cart-tr"><span style="color:var(--muted)">Total</span><span class="cart-tv">$${t}</span></div><button class="btn-fw">PROCEDER AL PAGO</button>`;}
+
+// FICHA DE RUTA: fotos y detalle antes de reservar. Se abre al tocar la
+// tarjeta; el botón RESERVAR de la tarjeta sigue saltando directo a la
+// reserva para quien ya decidió.
+let rfRoute=null,rfIdx=0;
+function rfPhotos(r){return (r.galeria&&r.galeria.length)?r.galeria:(r.img?[r.img]:[]);}
+function openRouteFicha(id){rfRoute=ROUTES.find(r=>r.id===id);if(!rfRoute)return;rfIdx=0;renderRouteFicha();document.getElementById('route-overlay').classList.add('open');}
+function closeRouteFicha(){document.getElementById('route-overlay').classList.remove('open');}
+function rfNav(dir){const photos=rfPhotos(rfRoute);rfIdx=(rfIdx+dir+photos.length)%photos.length;renderRouteFicha();}
+function rfGoto(i){rfIdx=i;renderRouteFicha();}
+function rfReservar(){const id=rfRoute.id;closeRouteFicha();openBooking(id);}
+function renderRouteFicha(){
+  const r=rfRoute;const photos=rfPhotos(r);
+  document.getElementById('rf-name').textContent=r.name;
+  const us=unitsOf(r);const minp=us.length?Math.min(...us.map(desdeDe)):0;
+  const viewer=photos.length?`<div class="rf-viewer"><img src="${photos[rfIdx]}" alt="${esc(r.name)} — foto ${rfIdx+1} de ${photos.length}">${photos.length>1?`<button class="rf-nav prev" onclick="rfNav(-1)" aria-label="Foto anterior">‹</button><button class="rf-nav next" onclick="rfNav(1)" aria-label="Foto siguiente">›</button><div class="rf-count">${rfIdx+1}/${photos.length}</div>`:''}</div>${photos.length>1?`<div class="rf-thumbs">${photos.map((p,i)=>`<img class="rf-thumb ${i===rfIdx?'sel':''}" src="${p}" onclick="rfGoto(${i})" alt="Miniatura ${i+1}">`).join('')}</div>`:''}`:`<div class="rf-viewer" style="display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px">Sin fotos todavía</div>`;
+  document.getElementById('rf-body').innerHTML=`${viewer}
+    <div class="rf-info">
+      <div class="rf-tags"><span class="rf-tag" style="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${esc(r.tag)}</span><span class="rf-tag" style="background:rgb(${colorDif(r)});color:${tinta(colorDif(r))}">${esc(r.diff)}</span></div>
+      <div class="rf-desc">${esc(r.desc)}</div>
+      <div class="rf-terrain">${(r.terrain||[]).map(t=>`<span class="rf-tr">${esc(t)}</span>`).join('')}</div>
+      <div class="rf-stats">
+        <div class="rf-st"><b>${esc(r.dur)}</b><small>DURACIÓN</small></div>
+        <div class="rf-st"><b>${esc(r.dist)}</b><small>DISTANCIA</small></div>
+        <div class="rf-st"><b>$${minp}</b><small>DESDE</small></div>
+      </div>
+      ${r.video?`<a class="rf-video" href="${esc(r.video)}" target="_blank" rel="noopener">▶ Ver video de la ruta</a>`:''}
+    </div>
+    <div class="rf-footer" style="margin-top:6px">
+      <button class="btn-back" style="flex:1" onclick="closeRouteFicha()">← VOLVER A RUTAS</button>
+      <button class="btn-next" style="flex:1" onclick="rfReservar()">RESERVAR ESTA RUTA →</button>
+    </div>`;
+}
 
 function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
 function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
