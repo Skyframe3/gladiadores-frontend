@@ -725,75 +725,75 @@ section.blk>*{position:relative;z-index:1;}
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nav-logo" onclick="scrollTo(0,0)"><img src="img/i1.png" alt="Gladiadores Off Road logo" width="40" height="40"/><div class="nav-logo-txt">GLADIADORES<br><span>OFF ROAD</span></div></div>
+  <div class="nav-logo" data-a="goTop"><img src="img/i1.png" alt="Gladiadores Off Road logo" width="40" height="40"/><div class="nav-logo-txt">GLADIADORES<br><span>OFF ROAD</span></div></div>
   <div class="nav-links">
-    <button class="nav-lnk" onclick="jump('rutas')">Rutas</button>
-    <button class="nav-lnk" onclick="jump('unidades')">Unidades</button>
-    <button class="nav-lnk" onclick="jump('chigna')">Chignahuapan</button>
-    <button class="nav-lnk" onclick="jump('tienda')">Tienda</button>
-    <button class="nav-lnk" onclick="jump('galeria')">Galería</button>
-    <button class="nav-lnk" onclick="jump('ugc')">Instagram</button>
-    <button class="nav-lnk" onclick="jump('lealtad')">Puntos</button>
+    <button class="nav-lnk" data-a="jump" data-p="rutas">Rutas</button>
+    <button class="nav-lnk" data-a="jump" data-p="unidades">Unidades</button>
+    <button class="nav-lnk" data-a="jump" data-p="chigna">Chignahuapan</button>
+    <button class="nav-lnk" data-a="jump" data-p="tienda">Tienda</button>
+    <button class="nav-lnk" data-a="jump" data-p="galeria">Galería</button>
+    <button class="nav-lnk" data-a="jump" data-p="ugc">Instagram</button>
+    <button class="nav-lnk" data-a="jump" data-p="lealtad">Puntos</button>
   </div>
   <div class="nav-right">
-    <button class="nav-cart" onclick="openCart()" aria-label="Carrito de compras">
+    <button class="nav-cart" data-a="openCart" aria-label="Carrito de compras">
       <svg class="nav-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       <span class="nav-cart-badge" id="cart-badge">0</span>
     </button>
-    <button class="nav-cta" onclick="jump('rutas')">RESERVAR</button>
-    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+    <button class="nav-cta" data-a="jump" data-p="rutas">RESERVAR</button>
+    <button class="nav-hamburger" id="nav-hamburger" data-a="toggleMobileMenu" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<div class="mob-overlay" id="mob-overlay" onclick="closeMobileMenu()"></div>
+<div class="mob-overlay" id="mob-overlay" data-a="closeMobileMenu"></div>
 <div class="mob-drawer" id="mob-drawer" role="dialog" aria-label="Menú de navegación">
   <div class="mob-head">
     <img src="img/i1.png" alt="Gladiadores Off Road"/>
-    <button class="mob-close" onclick="closeMobileMenu()" aria-label="Cerrar menú">✕</button>
+    <button class="mob-close" data-a="closeMobileMenu" aria-label="Cerrar menú">✕</button>
   </div>
   <div class="mob-links">
-    <button class="mob-lnk" onclick="mobileJump('rutas')">
+    <button class="mob-lnk" data-a="mobileJump" data-p="rutas">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>Rutas
     </button>
-    <button class="mob-lnk" onclick="mobileJump('unidades')">
+    <button class="mob-lnk" data-a="mobileJump" data-p="unidades">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="22" height="13" rx="2"/><path d="M16 21v-2a4 4 0 00-8 0v2"/></svg>Unidades
     </button>
-    <button class="mob-lnk" onclick="mobileJump('chigna')">
+    <button class="mob-lnk" data-a="mobileJump" data-p="chigna">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Chignahuapan
     </button>
-    <button class="mob-lnk" onclick="mobileJump('tienda')">
+    <button class="mob-lnk" data-a="mobileJump" data-p="tienda">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>Tienda
     </button>
-    <button class="mob-lnk" onclick="mobileJump('galeria')">
+    <button class="mob-lnk" data-a="mobileJump" data-p="galeria">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Galería
     </button>
-    <button class="mob-lnk" onclick="mobileJump('ugc')">
+    <button class="mob-lnk" data-a="mobileJump" data-p="ugc">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Instagram
     </button>
-    <button class="mob-lnk" onclick="mobileJump('lealtad')">
+    <button class="mob-lnk" data-a="mobileJump" data-p="lealtad">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Puntos
     </button>
   </div>
-  <button class="mob-cta" onclick="mobileJump('rutas')">RESERVAR AVENTURA →</button>
+  <button class="mob-cta" data-a="mobileJump" data-p="rutas">RESERVAR AVENTURA →</button>
 </div>
 
 <!-- CARRUSEL -->
 <section class="hero-carousel" id="carousel">
   <div class="slide active"><div class="slide-bg" style="background-image:url(img/i2.jpg)"></div><div class="slide-ov" style="background:linear-gradient(180deg,rgba(8,10,7,0.55),rgba(8,10,7,0.35) 45%,rgba(8,10,7,0.9))"></div>
     <div class="slide-content"><div class="slide-eyebrow">SIERRA NORTE DE PUEBLA</div><h1 class="slide-h1">NO ES UN PASEO<span class="hero-fire" style="display:block">es una conquista</span></h1><div class="slide-sub">GLADIADORES OFF ROAD</div>
-    <div class="hero-btns"><button class="btn-neon" onclick="jump('rutas')">RESERVAR AVENTURA</button><button class="btn-ghost" onclick="jump('rutas')">Ver rutas →</button></div></div></div>
+    <div class="hero-btns"><button class="btn-neon" data-a="jump" data-p="rutas">RESERVAR AVENTURA</button><button class="btn-ghost" data-a="jump" data-p="rutas">Ver rutas →</button></div></div></div>
   <div class="slide"><div class="slide-bg" style="background-image:url(img/i3.jpg)"></div><div class="slide-ov" style="background:linear-gradient(90deg,rgba(8,10,7,0.85),rgba(8,10,7,0.3))"></div>
-    <div class="slide-content" style="text-align:left;margin-left:2%;"><div class="slide-eyebrow chip-fire">RUTAS EXTREMAS</div><h1 class="slide-h1" style="text-align:left;">CRUZA EL RÍO<span class="hero-gladio">siente el poder 4×4</span></h1><p class="slide-desc" style="margin-left:0;">Vados, lodo y adrenalina pura. Rutas para todos los niveles.</p><div class="hero-btns" style="justify-content:flex-start;"><button class="btn-fire" onclick="jump('rutas')">Explorar rutas</button></div></div></div>
+    <div class="slide-content" style="text-align:left;margin-left:2%;"><div class="slide-eyebrow chip-fire">RUTAS EXTREMAS</div><h1 class="slide-h1" style="text-align:left;">CRUZA EL RÍO<span class="hero-gladio">siente el poder 4×4</span></h1><p class="slide-desc" style="margin-left:0;">Vados, lodo y adrenalina pura. Rutas para todos los niveles.</p><div class="hero-btns" style="justify-content:flex-start;"><button class="btn-fire" data-a="jump" data-p="rutas">Explorar rutas</button></div></div></div>
   <div class="slide"><div class="slide-bg" style="background-image:url(img/i4.jpg)"></div><div class="slide-ov" style="background:linear-gradient(180deg,rgba(8,7,6,0.5),rgba(8,10,7,0.85))"></div>
-    <div class="slide-content"><div class="slide-eyebrow">FLOTA 100% CAN-AM</div><h1 class="slide-h1">MÁQUINAS<span class="hero-fire">de guerra</span></h1><p class="slide-desc">Maverick X3, Commander Max y Outlander. Equipo profesional.</p><div class="hero-btns"><button class="btn-neon" onclick="jump('unidades')">Ver unidades</button></div></div></div>
+    <div class="slide-content"><div class="slide-eyebrow">FLOTA 100% CAN-AM</div><h1 class="slide-h1">MÁQUINAS<span class="hero-fire">de guerra</span></h1><p class="slide-desc">Maverick X3, Commander Max y Outlander. Equipo profesional.</p><div class="hero-btns"><button class="btn-neon" data-a="jump" data-p="unidades">Ver unidades</button></div></div></div>
   <div class="slide"><div class="slide-bg" style="background-image:url(img/i5.jpg)"></div><div class="slide-ov" style="background:linear-gradient(135deg,rgba(60,10,80,0.6),rgba(8,10,7,0.85))"></div>
-    <div class="slide-content"><div class="badge-special">EDICIÓN ESPECIAL · TEMPORADA</div><h1 class="slide-special-title">RUTA <span>DÍA DE MUERTOS</span></h1><p class="slide-desc">Recorrido nocturno con veladoras y cempasúchil. Cupo limitado — 1 y 2 de noviembre.</p><div class="hero-btns"><button class="btn-neon" style="background:linear-gradient(90deg,#FF7A00,#B026FF);color:#fff;" onclick="jump('rutas')">APARTAR MI LUGAR</button></div></div></div>
-  <button class="car-arrow left" onclick="prevSlide()">‹</button><button class="car-arrow right" onclick="nextSlide()">›</button>
+    <div class="slide-content"><div class="badge-special">EDICIÓN ESPECIAL · TEMPORADA</div><h1 class="slide-special-title">RUTA <span>DÍA DE MUERTOS</span></h1><p class="slide-desc">Recorrido nocturno con veladoras y cempasúchil. Cupo limitado — 1 y 2 de noviembre.</p><div class="hero-btns"><button class="btn-neon" style="background:linear-gradient(90deg,#FF7A00,#B026FF);color:#fff;" data-a="jump" data-p="rutas">APARTAR MI LUGAR</button></div></div></div>
+  <button class="car-arrow left" data-a="prevSlide">‹</button><button class="car-arrow right" data-a="nextSlide">›</button>
   <div class="carousel-dots" id="dots"></div>
   <div class="map-picker-wrap" style="position:absolute;bottom:34px;right:34px;z-index:5;">
-    <button class="hero-location" style="border:1px solid rgba(255,122,0,0.25);cursor:pointer;" onclick="toggleMapPicker(event)"><div><small>NUESTRA BASE</small><b>Chignahuapan, Puebla</b></div></button>
+    <button class="hero-location" style="border:1px solid rgba(255,122,0,0.25);cursor:pointer;" data-a="mapPicker"><div><small>NUESTRA BASE</small><b>Chignahuapan, Puebla</b></div></button>
     <div class="map-picker" id="map-picker">
       <a href="https://maps.apple.com/?q=19.8125,-98.0345&ll=19.8125,-98.0345&q=Gladiadores+Off+Road" target="_blank"> Apple Maps</a>
       <a href="https://maps.app.goo.gl/jjPaR5rrfHELM4r86?g_st=iw" target="_blank"> Google Maps</a>
@@ -807,12 +807,12 @@ section.blk>*{position:relative;z-index:1;}
 <!-- RUTAS -->
 <section class="blk" id="rutas"><div class="sec-hdr reveal"><span class="sec-eye">NUESTRAS RUTAS</span><div class="sec-tit">ELIGE TU <em>TERRENO</em></div>
   <div class="divider-line" style="margin-top:24px"></div><div class="sec-sub">Cada ruta con galería, horarios, unidades y servicios extra</div></div>
-  <div class="exp-types reveal"><div class="exp-chip active" onclick="filterExp('todas',this)">Todas</div><div class="exp-chip" onclick="filterExp('panoramica',this)">Panorámicas / Contemplativas</div><div class="exp-chip fire-chip" onclick="filterExp('extrema',this)">Extremas</div></div>
+  <div class="exp-types reveal"><div class="exp-chip active" data-a="filterExp" data-p="todas">Todas</div><div class="exp-chip" data-a="filterExp" data-p="panoramica">Panorámicas / Contemplativas</div><div class="exp-chip fire-chip" data-a="filterExp" data-p="extrema">Extremas</div></div>
   <div class="routes-grid reveal" id="routes-grid"></div>
   <div class="reveal" style="max-width:1180px;margin:24px auto 0;">
     <div style="background:var(--card);border:2px dashed rgba(163,214,60,0.3);border-radius:18px;padding:22px 26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;">
       <div><span class="urgency">PRÓXIMAMENTE</span><div style="font-family:'Barlow Condensed';font-size:24px;font-weight:900;margin-top:8px;">AVENTURA <em class="fire-em">COZAPA</em></div><div style="color:var(--muted);font-size:13px;margin-top:4px;max-width:480px;">Nueva experiencia en desarrollo. Recorrido, duración y condiciones operativas por definir.</div></div>
-      <button class="btn-ghost" onclick="goWhatsApp()">Avísame cuando abra</button>
+      <button class="btn-ghost" data-a="goWhatsApp">Avísame cuando abra</button>
     </div>
   </div>
 </section>
@@ -961,7 +961,7 @@ section.blk>*{position:relative;z-index:1;}
       <div class="ig-cta-icon"><svg viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zM12 16c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/></svg></div>
       <h3>SUBE TU <span>AVENTURA</span></h3>
       <p>Etiquetanos en tu foto o usa nuestro hashtag y aparece en esta galeria automaticamente</p>
-      <button class="ig-follow-btn" onclick="window.open('https://www.instagram.com/gladiadores.off.road','_blank')">SEGUIR EN INSTAGRAM</button>
+      <button class="ig-follow-btn" data-a="openIG">SEGUIR EN INSTAGRAM</button>
     </div>
   </div>
 </section>
@@ -998,14 +998,14 @@ section.blk>*{position:relative;z-index:1;}
     <div class="rank-c" style="border-color:rgba(255,122,0,0.4);"><div class="rank-num" style="color:var(--fire);">03</div><div style="font-family:Barlow Condensed;font-weight:800;font-size:17px;color:var(--fire);">GLADIADOR</div><div style="color:var(--muted);font-size:12px;margin-top:3px;">5 recorridos</div><div style="font-size:12px;color:var(--muted);margin-top:8px;">Beneficios exclusivos + kit VIP</div></div>
     <div class="rank-c gold"><div class="rank-num" style="color:var(--gladio);">04</div><div style="font-family:Barlow Condensed;font-weight:800;font-size:17px;color:var(--gladio);">LEYENDA</div><div style="color:var(--muted);font-size:12px;margin-top:3px;">Muy pocos lo logran</div><div style="font-size:12px;color:var(--muted);margin-top:8px;">Rutas + acceso VIP total</div></div>
   </div>
-  <button class="btn-neon" onclick="openReg()">CREAR CUENTA GRATUITA</button></div>
+  <button class="btn-neon" data-a="openReg">CREAR CUENTA GRATUITA</button></div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="foot-top">
     <div class="foot-brand"><img src="img/i1.png" alt="Gladiadores Off Road" width="56" height="56" loading="lazy"/><p>Rutas 4×4 extremas por la Sierra Norte de Puebla. Vive la aventura como un gladiador.</p><div class="foot-tagline">"No es un paseo, es una conquista"</div></div>
-    <div class="foot-col"><h4>EXPLORA</h4><a onclick="jump('rutas')">Rutas</a><a onclick="jump('unidades')">Unidades</a><a onclick="jump('tienda')">Tienda oficial</a><a onclick="jump('galeria')">Galería</a><a onclick="jump('lealtad')">Programa de puntos</a></div>
+    <div class="foot-col"><h4>EXPLORA</h4><a data-a="jump" data-p="rutas">Rutas</a><a data-a="jump" data-p="unidades">Unidades</a><a data-a="jump" data-p="tienda">Tienda oficial</a><a data-a="jump" data-p="galeria">Galería</a><a data-a="jump" data-p="lealtad">Programa de puntos</a></div>
     <div class="foot-col"><h4>CONTACTO</h4><a href="https://maps.app.goo.gl/jjPaR5rrfHELM4r86?g_st=iw" target="_blank">Chignahuapan, Puebla</a><a href="https://wa.me/527971001929" target="_blank">WhatsApp: 797 100 1929</a><a>hola@gladiadoresoffroad.com</a></div>
     <div class="foot-col"><h4>SÍGUENOS</h4><div class="foot-social">
       <a class="fb" href="https://www.facebook.com/share/17zQC1pdYU/?mibextid=wwXIfr" target="_blank" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
@@ -1024,576 +1024,43 @@ section.blk>*{position:relative;z-index:1;}
 </footer>
 
 <!-- AGENTE DE CHAT -->
-<button class="chat-fab" onclick="toggleChat()" id="chat-fab" aria-label="Abrir chat"><img src="img/i1.png" alt=""/></button>
+<button class="chat-fab" data-a="toggleChat" id="chat-fab" aria-label="Abrir chat"><img src="img/i1.png" alt=""/></button>
 <div class="chat-win" id="chat-win">
-  <div class="chat-head"><img src="img/i1.png" alt="Gladiadores Off Road" width="38" height="38"/><div class="ct"><b>Gladiadores Off Road</b><small>Agente virtual · Responde al instante</small></div><button class="chat-x" onclick="toggleChat()">✕</button></div>
+  <div class="chat-head"><img src="img/i1.png" alt="Gladiadores Off Road" width="38" height="38"/><div class="ct"><b>Gladiadores Off Road</b><small>Agente virtual · Responde al instante</small></div><button class="chat-x" data-a="toggleChat">✕</button></div>
   <div class="chat-body" id="chat-body"><div class="chat-msg">¡Hola! Soy el agente de Gladiadores Off Road. Pregúntame por rutas, precios, horarios o cómo reservar.</div></div>
   <div class="chat-quick" id="chat-quick">
-    <button class="chat-q" onclick="chatSugerido('¿Qué rutas tienen?')">¿Qué rutas tienen?</button>
-    <button class="chat-q" onclick="chatSugerido('¿Cuánto cuesta?')">¿Cuánto cuesta?</button>
-    <button class="chat-q" onclick="chatSugerido('Quiero reservar')">Quiero reservar</button>
-    <button class="chat-q" onclick="chatSugerido('¿Dónde están ubicados?')">¿Dónde están?</button>
+    <button class="chat-q" data-a="chatSugerido" data-p="¿Qué rutas tienen?">¿Qué rutas tienen?</button>
+    <button class="chat-q" data-a="chatSugerido" data-p="¿Cuánto cuesta?">¿Cuánto cuesta?</button>
+    <button class="chat-q" data-a="chatSugerido" data-p="Quiero reservar">Quiero reservar</button>
+    <button class="chat-q" data-a="chatSugerido" data-p="¿Dónde están ubicados?">¿Dónde están?</button>
   </div>
   <div class="chat-input-row">
     <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu pregunta..." maxlength="600" onkeydown="if(event.key==='Enter')enviarChat();"/>
-    <button class="chat-send" onclick="enviarChat()" aria-label="Enviar">➤</button>
+    <button class="chat-send" data-a="enviarChat" aria-label="Enviar">➤</button>
   </div>
-  <div class="chat-foot"><button class="chat-wa-btn" onclick="goWhatsApp()">Hablar con un asesor por WhatsApp</button></div>
+  <div class="chat-foot"><button class="chat-wa-btn" data-a="goWhatsApp">Hablar con un asesor por WhatsApp</button></div>
 </div>
 
 <!-- POPUP REGISTRO -->
-<div class="reg-overlay" id="reg-overlay"><div class="reg-modal"><div class="reg-glow"></div><button class="reg-x" onclick="closeReg()">✕</button>
+<div class="reg-overlay" id="reg-overlay"><div class="reg-modal"><div class="reg-glow"></div><button class="reg-x" data-a="closeReg">✕</button>
   <div id="reg-form-wrap"><div class="reg-head"><img class="reg-helmet" src="img/i1.png" alt="Gladiadores Off Road" width="60" height="60"/><div class="reg-title">RECLAMA TU<br><span>RECOMPENSA</span></div><div class="reg-sub">10% off en tu primera ruta</div></div>
     <div class="reg-body"><div class="reg-perk"><div class="reg-perk-txt">Regístrate hoy y obtén tu <b>descuento</b> al instante.</div></div>
       <div class="reg-field"><input type="text" placeholder="Nombre completo" id="r-nombre"/></div>
       <div class="reg-field"><input type="email" placeholder="Correo electrónico" id="r-email"/></div>
       <div class="reg-field"><input type="tel" placeholder="WhatsApp (10 dígitos)" id="r-tel"/></div>
-      <label style="display:flex;align-items:flex-start;gap:8px;margin:2px 0 14px;cursor:pointer" onclick="event.preventDefault();tRegPrivacidad()"><div id="chk-reg-privacidad" class="chk-box"></div><span style="font-size:11.5px;color:var(--muted);line-height:1.5">Acepto el <a href="aviso-privacidad.html" target="_blank" onclick="event.stopPropagation()" style="color:var(--fire)">Aviso de Privacidad</a>.</span></label>
-      <button class="reg-submit" onclick="submitReg()">QUIERO MI DESCUENTO</button>
-      <div class="reg-skip"><button onclick="closeReg()">Ahora no, gracias</button></div></div></div>
-  <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title" style="font-size:17px;">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub" style="margin-top:6px;">Tu descuento está activo. Revisa tu WhatsApp.</div><button class="reg-submit" style="margin-top:12px;" onclick="closeReg()">EMPEZAR</button></div>
+      <label style="display:flex;align-items:flex-start;gap:8px;margin:2px 0 14px;cursor:pointer" data-prev="1" data-a="tRegPrivacidad"><div id="chk-reg-privacidad" class="chk-box"></div><span style="font-size:11.5px;color:var(--muted);line-height:1.5">Acepto el <a href="aviso-privacidad.html" target="_blank" data-stop="1" style="color:var(--fire)">Aviso de Privacidad</a>.</span></label>
+      <button class="reg-submit" data-a="submitReg">QUIERO MI DESCUENTO</button>
+      <div class="reg-skip"><button data-a="closeReg">Ahora no, gracias</button></div></div></div>
+  <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title" style="font-size:17px;">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub" style="margin-top:6px;">Tu descuento está activo. Revisa tu WhatsApp.</div><button class="reg-submit" style="margin-top:12px;" data-a="closeReg">EMPEZAR</button></div>
 </div></div>
 
 <!-- FICHA DE RUTA -->
-<div class="overlay" id="route-overlay"><div class="modal" style="max-width:720px"><div class="modal-hd"><div><div class="modal-step">FICHA DE RUTA</div><div class="modal-tit" id="rf-name">—</div></div><button class="modal-x" onclick="closeRouteFicha()">✕</button></div><div class="modal-bd" id="rf-body" style="padding:0 0 22px"></div></div></div>
+<div class="overlay" id="route-overlay"><div class="modal" style="max-width:720px"><div class="modal-hd"><div><div class="modal-step">FICHA DE RUTA</div><div class="modal-tit" id="rf-name">—</div></div><button class="modal-x" data-a="closeRouteFicha">✕</button></div><div class="modal-bd" id="rf-body" style="padding:0 0 22px"></div></div></div>
 
 <!-- BOOKING MODAL -->
-<div class="overlay" id="book-overlay"><div class="modal"><div class="modal-hd"><div><div class="modal-step" id="mstep">PASO 1 DE 4 · RUTA</div><div class="modal-tit" id="mname">—</div></div><button class="modal-x" onclick="closeBooking()">✕</button></div><div class="modal-bd" id="mbody"></div></div></div>
+<div class="overlay" id="book-overlay"><div class="modal"><div class="modal-hd"><div><div class="modal-step" id="mstep">PASO 1 DE 4 · RUTA</div><div class="modal-tit" id="mname">—</div></div><button class="modal-x" data-a="closeBooking">✕</button></div><div class="modal-bd" id="mbody"></div></div></div>
 
 <!-- CART -->
-<div class="cart-ovl" id="cart-ovl"><div class="cart-bk" onclick="closeCart()"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" onclick="closeCart()">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
+<div class="cart-ovl" id="cart-ovl"><div class="cart-bk" data-a="closeCart"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" data-a="closeCart">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
 <script src="js/qrcode.min.js"></script>
-<script>
-// Catálogo de respaldo. Al cargar se reemplaza con lo que el admin
-// tenga publicado en el panel; si la API no responde, se usa esto.
-let lastFilter='todas';
-let ROUTES=[
- {id:1,name:"Senderos y Cascada",tag:"POPULAR",exp:"panoramica",img:"img/i15.jpg",gal:5,diff:"MODERADA",dur:"3 hrs",dist:"45 km",desc:"Recorrido 4x4 por parque ecoturístico, mirador y cascada. Perfecta para contemplar y vivir el off road al mismo tiempo.",terrain:["Mirador","Cascada","Bosque"],horarios:["10:00","15:00"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1800},{personas:2,precio:2300}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3000}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3000},{personas:3,precio:3800},{personas:4,precio:4600}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4000}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4000},{personas:3,precio:4800},{personas:4,precio:5600}]}]},
- {id:2,name:"Ruta Gran Mirador",tag:"EXTREMA",exp:"extrema",img:"img/i5.jpg",gal:8,diff:"EXTREMA",dur:"3 hrs",dist:"80 km",desc:"La ruta más extrema. El mejor mirador de la Sierra Norte. Bosque, rocas y subidas que ponen a prueba todo.",terrain:["Mirador","Rocas","Extremo"],horarios:["09:00","12:00"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:2600},{personas:2,precio:2800}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3800}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3800},{personas:3,precio:4300},{personas:4,precio:4800}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4800}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4800},{personas:3,precio:5300},{personas:4,precio:5800}]}]},
- {id:3,name:"Ruta del Río",tag:"AVENTURA",exp:"panoramica",img:"img/i13.jpg",gal:6,diff:"MODERADA",dur:"1 hr",dist:"50 km",desc:"Primera experiencia perfecta. Muchos cruces de río, bosque abundante y ambiente familiar. Ideal para todos.",terrain:["Río","Bosque","Familiar"],horarios:["10:00","12:00","14:00","16:00"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1200},{personas:2,precio:1400}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:2100}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:2100},{personas:3,precio:2600},{personas:4,precio:3100}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3100}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3100},{personas:3,precio:3600},{personas:4,precio:4100}]}]},
- {id:4,name:"La Ruta Clásica",tag:"FAMILIAR",exp:"panoramica",img:"img/i14.jpg",gal:4,diff:"FÁCIL",dur:"1.5 hrs",dist:"38 km",desc:"La ruta que siempre recomendarán. Cueva, fábrica abandonada, río y senderos. Clásica por algo.",terrain:["Clásica","Cueva","Río"],horarios:["10:00","12:00","14:00","16:00"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1500},{personas:2,precio:1700}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:2300}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:2300},{personas:3,precio:2800},{personas:4,precio:3300}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3300}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3300},{personas:3,precio:3800},{personas:4,precio:4300}]}]},
- {id:5,name:"Aventura Nocturna",tag:"ESPECIAL",exp:"extrema",img:"img/i5.jpg",gal:5,diff:"MODERADA",dur:"1 hr 50 min",dist:"35 km",desc:"El bosque de noche es otro mundo. Recorrido nocturno con el cielo estrellado como techo y la adrenalina multiplicada.",terrain:["Nocturno","Bosque","Estrellas"],horarios:["18:00"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1700},{personas:2,precio:1900}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:2700}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:2700},{personas:3,precio:3200},{personas:4,precio:3700}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3700}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3700},{personas:3,precio:4200},{personas:4,precio:4700}]}]},
- {id:6,name:"Luciérnagas",tag:"TEMPORADA",exp:"panoramica",img:"img/i15.jpg",gal:4,diff:"FÁCIL",dur:"3+ hrs",dist:"25 km",desc:"Una de las experiencias más mágicas de México. Temporada limitada: el bosque se ilumina con miles de luciérnagas.",terrain:["Luciérnagas","Bosque","Temporada"],horarios:["18:00"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:2200},{personas:2,precio:2600}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3300}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3300},{personas:3,precio:3800},{personas:4,precio:4400}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4300}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4300},{personas:3,precio:4800},{personas:4,precio:5400}]}]},
- {id:7,name:"Amanecer en la Montaña",tag:"AVENTURA",exp:"panoramica",img:"img/i14.jpg",gal:6,diff:"AVANZADA",dur:"3+ hrs",dist:"55 km",desc:"Sal antes del alba. Llega al mirador justo cuando el sol rompe el horizonte sobre la Sierra Norte. Imposible de olvidar.",terrain:["Amanecer","Montaña","Paisaje"],horarios:["05:30"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:2800},{personas:2,precio:3000}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4100}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4100},{personas:3,precio:4300},{personas:4,precio:4800}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:5100}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:5100},{personas:3,precio:5300},{personas:4,precio:5800}]}]},
- {id:8,name:"Experiencia Mezcal",tag:"CULTURAL",exp:"panoramica",img:"img/i13.jpg",gal:5,diff:"MODERADA",dur:"2.5 hrs",dist:"42 km",desc:"Off road y cultura local. Recorre senderos hasta conocer el proceso artesanal del mezcal de la Sierra Norte de Puebla.",terrain:["Mezcal","Cultura","Senderos"],horarios:["11:00","15:00"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1700},{personas:2,precio:2200}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:2800}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:2800},{personas:3,precio:3600},{personas:4,precio:4300}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3800}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3800},{personas:3,precio:4600},{personas:4,precio:5300}]}]},
- {id:9,name:"Expedición al Volcán",tag:"ÉPICA",exp:"extrema",img:"img/i5.jpg",gal:7,diff:"AVANZADA",dur:"2 hrs",dist:"60 km",desc:"El volcán más cercano a Chignahuapan. Off road de alto nivel con vistas que no tienen comparación en toda la Sierra Norte.",terrain:["Volcán","Paisaje","Extremo"],horarios:["10:00","15:00"],
-   units:[]},
- {id:10,name:"Cascada Iluminada",tag:"NOCTURNA",exp:"extrema",img:"img/i5.jpg",gal:5,diff:"MODERADA",dur:"3 hrs",dist:"45 km",desc:"Parque iluminado, cascada y experiencia 4x4 nocturna. Principalmente viernes, sábado, domingo y fechas especiales.",terrain:["Nocturno","Cascada","Iluminación"],horarios:["18:00"],
-   units:[
-     {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1900},{personas:2,precio:2600}]},
-     {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3200}]},
-     {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3200},{personas:3,precio:4200},{personas:4,precio:4900}]},
-     {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4200}]},
-     {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4200},{personas:3,precio:5200},{personas:4,precio:5900}]}]}
-];
-// 12 unidades propias por categoría comercial
-// (documento de definición, sección 2). Los apodos individuales de cada
-// máquina viven en el backend (models/Unidad.js) y salen por /api/disponibilidad.
-// uid empata con el id de categoría del catálogo (cuatrimoto-2, commander-4...),
-// así la foto no depende de que el nombre coincida letra por letra.
-const UNITS_FLEET=[
- {uid:"cuatrimoto-2",img:"img/i18.png",cat:"ATV CUATRIMOTO",name:"Cuatrimoto",seats:"2 plazas",qty:"2 unidades",tag:"Ágil y potente"},
- {uid:"commander-2",img:"img/trail-gulfstream.avif",cat:"SSV COMPACTO",name:"Commander Trail",seats:"2 plazas",qty:"1 unidad",tag:"Compacta para parejas"},
- {uid:"commander-4",img:"img/unidades/commander-4p.avif",cat:"SSV FAMILIAR",name:"Commander Max",seats:"4 plazas",qty:"3 unidades",tag:"Ideal para grupos"},
- {uid:"maverick-4",img:"img/unidades/maverick-x3-max-4p.avif",cat:"SSV MÁXIMO RENDIMIENTO",name:"Maverick X3 MAX",seats:"4 plazas",qty:"5 unidades",tag:"Máximo rendimiento"},
- {uid:"maverick-2",img:"img/unidades/maverick-x3-rs-2p.avif",cat:"SSV BIPLAZA",name:"Maverick X3",seats:"2 plazas",qty:"1 unidad",tag:"Adrenalina en pareja"}
-];
-const MERCH=[{id:1,emo:"",name:"Visor Táctico",price:450,tag:"PROTECCIÓN"},{id:2,emo:"",name:"Jersey Oficial",price:650,tag:"EDICIÓN LTD"},{id:3,emo:"",name:"Guantes de Ruta",price:390,tag:"GRIP PRO"},{id:4,emo:"",name:"Gorra Táctica",price:280,tag:"ACCESORIOS"},{id:5,emo:"",name:"Playera Gladiador",price:320,tag:"ALGODÓN"},{id:6,emo:"",name:"Linterna Táctica",price:395,tag:"EQUIPO"}];
-const EXTRAS=[{id:"e1",emo:"",name:"Sesión de fotos profesional",desc:"Fotógrafo con dron durante tu ruta",price:800},{id:"e2",emo:"",name:"Video de la aventura",desc:"Edición cinematográfica de tu recorrido",price:1200},{id:"e3",emo:"",name:"Comida en ruta",desc:"Picnic gourmet a media aventura",price:250},{id:"e4",emo:"",name:"Decoración para evento especial",desc:"Cumpleaños, pedida de mano, aniversarios",price:1500}];
-
-const API = "https://gladiadores-backend.vercel.app";
-let cart=[],bRoute=null,bStep=1,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],bPayMode='anticipo',bPayMethod=null,bNota='';
-// Mientras no esté conectada la pasarela de pago, la reserva no se guarda
-// sola: el último paso arma una solicitud y la manda por WhatsApp para
-// confirmarla a mano con el pago.
-const RESERVAS_EN_LINEA=false;
-
-function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
-function toggleMobileMenu(){const h=document.getElementById('nav-hamburger');const d=document.getElementById('mob-drawer');const o=document.getElementById('mob-overlay');if(d.classList.contains('open')){closeMobileMenu();}else{h.classList.add('open');d.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';}}
-function closeMobileMenu(){document.getElementById('nav-hamburger').classList.remove('open');document.getElementById('mob-drawer').classList.remove('open');document.getElementById('mob-overlay').classList.remove('open');document.body.style.overflow='';}
-function mobileJump(id){closeMobileMenu();setTimeout(()=>jump(id),200);}
-
-// SELECTOR DE MAPAS (Apple Maps / Google Maps / Waze)
-function toggleMapPicker(e){e.stopPropagation();document.getElementById('map-picker').classList.toggle('open');}
-document.addEventListener('click',(e)=>{const mp=document.getElementById('map-picker');if(mp&&mp.classList.contains('open')&&!e.target.closest('.map-picker-wrap'))mp.classList.remove('open');});
-
-// Los colores de las fichas salen de la marca, no de la base: naranja manda,
-// el verde gladiador va para lo familiar y tranquilo, y el morado se reserva
-// para lo especial y lo más pesado (nocturnas, temporada, Día de Muertos).
-const MARCA={fire:'255,122,0',gladio:'163,214,60',neon:'176,38,255'};
-const TAGS_ESPECIALES=['ESPECIAL','TEMPORADA','NOCTURNA','DÍA DE MUERTOS','DIA DE MUERTOS'];
-const TAGS_TRANQUILAS=['FAMILIAR','CULTURAL'];
-function colorTag(r){const t=(r.tag||'').toUpperCase();
-  if(TAGS_ESPECIALES.includes(t))return MARCA.neon;
-  if(TAGS_TRANQUILAS.includes(t))return MARCA.gladio;
-  return MARCA.fire;}
-function colorDif(r){const d=(r.diff||'').toUpperCase();
-  if(d==='FÁCIL'||d==='FACIL')return MARCA.gladio;
-  if(d==='AVANZADA'||d==='EXTREMA')return MARCA.neon;
-  return MARCA.fire;}
-// El morado admite texto blanco; el naranja y el verde son claros y piden tinta oscura.
-function tinta(rgb){return rgb===MARCA.neon?'#fff':'#0A0806';}
-
-// El precio es por vehículo y depende de cuánta gente va: cada unidad trae
-// su tabla de tarifas. Si el admin bloqueó asientos, se caen las tarifas
-// que ya no caben.
-/* La renta es por vehículo completo: la capacidad son las plazas. Los
-   bloqueos por asiento (booked) eran del modelo viejo y ya no aplican. */
-function capacidadDe(u){return u.seats;}
-function tarifasDe(u){return (u.tarifas||[]).filter(t=>t.precio>0&&t.personas<=capacidadDe(u)).sort((a,b)=>a.personas-b.personas);}
-function desdeDe(u){const t=tarifasDe(u);return t.length?t[0].precio:0;}
-function precioDe(u,p){const t=tarifasDe(u).find(x=>x.personas===p);return t?t.precio:0;}
-function unitsOf(r){return (r.units||[]).filter(u=>u.activo!==false&&tarifasDe(u).length);}
-function renderRoutes(filter){const f=filter||'todas';lastFilter=f;document.getElementById('routes-grid').innerHTML=ROUTES.filter(r=>f==='todas'||r.exp===f).filter(r=>unitsOf(r).length).map(r=>{const us=unitsOf(r);const tot=us.reduce((s,u)=>s+u.seats,0),bk=us.reduce((s,u)=>s+u.booked.length,0),avl=tot-bk,minp=Math.min(...us.map(desdeDe));const imgStyle=r.img?`background-image:url(${r.img})`:`background:linear-gradient(135deg,var(--card) 0%,rgba(255,122,0,0.12) 50%,rgba(163,214,60,0.08) 100%)`;return `<div class="rc ${r.exp==='extrema'?'extrema':''}" onclick="openRouteFicha(${r.id})"><div class="rc-img" style="${imgStyle}"><div class="rc-img-ov"></div><div class="rc-tags-top"><span class="rc-tag" style="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${r.tag}</span><span class="rc-tag" style="background:rgb(${colorDif(r)});color:${tinta(colorDif(r))}">${r.diff}</span></div>${r.gal?`<div class="rc-galcount">${r.gal} fotos</div>`:''}<div class="rc-name">${r.name}</div></div><div class="rc-body"><div class="rc-desc">${r.desc}</div><div class="rc-tags">${r.terrain.map(t=>`<span class="rc-tr">${t}</span>`).join('')}</div><div class="rc-stats"><div class="rc-st"><div class="rc-st-lbl">DUR</div><div class="rc-sv">${r.dur}</div><div class="rc-sl">Duración</div></div><div class="rc-st"><div class="rc-st-lbl">DIST</div><div class="rc-sv">${r.dist}</div><div class="rc-sl">Distancia</div></div><div class="rc-st"><div class="rc-st-lbl">ASIENTOS</div><div class="rc-sv" style="color:${avl===0?'#FF5A5A':'var(--ink)'}">${avl}/${tot}</div><div class="rc-sl">Libres</div></div></div><div class="rc-foot"><div class="rc-price"><span class="from">desde</span>$${minp}<small>/unidad</small></div>${avl===0?`<div class="btn-full">LLENO</div>`:`<button class="btn-book" onclick="event.stopPropagation();openBooking(${r.id})">RESERVAR →</button>`}</div></div></div>`;}).join('');}
-function filterExp(f,el){document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderRoutes(f);}
-function renderUnits(){document.getElementById('units-grid').innerHTML=UNITS_FLEET.map(u=>`<div class="uc"><div class="uc-img"><img src="${u.img}" alt="${u.name} — vehículo 4x4 Can-Am de Gladiadores Off Road" loading="lazy" width="300" height="280"/></div><div class="uc-body"><div class="uc-cat">${u.cat}</div><div class="uc-name">${u.name}</div><div class="uc-specs"><div class="uc-spec"><b>${u.seats}</b><small>Capacidad</small></div><div class="uc-spec"><b>${u.qty}</b><small>Disponibles</small></div></div><span class="uc-tag">${u.tag}</span><br><span class="canam-badge">100% Can-Am</span></div></div>`).join('');}
-function renderMerch(){document.getElementById('merch-grid').innerHTML=MERCH.map(m=>`<div class="mc"><div class="mc-emo">${m.emo}</div><div class="mc-tag">${m.tag}</div><div class="mc-name">${m.name}</div><div class="mc-price">$${m.price}</div><button class="mc-btn" id="mb-${m.id}" onclick="addMerch(${m.id})">+ CARRITO</button></div>`).join('');}
-function addMerch(id){const m=MERCH.find(x=>x.id===id);addToCart({label:`${m.emo} ${m.name}`,price:m.price});const b=document.getElementById('mb-'+id);b.textContent='✓ AÑADIDO';b.classList.add('added');setTimeout(()=>{b.textContent='+ CARRITO';b.classList.remove('added');},1500);}
-
-function addToCart(i){cart.push({...i,cid:Date.now()+Math.random()});updateBadge();}
-function removeFromCart(c){cart=cart.filter(i=>i.cid!=c);updateBadge();renderCart();}
-function updateBadge(){const b=document.getElementById('cart-badge');if(cart.length){b.style.display='flex';b.textContent=cart.length;}else b.style.display='none';}
-function openCart(){renderCart();document.getElementById('cart-ovl').classList.add('open');}
-function closeCart(){document.getElementById('cart-ovl').classList.remove('open');}
-function renderCart(){const its=document.getElementById('cart-its'),ft=document.getElementById('cart-ft');if(!cart.length){its.innerHTML='<div class="cart-emp"><p>Tu carrito está vacío</p></div>';ft.innerHTML='';return;}its.innerHTML=cart.map(i=>`<div class="cart-it"><div><div class="cart-it-nm">${i.label}</div><div class="cart-it-pr">$${i.price}</div></div><button class="cart-rm" onclick="removeFromCart(${i.cid})">✕</button></div>`).join('');const t=cart.reduce((s,i)=>s+i.price,0);ft.innerHTML=`<div class="cart-tr"><span style="color:var(--muted)">Total</span><span class="cart-tv">$${t}</span></div><button class="btn-fw">PROCEDER AL PAGO</button>`;}
-
-// FICHA DE RUTA: fotos y detalle antes de reservar. Se abre al tocar la
-// tarjeta; el botón RESERVAR de la tarjeta sigue saltando directo a la
-// reserva para quien ya decidió.
-let rfRoute=null,rfIdx=0;
-function rfPhotos(r){return (r.galeria&&r.galeria.length)?r.galeria:(r.img?[r.img]:[]);}
-function openRouteFicha(id){rfRoute=ROUTES.find(r=>r.id===id);if(!rfRoute)return;rfIdx=0;renderRouteFicha();document.getElementById('route-overlay').classList.add('open');}
-function closeRouteFicha(){document.getElementById('route-overlay').classList.remove('open');}
-function rfNav(dir){const photos=rfPhotos(rfRoute);rfIdx=(rfIdx+dir+photos.length)%photos.length;renderRouteFicha();}
-function rfGoto(i){rfIdx=i;renderRouteFicha();}
-function rfReservar(){const id=rfRoute.id;closeRouteFicha();openBooking(id);}
-function renderRouteFicha(){
-  const r=rfRoute;const photos=rfPhotos(r);
-  document.getElementById('rf-name').textContent=r.name;
-  const us=unitsOf(r);const minp=us.length?Math.min(...us.map(desdeDe)):0;
-  const viewer=photos.length?`<div class="rf-viewer"><img src="${photos[rfIdx]}" alt="${esc(r.name)} — foto ${rfIdx+1} de ${photos.length}">${photos.length>1?`<button class="rf-nav prev" onclick="rfNav(-1)" aria-label="Foto anterior">‹</button><button class="rf-nav next" onclick="rfNav(1)" aria-label="Foto siguiente">›</button><div class="rf-count">${rfIdx+1}/${photos.length}</div>`:''}</div>${photos.length>1?`<div class="rf-thumbs">${photos.map((p,i)=>`<img class="rf-thumb ${i===rfIdx?'sel':''}" src="${p}" onclick="rfGoto(${i})" alt="Miniatura ${i+1}">`).join('')}</div>`:''}`:`<div class="rf-viewer" style="display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px">Sin fotos todavía</div>`;
-  document.getElementById('rf-body').innerHTML=`${viewer}
-    <div class="rf-info">
-      <div class="rf-tags"><span class="rf-tag" style="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${esc(r.tag)}</span><span class="rf-tag" style="background:rgb(${colorDif(r)});color:${tinta(colorDif(r))}">${esc(r.diff)}</span></div>
-      <div class="rf-desc">${esc(r.desc)}</div>
-      <div class="rf-terrain">${(r.terrain||[]).map(t=>`<span class="rf-tr">${esc(t)}</span>`).join('')}</div>
-      <div class="rf-stats">
-        <div class="rf-st"><b>${esc(r.dur)}</b><small>DURACIÓN</small></div>
-        <div class="rf-st"><b>${esc(r.dist)}</b><small>DISTANCIA</small></div>
-        <div class="rf-st"><b>$${minp}</b><small>DESDE</small></div>
-      </div>
-      ${r.video?`<a class="rf-video" href="${esc(r.video)}" target="_blank" rel="noopener">▶ Ver video de la ruta</a>`:''}
-    </div>
-    <div class="rf-footer" style="margin-top:6px">
-      <button class="btn-back" style="flex:1" onclick="closeRouteFicha()">← VOLVER A RUTAS</button>
-      <button class="btn-next" style="flex:1" onclick="rfReservar()">RESERVAR ESTA RUTA →</button>
-    </div>`;
-}
-
-function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
-function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
-
-function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function checkDatos(){const b=document.getElementById('btn-datos');if(b)b.disabled=!bNombre||!bEmail||!bWhatsapp||bWhatsapp.length!==10||!bPrivacidad;}
-function tPrivacidad(){bPrivacidad=!bPrivacidad;checkDatos();const c=document.getElementById('chk-privacidad');if(c)c.classList.toggle('on',bPrivacidad);}
-function renderStep(){const L=['PASO 1 DE 4 · UNIDAD Y PERSONAS','PASO 2 DE 4 · FECHA Y HORARIO','PASO 3 DE 4 · TUS DATOS',RESERVAS_EN_LINEA?'PASO 4 DE 4 · PAGO':'PASO 4 DE 4 · ENVIAR SOLICITUD'];document.getElementById('mstep').textContent=L[bStep];const bd=document.getElementById('mbody');const bar=`<div class="step-bar">${[0,1,2,3].map(s=>`<div class="step-seg" style="background:${s<=bStep?'var(--fire)':'rgba(255,255,255,.1)'}"></div>`).join('')}</div>`;
-if(bStep===0){bd.innerHTML=bar+`<span class="field-lbl">ELIGE TU UNIDAD</span><div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">${unitsOf(bRoute).map(u=>{const cap=capacidadDe(u);const sel=bUnit&&bUnit.id===u.id;const unitImg=UNITS_FLEET.find(f=>f.uid===u.id);const imgSrc=unitImg?unitImg.img:'';
-const pax=sel?`<div style="width:100%;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,122,0,0.2)"><div style="color:var(--muted);font-size:12px;margin-bottom:8px">¿Cuántos van?</div><div style="display:flex;gap:8px;flex-wrap:wrap">${tarifasDe(u).map(t=>`<div class="opt ${bPersonas===t.personas?'sel':''}" style="flex:1;min-width:110px;text-align:center" onclick="event.stopPropagation();selPax(${t.personas})"><b>${t.personas} ${t.personas===1?'persona':'personas'}</b><div style="font-size:14px;font-weight:800;color:${bPersonas===t.personas?'inherit':'var(--fire)'}">$${t.precio}</div></div>`).join('')}</div></div>`:'';
-return `<div class="unit-pick ${sel?'sel':''}" style="flex-wrap:wrap" onclick="selUnit('${u.id}')"><div style="display:flex;align-items:center;gap:14px;flex:1">${imgSrc?`<img src="${imgSrc}" alt="${u.name}" style="width:64px;height:48px;object-fit:contain;border-radius:8px;background:rgba(255,122,0,0.05)">`:''}<div><b>${u.name}</b><small style="display:block">${u.type} · hasta ${cap} ${cap===1?'persona':'personas'}</small></div></div><div class="price">$${desdeDe(u)}<div style="font-size:11px;color:var(--muted);font-weight:400">desde</div></div>${pax}</div>`;}).join('')}</div>${bUnit&&bPersonas?`<div style="background:rgba(255,122,0,0.06);border:1px solid rgba(255,122,0,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:center"><div style="color:var(--muted);font-size:12px">Tu unidad</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;color:var(--fire);margin:4px 0">${bUnit.name} · ${bPersonas} ${bPersonas===1?'persona':'personas'}</div><div style="color:var(--muted);font-size:13px">Vehículo completo para ustedes · <b style="color:var(--ink)">$${precioDe(bUnit,bPersonas)}</b></div></div>`:''}<div class="btns-row"><button class="btn-next" ${(!bUnit||!bPersonas)?'disabled':''} onclick="bStep=1;renderStep()">ELEGIR FECHA →</button></div>`;}
-else if(bStep===1){const hoy=new Date().toISOString().split('T')[0];const diasOK=new Set(bRoute.diasActivos||[]);const hayDias=diasOK.size>0;const fechaValida=bFecha&&diasOK.has(bFecha);
-bd.innerHTML=bar+`<span class="field-lbl">FECHA</span>${hayDias?renderBookCal():`<input type="date" id="input-fecha" class="date-in" min="${hoy}" value="${bFecha||''}" onchange="bFecha=this.value;renderStep()">`}${bFecha&&!fechaValida&&hayDias?'<p style="color:#FF5A5A;font-size:12px;margin-top:4px">Esa fecha no está disponible para esta ruta.</p>':''}<span class="field-lbl" style="margin-top:14px">HORARIO DE SALIDA</span><div class="opt-row">${bRoute.horarios.map(h=>`<div class="opt ${bHorario===h?'sel':''}" onclick="bHorario='${h}';renderStep()">${h}</div>`).join('')}</div><div class="btns-row" style="margin-top:8px"><button class="btn-back" onclick="bStep=0;renderStep()">← ATRÁS</button><button class="btn-next" ${(!(hayDias?fechaValida:bFecha)||!bHorario)?'disabled':''} onclick="bStep=2;renderStep()">TUS DATOS →</button></div>`;}
-else if(bStep===2){const subtotal=precioDe(bUnit,bPersonas);bd.innerHTML=bar+`<span class="field-lbl">TUS DATOS</span><input type="text" id="input-nombre" class="date-in" placeholder="Nombre completo" value="${esc(bNombre)}" oninput="bNombre=this.value;checkDatos()"><input type="email" id="input-email" class="date-in" placeholder="Correo electrónico" value="${esc(bEmail)}" oninput="bEmail=this.value;checkDatos()"><input type="tel" id="input-whatsapp" class="date-in" placeholder="WhatsApp (10 dígitos)" maxlength="10" value="${esc(bWhatsapp)}" oninput="bWhatsapp=this.value.replace(/\\D/g,'');this.value=bWhatsapp;checkDatos()">
-  <div style="background:rgba(163,214,60,0.07);border:1px solid rgba(163,214,60,0.28);border-radius:14px;padding:16px 18px;margin-bottom:18px;margin-top:16px">
-    <div style="font-weight:700;font-size:14px;color:var(--gladio);margin-bottom:4px">¿Necesitas algo distinto?</div>
-    <div style="color:var(--muted);font-size:12.5px;line-height:1.6;margin-bottom:12px">Grupos grandes, cumpleaños, pedida de mano, empresas o cualquier detalle especial.</div>
-    <textarea id="input-nota" class="date-in" rows="2" placeholder="Cuéntanos qué necesitas..." style="resize:vertical;min-height:56px;font-family:'Inter',sans-serif" oninput="bNota=this.value">${esc(bNota)}</textarea>
-  </div>
-  <div style="background:var(--card);border:1px solid rgba(255,122,0,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:center"><div style="color:var(--muted);font-size:12px">Subtotal</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:var(--fire)">$${subtotal}</div></div>
-  <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:16px;cursor:pointer" onclick="event.preventDefault();tPrivacidad()"><div id="chk-privacidad" class="chk-box ${bPrivacidad?'on':''}">${bPrivacidad?'✓':''}</div><span style="font-size:12.5px;color:var(--muted);line-height:1.5">He leído y acepto el <a href="aviso-privacidad.html" target="_blank" onclick="event.stopPropagation()" style="color:var(--fire)">Aviso de Privacidad</a> y el tratamiento de mis datos para gestionar esta reserva.</span></label>
-  <div class="btns-row"><button class="btn-back" onclick="bStep=1;renderStep()">← ATRÁS</button><button class="btn-next" id="btn-datos" ${(!bNombre||!bEmail||!bWhatsapp||bWhatsapp.length!==10||!bPrivacidad)?'disabled':''} onclick="bStep=3;renderStep()">${RESERVAS_EN_LINEA?'IR AL PAGO →':'REVISAR SOLICITUD →'}</button></div>`;}
-else if(bStep===3){bPayMethod=bPayMethod||'mercadopago';const total=precioDe(bUnit,bPersonas);const anticipo=Math.round(total*0.25);const monto=bPayMode==='anticipo'?anticipo:total;
-  bd.innerHTML=bar+`<div class="summ-box"><div class="summ-row"><span style="color:var(--fire);font-weight:600">Cliente</span><span>${esc(bNombre)}</span></div><div class="summ-row"><span style="color:var(--muted);font-size:12px">${esc(bEmail)} · ${esc(bWhatsapp)}</span></div><div style="border-top:1px solid rgba(255,255,255,.1);margin:10px 0;padding-top:10px;margin-bottom:10px"><div class="summ-row"><span>${bRoute.name} · ${bFecha} · ${bHorario}</span><span></span></div><div class="summ-row"><span>${bUnit.name} · ${bPersonas} ${bPersonas===1?'persona':'personas'}</span><span>$${total}</span></div></div><div class="summ-tot"><span style="font-weight:600">Total</span><span class="summ-tot-p">$${total}</span></div></div>
-  <span class="field-lbl">¿CÓMO QUIERES PAGAR?</span><div class="pay-split"><div class="pay-opt ${bPayMode==='anticipo'?'sel':''}" onclick="bPayMode='anticipo';renderStep()"><div class="pay-radio"></div><div class="po-name">Solo anticipo (25%)<div style="font-size:12px;color:var(--muted);font-weight:400">Resto el día de la ruta</div></div><div class="po-amt">$${anticipo}</div></div><div class="pay-opt ${bPayMode==='completo'?'sel':''}" onclick="bPayMode='completo';renderStep()"><div class="pay-radio"></div><div class="po-name">Pago completo<div style="font-size:12px;color:var(--muted);font-weight:400">Listo, sin pagar nada más</div></div><div class="po-amt">$${total}</div></div></div>
-  ${RESERVAS_EN_LINEA?`<span class="field-lbl">MÉTODO DE PAGO</span><button class="pay-mth sel" style="pointer-events:none"><div><div class="pm-name">Mercado Pago</div><div class="pm-desc">Tarjeta, SPEI, OXXO o transferencia bancaria</div></div></button>
-  <div class="btns-row" style="margin-top:6px"><button class="btn-back" onclick="bStep=2;renderStep()">← ATRÁS</button><button class="btn-next" id="pay-btn" onclick="confirmBooking(${monto})">PAGAR $${monto} →</button></div>`
-  :`<div style="background:rgba(255,122,0,0.08);border:1px solid rgba(255,122,0,0.3);border-radius:14px;padding:18px;margin-bottom:16px">
-    <div style="font-weight:700;font-size:15px;color:var(--fire);margin-bottom:6px">Tu lugar se confirma por WhatsApp</div>
-    <div style="color:var(--muted);font-size:13px;line-height:1.7">Pronto podrás pagar aquí mismo con Mercado Pago (tarjeta, SPEI u OXXO). Por ahora manda tu solicitud y te contestamos con la disponibilidad y las formas de pago.</div>
-  </div>
-  <div class="btns-row" style="margin-top:6px"><button class="btn-back" onclick="bStep=2;renderStep()">← ATRÁS</button><button class="btn-next" onclick="enviarSolicitud()">ENVIAR POR WHATSAPP →</button></div>`}`;}}
-
-// Arma la solicitud como texto y la abre en WhatsApp. No toca la base de
-// datos: mientras no haya pasarela de pago, apartar el lugar es una
-// decisión manual del equipo.
-// Guarda la reserva de verdad en el servidor (el precio lo calcula el
-// servidor a partir de la tarifa real, nunca confía en lo que traiga el
-// navegador) y solo entonces muestra el ticket y abre WhatsApp con el
-// folio real. Si el servidor rechaza la reserva (unidad ya no libre,
-// fecha ya no disponible), se avisa en vez de fingir que se envió.
-async function enviarSolicitud(){
-  const btn=document.querySelector('#mbody .btn-next');
-  if(btn){btn.disabled=true;btn.textContent='Enviando...';}
-  const reservaData={nombre:bNombre,email:bEmail,whatsapp:bWhatsapp,ruta:bRoute.name,rutaId:bRoute.id,categoriaId:bUnit.id,horario:bHorario,fecha:bFecha,personas:bPersonas,modoPago:bPayMode};
-  try{
-    const res=await fetch('https://gladiadores-backend.vercel.app/api/reservas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(reservaData)});
-    const data=await res.json();
-    if(!res.ok||!data.ok||!data.folio)throw new Error(data.error||'No se pudo crear la reserva. Intenta de nuevo.');
-    mostrarTicket(data);
-  }catch(err){
-    document.getElementById('mbody').innerHTML=`<div style="text-align:center;padding:20px;color:#ff6b6b"><div style="font-size:24px;margin-bottom:10px">⚠ ${esc(err.message||'Error de conexión')}</div><button class="btn-fw" style="background:#ff6b6b;margin-top:16px;" onclick="bStep=3;renderStep()">← REINTENTAR</button></div>`;
-  }
-}
-
-// Ticket de confirmación: folio grande, QR con los datos de la reserva
-// (para que el staff en la base pueda escanearlo sin depender de señal) y
-// botón para mandarlo por WhatsApp con el folio real ya generado.
-function mostrarTicket(data){
-  const falta=data.montoTotal-data.monto;
-  const fechaLegible=new Date(bFecha+'T00:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const qrTexto=['GLADIADORES OFF ROAD',data.folio,bRoute.name,fechaLegible+' · '+bHorario,data.unidad+' · '+bPersonas+(bPersonas===1?' persona':' personas'),'Total: $'+data.montoTotal].join('\n');
-  let qrSvg='';
-  try{const qr=qrcode(0,'M');qr.addData(qrTexto);qr.make();qrSvg=qr.createSvgTag({cellSize:5,margin:8});}catch(e){}
-
-  const lineasWa=['Hola! Mi reserva ya quedó registrada:','','Folio: '+data.folio,'Ruta: '+bRoute.name,'Fecha: '+bFecha,'Horario: '+bHorario,'Unidad: '+data.unidad,'Personas: '+bPersonas,bPayMode==='anticipo'?'Anticipo pagado: $'+data.monto+' · Resto en la ruta: $'+falta:'Pago completo: $'+data.monto,'','Nombre: '+bNombre,'WhatsApp: '+bWhatsapp];
-  if(bNota.trim())lineasWa.push('','Algo especial: '+bNota.trim());
-  window.open('https://wa.me/527971001929?text='+encodeURIComponent(lineasWa.join('\n')),'_blank');
-
-  document.getElementById('mbody').innerHTML=`
-  <div id="ticket-print" style="text-align:center;padding:8px 0">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;color:var(--fire);margin-bottom:4px">RESERVA CONFIRMADA</div>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:18px">Se abrió WhatsApp con tu folio. Mándanos el mensaje y confirmamos disponibilidad.</p>
-    <div style="background:var(--card);border:1px solid rgba(255,122,0,0.3);border-radius:16px;padding:22px 18px;margin-bottom:16px">
-      <img src="img/i1.png" alt="Gladiadores Off Road" width="44" height="44" style="margin-bottom:8px">
-      <div style="color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Folio</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:900;color:var(--fire);letter-spacing:1px;margin-bottom:14px">${esc(data.folio)}</div>
-      <div style="display:flex;justify-content:center;margin-bottom:14px">${qrSvg}</div>
-      <div style="text-align:left;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;font-size:13.5px;color:var(--ink);line-height:2">
-        <div><b style="color:var(--muted);font-weight:400">Ruta:</b> ${esc(bRoute.name)}</div>
-        <div><b style="color:var(--muted);font-weight:400">Fecha:</b> ${fechaLegible} · ${esc(bHorario)}</div>
-        <div><b style="color:var(--muted);font-weight:400">Unidad:</b> ${esc(data.unidad)} · ${bPersonas} ${bPersonas===1?'persona':'personas'}</div>
-        <div style="border-top:1px solid rgba(255,255,255,.1);margin-top:6px;padding-top:6px"><b style="color:var(--muted);font-weight:400">${bPayMode==='anticipo'?'Anticipo pagado:':'Pagado:'}</b> <span style="color:var(--fire);font-weight:700">$${data.monto}</span>${bPayMode==='anticipo'?` <span style="color:var(--muted)">· resto en la ruta $${falta}</span>`:''}</div>
-      </div>
-    </div>
-    <p style="color:var(--muted);font-size:12.5px;margin-bottom:18px">Muestra este ticket (o el QR) al llegar a la base. ¿No se abrió WhatsApp? Escríbenos al <b style="color:var(--ink)">797 100 1929</b></p>
-    <div style="display:flex;gap:10px">
-      <button class="btn-fw" style="background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--ink)" onclick="window.print()">IMPRIMIR / GUARDAR</button>
-      <button class="btn-fw" onclick="closeBooking()">LISTO, CERRAR</button>
-    </div>
-  </div>`;
-}
-function selUnit(id){bUnit=bRoute.units.find(u=>u.id===id);bPersonas=0;renderStep();}
-function selPax(n){bPersonas=n;renderStep();}
-let bCalY,bCalM;
-function initBookCal(){const d=new Date();bCalY=d.getFullYear();bCalM=d.getMonth();}
-function bCalNav(dir){bCalM+=dir;if(bCalM>11){bCalM=0;bCalY++;}if(bCalM<0){bCalM=11;bCalY--;}renderStep();}
-function pickDay(iso){bFecha=iso;renderStep();}
-function renderBookCal(){
-  if(bCalY==null)initBookCal();
-  const meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const hoy=new Date().toISOString().slice(0,10);
-  const diasOK=new Set(bRoute.diasActivos||[]);
-  const first=new Date(bCalY,bCalM,1);
-  const startDow=(first.getDay()+6)%7;
-  const dim=new Date(bCalY,bCalM+1,0).getDate();
-  let h=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><button class="opt" onclick="bCalNav(-1)" style="padding:6px 12px">←</button><b style="color:var(--ink);font-size:14px">${meses[bCalM]} ${bCalY}</b><button class="opt" onclick="bCalNav(1)" style="padding:6px 12px">→</button></div>`;
-  h+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:360px">';
-  ['L','M','X','J','V','S','D'].forEach(d=>{h+=`<div style="text-align:center;font-size:11px;color:var(--muted);font-weight:600;padding:4px 0">${d}</div>`;});
-  for(let e=0;e<startDow;e++) h+='<div></div>';
-  for(let d=1;d<=dim;d++){
-    const iso=`${bCalY}-${String(bCalM+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const past=iso<hoy;
-    const on=diasOK.has(iso);
-    const sel=bFecha===iso;
-    let cls='';let style='text-align:center;padding:8px 0;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid transparent;';
-    if(past){style+='opacity:0.25;pointer-events:none;color:var(--muted);';}
-    else if(sel){style+='background:var(--fire);color:#fff;font-weight:700;';}
-    else if(on){style+='background:rgba(76,175,80,0.12);border-color:rgba(76,175,80,0.35);color:#4caf50;font-weight:600;';}
-    else{style+='color:var(--muted);opacity:0.4;pointer-events:none;';}
-    h+=`<div style="${style}" onclick="pickDay('${iso}')">${d}</div>`;
-  }
-  h+='</div>';
-  return h;
-}
-function tExtra(id){const i=bExtras.indexOf(id);if(i>=0)bExtras.splice(i,1);else bExtras.push(id);renderStep();}
-function confirmBooking(amt){const bd=document.getElementById('mbody');const payBtn=document.getElementById('pay-btn');payBtn.disabled=true;payBtn.textContent='Procesando...';const reservaData={nombre:bNombre,email:bEmail,whatsapp:bWhatsapp,ruta:bRoute.name,rutaId:bRoute.id,categoriaId:bUnit.id,unidad:bUnit.name,horario:bHorario,fecha:bFecha,personas:bPersonas,extras:bExtras,monto:amt,modoPago:bPayMode,metodoPago:bPayMethod};fetch('https://gladiadores-backend.vercel.app/api/reservas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(reservaData)}).then(r=>r.json()).then(data=>{if(data.ok&&data.folio){const f=esc(data.folio);addToCart({label:`${bRoute.name} · ${bUnit.name} · ${bPersonas} pers.`,price:precioDe(bUnit,bPersonas)});bExtras.forEach(id=>{const e=EXTRAS.find(x=>x.id===id);addToCart({label:`${e.emo} ${e.name}`,price:e.price});});bd.innerHTML=`<div style="text-align:center;padding:16px 0"><div style="font-family:Barlow Condensed;font-size:36px;font-weight:900;color:var(--fire);margin-bottom:8px">✓ RESERVA CONFIRMADA</div><p style="color:var(--muted);margin-bottom:20px">Folio <b style="color:var(--fire);font-size:24px">${f}</b></p><p style="color:var(--muted);margin-bottom:20px">Pagaste <b style="color:var(--ink)">$${amt}</b> (${bPayMode==='anticipo'?'anticipo 25%':'pago completo'})</p><div style="background:rgba(255,122,0,0.08);border:1px solid rgba(255,122,0,0.2);border-radius:14px;padding:18px;text-align:left;margin-bottom:20px"><div style="display:flex;gap:10px;margin-bottom:12px;align-items:center"><div><b style="color:var(--fire);font-size:14px">✓ Reserva guardada</b><div style="color:var(--muted);font-size:12px">En tu cuenta (${esc(bEmail)})</div></div></div><div style="display:flex;gap:10px;margin-bottom:12px;align-items:center"><div><b style="color:var(--fire);font-size:14px">✓ Unidad apartada</b><div style="color:var(--muted);font-size:12px">El vehículo queda solo para ustedes</div></div></div><div style="display:flex;gap:10px;align-items:center"><div><b style="color:var(--fire);font-size:14px">✓ Admin notificado</b><div style="color:var(--muted);font-size:12px">Te contactaremos en 2 horas</div></div></div></div><button class="btn-fw" onclick="closeBooking()">LISTO, CERRAR</button></div>`;}else{payBtn.disabled=false;payBtn.textContent='PAGAR $'+amt+' →';bd.innerHTML=`<div style="text-align:center;padding:20px;color:#ff6b6b"><div style="font-size:24px;margin-bottom:10px">⚠ Error en la reserva</div><p>${esc(data.error)||'No pudimos procesar tu reserva. Intenta de nuevo.'}</p><button class="btn-fw" style="background:#ff6b6b;margin-top:16px;" onclick="bStep=3;renderStep()">← REINTENTAR</button></div>`;}}).catch(err=>{console.error('Error:',err);payBtn.disabled=false;payBtn.textContent='PAGAR $'+amt+' →';bd.innerHTML=`<div style="text-align:center;padding:20px;color:#ff6b6b"><div style="font-size:24px;margin-bottom:10px">⚠ Error de conexión</div><p>No pudimos conectar con el servidor. Verifica tu conexión e intenta de nuevo.</p><button class="btn-fw" style="background:#ff6b6b;margin-top:16px;" onclick="bStep=3;renderStep()">← REINTENTAR</button></div>`});}
-
-// CARRUSEL
-let cur=0;const slides=document.querySelectorAll('.slide'),total=slides.length,dw=document.getElementById('dots');
-slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' active':'');d.onclick=()=>goSlide(i);dw.appendChild(d);});
-const dots=document.querySelectorAll('.dot');let timer=setInterval(()=>goSlide(cur+1),6000);
-function goSlide(i){slides[cur].classList.remove('active');dots[cur].classList.remove('active');cur=(i+total)%total;slides[cur].classList.add('active');dots[cur].classList.add('active');const bg=slides[cur].querySelector('.slide-bg');bg.style.animation='none';void bg.offsetWidth;bg.style.animation='';clearInterval(timer);timer=setInterval(()=>goSlide(cur+1),6000);}
-function nextSlide(){goSlide(cur+1);}function prevSlide(){goSlide(cur-1);}
-
-// REG
-let regPrivacidad=false;
-function openReg(){regPrivacidad=false;const c=document.getElementById('chk-reg-privacidad');if(c)c.classList.remove('on');document.getElementById('reg-overlay').classList.add('open');}
-function closeReg(){document.getElementById('reg-overlay').classList.remove('open');localStorage.setItem('reg_done','1');}
-function tRegPrivacidad(){regPrivacidad=!regPrivacidad;document.getElementById('chk-reg-privacidad').classList.toggle('on',regPrivacidad);}
-function submitReg(){const n=document.getElementById('r-nombre').value,e=document.getElementById('r-email').value;if(!n||!e){alert('Completa nombre y correo');return;}if(!regPrivacidad){alert('Acepta el Aviso de Privacidad para continuar');return;}document.getElementById('reg-form-wrap').style.display='none';document.getElementById('reg-success').classList.add('show');localStorage.setItem('reg_done','1');}
-
-// CHATBOT
-function toggleChat(){document.getElementById('chat-win').classList.toggle('open');document.getElementById('chat-input').focus();}
-
-// Agente real (Claude) del lado del backend. El historial se manda completo
-// en cada mensaje porque el servidor no guarda sesión de chat.
-let chatHistorial=[];
-let chatEnviando=false;
-
-function pintarMsg(texto,esUsuario){
-  const body=document.getElementById('chat-body');
-  const div=document.createElement('div');
-  div.className='chat-msg'+(esUsuario?' user':'');
-  div.textContent=texto;
-  body.appendChild(div);
-  body.scrollTop=body.scrollHeight;
-}
-
-function mostrarEscribiendo(){
-  const body=document.getElementById('chat-body');
-  const t=document.createElement('div');
-  t.className='chat-typing';t.id='chat-typing-ind';
-  t.innerHTML='<span></span><span></span><span></span>';
-  body.appendChild(t);
-  body.scrollTop=body.scrollHeight;
-}
-function quitarEscribiendo(){document.getElementById('chat-typing-ind')?.remove();}
-
-function chatSugerido(texto){
-  document.getElementById('chat-input').value=texto;
-  enviarChat();
-}
-
-async function enviarChat(){
-  if(chatEnviando)return;
-  const input=document.getElementById('chat-input');
-  const texto=input.value.trim();
-  if(!texto)return;
-
-  document.getElementById('chat-quick').style.display='none';
-  pintarMsg(texto,true);
-  chatHistorial.push({role:'user',content:texto});
-  input.value='';
-  chatEnviando=true;
-  mostrarEscribiendo();
-
-  try{
-    const res=await fetch(`${API}/api/chatbot/mensaje`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({conversacion:chatHistorial})
-    });
-    const data=await res.json();
-    quitarEscribiendo();
-    const respuesta=data.respuesta||'Tuve un problema. Mejor escríbeme por WhatsApp.';
-    pintarMsg(respuesta,false);
-    chatHistorial.push({role:'assistant',content:respuesta});
-  }catch(err){
-    quitarEscribiendo();
-    pintarMsg('No pude conectar. Escríbeme directo por WhatsApp para ayudarte mejor.',false);
-  }finally{
-    chatEnviando=false;
-  }
-}
-
-function goWhatsApp(){window.open('https://wa.me/527971001929?text=Hola!%20Vengo%20de%20la%20p%C3%A1gina%20y%20quiero%20info%20sobre%20las%20rutas','_blank');}
-
-// REVEAL on scroll
-const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});
-document.querySelectorAll('.reveal,.tread-divider').forEach(el=>obs.observe(el));
-
-// NAV bg
-window.addEventListener('scroll',()=>{document.getElementById('nav').style.background=window.scrollY>60?'rgba(8,10,7,0.92)':'rgba(8,10,7,0.55)';});
-
-// INIT
-window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('hide'),1400);});
-(function(){if(localStorage.getItem('reg_done'))return;var fired=false;window.addEventListener('scroll',function(){if(fired)return;var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight);if(pct>0.35){fired=true;openReg();}});})();
-renderUnits();renderMerch();
-// Los precios vivos mandan: pintamos las rutas hasta que llega el catálogo del admin,
-// así nunca se alcanza a ver el precio del respaldo. Si falla, se usa el respaldo.
-document.getElementById('routes-grid').innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0">Cargando rutas…</p>';
-fetch('https://gladiadores-backend.vercel.app/api/catalogo',{cache:'no-store'})
-  .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
-  .then(d=>{if(d&&d.ok&&Array.isArray(d.rutas)&&d.rutas.length)ROUTES=d.rutas;})
-  .catch(e=>console.warn('Catálogo remoto no disponible, usando respaldo:',e.message))
-  .finally(()=>renderRoutes(lastFilter));
-
-// ── DUST PARTICLE SYSTEM ──
-// El polvo de fondo reacciona a qué tan rápido se scrollea la página, como
-// si scrollear fuera "manejar": entre más rápido, más se levanta el polvo
-// y más se acelera hacia arriba; en reposo vuelve a flotar tranquilo.
-(function(){
-  const c=document.getElementById('dust-canvas');if(!c)return;
-  const ctx=c.getContext('2d');
-  let W,H;
-  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
-  resize();window.addEventListener('resize',resize);
-  const particles=[];
-  const COUNT=60;
-  for(let i=0;i<COUNT;i++){
-    particles.push({
-      x:Math.random()*W,y:Math.random()*H,
-      r:Math.random()*2.5+0.5,
-      dx:(Math.random()-0.5)*0.4,
-      dy:Math.random()*0.3+0.1,
-      o:Math.random()*0.5+0.1,
-      color:Math.random()>0.7?'rgba(163,214,60,':'rgba(255,122,0,'
-    });
-  }
-  let kick=0,lastY=window.scrollY,lastT=performance.now();
-  window.addEventListener('scroll',()=>{
-    const now=performance.now();
-    const dt=Math.max(16,now-lastT);
-    const v=Math.abs(window.scrollY-lastY)/dt;
-    kick=Math.min(2.2,kick+v*10);
-    lastY=window.scrollY;lastT=now;
-  },{passive:true});
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    kick*=0.94;
-    particles.forEach(p=>{
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=p.color+Math.min(1,p.o*(1+kick*0.6))+')';
-      ctx.fill();
-      p.x+=p.dx*(1+kick);
-      p.y+=p.dy*(1+kick*1.8);
-      if(p.y>H+10){p.y=-10;p.x=Math.random()*W;}
-      if(p.x<-10)p.x=W+10;
-      if(p.x>W+10)p.x=-10;
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-// ── SCROLL PROGRESS BAR ──
-window.addEventListener('scroll',function(){
-  const h=document.documentElement;
-  const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
-  document.getElementById('scroll-progress').style.width=pct+'%';
-});
-
-// ── ENHANCED REVEAL (stagger children) ──
-const revealObs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('in');
-      const children=e.target.querySelectorAll('.ig-card,.rc,.uc,.mc,.rank-c,.gal-item,.chigna-item');
-      children.forEach((ch,i)=>{
-        // Entrada tipo "brinco de terracería": cada tarjeta cae con una
-        // leve inclinación alterna y se asienta derecha, en vez de un
-        // deslizamiento uniforme sin carácter.
-        const tilt=i%2===0?-2.5:2.5;
-        ch.style.opacity='0';
-        ch.style.transform=`translateY(34px) rotate(${tilt}deg)`;
-        ch.style.transition='opacity .6s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.34,1.4,.4,1)';
-        ch.style.transitionDelay=(i*0.08)+'s';
-        setTimeout(()=>{ch.style.opacity='1';ch.style.transform='none';},50);
-      });
-    }
-  });
-},{threshold:.08});
-document.querySelectorAll('.reveal,.ig-feed,.routes-grid,.units-grid,.merch-grid,.gal-grid,.ranks,.chigna-list').forEach(el=>revealObs.observe(el));
-
-// ── PARALLAX ON SCROLL ──
-let ticking=false;
-window.addEventListener('scroll',function(){
-  if(!ticking){
-    requestAnimationFrame(()=>{
-      const sy=window.scrollY;
-      document.querySelectorAll('.slide-bg').forEach(bg=>{
-        bg.style.transform='translateY('+sy*0.15+'px) scale(1.08)';
-      });
-      const chImg=document.querySelector('.chigna-img');
-      if(chImg){
-        const r=chImg.getBoundingClientRect();
-        if(r.top<window.innerHeight&&r.bottom>0){
-          chImg.style.backgroundPositionY=(50+(r.top/window.innerHeight-0.5)*20)+'%';
-        }
-      }
-      ticking=false;
-    });
-    ticking=true;
-  }
-});
-
-// ── COUNTER ANIMATION ──
-function animateCounters(){
-  document.querySelectorAll('.ig-card-stat b').forEach(el=>{
-    const target=parseInt(el.textContent);
-    if(el.dataset.animated)return;
-    el.dataset.animated='1';
-    let current=0;
-    const step=Math.ceil(target/30);
-    const timer=setInterval(()=>{
-      current+=step;
-      if(current>=target){current=target;clearInterval(timer);}
-      el.textContent=current;
-    },30);
-  });
-}
-const counterObs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting)animateCounters();});
-},{threshold:.3});
-const igSection=document.getElementById('ugc');
-if(igSection)counterObs.observe(igSection);
-
-// ── NAV HIDE/SHOW ON SCROLL ──
-let lastScroll=0;
-window.addEventListener('scroll',()=>{
-  const nav=document.getElementById('nav');
-  const sy=window.scrollY;
-  if(sy>lastScroll&&sy>300){nav.style.transform='translateY(-100%)';nav.style.transition='transform .3s';}
-  else{nav.style.transform='none';}
-  lastScroll=sy;
-});
-
-</script></body></html>
+<script src="js/app.js"></script></body></html>
