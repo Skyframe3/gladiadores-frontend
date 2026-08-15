@@ -1,0 +1,320 @@
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #111214;
+      color: #E8E8E8;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+    /* LOGIN */
+    .login-box {
+      max-width: 400px;
+      margin: 5rem auto;
+      background: #1A1C1F;
+      border: 1px solid #2A2D32;
+      border-radius: 12px;
+      padding: 2rem;
+    }
+    .login-box h2 { color: #E8E8E8; margin-bottom: 1.5rem; text-align: center; font-size: 1.3rem; font-weight: 700; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; color: #999; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      background: #222428;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #E8E8E8;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+    .form-group input:focus { outline: none; border-color: #FF7A00; box-shadow: 0 0 0 3px rgba(255,122,0,0.12); }
+    .btn-login {
+      width: 100%;
+      padding: 0.75rem;
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-login:hover { background: #e86e00; }
+    .error { color: #ff6b6b; font-size: 0.85rem; margin-top: 1rem; }
+
+    /* HEADER */
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #2A2D32;
+    }
+    .admin-title { font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+    .admin-user { color: #888; font-size: 0.85rem; margin-bottom: 6px; }
+    .btn-logout {
+      background: transparent;
+      color: #999;
+      padding: 0.45rem 0.9rem;
+      border: 1px solid #333;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover { border-color: #ff6b6b; color: #ff6b6b; }
+
+    /* TABS */
+    .tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; border-bottom: 1px solid #2A2D32; overflow-x: auto; }
+    .tab {
+      padding: 0.65rem 1.2rem; background: none; border: none; border-bottom: 2px solid transparent;
+      color: #777; font-family: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: color 0.2s;
+    }
+    .tab:hover { color: #ccc; }
+    .tab.active { color: #FF7A00; border-bottom-color: #FF7A00; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-hint { color: #777; font-size: 0.85rem; margin-bottom: 1.25rem; line-height: 1.6; }
+
+    /* CARDS */
+    .card {
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 10px;
+      padding: 1.25rem; margin-bottom: 0.75rem;
+    }
+    .card.off { opacity: 0.45; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .card-name { font-size: 1.05rem; font-weight: 700; color: #fff; }
+    .card-meta { color: #777; font-size: 0.8rem; margin-top: 2px; }
+    .card-body { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #222428; }
+    .bloque-lbl { color: #FF7A00; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+    .chip {
+      padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.82rem; cursor: pointer;
+      background: rgba(255,122,0,0.08); border: 1px solid rgba(255,122,0,0.3); color: #FF7A00;
+      font-family: inherit; transition: all 0.15s;
+    }
+    .chip:hover { background: rgba(255,122,0,0.15); }
+    .chip.off { background: #1E2024; border-color: #333; color: #555; text-decoration: line-through; }
+    .unidad-row {
+      display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+      padding: 0.7rem 0; border-top: 1px solid #222428;
+    }
+    .unidad-nombre { flex: 1; min-width: 150px; color: #E8E8E8; font-size: 0.9rem; }
+    .unidad-nombre small { display: block; color: #777; font-size: 0.75rem; }
+    .precio-input {
+      width: 100px; padding: 0.45rem 0.6rem; background: #222428;
+      border: 1px solid #333; border-radius: 8px; color: #E8E8E8; font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .precio-input:focus { outline: none; border-color: #FF7A00; }
+    /* Tarifas: un precio por cada número de personas (el cobro es por vehículo) */
+    .tarifas { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .tarifa { display: flex; align-items: center; gap: 3px; font-size: 0.8rem; color: #999; }
+    .tarifa b { color: #FF7A00; font-size: 0.78rem; min-width: 22px; }
+    .tarifa .precio-input { width: 74px; padding: 0.35rem 0.45rem; }
+    .sin-tarifa { color: #FF5A5A; font-size: 0.78rem; }
+    .asientos { display: flex; gap: 4px; }
+    .asiento {
+      width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 0.8rem; font-weight: 700;
+      background: rgba(255,122,0,0.08); border: 1px solid rgba(255,122,0,0.3); color: #FF7A00;
+      font-family: inherit;
+    }
+    .asiento.off { background: rgba(255,90,90,0.08); border-color: rgba(255,90,90,0.3); color: #FF5A5A; }
+    .switch {
+      padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; border: 1px solid; transition: all 0.15s;
+    }
+    .switch.on { background: rgba(76,175,80,0.1); border-color: rgba(76,175,80,0.4); color: #4caf50; }
+    .switch.off { background: rgba(255,90,90,0.08); border-color: rgba(255,90,90,0.3); color: #FF5A5A; }
+    .btn-action {
+      padding: 0.5rem 1.2rem; background: #FF7A00; color: #fff; border: none; border-radius: 8px;
+      font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+    .btn-action:hover { background: #e86e00; }
+    .btn-action:disabled { opacity: 0.4; cursor: default; }
+    .btn-action.sm { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
+    .btn-action.secondary { background: transparent; border: 1px solid #333; color: #999; }
+    .btn-action.secondary:hover { border-color: #FF7A00; color: #FF7A00; }
+    .btn-action.danger { background: transparent; border: 1px solid #333; color: #ff6b6b; }
+    .btn-action.danger:hover { border-color: #ff6b6b; background: rgba(255,90,90,0.08); }
+    .saved { color: #4caf50; font-size: 0.82rem; }
+
+    /* ADMIN PANEL */
+    .admin-panel { display: none; }
+
+    /* TABLE */
+    .table-wrap {
+      background: #1A1C1F;
+      border: 1px solid #2A2D32;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: #1E2024;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #999;
+      border-bottom: 1px solid #2A2D32;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    td { padding: 0.85rem 1rem; border-bottom: 1px solid #222428; font-size: 0.9rem; }
+    tr:hover { background: rgba(255,122,0,0.03); }
+    .estado-badge {
+      display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+    .estado-confirmada { background: rgba(76,175,80,0.12); color: #4caf50; }
+    .estado-cancelada { background: rgba(244,67,54,0.12); color: #f44336; }
+    .estado-completada { background: rgba(33,150,243,0.12); color: #2196f3; }
+    .estado-no_show { background: rgba(255,152,0,0.12); color: #ff9800; }
+    /* Anticipo vs pago completo: se ve de un vistazo qué reservas todavía deben dinero */
+    .pago-pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+    .pago-pill.anticipo { background: rgba(255,152,0,0.12); color: #ff9800; }
+    .pago-pill.completo { background: rgba(76,175,80,0.12); color: #4caf50; }
+    .live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #4caf50; margin-right: 4px; animation: livePulse 2s infinite; }
+    @keyframes livePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    /* MODAL */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-content {
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 12px;
+      padding: 2rem; max-width: 500px; width: 90%;
+    }
+    .modal-content h3 { color: #fff; margin-bottom: 1rem; font-size: 1.1rem; }
+    .modal-body { margin-bottom: 1.5rem; max-height: 60vh; overflow-y: auto; }
+    .modal-detail { margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid #222428; font-size: 0.9rem; }
+    .modal-detail b { color: #FF7A00; }
+    .modal-actions { display: flex; gap: 0.8rem; }
+    .btn-modal {
+      flex: 1; padding: 0.65rem; border: none; border-radius: 8px;
+      cursor: pointer; font-weight: 600; font-size: 0.88rem; transition: all 0.2s;
+    }
+    .btn-primary { background: #FF7A00; color: #fff; }
+    .btn-primary:hover { background: #e86e00; }
+    .btn-secondary { background: #222428; color: #999; border: 1px solid #333; }
+    .btn-secondary:hover { border-color: #555; color: #ccc; }
+
+    /* FLOTILLA */
+    .flotilla-grid { display: grid; gap: 6px; }
+    .flotilla-tipo { color: #FF7A00; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 1rem; margin-bottom: 0.4rem; }
+    .flotilla-unit {
+      display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.8rem;
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 8px;
+    }
+    .flotilla-unit img { width: 56px; height: 40px; object-fit: contain; border-radius: 6px; flex-shrink: 0; }
+    /* Número de la máquina: "la 7" identifica al vehículo mejor que el apodo */
+    .flotilla-unit .fu-num {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px;
+      display: grid; place-items: center; font-size: 0.8rem; font-weight: 800;
+      background: rgba(255,122,0,0.12); border: 1px solid rgba(255,122,0,0.35); color: #FF7A00;
+    }
+    .flotilla-unit .fu-name { flex: 1; }
+    .flotilla-unit .fu-name b { font-size: 0.88rem; color: #E8E8E8; }
+    .flotilla-unit .fu-name small { display: block; color: #777; font-size: 0.75rem; }
+    .flotilla-unit .fu-info { text-align: right; color: #777; font-size: 0.82rem; }
+
+    /* CALENDARIO */
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .cal-header h3 { font-size: 1.1rem; font-weight: 700; color: #E8E8E8; }
+    .cal-nav { background: #222428; border: 1px solid #333; color: #999; border-radius: 6px; padding: 0.35rem 0.7rem; cursor: pointer; font-size: 0.9rem; }
+    .cal-nav:hover { border-color: #FF7A00; color: #FF7A00; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 1.2rem; max-width: 520px; }
+    .cal-header { max-width: 520px; }
+    .cal-dow { text-align: center; font-size: 0.7rem; color: #666; font-weight: 600; letter-spacing: 0.05em; padding: 0.3rem 0; }
+    .cal-day { text-align: center; padding: 0.5rem 0.2rem; border-radius: 8px; cursor: pointer; font-size: 0.85rem; color: #999; transition: all 0.15s; border: 1px solid transparent; }
+    .cal-day:hover { background: #222428; color: #E8E8E8; }
+    .cal-day.today { border-color: #FF7A00; color: #FF7A00; font-weight: 700; }
+    .cal-day.selected, .cal-day.selected.past { background: #FF7A00; color: #fff; font-weight: 700; opacity: 1; }
+    .cal-day.selected::after { background: #fff !important; }
+    .cal-day.has-reservas { position: relative; color: #E8E8E8; }
+    .cal-day.has-reservas::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; background: #FF7A00; border-radius: 50%; }
+    .cal-day.empty { pointer-events: none; }
+    .cal-day.past { opacity: 0.35; }
+
+    /* CALENDARIO DE DÍAS ACTIVOS */
+    .dias-cal { max-width: 380px; margin-top: 0.5rem; }
+    .dias-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+    .dias-cal-header span { font-size: 0.88rem; font-weight: 700; color: #E8E8E8; }
+    .dias-cal-nav { background: #222428; border: 1px solid #333; color: #999; border-radius: 6px; padding: 0.25rem 0.55rem; cursor: pointer; font-size: 0.85rem; }
+    .dias-cal-nav:hover { border-color: #FF7A00; color: #FF7A00; }
+    .dias-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .dias-cal-dow { text-align: center; font-size: 0.65rem; color: #555; font-weight: 600; padding: 0.2rem 0; }
+    .dias-cal-day {
+      text-align: center; padding: 0.35rem 0; border-radius: 6px; cursor: pointer;
+      font-size: 0.78rem; color: #555; border: 1px solid transparent; transition: all 0.12s;
+    }
+    .dias-cal-day:hover { background: #222428; color: #ccc; }
+    .dias-cal-day.activo { background: rgba(76,175,80,0.15); border-color: rgba(76,175,80,0.4); color: #4caf50; font-weight: 700; }
+    .dias-cal-day.empty { pointer-events: none; }
+    .dias-cal-day.past { opacity: 0.3; pointer-events: none; }
+    .dias-cal-btns { display: flex; gap: 6px; margin-top: 0.5rem; flex-wrap: wrap; }
+
+    /* PROMOS */
+    .promo-grid { display: grid; gap: 8px; }
+    .promo-card {
+      display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem;
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 10px;
+      flex-wrap: wrap;
+    }
+    .promo-card.expired { opacity: 0.4; }
+    .promo-code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 1.1rem; font-weight: 800; color: #FF7A00; letter-spacing: 0.05em; min-width: 120px; }
+    .promo-detail { flex: 1; min-width: 200px; }
+    .promo-detail b { color: #E8E8E8; }
+    .promo-detail small { display: block; color: #777; font-size: 0.78rem; margin-top: 2px; }
+    .promo-stats { text-align: right; min-width: 100px; }
+    .promo-stats b { color: #E8E8E8; font-size: 0.95rem; }
+    .promo-stats small { display: block; color: #777; font-size: 0.78rem; }
+
+    /* CREATE PROMO FORM */
+    .promo-form {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
+      background: #1A1C1F; border: 1px solid #2A2D32; border-radius: 10px;
+      padding: 1.25rem; margin-bottom: 1.25rem;
+    }
+    .promo-form label { display: block; color: #999; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .promo-form input { width: 100%; }
+
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .tabs { gap: 0; }
+      .tab { padding: 0.6rem 0.8rem; font-size: 0.82rem; }
+      table { font-size: 0.82rem; }
+      th, td { padding: 0.6rem 0.5rem; }
+      .promo-form { grid-template-columns: 1fr; }
+    }
+  
+
+/* ── Clases generadas desde los style="..." que había en el HTML.
+   Doble selector para ganarle en especificidad a las clases normales,
+   igual que ganaba el atributo inline. ── */
+.sax1.sax1{width:80px;height:80px;margin:0 auto 1.2rem;}
+.sax2.sax2{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,122,0,0.4));}
+.sax3.sax3{display:none}
+.sax4.sax4{color:#999;font-size:0.88rem;text-align:center;margin-bottom:1.5rem}
+.sax5.sax5{text-align:center;letter-spacing:0.3em;font-size:1.3rem}
+.sax6.sax6{color:#666;font-size:0.8rem;text-align:center;margin-top:1rem}
+.sax7.sax7{text-align:right}
+.sax8.sax8{font-size:0.9rem;font-weight:700;color:#FF7A00;margin-bottom:0.8rem;display:none}
+.sax9.sax9{color:#777}
+.sax10.sax10{width:100%;text-transform:uppercase}
+.sax11.sax11{width:100%}
+.sax12.sax12{display:flex;align-items:flex-end}
+.sax13.sax13{margin-bottom:1rem}
+.sax14.sax14{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.8rem;flex-wrap:wrap;gap:8px}
+.sax15.sax15{margin-bottom:0}
+.sax16.sax16{display:flex;gap:8px}
+.sax17.sax17{text-align:center;color:#777}
+.sax18.sax18{cursor:pointer;}

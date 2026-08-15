@@ -1,3 +1,20 @@
+// ── ESTILOS DINÁMICOS SIN unsafe-inline ──
+// Las plantillas ya no escriben style="..." (el CSP lo bloquearía sin
+// 'unsafe-inline'): escriben data-css="..." y este observador lo vuelca a
+// el.style.cssText, que entra por el CSSOM y el CSP sí permite. Corre como
+// microtarea al final de cada render, antes del pintado, así que el
+// elemento nunca se alcanza a ver sin su estilo.
+(function(){
+  function aplicar(el){
+    if(el.nodeType!==1)return;
+    if(el.hasAttribute('data-css'))el.style.cssText=el.getAttribute('data-css');
+    el.querySelectorAll('[data-css]').forEach(n=>{n.style.cssText=n.getAttribute('data-css');});
+  }
+  new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(aplicar)))
+    .observe(document.documentElement,{childList:true,subtree:true});
+  aplicar(document.documentElement);
+})();
+
     const API_URL = 'https://gladiadores-backend.vercel.app';
     let token = null;
     let tempToken = null;
@@ -141,16 +158,16 @@
           const marca = document.getElementById('reservas-actualizado');
           if (marca) marca.textContent = 'actualizado a las ' + new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
         } else {
-          document.getElementById('tbody-reservas').innerHTML = `<tr><td colspan="7" style="color:#ff6b6b">${esc(data.error || 'Error')}</td></tr>`;
+          document.getElementById('tbody-reservas').innerHTML = `<tr><td colspan="7" data-css="color:#ff6b6b">${esc(data.error || 'Error')}</td></tr>`;
         }
       } catch (err) {
-        document.getElementById('tbody-reservas').innerHTML = '<tr><td colspan="7" style="color:#ff6b6b">Error de conexión</td></tr>';
+        document.getElementById('tbody-reservas').innerHTML = '<tr><td colspan="7" data-css="color:#ff6b6b">Error de conexión</td></tr>';
       }
     }
 
 function renderReservas(reservas) {
       const tbody = document.getElementById('tbody-reservas');
-      if (!reservas.length) { tbody.innerHTML = '<tr><td colspan="7" style="color:#777;text-align:center">Sin reservas</td></tr>'; return; }
+      if (!reservas.length) { tbody.innerHTML = '<tr><td colspan="7" data-css="color:#777;text-align:center">Sin reservas</td></tr>'; return; }
       tbody.innerHTML = reservas.map((r, idx) => `
         <tr>
           <td><b>${esc(r.folio)}</b></td>
@@ -230,7 +247,7 @@ function renderReservas(reservas) {
         <div class="modal-detail"><b>Folio:</b> ${esc(reserva.folio)}</div>
         <div class="modal-detail"><b>Cliente:</b> ${esc(reserva.cliente?.nombre)}</div>
         <div class="modal-detail"><b>Email:</b> ${esc(reserva.cliente?.email)}</div>
-        <div class="modal-detail"><b>WhatsApp:</b> <a href="https://wa.me/52${esc(reserva.cliente?.whatsapp)}" target="_blank" style="color:#4caf50">${esc(reserva.cliente?.whatsapp)}</a></div>
+        <div class="modal-detail"><b>WhatsApp:</b> <a href="https://wa.me/52${esc(reserva.cliente?.whatsapp)}" target="_blank" data-css="color:#4caf50">${esc(reserva.cliente?.whatsapp)}</a></div>
         <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)} · ${new Date(reserva.fecha).toLocaleDateString('es-MX')} · ${esc(reserva.horario)}</div>
         <div class="modal-detail"><b>Unidad:</b> ${esc(reserva.unidad)}</div>
         <div class="modal-detail"><b>Personas:</b> ${esc(String(reserva.personas ?? '—'))}</div>
@@ -340,8 +357,8 @@ function renderReservas(reservas) {
 
     async function cargarFlotilla(fecha) {
       const cuerpo = document.getElementById('flotilla-cuerpo');
-      if (!fecha) { cuerpo.innerHTML = '<p style="color:#777">Selecciona un día del calendario</p>'; return; }
-      cuerpo.innerHTML = '<p style="color:#777">Consultando...</p>';
+      if (!fecha) { cuerpo.innerHTML = '<p data-css="color:#777">Selecciona un día del calendario</p>'; return; }
+      cuerpo.innerHTML = '<p data-css="color:#777">Consultando...</p>';
       try {
         const res = await fetch(`${API_URL}/api/disponibilidad?fecha=${fecha}`);
         const data = await res.json();
@@ -358,8 +375,8 @@ function renderReservas(reservas) {
       const grupos = {};
       todas.forEach(u => { (grupos[u.tipo] = grupos[u.tipo] || []).push(u); });
 
-      const resumen = `<p style="color:#999;margin-bottom:1rem">
-        <b style="color:#4caf50">${libres} libres</b> de ${todas.length} unidades ese día
+      const resumen = `<p data-css="color:#999;margin-bottom:1rem">
+        <b data-css="color:#4caf50">${libres} libres</b> de ${todas.length} unidades ese día
       </p>`;
 
       const bloques = Object.entries(grupos).map(([tipo, lista]) => `
@@ -376,8 +393,8 @@ function renderReservas(reservas) {
             </div>
             <div>
               ${u.libre
-                ? '<span class="switch on" style="cursor:default">Libre</span>'
-                : `<span class="switch off" style="cursor:default">${u.activo ? 'Ocupada' : 'Fuera de servicio'}</span>`}
+                ? '<span class="switch on" data-css="cursor:default">Libre</span>'
+                : `<span class="switch off" data-css="cursor:default">${u.activo ? 'Ocupada' : 'Fuera de servicio'}</span>`}
             </div>
             <div class="fu-info">
               ${u.ocupacion ? `${esc(u.ocupacion.folio)} · ${esc(u.ocupacion.ruta)}` : ''}
@@ -406,7 +423,7 @@ function renderReservas(reservas) {
 
     function renderPromos() {
       const lista = document.getElementById('promos-lista');
-      if (!promosCache.length) { lista.innerHTML = '<p style="color:#777">No hay códigos promocionales. Crea uno arriba.</p>'; return; }
+      if (!promosCache.length) { lista.innerHTML = '<p data-css="color:#777">No hay códigos promocionales. Crea uno arriba.</p>'; return; }
 
       lista.innerHTML = '<div class="promo-grid">' + promosCache.map(p => {
         const ahora = new Date();
@@ -417,11 +434,11 @@ function renderReservas(reservas) {
         const pendiente = inicio > ahora;
 
         let estado = '';
-        if (!p.activo) estado = '<span style="color:#ff6b6b">Desactivado</span>';
-        else if (expirado) estado = '<span style="color:#ff6b6b">Expirado</span>';
-        else if (agotado) estado = '<span style="color:#ff9800">Agotado</span>';
-        else if (pendiente) estado = '<span style="color:#2196f3">Pendiente</span>';
-        else estado = '<span style="color:#4caf50">Activo</span>';
+        if (!p.activo) estado = '<span data-css="color:#ff6b6b">Desactivado</span>';
+        else if (expirado) estado = '<span data-css="color:#ff6b6b">Expirado</span>';
+        else if (agotado) estado = '<span data-css="color:#ff9800">Agotado</span>';
+        else if (pendiente) estado = '<span data-css="color:#2196f3">Pendiente</span>';
+        else estado = '<span data-css="color:#4caf50">Activo</span>';
 
         return `<div class="promo-card ${expirado || agotado ? 'expired' : ''}">
           <div class="promo-code">${esc(p.codigo)}</div>
@@ -434,7 +451,7 @@ function renderReservas(reservas) {
             <small>usos</small>
           </div>
           <div>${estado}</div>
-          <div style="display:flex;gap:6px">
+          <div data-css="display:flex;gap:6px">
             <button class="btn-action sm ${p.activo ? 'danger' : 'secondary'}" data-a="togglePromo" data-p="${esc(p._id)}|${!p.activo}">${p.activo ? 'Desactivar' : 'Activar'}</button>
             <button class="btn-action sm danger" data-a="eliminarPromo" data-p="${esc(p._id)}">Eliminar</button>
           </div>
@@ -500,7 +517,7 @@ function renderReservas(reservas) {
     /* ===== AGENTE IA ===== */
     async function loadAgente() {
       const c = document.getElementById('agente-cuerpo');
-      c.innerHTML = '<p style="color:#777">Cargando...</p>';
+      c.innerHTML = '<p data-css="color:#777">Cargando...</p>';
       try {
         const res = await fetch(`${API_URL}/api/admin/agente`, { headers: { 'Authorization': `Bearer ${token}` } });
         const d = await res.json();
@@ -520,16 +537,16 @@ function renderReservas(reservas) {
             <button class="switch ${config.activo ? 'on' : 'off'}" data-a="toggleAgente" data-p="${!config.activo}">${config.activo ? 'Apagar' : 'Encender'}</button>
           </div>
         </div>
-        <div class="card" style="margin-top:0.75rem">
-          <label style="display:block;color:#999;font-size:0.82rem;margin-bottom:0.6rem">
+        <div class="card" data-css="margin-top:0.75rem">
+          <label data-css="display:block;color:#999;font-size:0.82rem;margin-bottom:0.6rem">
             Instrucciones adicionales (promociones vigentes, tono, cosas que no debe decir).
           </label>
           <textarea id="agente-instrucciones" rows="6" maxlength="2000"
-            style="width:100%;background:#222428;border:1px solid #333;border-radius:10px;padding:0.8rem;color:#E8E8E8;font-family:inherit;font-size:0.88rem;resize:vertical"
+            data-css="width:100%;background:#222428;border:1px solid #333;border-radius:10px;padding:0.8rem;color:#E8E8E8;font-family:inherit;font-size:0.88rem;resize:vertical"
             placeholder="Ej: Este fin de semana hay 15% de descuento en Ruta del Río. No ofrezcas descuentos que no estén aquí.">${esc(config.instrucciones || '')}</textarea>
-          <div style="margin-top:0.8rem;display:flex;align-items:center;gap:12px">
+          <div data-css="margin-top:0.8rem;display:flex;align-items:center;gap:12px">
             <button class="btn-action" data-a="guardarInstruccionesAgente">Guardar</button>
-            <span id="agente-guardado" class="saved" style="opacity:0"></span>
+            <span id="agente-guardado" class="saved" data-css="opacity:0"></span>
           </div>
         </div>`;
     }
@@ -599,7 +616,7 @@ function renderReservas(reservas) {
 
     async function preparar2FA() {
       const c = document.getElementById('seguridad-cuerpo');
-      c.innerHTML = '<p style="color:#777">Generando código...</p>';
+      c.innerHTML = '<p data-css="color:#777">Generando código...</p>';
       try {
         const res = await fetch(`${API_URL}/api/auth/2fa/preparar`, {
           method: 'POST', headers: { 'Authorization': `Bearer ${token}` }
@@ -608,19 +625,19 @@ function renderReservas(reservas) {
         if (!d.ok) { c.textContent = d.error || 'Error'; return; }
 
         c.innerHTML = `<div class="card">
-          <div class="card-name" style="margin-bottom:1rem">Escanea este código</div>
-          <p style="color:#999;font-size:0.88rem;margin-bottom:1rem">
+          <div class="card-name" data-css="margin-bottom:1rem">Escanea este código</div>
+          <p data-css="color:#999;font-size:0.88rem;margin-bottom:1rem">
             Ábrelo con Google Authenticator, Authy o 1Password. Si no puedes escanear,
-            usa esta clave: <code style="color:#FF7A00;letter-spacing:0.1em">${esc(d.secret)}</code>
+            usa esta clave: <code data-css="color:#FF7A00;letter-spacing:0.1em">${esc(d.secret)}</code>
           </p>
-          <img src="${esc(d.qr)}" alt="Código QR" style="border-radius:10px;background:#fff;padding:8px">
-          <div style="margin-top:1.2rem;max-width:320px">
-            <label style="display:block;color:#999;font-size:0.82rem;margin-bottom:0.5rem">
+          <img src="${esc(d.qr)}" alt="Código QR" data-css="border-radius:10px;background:#fff;padding:8px">
+          <div data-css="margin-top:1.2rem;max-width:320px">
+            <label data-css="display:block;color:#999;font-size:0.82rem;margin-bottom:0.5rem">
               Escribe el código que aparece en la app
             </label>
-            <div style="display:flex;gap:8px">
+            <div data-css="display:flex;gap:8px">
               <input class="precio-input" id="codigo-activar" maxlength="6" inputmode="numeric"
-                     placeholder="000000" style="width:130px;text-align:center;letter-spacing:0.2em">
+                     placeholder="000000" data-css="width:130px;text-align:center;letter-spacing:0.2em">
               <button class="btn-action" data-a="activar2FA">Confirmar</button>
             </div>
             <div id="error-activar" class="error"></div>
@@ -645,17 +662,17 @@ function renderReservas(reservas) {
         if (!d.ok) { err.textContent = d.error || 'Código incorrecto'; return; }
 
         document.getElementById('seguridad-cuerpo').innerHTML = `<div class="card">
-          <div class="card-name" style="color:#4caf50">Segundo factor activado</div>
-          <p style="color:#999;font-size:0.88rem;margin:0.8rem 0">
+          <div class="card-name" data-css="color:#4caf50">Segundo factor activado</div>
+          <p data-css="color:#999;font-size:0.88rem;margin:0.8rem 0">
             Guarda estos códigos de respaldo. Sirven una sola vez cada uno
             y son tu única forma de entrar si pierdes el teléfono.
-            <b style="color:#FF7A00">No se volverán a mostrar.</b>
+            <b data-css="color:#FF7A00">No se volverán a mostrar.</b>
           </p>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:1rem 0">
-            ${d.codigosRespaldo.map(c => `<code style="background:#222428;border:1px solid #333;padding:0.5rem;border-radius:6px;text-align:center;color:#E8E8E8;letter-spacing:0.06em">${esc(c)}</code>`).join('')}
+          <div data-css="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:1rem 0">
+            ${d.codigosRespaldo.map(c => `<code data-css="background:#222428;border:1px solid #333;padding:0.5rem;border-radius:6px;text-align:center;color:#E8E8E8;letter-spacing:0.06em">${esc(c)}</code>`).join('')}
           </div>
           <button class="btn-action" data-a="copiarCodigos" data-codigos="${esc(d.codigosRespaldo.join('\n'))}">Copiar códigos</button>
-          <button class="btn-action secondary" style="margin-left:8px" data-a="renderSeguridad" data-p="true">Ya los guardé</button>
+          <button class="btn-action secondary" data-css="margin-left:8px" data-a="renderSeguridad" data-p="true">Ya los guardé</button>
         </div>`;
       } catch (e) {
         err.textContent = 'Error de conexión';
@@ -699,7 +716,7 @@ function renderReservas(reservas) {
       document.getElementById('catalogo-lista').innerHTML = catalogoCache.map((r, i) => {
         const horarios = r.horarios.map((h, hi) =>
           `<button class="chip ${h.activo ? '' : 'off'}" data-a="toggleHorario" data-p="${i}|${hi}">${esc(h.hora)}</button>`
-        ).join('') || '<span style="color:#555;font-size:0.82rem">Sin horarios</span>';
+        ).join('') || '<span data-css="color:#555;font-size:0.82rem">Sin horarios</span>';
 
         const unidades = r.units.map((u, ui) => {
           const asientos = Array.from({ length: u.seats }, (_, k) => {
@@ -730,7 +747,7 @@ function renderReservas(reservas) {
               <div class="card-name">${esc(r.name)}</div>
               <div class="card-meta">${esc(r.diff)} · ${esc(r.dur)} · ${esc(r.dist)}</div>
             </div>
-            <div style="display:flex;gap:8px;align-items:center">
+            <div data-css="display:flex;gap:8px;align-items:center">
               <span class="saved" id="ok-${i}"></span>
               <button class="switch ${r.activo ? 'on' : 'off'}" data-a="toggleRuta" data-p="${i}">${r.activo ? 'Publicada' : 'Oculta'}</button>
               <button class="btn-action" id="save-${i}" data-a="guardarRuta" data-p="${i}">Guardar</button>
@@ -738,42 +755,42 @@ function renderReservas(reservas) {
           </div>
           <div class="card-body">
             <div class="bloque-lbl">Fotos (hasta 10) — haz clic en una para hacerla portada</div>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0.8rem">
+            <div data-css="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0.8rem">
               ${(r.galeria || []).map((g, gi) => {
                 const esPortada = g === r.img;
-                return `<div style="position:relative;cursor:pointer" data-a="hacerPortada" data-p="${i}|${gi}" title="${esPortada ? 'Esta es la portada' : 'Hacer portada'}">
-                  <img src="${esc(g)}" data-onerr="dim" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:2px solid ${esPortada ? '#FF7A00' : '#333'};${esPortada ? 'box-shadow:0 0 8px rgba(255,122,0,0.4)' : ''}">
-                  ${esPortada ? '<span style="position:absolute;bottom:2px;left:2px;background:#FF7A00;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;letter-spacing:0.05em">PORTADA</span>' : ''}
-                  <button data-stop="1" data-a="quitarFotoGaleria" data-p="${i}|${gi}" title="Quitar" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#ff5a5a;color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1">✕</button>
-                </div>`}).join('') || '<span style="color:#555;font-size:0.82rem">Sin fotos — sube la primera</span>'}
+                return `<div data-css="position:relative;cursor:pointer" data-a="hacerPortada" data-p="${i}|${gi}" title="${esPortada ? 'Esta es la portada' : 'Hacer portada'}">
+                  <img src="${esc(g)}" data-onerr="dim" data-css="width:80px;height:60px;object-fit:cover;border-radius:6px;border:2px solid ${esPortada ? '#FF7A00' : '#333'};${esPortada ? 'box-shadow:0 0 8px rgba(255,122,0,0.4)' : ''}">
+                  ${esPortada ? '<span data-css="position:absolute;bottom:2px;left:2px;background:#FF7A00;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;letter-spacing:0.05em">PORTADA</span>' : ''}
+                  <button data-stop="1" data-a="quitarFotoGaleria" data-p="${i}|${gi}" title="Quitar" data-css="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#ff5a5a;color:#fff;border:none;cursor:pointer;font-size:11px;line-height:1">✕</button>
+                </div>`}).join('') || '<span data-css="color:#555;font-size:0.82rem">Sin fotos — sube la primera</span>'}
             </div>
             ${(r.galeria || []).length >= 10
-              ? '<p style="color:#777;font-size:0.82rem;margin-bottom:0.8rem">Máximo de 10 fotos alcanzado.</p>'
-              : `<div style="display:flex;gap:8px;margin-bottom:0.8rem;align-items:center">
-                  <input type="file" id="file-galeria-${i}" accept="image/*" multiple style="display:none" data-a="subirGaleria" data-p="${i}">
+              ? '<p data-css="color:#777;font-size:0.82rem;margin-bottom:0.8rem">Máximo de 10 fotos alcanzado.</p>'
+              : `<div data-css="display:flex;gap:8px;margin-bottom:0.8rem;align-items:center">
+                  <input type="file" id="file-galeria-${i}" accept="image/*" multiple data-css="display:none" data-a="subirGaleria" data-p="${i}">
                   <button class="btn-action sm secondary" data-a="clickFile" data-p="file-galeria-${i}">Subir fotos</button>
                   <span class="saved" id="ok-subida-${i}"></span>
                 </div>`}
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:1rem">
-              <input type="text" id="video-${i}" class="precio-input" style="flex:1;width:auto" placeholder="Liga de YouTube o Instagram (opcional)" value="${esc(r.video || '')}">
+            <div data-css="display:flex;gap:8px;align-items:center;margin-bottom:1rem">
+              <input type="text" id="video-${i}" class="precio-input" data-css="flex:1;width:auto" placeholder="Liga de YouTube o Instagram (opcional)" value="${esc(r.video || '')}">
               <button class="btn-action sm" data-a="guardarGaleria" data-p="${i}">Guardar video</button>
               <span class="saved" id="ok-gal-${i}"></span>
             </div>
 
             <div class="bloque-lbl">Horarios</div>
             <div class="chips">${horarios}</div>
-            <div style="display:flex;gap:8px;margin-top:0.5rem;align-items:center">
-              <input type="time" id="nuevo-horario-${i}" class="precio-input" style="width:120px">
+            <div data-css="display:flex;gap:8px;margin-top:0.5rem;align-items:center">
+              <input type="time" id="nuevo-horario-${i}" class="precio-input" data-css="width:120px">
               <button class="btn-action sm secondary" data-a="agregarHorario" data-p="${i}">Agregar horario</button>
             </div>
 
-            <div class="bloque-lbl" style="margin-top:1rem">Días activos</div>
-            <p class="card-meta" style="margin-bottom:0.5rem">Los clientes solo pueden reservar los días verdes. Toca un día para activar o desactivar.</p>
+            <div class="bloque-lbl" data-css="margin-top:1rem">Días activos</div>
+            <p class="card-meta" data-css="margin-bottom:0.5rem">Los clientes solo pueden reservar los días verdes. Toca un día para activar o desactivar.</p>
             <div id="dias-cal-${i}" class="dias-cal"></div>
 
-            <div class="bloque-lbl" style="margin-top:1rem">Unidades y asientos</div>
-            <p class="card-meta" style="margin-bottom:0.8rem">Commander y Maverick de 2 plazas son unidad única: si la apagas aquí, se apaga en todas las rutas.</p>
-            ${unidades || '<p style="color:#555;font-size:0.82rem">Sin unidades</p>'}
+            <div class="bloque-lbl" data-css="margin-top:1rem">Unidades y asientos</div>
+            <p class="card-meta" data-css="margin-bottom:0.8rem">Commander y Maverick de 2 plazas son unidad única: si la apagas aquí, se apaga en todas las rutas.</p>
+            ${unidades || '<p data-css="color:#555;font-size:0.82rem">Sin unidades</p>'}
           </div>
         </div>`;
       }).join('');
