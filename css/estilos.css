@@ -14,6 +14,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overfl
 @keyframes spin{to{transform:rotate(360deg);}}
 @keyframes helmetPulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 12px var(--fire));}50%{transform:scale(1.08);filter:drop-shadow(0 0 28px var(--fire));}}
 .loader-txt{font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:6px;font-size:15px;color:var(--muted);animation:blink 1.4s infinite;}
+.mant-msg{max-width:340px;text-align:center;font-size:14px;color:var(--muted);line-height:1.7;padding:0 24px;animation:none;letter-spacing:normal;font-weight:400;}
+.mant-wsp{margin-top:6px;color:var(--fire);font-weight:700;text-decoration:none;font-size:13px;letter-spacing:.5px;border:1px solid rgba(255,122,0,0.3);padding:10px 20px;border-radius:30px;transition:background .2s;}
+.mant-wsp:hover{background:rgba(255,122,0,0.1);}
 @keyframes blink{0%,100%{opacity:.4;}50%{opacity:1;}}
 
 /* NAV */

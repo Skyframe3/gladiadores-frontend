@@ -103,6 +103,9 @@ const MERCH=[{id:1,emo:"",name:"Visor Táctico",price:450,tag:"PROTECCIÓN",sold
 const EXTRAS=[{id:"e1",emo:"",name:"Sesión de fotos profesional",desc:"Fotógrafo con dron durante tu ruta",price:800},{id:"e2",emo:"",name:"Video de la aventura",desc:"Edición cinematográfica de tu recorrido",price:1200},{id:"e3",emo:"",name:"Comida en ruta",desc:"Picnic gourmet a media aventura",price:250},{id:"e4",emo:"",name:"Decoración para evento especial",desc:"Cumpleaños, pedida de mano, aniversarios",price:1500}];
 
 const API = "https://gladiadores-backend.vercel.app";
+// Se dispara de inmediato para que el loader ya tenga la respuesta lista
+// cuando termine de cargar la página (ver window 'load' más abajo).
+const chequeoMantenimiento = fetch(API+'/api/config/estado').then(r=>r.json()).catch(()=>({mantenimiento:false}));
 let cart=[],bRoute=null,bStep=1,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],bPayMode='anticipo',bPayMethod=null,bNota='';
 // Mientras no esté conectada la pasarela de pago, la reserva no se guarda
 // sola: el último paso arma una solicitud y la manda por WhatsApp para
@@ -406,7 +409,18 @@ document.querySelectorAll('.reveal,.tread-divider').forEach(el=>obs.observe(el))
 window.addEventListener('scroll',()=>{document.getElementById('nav').style.background=window.scrollY>60?'rgba(8,10,7,0.92)':'rgba(8,10,7,0.55)';});
 
 // INIT
-window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('hide'),1400);});
+window.addEventListener('load',()=>{
+  chequeoMantenimiento.then(d=>{
+    const l=document.getElementById('loader');
+    if(!l)return;
+    if(d && d.mantenimiento){
+      l.innerHTML='<div class="loader-helmet"><img src="img/i1.png" alt="Gladiadores Off Road" width="110" height="110"/></div><div class="loader-txt">EN MANTENIMIENTO</div><div class="mant-msg">Estamos afinando la aventura para que la vivas mejor. Volvemos muy pronto.</div><a class="mant-wsp" href="https://wa.me/527971001929" target="_blank" rel="noopener">¿Dudas? Escríbenos por WhatsApp</a>';
+      document.title='En mantenimiento · Gladiadores Off Road';
+      return;
+    }
+    setTimeout(()=>l.classList.add('hide'),1400);
+  });
+});
 (function(){if(localStorage.getItem('reg_done'))return;var fired=false;window.addEventListener('scroll',function(){if(fired)return;var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight);if(pct>0.35){fired=true;openReg();}});})();
 renderUnits();renderMerch();
 // Los precios vivos mandan: pintamos las rutas hasta que llega el catálogo del admin,
