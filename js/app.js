@@ -178,15 +178,16 @@ function renderRouteFicha(){
   const viewer=photos.length?`<div class="rf-viewer"><img src="${photos[rfIdx]}" alt="${esc(r.name)} — foto ${rfIdx+1} de ${photos.length}">${photos.length>1?`<button class="rf-nav prev" data-a="rfNav" data-p="-1" aria-label="Foto anterior">‹</button><button class="rf-nav next" data-a="rfNav" data-p="1" aria-label="Foto siguiente">›</button><div class="rf-count">${rfIdx+1}/${photos.length}</div>`:''}</div>${photos.length>1?`<div class="rf-thumbs">${photos.map((p,i)=>`<img class="rf-thumb ${i===rfIdx?'sel':''}" src="${p}" data-a="rfGoto" data-p="${i}" alt="Miniatura ${i+1}">`).join('')}</div>`:''}`:`<div class="rf-viewer" data-css="display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px">Sin fotos todavía</div>`;
   document.getElementById('rf-body').innerHTML=`${viewer}
     <div class="rf-info">
-      <div class="rf-tags"><span class="rf-tag" data-css="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${esc(r.tag)}</span><span class="rf-tag" data-css="background:rgb(${colorDif(r)});color:${tinta(colorDif(r))}">${esc(r.diff)}</span></div>
+      <div class="rf-tags"><span class="rf-tag" data-css="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${esc(r.tag)}</span></div>
       <div class="rf-desc">${esc(r.desc)}</div>
-      <div class="rf-terrain">${(r.terrain||[]).map(t=>`<span class="rf-tr">${esc(t)}</span>`).join('')}</div>
       <div class="rf-stats">
         <div class="rf-st"><b>${esc(r.dur)}</b><small>DURACIÓN</small></div>
+        <div class="rf-st"><b>${esc(r.diff)}</b><small>DIFICULTAD</small></div>
         <div class="rf-st"><b>${esc(r.dist)}</b><small>DISTANCIA</small></div>
-        <div class="rf-st"><b>$${minp}</b><small>DESDE</small></div>
       </div>
+      <div class="rf-terrain">${(r.terrain||[]).map(t=>`<span class="rf-tr">${esc(t)}</span>`).join('')}</div>
       ${r.video?`<a class="rf-video" href="${esc(r.video)}" target="_blank" rel="noopener">▶ Ver video de la ruta</a>`:''}
+      <div class="rf-price-block"><span class="rf-price-lbl">DESDE</span><span class="rf-price-val">$${minp}</span><span class="rf-price-unit">/unidad</span></div>
     </div>
     <div class="rf-footer" data-css="margin-top:6px">
       <button class="btn-back" data-css="flex:1" data-a="closeRouteFicha">← VOLVER A RUTAS</button>

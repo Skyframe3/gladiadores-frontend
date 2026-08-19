@@ -365,6 +365,10 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(255,1
 .rf-st small{color:var(--muted);font-size:10.5px;letter-spacing:.5px;}
 .rf-video{display:inline-flex;align-items:center;gap:8px;color:var(--gladio);font-size:13px;font-weight:700;text-decoration:none;margin-bottom:18px;}
 .rf-video:hover{text-decoration:underline;}
+.rf-price-block{display:flex;align-items:baseline;gap:8px;padding-top:16px;margin-bottom:4px;border-top:1px solid rgba(255,122,0,0.15);}
+.rf-price-lbl{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;}
+.rf-price-val{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:var(--fire);}
+.rf-price-unit{font-size:12px;color:var(--muted);}
 .rf-footer{display:flex;gap:10px;padding:0 26px;}
 .step-bar{display:flex;gap:6px;margin-bottom:22px;}
 .step-seg{flex:1;height:4px;border-radius:2px;}
@@ -487,6 +491,17 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
 .urgency{display:inline-flex;align-items:center;gap:6px;background:rgba(163,214,60,0.12);border:1px solid rgba(163,214,60,0.4);color:var(--gladio);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:1px;}
 /* Aviso honesto de alta demanda (patrón de fin de semana real, no fechas inventadas) */
 .demand-banner{max-width:900px;margin:0 auto 22px;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;background:rgba(255,122,0,0.08);border:1px solid rgba(255,122,0,0.28);border-radius:12px;padding:12px 18px;font-size:13.5px;font-weight:600;color:var(--ink);}
+.seg-grid{max-width:1150px;margin:0 auto 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start;}
+.seg-card{background:var(--card);border:1px solid rgba(255,122,0,0.12);border-radius:16px;padding:22px;}
+.seg-card-tit{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;letter-spacing:.5px;margin-bottom:10px;color:var(--ink);}
+.seg-card-lead{color:var(--muted);font-size:13.5px;margin-bottom:10px;}
+.seg-card-p{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:10px;}
+.seg-list{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:8px;}
+.seg-list li{position:relative;padding-left:20px;color:var(--muted);font-size:13px;line-height:1.5;}
+.seg-list li::before{content:'';position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--fire);}
+.seg-card-note{color:var(--ink);font-size:13px;font-weight:600;line-height:1.6;margin:0;padding-top:8px;border-top:1px solid rgba(255,122,0,0.12);}
+.seg-important{max-width:900px;margin:0 auto;text-align:center;background:rgba(255,122,0,0.08);border:1px solid rgba(255,122,0,0.28);border-radius:12px;padding:16px 22px;font-size:13px;color:var(--muted);line-height:1.7;}
+.seg-important b{color:var(--fire);}
 .demand-dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--fire);box-shadow:0 0 0 0 rgba(255,122,0,.6);animation:lowPulse 1.8s infinite;}
 @media(max-width:560px){.demand-banner{font-size:12.5px;padding:11px 14px;}}
 /* Iconos sociales oficiales */
