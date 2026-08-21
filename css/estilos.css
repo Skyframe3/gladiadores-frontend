@@ -631,18 +631,18 @@ section.blk>*{position:relative;z-index:1;}
 /* ── Clases generadas desde los style="..." que había en el HTML.
    Doble selector para ganarle en especificidad a las clases normales,
    igual que ganaba el atributo inline. ── */
-.sx1.sx1{background-image:url(../img/i2.jpg)}
+.sx1.sx1{background-image:url(../img/i2.avif)}
 .sx2.sx2{background:linear-gradient(180deg,rgba(8,10,7,0.55),rgba(8,10,7,0.35) 45%,rgba(8,10,7,0.9))}
 .sx3.sx3{display:block}
-.sx4.sx4{background-image:url(../img/i3.jpg)}
+.sx4.sx4{background-image:url(../img/i3.avif)}
 .sx5.sx5{background:linear-gradient(90deg,rgba(8,10,7,0.85),rgba(8,10,7,0.3))}
 .sx6.sx6{text-align:left;margin-left:2%;}
 .sx7.sx7{text-align:left;}
 .sx8.sx8{margin-left:0;}
 .sx9.sx9{justify-content:flex-start;}
-.sx10.sx10{background-image:url(../img/i4.jpg)}
+.sx10.sx10{background-image:url(../img/i4.avif)}
 .sx11.sx11{background:linear-gradient(180deg,rgba(8,7,6,0.5),rgba(8,10,7,0.85))}
-.sx12.sx12{background-image:url(../img/i5.jpg)}
+.sx12.sx12{background-image:url(../img/i5.avif)}
 .sx13.sx13{background:linear-gradient(135deg,rgba(60,10,80,0.6),rgba(8,10,7,0.85))}
 .sx14.sx14{background:linear-gradient(90deg,#FF7A00,#B026FF);color:#fff;}
 .sx15.sx15{position:absolute;bottom:34px;right:34px;z-index:5;}
@@ -674,15 +674,15 @@ section.blk>*{position:relative;z-index:1;}
 .sx41.sx41{margin-top:4px;}
 .sx42.sx42{color:var(--gladio);font-family:'Barlow Condensed';font-size:20px;}
 .sx43.sx43{max-width:820px;margin:28px auto 0;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.8;}
-.sx44.sx44{background-image:url(../img/i6.jpg)}
-.sx45.sx45{background-image:url(../img/i7.jpg)}
-.sx46.sx46{background-image:url(../img/i8.jpg)}
-.sx47.sx47{background-image:url(../img/i9.jpg)}
+.sx44.sx44{background-image:url(../img/i6.avif)}
+.sx45.sx45{background-image:url(../img/i7.avif)}
+.sx46.sx46{background-image:url(../img/i8.avif)}
+.sx47.sx47{background-image:url(../img/i9.avif)}
 .sx48.sx48{background-image:url(../img/i10.jpg)}
-.sx49.sx49{background-image:url(../img/i11.jpg)}
+.sx49.sx49{background-image:url(../img/i11.avif)}
 .sx50.sx50{background-image:url(../img/i12.jpg)}
-.sx51.sx51{background-image:url(../img/i13.jpg)}
-.sx52.sx52{background-image:url(../img/i14.jpg)}
+.sx51.sx51{background-image:url(../img/i13.avif)}
+.sx52.sx52{background-image:url(../img/i14.avif)}
 .sx53.sx53{max-width:880px;margin:0 auto;text-align:center;}
 .sx54.sx54{margin:24px auto;}
 .sx55.sx55{color:var(--muted);font-size:17px;line-height:1.9;max-width:720px;margin:0 auto 40px;}
