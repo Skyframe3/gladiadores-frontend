@@ -27,7 +27,30 @@ const PAGINA_MANTENIMIENTO = `<!doctype html>
 </body>
 </html>`;
 
-export default async function middleware() {
+// Puerta secreta para el dueño, igual que /paso.php en Chigna: visitar
+// una vez con ?vista=CÓDIGO deja una cookie de 24h que salta el bloqueo
+// de mantenimiento en todas las páginas siguientes.
+const CODIGO_VISTA = 'ad69671f8864fa8afffb71d9';
+const COOKIE_VISTA = 'glad_preview';
+
+export default async function middleware(request) {
+  const url = new URL(request.url);
+  const cookieHeader = request.headers.get('cookie') || '';
+  const tieneCookie = new RegExp(`(?:^|; )${COOKIE_VISTA}=1(?:;|$)`).test(cookieHeader);
+
+  if (!tieneCookie && url.searchParams.get('vista') === CODIGO_VISTA) {
+    url.searchParams.delete('vista');
+    return new Response(null, {
+      status: 302,
+      headers: {
+        location: url.toString(),
+        'set-cookie': `${COOKIE_VISTA}=1; Path=/; Max-Age=86400; HttpOnly; Secure; SameSite=Lax`
+      }
+    });
+  }
+
+  if (tieneCookie) return;
+
   try {
     const res = await fetch('https://gladiadores-backend.vercel.app/api/config/estado', {
       cache: 'no-store'
