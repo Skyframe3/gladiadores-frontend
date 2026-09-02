@@ -105,12 +105,15 @@ const EXTRAS=[{id:"e1",emo:"",name:"Sesión de fotos profesional",desc:"Fotógra
 const API = "https://gladiadores-backend.vercel.app";
 // Se dispara de inmediato para que el loader ya tenga la respuesta lista
 // cuando termine de cargar la página (ver window 'load' más abajo).
-const chequeoMantenimiento = fetch(API+'/api/config/estado').then(r=>r.json()).catch(()=>({mantenimiento:false}));
+const chequeoMantenimiento = fetch(API+'/api/config/estado').then(r=>r.json()).catch(()=>({mantenimiento:false,reservasPausadas:true}));
 let cart=[],bRoute=null,bStep=1,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],bPayMode='anticipo',bPayMethod=null,bNota='';
-// Mientras no esté conectada la pasarela de pago, la reserva no se guarda
-// sola: el último paso arma una solicitud y la manda por WhatsApp para
-// confirmarla a mano con el pago.
-const RESERVAS_EN_LINEA=false;
+// Mientras no esté conectada la pasarela de pago (o mientras el dueño la
+// pause desde el panel), la reserva no se guarda sola: el último paso
+// arma una solicitud y la manda por WhatsApp para confirmarla a mano.
+// Empieza en false (modo seguro) y se actualiza en cuanto responde
+// /api/config/estado — ver window 'load' más abajo.
+let RESERVAS_EN_LINEA=false;
+chequeoMantenimiento.then(d=>{RESERVAS_EN_LINEA=!(d&&d.reservasPausadas);});
 
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
 function toggleMobileMenu(){const h=document.getElementById('nav-hamburger');const d=document.getElementById('mob-drawer');const o=document.getElementById('mob-overlay');if(d.classList.contains('open')){closeMobileMenu();}else{h.classList.add('open');d.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';}}

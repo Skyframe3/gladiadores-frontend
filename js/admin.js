@@ -291,7 +291,7 @@ function renderReservas(reservas) {
       document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === nombre));
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + nombre));
       if (nombre === 'catalogo' && catalogoCache.length === 0) loadCatalogo();
-      if (nombre === 'seguridad') { loadSeguridad(); loadMantenimiento(); }
+      if (nombre === 'seguridad') { loadSeguridad(); loadMantenimiento(); loadReservasToggle(); }
       if (nombre === 'agente') loadAgente();
       if (nombre === 'promos') loadPromos();
       if (nombre === 'flotilla') { renderCalendar(); }
@@ -753,6 +753,58 @@ function renderReservas(reservas) {
       } catch (e) { alert('Error de conexión'); }
     }
 
+    /* ===== PAUSAR RESERVAS (solo dueño) ===== */
+    async function loadReservasToggle() {
+      if (userRole !== 'owner') return;
+      document.getElementById('reservas-toggle-hint').style.display = '';
+      const c = document.getElementById('reservas-toggle-cuerpo');
+      c.style.display = '';
+      try {
+        const res = await fetch(`${API_URL}/api/config/estado`);
+        const d = await res.json();
+        renderReservasToggle(d.reservasPausadas);
+      } catch (e) { c.textContent = 'Error de conexión'; }
+    }
+
+    function renderReservasToggle(pausadas) {
+      document.getElementById('reservas-toggle-cuerpo').innerHTML = pausadas
+        ? `<div class="card">
+             <div class="card-top">
+               <div>
+                 <div class="card-name">Reservas en pausa</div>
+                 <div class="card-meta">Nadie puede pagar en línea todavía — se les pide mandar su solicitud por WhatsApp.</div>
+               </div>
+               <button class="switch off" data-a="toggleReservas" data-p="false">Abrir reservas en línea</button>
+             </div>
+           </div>`
+        : `<div class="card">
+             <div class="card-top">
+               <div>
+                 <div class="card-name">Reservas en línea abiertas</div>
+                 <div class="card-meta">La gente puede pagar y confirmar su reserva de una vez.</div>
+               </div>
+               <button class="switch" data-a="toggleReservas" data-p="true">Pausar reservas</button>
+             </div>
+           </div>`;
+    }
+
+    async function toggleReservas(pausadas) {
+      const msg = pausadas
+        ? '¿Pausar las reservas? La gente solo podrá mandar su solicitud por WhatsApp.'
+        : '¿Abrir las reservas en línea? Asegúrate de que Mercado Pago ya esté conectado.';
+      if (!confirm(msg)) return;
+      try {
+        const res = await fetch(`${API_URL}/api/config/reservas`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ pausadas })
+        });
+        const d = await res.json();
+        if (!d.ok) { alert(d.error || 'No se pudo actualizar'); return; }
+        renderReservasToggle(d.reservasPausadas);
+      } catch (e) { alert('Error de conexión'); }
+    }
+
     /* ===== CATÁLOGO ===== */
     async function loadCatalogo() {
       const cont = document.getElementById('catalogo-lista');
@@ -1151,7 +1203,7 @@ function renderReservas(reservas) {
 // data-a="función" (+ data-p="arg1|arg2|...") cubre los clics; los inputs
 // de archivo y de tarifa tienen su propio listener porque necesitan el
 // elemento o el valor en vivo, no solo argumentos fijos.
-const ACTS={switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,
+const ACTS={switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
  clickFile:id=>document.getElementById(id).click()};
 
 const convArg=s=>{
