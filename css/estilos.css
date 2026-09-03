@@ -123,7 +123,7 @@ section.blk{padding:90px 34px;}
 .rc{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid rgba(255,122,0,0.1);cursor:pointer;transition:transform .3s,box-shadow .3s,border-color .3s;}
 .rc:hover{transform:translateY(-8px);box-shadow:0 26px 60px rgba(0,0,0,0.6);border-color:rgba(255,122,0,0.35);}
 .rc-img{height:220px;position:relative;background-size:cover;background-position:center;}
-.rc-img-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(18,22,14,0.96));}
+.rc-img-ov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 62%,rgba(12,14,10,0.78));}
 .rc-tags-top{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;z-index:2;}
 .rc-tag{border-radius:6px;padding:5px 11px;font-size:11px;font-weight:700;letter-spacing:1px;backdrop-filter:blur(4px);}
 .rc-galcount{position:absolute;bottom:12px;right:14px;z-index:2;background:rgba(8,10,7,0.7);border:1px solid rgba(255,122,0,0.3);color:var(--fire);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:600;}
@@ -190,7 +190,7 @@ section.blk{padding:90px 34px;}
 .place-card{background:var(--card);border:1px solid rgba(255,122,0,0.12);border-radius:16px;overflow:hidden;transition:transform .25s,border-color .25s;display:flex;flex-direction:column;}
 .place-card:hover{transform:translateY(-5px);border-color:rgba(255,122,0,0.45);}
 .place-foto{aspect-ratio:16/10;background-size:cover;background-position:center;position:relative;}
-.place-foto::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,7,6,.85));}
+
 .place-foto-vacia{background:linear-gradient(140deg,rgba(255,122,0,.14),rgba(163,214,60,.06));}
 .place-body{padding:14px 16px 17px;position:relative;}
 .place-num{font-family:'Barlow Condensed';font-size:13px;font-weight:900;letter-spacing:1.5px;color:var(--fire);display:block;margin-bottom:3px;}
@@ -293,7 +293,7 @@ section.blk{padding:90px 34px;}
 .gs47{background-image:url(../img/rutas/ruta-del-rio/foto-11-n.avif)}
 .gs48{background-image:url(../img/rutas/ruta-del-rio/foto-12-n.avif)}
 .gal-slide{flex:0 0 clamp(258px,42vw,440px);aspect-ratio:4/3;border-radius:16px;background-size:contain;background-repeat:no-repeat;background-color:#0D0B0A;background-position:center;scroll-snap-align:center;position:relative;overflow:hidden;border:1px solid rgba(255,122,0,0.14);transition:transform .3s;}
-.gal-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,7,6,0.55));}
+
 .gal-slide:hover{transform:scale(1.02);}
 .gal-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:48px;height:48px;border-radius:50%;background:rgba(10,6,18,0.82);border:1px solid rgba(255,122,0,0.4);color:#fff;font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .2s;backdrop-filter:blur(4px);}
 .gal-nav:hover{background:var(--fire);color:#0A0806;transform:translateY(-50%) scale(1.08);}
@@ -867,24 +867,21 @@ section.blk>*{position:relative;z-index:1;}
    .unit-pick, donde el bloque de tarifas encogía en vez de bajar). */
 .unit-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;transition:border-color .2s;}
 .unit-card:not(.unit-agotada):hover{border-color:rgba(255,122,0,.35);}
-.uc-top{display:flex;align-items:center;gap:14px;}
-.uc-img{width:64px;height:48px;flex:none;object-fit:contain;border-radius:8px;background:rgba(255,122,0,0.05);}
-.uc-info{min-width:0;}
-.uc-info b{display:block;font-size:15px;line-height:1.25;}
-.uc-info small{display:block;color:var(--muted);font-size:12px;margin-top:2px;}
-.uc-tarifas{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,122,0,0.2);}
-.uc-pregunta{color:var(--muted);font-size:12px;margin-bottom:8px;}
-.uc-opts{display:flex;gap:8px;flex-wrap:wrap;}
-.uc-opt{flex:1 1 104px;text-align:center;}
-.uc-precio{font-size:14px;font-weight:800;color:var(--fire);}
-@media(max-width:560px){.uc-opt{flex:1 1 88px;}.uc-img{width:54px;height:42px;}}
+.bk-top{display:flex;align-items:center;gap:14px;}
+.bk-img{width:104px;height:76px;flex:none;object-fit:contain;border-radius:10px;background:rgba(255,122,0,0.05);}
+.bk-info{min-width:0;}
+.bk-info b{display:block;font-size:15px;line-height:1.25;}
+.bk-info small{display:block;color:var(--muted);font-size:12px;margin-top:2px;}
+.bk-tarifas{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,122,0,0.2);}
+.bk-pregunta{color:var(--muted);font-size:12px;margin-bottom:8px;}
+.bk-opts{display:flex;gap:8px;flex-wrap:wrap;}
+.bk-opt{flex:1 1 104px;text-align:center;}
+.bk-precio{font-size:14px;font-weight:800;color:var(--fire);}
+@media(max-width:560px){.bk-opt{flex:1 1 88px;}.bk-img{width:84px;height:62px;}}
 
 /* Con un solo dato (duración) la fila de stats se centra en vez de
    repartirse en tres columnas. */
 .rc-stats-1{grid-template-columns:1fr !important;max-width:170px;}
-/* La foto de la unidad al reservar: más grande para que se distinga */
-.uc-img{width:96px;height:70px;}
-@media(max-width:560px){.uc-img{width:78px;height:58px;}}
 
 /* QUÉ INCLUYE + FAQ */
 .inc-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
@@ -906,3 +903,18 @@ section.blk>*{position:relative;z-index:1;}
   .faq summary{font-size:13.5px;padding:13px 40px 13px 15px;}
   .faq p{font-size:12.5px;padding:0 15px 14px;}
 }
+
+.rf-stats-1{grid-template-columns:1fr;max-width:180px;}
+
+/* Acordeón de unidades: se ve el precio "desde" y al tocar se abren las
+   opciones de cuántas personas van. */
+.unit-card .bk-top{cursor:pointer;}
+.unit-card.unit-agotada .bk-top{cursor:default;}
+.bk-info{flex:1;min-width:0;}
+.bk-desde{flex:none;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:1px;position:relative;padding-right:18px;}
+.bk-desde span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.bk-desde b{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--fire);line-height:1;}
+.bk-flecha{position:absolute;right:0;top:50%;margin-top:-5px;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .25s;}
+.unit-card.abierta .bk-flecha{transform:rotate(-135deg);border-color:var(--fire);}
+.unit-card.abierta{border-color:rgba(255,122,0,.42);background:rgba(255,122,0,.05);}
+@media(max-width:560px){.bk-desde b{font-size:19px;}}

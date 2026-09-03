@@ -110,7 +110,7 @@ let cart=[],bRoute=null,bStep=0,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],
 // Ahora la reserva puede llevar VARIAS máquinas: 2 cuatrimotos + 1 Maverick,
 // por ejemplo. bUnidades guarda cada renglón elegido y bDisp la
 // disponibilidad real de la fecha (la manda el servidor, no se adivina).
-let bUnidades=[],bDisp=null,bDispCargando=false,bCiudad='';
+let bUnidades=[],bDisp=null,bDispCargando=false,bCiudad='',bUnitAbierta=null;
 
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
 function toggleMobileMenu(){const h=document.getElementById('nav-hamburger');const d=document.getElementById('mob-drawer');const o=document.getElementById('mob-overlay');if(d.classList.contains('open')){closeMobileMenu();}else{h.classList.add('open');d.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';}}
@@ -180,10 +180,8 @@ function renderRouteFicha(){
     <div class="rf-info">
       <div class="rf-tags"><span class="rf-tag" data-css="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${esc(r.tag)}</span></div>
       <div class="rf-desc">${esc(r.desc)}</div>
-      <div class="rf-stats">
+      <div class="rf-stats rf-stats-1">
         <div class="rf-st"><b>${esc(r.dur)}</b><small>DURACIÓN</small></div>
-        <div class="rf-st"><b>${esc(r.diff)}</b><small>DIFICULTAD</small></div>
-        <div class="rf-st"><b>${esc(r.dist)}</b><small>DISTANCIA</small></div>
       </div>
       <div class="rf-terrain">${(r.terrain||[]).map(t=>`<span class="rf-tr">${esc(t)}</span>`).join('')}</div>
       ${r.video?`<a class="rf-video" href="${esc(r.video)}" target="_blank" rel="noopener">▶ Ver video de la ruta</a>`:''}
@@ -195,7 +193,7 @@ function renderRouteFicha(){
     </div>`;
 }
 
-function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;bUnidades=[];bDisp=null;bDispCargando=false;bCiudad='';document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
+function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;bUnidades=[];bDisp=null;bDispCargando=false;bCiudad='';bUnitAbierta=null;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
 function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
 
 function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -244,17 +242,20 @@ function renderStep(){
       const img=info?info.img:'';
       const tarifas=tarifasDe(u);
       const agotada=libres<=0;
-      return `<div class="unit-card ${agotada?'unit-agotada':''}">
-        <div class="uc-top">
-          ${img?`<img class="uc-img" src="${img}" alt="${esc(u.name)}">`:''}
-          <div class="uc-info"><b>${esc(u.name)}</b><small>${esc(u.type)}</small>
+      const desde=tarifas.length?Math.min(...tarifas.map(t=>t.precio)):0;
+      const abierta=bUnitAbierta===u.id;
+      return `<div class="unit-card ${agotada?'unit-agotada':''} ${abierta?'abierta':''}">
+        <div class="bk-top" ${agotada?'':`data-a="abrirUnidad" data-p="${u.id}"`}>
+          ${img?`<img class="bk-img" src="${img}" alt="${esc(u.name)}">`:''}
+          <div class="bk-info"><b>${esc(u.name)}</b><small>${esc(u.type)}</small>
             <span class="unit-libres ${agotada?'cero':''}">${agotada?'Sin disponibilidad esta fecha':'Disponible'}</span>
           </div>
+          ${agotada?'':`<div class="bk-desde"><span>desde</span><b>$${desde}</b><i class="bk-flecha"></i></div>`}
         </div>
-        ${agotada?'':`<div class="uc-tarifas">
-          <div class="uc-pregunta">¿Cuántos van en esta unidad?</div>
-          <div class="uc-opts">
-            ${tarifas.map(t=>`<div class="opt uc-opt" data-a="addUnidad" data-p="${u.id}|${t.personas}"><b>${t.personas} ${t.personas===1?'persona':'personas'}</b><div class="uc-precio">$${t.precio}</div></div>`).join('')}
+        ${(agotada||!abierta)?'':`<div class="bk-tarifas">
+          <div class="bk-pregunta">¿Cuántos van en esta unidad?</div>
+          <div class="bk-opts">
+            ${tarifas.map(t=>`<div class="opt bk-opt" data-a="addUnidad" data-p="${u.id}|${t.personas}"><b>${t.personas} ${t.personas===1?'persona':'personas'}</b><div class="bk-precio">$${t.precio}</div></div>`).join('')}
           </div></div>`}
       </div>`;
     }).join('');
@@ -339,9 +340,11 @@ function addUnidad(arg){
   const t=tarifasDe(u).find(t=>t.personas===Number(personas));
   if(!t)return;
   bUnidades.push({categoriaId:catId,nombre:u.name,personas:Number(personas),precio:t.precio});
+  bUnitAbierta=null;
   renderStep();
 }
 function delUnidad(i){bUnidades.splice(Number(i),1);renderStep();}
+function abrirUnidad(id){bUnitAbierta=(bUnitAbierta===id)?null:id;renderStep();}
 
 // Pregunta al servidor qué queda libre en esa fecha antes de mostrar las
 // unidades. Así el cliente solo ve lo que de verdad puede apartar.
@@ -723,7 +726,7 @@ window.addEventListener('scroll',()=>{
 // Un elemento con data-stop y sin data-a es zona muerta: absorbe el clic
 // para que no dispare la acción de su contenedor (reemplaza al viejo
 // event.stopPropagation() inline).
-const ACTS={addUnidad,delUnidad,jump,mobileJump,closeMobileMenu,toggleMobileMenu,closeReg,openReg,submitReg,closeBooking,openBooking,toggleChat,enviarChat,chatSugerido,goWhatsApp,closeRouteFicha,openRouteFicha,rfNav,rfGoto,rfReservar,closeCart,openCart,removeFromCart,addMerch,prevSlide,nextSlide,filterExp,pickDay,bCalNav,enviarSolicitud,tPrivacidad,tRegPrivacidad,
+const ACTS={addUnidad,delUnidad,abrirUnidad,jump,mobileJump,closeMobileMenu,toggleMobileMenu,closeReg,openReg,submitReg,closeBooking,openBooking,toggleChat,enviarChat,chatSugerido,goWhatsApp,closeRouteFicha,openRouteFicha,rfNav,rfGoto,rfReservar,closeCart,openCart,removeFromCart,addMerch,prevSlide,nextSlide,filterExp,pickDay,bCalNav,enviarSolicitud,tPrivacidad,tRegPrivacidad,
  goStep:n=>{const antes=bStep;bStep=n;if(n===1&&(antes!==1)){cargarDisponibilidad();return;}renderStep();},
  setPay:m=>{bPayMode=m;renderStep();},
  setHorario:h=>{bHorario=h;renderStep();},
