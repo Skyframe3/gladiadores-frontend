@@ -128,6 +128,16 @@
         document.getElementById('tab-btn-promos').style.display = '';
       }
 
+      // El acceso de mostrador solo necesita las reservas del día: sin
+      // catálogo, sin flotilla y sin la pestaña de seguridad/config.
+      if (payload.role === 'staff') {
+        ['catalogo', 'flotilla', 'seguridad'].forEach(t => {
+          const btn = document.querySelector(`.tab[data-tab="${t}"]`);
+          if (btn) btn.style.display = 'none';
+        });
+        switchTab('reservas');
+      }
+
       loadReservas();
       startPolling();
     }
@@ -168,17 +178,28 @@
 function renderReservas(reservas) {
       const tbody = document.getElementById('tbody-reservas');
       if (!reservas.length) { tbody.innerHTML = '<tr><td colspan="7" data-css="color:#777;text-align:center">Sin reservas</td></tr>'; return; }
-      tbody.innerHTML = reservas.map((r, idx) => `
+      tbody.innerHTML = reservas.map((r, idx) => {
+        const pagado = r.montoPagado || 0;
+        const total = r.montoTotal || 0;
+        const falta = Math.max(0, total - pagado);
+        const unidades = (r.unidades || []).map(u => `${esc(u.nombre)} (${u.personas}p)`).join('<br>') || '—';
+        // El anticipo sugerido es 25%; el botón lo propone pero se puede editar.
+        const sugerido = r.modoPago === 'completo' ? total : Math.round(total * 0.25);
+        const accionPago = (userRole !== 'staff' && falta > 0)
+          ? `<button class="btn-action sm" data-a="registrarPago" data-p="${esc(r.folio)}|${sugerido}|${total}">Registrar pago</button>`
+          : '';
+        return `
         <tr>
           <td><b>${esc(r.folio)}</b></td>
-          <td>${esc(r.cliente?.nombre)}</td>
-          <td>${esc(r.ruta)}</td>
+          <td>${esc(r.cliente?.nombre)}<div class="celda-sub">${unidades}</div></td>
+          <td>${esc(r.ruta)}<div class="celda-sub">${esc(r.horario || '')}</div></td>
           <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
-          <td>$${esc(String(r.monto))}${r.modoPago === 'anticipo' ? ` <span class="pago-pill anticipo">anticipo · falta $${esc(String((r.montoTotal || r.monto) - r.monto))}</span>` : ` <span class="pago-pill completo">completo</span>`}</td>
+          <td>$${esc(String(pagado))} <span class="celda-sub">de $${esc(String(total))}</span>
+              ${falta > 0 ? `<span class="pago-pill anticipo">falta $${esc(String(falta))}</span>` : '<span class="pago-pill completo">liquidado</span>'}</td>
           <td><span class="estado-badge estado-${esc(r.estado)}">${esc(r.estado)}</span></td>
-          <td><button class="btn-action sm secondary" data-a="openModalByIdx" data-p="${idx}">Ver</button></td>
-        </tr>
-      `).join('');
+          <td><button class="btn-action sm secondary" data-a="openModalByIdx" data-p="${idx}">Ver</button> ${accionPago}</td>
+        </tr>`;
+      }).join('');
     }
 
     // Descarga todas las reservas cargadas como CSV, para que el dueño se
@@ -242,18 +263,23 @@ function renderReservas(reservas) {
     function openModal(id, reserva) {
       currentReservaId = id;
       const body = document.getElementById('modal-body');
-      const falta = (reserva.montoTotal || reserva.monto) - reserva.monto;
+      const pagado = reserva.montoPagado || 0;
+      const total = reserva.montoTotal || 0;
+      const falta = Math.max(0, total - pagado);
+      const listaUnidades = (reserva.unidades || [])
+        .map(u => `<div class="celda-sub">• ${esc(u.nombre)} — ${u.personas} ${u.personas === 1 ? 'persona' : 'personas'} — $${esc(String(u.precio))}</div>`)
+        .join('') || '<div class="celda-sub">—</div>';
       body.innerHTML = `
         <div class="modal-detail"><b>Folio:</b> ${esc(reserva.folio)}</div>
         <div class="modal-detail"><b>Cliente:</b> ${esc(reserva.cliente?.nombre)}</div>
         <div class="modal-detail"><b>Email:</b> ${esc(reserva.cliente?.email)}</div>
         <div class="modal-detail"><b>WhatsApp:</b> <a href="https://wa.me/52${esc(reserva.cliente?.whatsapp)}" target="_blank" data-css="color:#4caf50">${esc(reserva.cliente?.whatsapp)}</a></div>
         <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)} · ${new Date(reserva.fecha).toLocaleDateString('es-MX')} · ${esc(reserva.horario)}</div>
-        <div class="modal-detail"><b>Unidad:</b> ${esc(reserva.unidad)}</div>
+        <div class="modal-detail"><b>Unidades:</b>${listaUnidades}</div>
         <div class="modal-detail"><b>Personas:</b> ${esc(String(reserva.personas ?? '—'))}</div>
-        <div class="modal-detail"><b>Pago:</b> ${reserva.modoPago === 'completo'
-          ? `$${esc(String(reserva.monto))} (completo)`
-          : `Anticipo $${esc(String(reserva.monto))} de $${esc(String(reserva.montoTotal || reserva.monto))} · falta $${esc(String(falta))}`}</div>
+        <div class="modal-detail"><b>Pago:</b> $${esc(String(pagado))} recibido de $${esc(String(total))}${falta > 0 ? ` · <span data-css="color:#ff9800">falta $${esc(String(falta))}</span>` : ' · <span data-css="color:#4caf50">liquidado</span>'} (${esc(reserva.modoPago === 'completo' ? 'pago completo' : 'anticipo 25%')})</div>
+        ${reserva.nota ? `<div class="modal-detail"><b>Nota:</b> ${esc(reserva.nota)}</div>` : ''}
+        ${reserva.aprobadaPor ? `<div class="modal-detail"><b>Aprobó:</b> ${esc(reserva.aprobadaPor)}</div>` : ''}
         <div class="modal-detail"><b>Estado:</b> <span class="estado-badge estado-${esc(reserva.estado)}">${esc(reserva.estado)}</span></div>
       `;
       document.getElementById('estado-select').value = reserva.estado;
@@ -268,7 +294,7 @@ function renderReservas(reservas) {
     async function changeEstado(event) {
       const nuevoEstado = event.target.value;
       if (!nuevoEstado || !currentReservaId) return;
-      if (!['confirmada','cancelada','completada','no_show'].includes(nuevoEstado)) return;
+      if (!['pendiente','confirmada','completada','pausada','cancelada'].includes(nuevoEstado)) return;
 
       try {
         const res = await fetch(`${API_URL}/api/reservas/${encodeURIComponent(currentReservaId)}/estado`, {
@@ -698,6 +724,26 @@ function renderReservas(reservas) {
         const d = await res.json();
         if (d.ok) renderSeguridad(false);
         else alert(d.error || 'No se pudo desactivar');
+      } catch (e) { alert('Error de conexión'); }
+    }
+
+    // Cuando cae la transferencia: se anota cuánto entró y, si es la
+    // primera vez, la reserva pasa de "pendiente" a "confirmada" sola.
+    async function registrarPago(arg) {
+      const [folio, sugerido, total] = String(arg).split('|');
+      const txt = prompt(`¿Cuánto se recibió de ${folio}? (total $${total})`, sugerido);
+      if (txt === null) return;
+      const monto = Number(String(txt).replace(/[^0-9.]/g, ''));
+      if (!Number.isFinite(monto) || monto < 0) { alert('Monto inválido'); return; }
+      try {
+        const res = await fetch(`${API_URL}/api/reservas/${encodeURIComponent(folio)}/pago`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ montoPagado: monto })
+        });
+        const d = await res.json();
+        if (!d.ok) { alert(d.error || 'No se pudo registrar'); return; }
+        loadReservas();
       } catch (e) { alert('Error de conexión'); }
     }
 
@@ -1203,7 +1249,7 @@ function renderReservas(reservas) {
 // data-a="función" (+ data-p="arg1|arg2|...") cubre los clics; los inputs
 // de archivo y de tarifa tienen su propio listener porque necesitan el
 // elemento o el valor en vivo, no solo argumentos fijos.
-const ACTS={switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
+const ACTS={registrarPago,switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
  clickFile:id=>document.getElementById(id).click()};
 
 const convArg=s=>{

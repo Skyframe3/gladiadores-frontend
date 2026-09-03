@@ -14,7 +14,7 @@
   <link rel="manifest" href="manifest-admin.json">
   <link rel="icon" href="img/icon-panel-192.png">
   <link rel="apple-touch-icon" href="img/icon-panel-180.png">
-  <link rel="stylesheet" href="css/admin.css?v=4">
+  <link rel="stylesheet" href="css/admin.css?v=5">
 </head>
 <body>
   <div class="container">
@@ -182,16 +182,17 @@
       <div class="modal-actions">
         <select id="estado-select" class="btn-modal btn-secondary sax18">
           <option value="">Cambiar estado</option>
+          <option value="pendiente">Pendiente (falta pago)</option>
           <option value="confirmada">Confirmada</option>
+          <option value="completada">Terminada</option>
+          <option value="pausada">Pausada</option>
           <option value="cancelada">Cancelada</option>
-          <option value="completada">Completada</option>
-          <option value="no_show">No Show</option>
         </select>
         <button class="btn-modal btn-secondary" data-a="closeModal">Cerrar</button>
       </div>
     </div>
   </div>
 
-  <script src="js/admin.js?v=4"></script>
+  <script src="js/admin.js?v=5"></script>
 </body>
 </html>

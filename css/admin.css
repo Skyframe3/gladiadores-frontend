@@ -179,6 +179,11 @@
     .estado-cancelada { background: rgba(244,67,54,0.12); color: #f44336; }
     .estado-completada { background: rgba(33,150,243,0.12); color: #2196f3; }
     .estado-no_show { background: rgba(255,152,0,0.12); color: #ff9800; }
+    /* Nace pendiente (falta la transferencia) y pasa a confirmada al aprobarla */
+    .estado-pendiente { background: rgba(255,193,7,0.14); color: #ffc107; }
+    .estado-pausada { background: rgba(158,158,158,0.14); color: #bdbdbd; }
+    /* Segunda línea dentro de una celda: unidades, horario, totales */
+    .celda-sub { display: block; color: #8a8a8a; font-size: 0.74rem; margin-top: 2px; line-height: 1.45; }
     /* Anticipo vs pago completo: se ve de un vistazo qué reservas todavía deben dinero */
     .pago-pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
     .pago-pill.anticipo { background: rgba(255,152,0,0.12); color: #ff9800; }
