@@ -523,22 +523,49 @@ button,.rc,.uc,.mc,.opt,.unit-pick,.seat,.extra-item,.pay-opt,.pay-mth,.gal-item
 .urgency{display:inline-flex;align-items:center;gap:6px;background:rgba(163,214,60,0.12);border:1px solid rgba(163,214,60,0.4);color:var(--gladio);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:1px;}
 /* Aviso honesto de alta demanda (patrón de fin de semana real, no fechas inventadas) */
 .demand-banner{max-width:900px;margin:0 auto 22px;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;background:rgba(255,122,0,0.08);border:1px solid rgba(255,122,0,0.28);border-radius:12px;padding:12px 18px;font-size:13.5px;font-weight:600;color:var(--ink);}
-.seg-grid{max-width:1150px;margin:0 auto 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start;}
-.seg-card{background:var(--card);border:1px solid rgba(255,122,0,0.12);border-radius:16px;padding:22px;position:relative;overflow:hidden;}
-.seg-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--fire);opacity:.75;}
-.seg-b::before{background:var(--gladio);}
-.seg-c::before{background:linear-gradient(90deg,var(--fire),var(--gladio));}
-.seg-card-tit{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;letter-spacing:.5px;margin-bottom:10px;color:var(--ink);display:flex;align-items:center;gap:10px;}
-.seg-ico{flex:none;width:28px;height:28px;border-radius:8px;background:rgba(255,122,0,.12);border:1px solid rgba(255,122,0,.3);color:var(--fire);font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;letter-spacing:0;}
-.seg-b .seg-ico{background:rgba(163,214,60,.12);border-color:rgba(163,214,60,.3);color:var(--gladio);}
-.seg-card-lead{color:var(--muted);font-size:13.5px;margin-bottom:10px;}
-.seg-card-p{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:10px;}
-.seg-list{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:8px;}
-.seg-list li{position:relative;padding-left:20px;color:var(--muted);font-size:13px;line-height:1.5;}
-.seg-list li::before{content:'';position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--fire);}
-.seg-card-note{color:var(--ink);font-size:13px;font-weight:600;line-height:1.6;margin:0;padding-top:8px;border-top:1px solid rgba(255,122,0,0.12);}
+/* SEMÁFORO DE SEGURIDAD — verde recomienda, amarillo obliga, rojo prohíbe.
+   Cada columna lleva su propio color en la luz, el borde y las viñetas. */
+.sem-grid{max-width:1150px;margin:0 auto 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start;}
+.sem-col{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:20px 20px 18px;position:relative;overflow:hidden;border-top-width:3px;border-top-style:solid;}
+.sem-cab{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.sem-luz{flex:none;width:26px;height:26px;border-radius:50%;position:relative;}
+.sem-luz::after{content:'';position:absolute;inset:5px;border-radius:50%;background:rgba(255,255,255,.85);opacity:.22;}
+.sem-cab-txt b{display:block;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:.5px;line-height:1.1;}
+.sem-cab-txt small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px;}
+.sem-list{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:9px;}
+.sem-list li{position:relative;padding-left:22px;color:var(--muted);font-size:13px;line-height:1.55;}
+.sem-list li::before{content:'';position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:3px;}
+.sem-pie{margin:0;padding-top:11px;border-top:1px solid rgba(255,255,255,.07);color:var(--ink);font-size:12.5px;font-weight:600;line-height:1.55;}
+
+.sem-verde{border-top-color:#3FBF5F;}
+.sem-verde .sem-luz{background:#3FBF5F;box-shadow:0 0 16px rgba(63,191,95,.5);}
+.sem-verde .sem-list li::before{background:#3FBF5F;}
+.sem-verde .sem-cab-txt b{color:#5FD97E;}
+
+.sem-amarillo{border-top-color:#E8B231;}
+.sem-amarillo .sem-luz{background:#E8B231;box-shadow:0 0 16px rgba(232,178,49,.5);}
+.sem-amarillo .sem-list li::before{background:#E8B231;}
+.sem-amarillo .sem-cab-txt b{color:#F2C654;}
+
+.sem-rojo{border-top-color:#E2483C;}
+.sem-rojo .sem-luz{background:#E2483C;box-shadow:0 0 16px rgba(226,72,60,.5);}
+.sem-rojo .sem-list li::before{background:#E2483C;}
+.sem-rojo .sem-cab-txt b{color:#F0665A;}
+
 .seg-important{max-width:900px;margin:0 auto;text-align:center;background:rgba(255,122,0,0.08);border:1px solid rgba(255,122,0,0.28);border-radius:12px;padding:16px 22px;font-size:13px;color:var(--muted);line-height:1.7;}
 .seg-important b{color:var(--fire);}
+@media(max-width:560px){
+  .sem-grid{gap:13px;margin-bottom:18px;}
+  .sem-col{padding:16px 15px 15px;border-radius:14px;}
+  .sem-luz{width:22px;height:22px;}
+  .sem-cab{gap:10px;margin-bottom:11px;}
+  .sem-cab-txt b{font-size:18px;}
+  .sem-list{gap:8px;margin-bottom:11px;}
+  .sem-list li{font-size:12.5px;padding-left:19px;}
+  .sem-list li::before{width:8px;height:8px;top:5px;}
+  .sem-pie{font-size:12px;}
+  .seg-important{padding:14px 16px;font-size:12.5px;line-height:1.65;}
+}
 /* En celular las tres tarjetas se apilan: sin aire y con viñetas grandes
    se leen como un muro de texto. Aquí se compactan y se separan mejor. */
 @media(max-width:560px){
