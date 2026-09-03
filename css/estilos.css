@@ -196,12 +196,12 @@ section.blk{padding:90px 34px;}
 .place-num{font-family:'Barlow Condensed';font-size:13px;font-weight:900;letter-spacing:1.5px;color:var(--fire);display:block;margin-bottom:3px;}
 .place-body b{display:block;font-size:16px;margin-bottom:5px;line-height:1.25;}
 .place-body small{color:var(--muted);font-size:12.5px;line-height:1.55;display:block;}
-.pf-base{background-image:url(../img/lugares/base.avif)}
-.pf-laguna{background-image:url(../img/lugares/laguna.avif)}
-.pf-piscicola{background-image:url(../img/lugares/piscicola.avif)}
-.pf-inmaculada{background-image:url(../img/lugares/inmaculada.avif)}
-.pf-volcan{background-image:url(../img/lugares/volcan.avif)}
-.pf-artesanal{background-image:url(../img/lugares/artesanal.avif)}
+.pf-base{background-image:url(../img/lugares/base-n.avif)}
+.pf-laguna{background-image:url(../img/lugares/laguna-n.avif)}
+.pf-piscicola{background-image:url(../img/lugares/piscicola-n.avif)}
+.pf-inmaculada{background-image:url(../img/lugares/inmaculada-n.avif)}
+.pf-volcan{background-image:url(../img/lugares/volcan-n.avif)}
+.pf-artesanal{background-image:url(../img/lugares/artesanal-n.avif)}
 @media(max-width:560px){
   .chigna-places{grid-template-columns:1fr 1fr;gap:12px;}
   .place-foto{aspect-ratio:4/3;}
@@ -244,19 +244,55 @@ section.blk{padding:90px 34px;}
 .gal-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:6px 4px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .gal-track::-webkit-scrollbar{display:none;}
 .gal-track:focus-visible{outline:2px solid var(--fire);outline-offset:4px;border-radius:16px;}
-.gal-slide{flex:0 0 clamp(258px,42vw,440px);aspect-ratio:4/3;border-radius:16px;background-size:cover;background-position:center;scroll-snap-align:center;position:relative;overflow:hidden;border:1px solid rgba(255,122,0,0.14);transition:transform .3s;}
-.gs1{background-image:url(../img/rutas/ruta-del-rio/foto-1.avif)}
-.gs2{background-image:url(../img/rutas/la-ruta-clasica/foto-2.avif)}
-.gs3{background-image:url(../img/rutas/aventura-nocturna/foto-3.avif)}
-.gs4{background-image:url(../img/rutas/expedicion-al-volcan/foto-1.avif)}
-.gs5{background-image:url(../img/rutas/amanecer-en-la-montana/foto-10.avif)}
-.gs6{background-image:url(../img/rutas/ruta-del-rio/foto-7.avif)}
-.gs7{background-image:url(../img/rutas/la-ruta-clasica/foto-8.avif)}
-.gs8{background-image:url(../img/rutas/senderos-y-cascada/foto-1.avif)}
-.gs9{background-image:url(../img/rutas/expedicion-al-volcan/foto-4.avif)}
-.gs10{background-image:url(../img/rutas/luciernagas/foto-1.avif)}
-.gs11{background-image:url(../img/rutas/ruta-del-rio/foto-12.avif)}
-.gs12{background-image:url(../img/rutas/aventura-nocturna/foto-6.avif)}
+.gs1{background-image:url(../img/rutas/amanecer-en-la-montana/foto-1-n.avif)}
+.gs2{background-image:url(../img/rutas/aventura-nocturna/foto-1-n.avif)}
+.gs3{background-image:url(../img/rutas/expedicion-al-volcan/foto-1-n.avif)}
+.gs4{background-image:url(../img/rutas/experiencia-mezcal/foto-1-n.avif)}
+.gs5{background-image:url(../img/rutas/la-ruta-clasica/foto-1-n.avif)}
+.gs6{background-image:url(../img/rutas/luciernagas/foto-1-n.avif)}
+.gs7{background-image:url(../img/rutas/ruta-del-rio/foto-1-n.avif)}
+.gs8{background-image:url(../img/rutas/senderos-y-cascada/foto-1-n.avif)}
+.gs9{background-image:url(../img/rutas/amanecer-en-la-montana/foto-2-n.avif)}
+.gs10{background-image:url(../img/rutas/aventura-nocturna/foto-2-n.avif)}
+.gs11{background-image:url(../img/rutas/expedicion-al-volcan/foto-2-n.avif)}
+.gs12{background-image:url(../img/rutas/la-ruta-clasica/foto-2-n.avif)}
+.gs13{background-image:url(../img/rutas/ruta-del-rio/foto-2-n.avif)}
+.gs14{background-image:url(../img/rutas/amanecer-en-la-montana/foto-3-n.avif)}
+.gs15{background-image:url(../img/rutas/aventura-nocturna/foto-3-n.avif)}
+.gs16{background-image:url(../img/rutas/expedicion-al-volcan/foto-3-n.avif)}
+.gs17{background-image:url(../img/rutas/la-ruta-clasica/foto-3-n.avif)}
+.gs18{background-image:url(../img/rutas/ruta-del-rio/foto-3-n.avif)}
+.gs19{background-image:url(../img/rutas/amanecer-en-la-montana/foto-4-n.avif)}
+.gs20{background-image:url(../img/rutas/aventura-nocturna/foto-4-n.avif)}
+.gs21{background-image:url(../img/rutas/expedicion-al-volcan/foto-4-n.avif)}
+.gs22{background-image:url(../img/rutas/la-ruta-clasica/foto-4-n.avif)}
+.gs23{background-image:url(../img/rutas/ruta-del-rio/foto-4-n.avif)}
+.gs24{background-image:url(../img/rutas/amanecer-en-la-montana/foto-5-n.avif)}
+.gs25{background-image:url(../img/rutas/aventura-nocturna/foto-5-n.avif)}
+.gs26{background-image:url(../img/rutas/expedicion-al-volcan/foto-5-n.avif)}
+.gs27{background-image:url(../img/rutas/la-ruta-clasica/foto-5-n.avif)}
+.gs28{background-image:url(../img/rutas/ruta-del-rio/foto-5-n.avif)}
+.gs29{background-image:url(../img/rutas/amanecer-en-la-montana/foto-6-n.avif)}
+.gs30{background-image:url(../img/rutas/aventura-nocturna/foto-6-n.avif)}
+.gs31{background-image:url(../img/rutas/expedicion-al-volcan/foto-6-n.avif)}
+.gs32{background-image:url(../img/rutas/la-ruta-clasica/foto-6-n.avif)}
+.gs33{background-image:url(../img/rutas/ruta-del-rio/foto-6-n.avif)}
+.gs34{background-image:url(../img/rutas/amanecer-en-la-montana/foto-7-n.avif)}
+.gs35{background-image:url(../img/rutas/expedicion-al-volcan/foto-7-n.avif)}
+.gs36{background-image:url(../img/rutas/la-ruta-clasica/foto-7-n.avif)}
+.gs37{background-image:url(../img/rutas/ruta-del-rio/foto-7-n.avif)}
+.gs38{background-image:url(../img/rutas/amanecer-en-la-montana/foto-8-n.avif)}
+.gs39{background-image:url(../img/rutas/la-ruta-clasica/foto-8-n.avif)}
+.gs40{background-image:url(../img/rutas/ruta-del-rio/foto-8-n.avif)}
+.gs41{background-image:url(../img/rutas/amanecer-en-la-montana/foto-9-n.avif)}
+.gs42{background-image:url(../img/rutas/la-ruta-clasica/foto-9-n.avif)}
+.gs43{background-image:url(../img/rutas/ruta-del-rio/foto-9-n.avif)}
+.gs44{background-image:url(../img/rutas/amanecer-en-la-montana/foto-10-n.avif)}
+.gs45{background-image:url(../img/rutas/ruta-del-rio/foto-10-n.avif)}
+.gs46{background-image:url(../img/rutas/amanecer-en-la-montana/foto-11-n.avif)}
+.gs47{background-image:url(../img/rutas/ruta-del-rio/foto-11-n.avif)}
+.gs48{background-image:url(../img/rutas/ruta-del-rio/foto-12-n.avif)}
+.gal-slide{flex:0 0 clamp(258px,42vw,440px);aspect-ratio:4/3;border-radius:16px;background-size:contain;background-repeat:no-repeat;background-color:#0D0B0A;background-position:center;scroll-snap-align:center;position:relative;overflow:hidden;border:1px solid rgba(255,122,0,0.14);transition:transform .3s;}
 .gal-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,7,6,0.55));}
 .gal-slide:hover{transform:scale(1.02);}
 .gal-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:48px;height:48px;border-radius:50%;background:rgba(10,6,18,0.82);border:1px solid rgba(255,122,0,0.4);color:#fff;font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .2s;backdrop-filter:blur(4px);}
@@ -842,3 +878,10 @@ section.blk>*{position:relative;z-index:1;}
 .uc-opt{flex:1 1 104px;text-align:center;}
 .uc-precio{font-size:14px;font-weight:800;color:var(--fire);}
 @media(max-width:560px){.uc-opt{flex:1 1 88px;}.uc-img{width:54px;height:42px;}}
+
+/* Con un solo dato (duración) la fila de stats se centra en vez de
+   repartirse en tres columnas. */
+.rc-stats-1{grid-template-columns:1fr !important;max-width:170px;}
+/* La foto de la unidad al reservar: más grande para que se distinga */
+.uc-img{width:96px;height:70px;}
+@media(max-width:560px){.uc-img{width:78px;height:58px;}}
