@@ -191,7 +191,7 @@ function renderReservas(reservas) {
         return `
         <tr>
           <td><b>${esc(r.folio)}</b></td>
-          <td>${esc(r.cliente?.nombre)}${r.cliente?.ciudad ? `<div class="celda-sub">${esc(r.cliente.ciudad)}</div>` : ''}<div class="celda-sub">${unidades}</div></td>
+          <td>${esc(r.cliente?.nombre)}<div class="celda-sub">${unidades}</div></td>
           <td>${esc(r.ruta)}<div class="celda-sub">${esc(r.horario || '')}</div></td>
           <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
           <td>$${esc(String(pagado))} <span class="celda-sub">de $${esc(String(total))}</span>
@@ -274,7 +274,6 @@ function renderReservas(reservas) {
         <div class="modal-detail"><b>Cliente:</b> ${esc(reserva.cliente?.nombre)}</div>
         <div class="modal-detail"><b>Email:</b> ${esc(reserva.cliente?.email)}</div>
         <div class="modal-detail"><b>WhatsApp:</b> <a href="https://wa.me/52${esc(reserva.cliente?.whatsapp)}" target="_blank" data-css="color:#4caf50">${esc(reserva.cliente?.whatsapp)}</a></div>
-        ${reserva.cliente?.ciudad ? `<div class="modal-detail"><b>Viene de:</b> ${esc(reserva.cliente.ciudad)}</div>` : ''}
         <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)} · ${new Date(reserva.fecha).toLocaleDateString('es-MX')} · ${esc(reserva.horario)}</div>
         <div class="modal-detail"><b>Unidades:</b>${listaUnidades}</div>
         <div class="modal-detail"><b>Personas:</b> ${esc(String(reserva.personas ?? '—'))}</div>

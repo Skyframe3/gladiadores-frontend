@@ -19,65 +19,65 @@
 // tenga publicado en el panel; si la API no responde, se usa esto.
 let lastFilter='todas';
 let ROUTES=[
- {id:1,name:"Senderos y Cascada",tag:"PANORÁMICA",exp:"panoramica",img:"img/rutas/senderos-y-cascada/foto-1.avif",gal:1,galeria:["img/rutas/senderos-y-cascada/foto-1.avif"],diff:"DINÁMICA",dur:"3 hrs",dist:"45 km",desc:"Recorrido 4x4 por parque ecoturístico, mirador y cascada. Perfecta para contemplar y vivir el off road al mismo tiempo.",terrain:["Mirador","Cascada","Bosque"],horarios:["10:00","15:00"],
+ {id:1,name:"Senderos y Cascada",tag:"POPULAR",exp:"panoramica",img:"img/rutas/senderos-y-cascada/foto-1.avif",gal:1,galeria:["img/rutas/senderos-y-cascada/foto-1.avif"],diff:"MODERADA",dur:"3 hrs",dist:"45 km",desc:"Recorrido 4x4 por parque ecoturístico, mirador y cascada. Perfecta para contemplar y vivir el off road al mismo tiempo.",terrain:["Mirador","Cascada","Bosque"],horarios:["10:00","15:00"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1800},{personas:2,precio:2300}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3000}]},
      {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3000},{personas:3,precio:3800},{personas:4,precio:4600}]},
      {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4000}]},
      {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4000},{personas:3,precio:4800},{personas:4,precio:5600}]}]},
- {id:2,name:"Ruta Gran Mirador",tag:"PANORÁMICA",exp:"extrema",img:"img/i5.avif",gal:8,diff:"INTENSA",dur:"3 hrs",dist:"80 km",desc:"La ruta más extrema. El mejor mirador de la Sierra Norte. Bosque, rocas y subidas que ponen a prueba todo.",terrain:["Mirador","Rocas","Extremo"],horarios:["09:00","12:00"],
+ {id:2,name:"Ruta Gran Mirador",tag:"EXTREMA",exp:"extrema",img:"img/i5.avif",gal:8,diff:"AVANZADA",dur:"3 hrs",dist:"80 km",desc:"La ruta más extrema. El mejor mirador de la Sierra Norte. Bosque, rocas y subidas que ponen a prueba todo.",terrain:["Mirador","Rocas","Extremo"],horarios:["09:00","12:00"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:2600},{personas:2,precio:2800}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3800}]},
      {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3800},{personas:3,precio:4300},{personas:4,precio:4800}]},
      {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4800}]},
      {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4800},{personas:3,precio:5300},{personas:4,precio:5800}]}]},
- {id:3,name:"Ruta del Río",tag:"IDEAL PARA COMENZAR",exp:"panoramica",img:"img/rutas/ruta-del-rio/foto-1.avif",gal:12,galeria:["img/rutas/ruta-del-rio/foto-1.avif","img/rutas/ruta-del-rio/foto-2.avif","img/rutas/ruta-del-rio/foto-3.avif","img/rutas/ruta-del-rio/foto-4.avif","img/rutas/ruta-del-rio/foto-5.avif","img/rutas/ruta-del-rio/foto-6.avif","img/rutas/ruta-del-rio/foto-7.avif","img/rutas/ruta-del-rio/foto-8.avif","img/rutas/ruta-del-rio/foto-9.avif","img/rutas/ruta-del-rio/foto-10.avif","img/rutas/ruta-del-rio/foto-11.avif","img/rutas/ruta-del-rio/foto-12.avif"],diff:"DINÁMICA",dur:"1 hr",dist:"50 km",desc:"Primera experiencia perfecta. Muchos cruces de río, bosque abundante y ambiente familiar. Ideal para todos.",terrain:["Río","Bosque","Familiar"],horarios:["10:00","12:00","14:00","16:00"],
+ {id:3,name:"Ruta del Río",tag:"AVENTURA",exp:"panoramica",img:"img/rutas/ruta-del-rio/foto-1.avif",gal:12,galeria:["img/rutas/ruta-del-rio/foto-1.avif","img/rutas/ruta-del-rio/foto-2.avif","img/rutas/ruta-del-rio/foto-3.avif","img/rutas/ruta-del-rio/foto-4.avif","img/rutas/ruta-del-rio/foto-5.avif","img/rutas/ruta-del-rio/foto-6.avif","img/rutas/ruta-del-rio/foto-7.avif","img/rutas/ruta-del-rio/foto-8.avif","img/rutas/ruta-del-rio/foto-9.avif","img/rutas/ruta-del-rio/foto-10.avif","img/rutas/ruta-del-rio/foto-11.avif","img/rutas/ruta-del-rio/foto-12.avif"],diff:"MODERADA",dur:"1 hr",dist:"50 km",desc:"Primera experiencia perfecta. Muchos cruces de río, bosque abundante y ambiente familiar. Ideal para todos.",terrain:["Río","Bosque","Familiar"],horarios:["10:00","12:00","14:00","16:00"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1200},{personas:2,precio:1400}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:2100}]},
      {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:2100},{personas:3,precio:2600},{personas:4,precio:3100}]},
      {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3100}]},
      {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3100},{personas:3,precio:3600},{personas:4,precio:4100}]}]},
- {id:4,name:"La Ruta Clásica",tag:"CLÁSICA Y FAVORITA",exp:"panoramica",img:"img/rutas/la-ruta-clasica/foto-1.avif",gal:9,galeria:["img/rutas/la-ruta-clasica/foto-1.avif","img/rutas/la-ruta-clasica/foto-2.avif","img/rutas/la-ruta-clasica/foto-3.avif","img/rutas/la-ruta-clasica/foto-4.avif","img/rutas/la-ruta-clasica/foto-5.avif","img/rutas/la-ruta-clasica/foto-6.avif","img/rutas/la-ruta-clasica/foto-7.avif","img/rutas/la-ruta-clasica/foto-8.avif","img/rutas/la-ruta-clasica/foto-9.avif"],diff:"RELAJADA",dur:"1.5 hrs",dist:"38 km",desc:"La ruta que siempre recomendarán. Cueva, fábrica abandonada, río y senderos. Clásica por algo.",terrain:["Clásica","Cueva","Río"],horarios:["10:00","12:00","14:00","16:00"],
+ {id:4,name:"La Ruta Clásica",tag:"FAMILIAR",exp:"panoramica",img:"img/rutas/la-ruta-clasica/foto-1.avif",gal:9,galeria:["img/rutas/la-ruta-clasica/foto-1.avif","img/rutas/la-ruta-clasica/foto-2.avif","img/rutas/la-ruta-clasica/foto-3.avif","img/rutas/la-ruta-clasica/foto-4.avif","img/rutas/la-ruta-clasica/foto-5.avif","img/rutas/la-ruta-clasica/foto-6.avif","img/rutas/la-ruta-clasica/foto-7.avif","img/rutas/la-ruta-clasica/foto-8.avif","img/rutas/la-ruta-clasica/foto-9.avif"],diff:"MODERADA",dur:"1.5 hrs",dist:"38 km",desc:"La ruta que siempre recomendarán. Cueva, fábrica abandonada, río y senderos. Clásica por algo.",terrain:["Clásica","Cueva","Río"],horarios:["10:00","12:00","14:00","16:00"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1500},{personas:2,precio:1700}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:2300}]},
      {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:2300},{personas:3,precio:2800},{personas:4,precio:3300}]},
      {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3300}]},
      {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3300},{personas:3,precio:3800},{personas:4,precio:4300}]}]},
- {id:5,name:"Aventura Nocturna",tag:"NOCTURNA",exp:"extrema",img:"img/rutas/aventura-nocturna/foto-1.avif",gal:6,galeria:["img/rutas/aventura-nocturna/foto-1.avif","img/rutas/aventura-nocturna/foto-2.avif","img/rutas/aventura-nocturna/foto-3.avif","img/rutas/aventura-nocturna/foto-4.avif","img/rutas/aventura-nocturna/foto-5.avif","img/rutas/aventura-nocturna/foto-6.avif"],diff:"DINÁMICA",dur:"1 hr 50 min",dist:"35 km",desc:"El bosque de noche es otro mundo. Recorrido nocturno con el cielo estrellado como techo y la adrenalina multiplicada.",terrain:["Nocturno","Bosque","Estrellas"],horarios:["18:00"],
+ {id:5,name:"Aventura Nocturna",tag:"ESPECIAL",exp:"extrema",img:"img/rutas/aventura-nocturna/foto-1.avif",gal:6,galeria:["img/rutas/aventura-nocturna/foto-1.avif","img/rutas/aventura-nocturna/foto-2.avif","img/rutas/aventura-nocturna/foto-3.avif","img/rutas/aventura-nocturna/foto-4.avif","img/rutas/aventura-nocturna/foto-5.avif","img/rutas/aventura-nocturna/foto-6.avif"],diff:"MODERADA",dur:"1 hr 50 min",dist:"35 km",desc:"El bosque de noche es otro mundo. Recorrido nocturno con el cielo estrellado como techo y la adrenalina multiplicada.",terrain:["Nocturno","Bosque","Estrellas"],horarios:["18:00"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1700},{personas:2,precio:1900}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:2700}]},
      {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:2700},{personas:3,precio:3200},{personas:4,precio:3700}]},
      {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3700}]},
      {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3700},{personas:3,precio:4200},{personas:4,precio:4700}]}]},
- {id:6,name:"Luciérnagas",tag:"DE TEMPORADA",exp:"panoramica",img:"img/rutas/luciernagas/foto-1.avif",gal:1,galeria:["img/rutas/luciernagas/foto-1.avif"],diff:"RELAJADA",dur:"3+ hrs",dist:"25 km",desc:"Una de las experiencias más mágicas de México. Temporada limitada: el bosque se ilumina con miles de luciérnagas.",terrain:["Luciérnagas","Bosque","Temporada"],horarios:["18:00"],
+ {id:6,name:"Luciérnagas",tag:"TEMPORADA",exp:"panoramica",img:"img/rutas/luciernagas/foto-1.avif",gal:1,galeria:["img/rutas/luciernagas/foto-1.avif"],diff:"MODERADA",dur:"3+ hrs",dist:"25 km",desc:"Una de las experiencias más mágicas de México. Temporada limitada: el bosque se ilumina con miles de luciérnagas.",terrain:["Luciérnagas","Bosque","Temporada"],horarios:["18:00"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:2200},{personas:2,precio:2600}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3300}]},
      {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3300},{personas:3,precio:3800},{personas:4,precio:4400}]},
      {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4300}]},
      {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4300},{personas:3,precio:4800},{personas:4,precio:5400}]}]},
- {id:7,name:"Amanecer en la Montaña",tag:"AL AMANECER",exp:"panoramica",img:"img/rutas/amanecer-en-la-montana/foto-1.avif",gal:11,galeria:["img/rutas/amanecer-en-la-montana/foto-1.avif","img/rutas/amanecer-en-la-montana/foto-2.avif","img/rutas/amanecer-en-la-montana/foto-3.avif","img/rutas/amanecer-en-la-montana/foto-4.avif","img/rutas/amanecer-en-la-montana/foto-5.avif","img/rutas/amanecer-en-la-montana/foto-6.avif","img/rutas/amanecer-en-la-montana/foto-7.avif","img/rutas/amanecer-en-la-montana/foto-8.avif","img/rutas/amanecer-en-la-montana/foto-9.avif","img/rutas/amanecer-en-la-montana/foto-10.avif","img/rutas/amanecer-en-la-montana/foto-11.avif"],diff:"INTENSA",dur:"3+ hrs",dist:"55 km",desc:"Sal antes del alba. Llega al mirador justo cuando el sol rompe el horizonte sobre la Sierra Norte. Imposible de olvidar.",terrain:["Amanecer","Montaña","Paisaje"],horarios:["05:30"],
+ {id:7,name:"Amanecer en la Montaña",tag:"AVENTURA",exp:"panoramica",img:"img/rutas/amanecer-en-la-montana/foto-1.avif",gal:11,galeria:["img/rutas/amanecer-en-la-montana/foto-1.avif","img/rutas/amanecer-en-la-montana/foto-2.avif","img/rutas/amanecer-en-la-montana/foto-3.avif","img/rutas/amanecer-en-la-montana/foto-4.avif","img/rutas/amanecer-en-la-montana/foto-5.avif","img/rutas/amanecer-en-la-montana/foto-6.avif","img/rutas/amanecer-en-la-montana/foto-7.avif","img/rutas/amanecer-en-la-montana/foto-8.avif","img/rutas/amanecer-en-la-montana/foto-9.avif","img/rutas/amanecer-en-la-montana/foto-10.avif","img/rutas/amanecer-en-la-montana/foto-11.avif"],diff:"AVANZADA",dur:"3+ hrs",dist:"55 km",desc:"Sal antes del alba. Llega al mirador justo cuando el sol rompe el horizonte sobre la Sierra Norte. Imposible de olvidar.",terrain:["Amanecer","Montaña","Paisaje"],horarios:["05:30"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:2800},{personas:2,precio:3000}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:4100}]},
      {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:4100},{personas:3,precio:4300},{personas:4,precio:4800}]},
      {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:5100}]},
      {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:5100},{personas:3,precio:5300},{personas:4,precio:5800}]}]},
- {id:8,name:"Experiencia Mezcal",tag:"CULTURAL",exp:"panoramica",img:"img/rutas/experiencia-mezcal/foto-1.avif",gal:1,galeria:["img/rutas/experiencia-mezcal/foto-1.avif"],diff:"DINÁMICA",dur:"2.5 hrs",dist:"42 km",desc:"Off road y cultura local. Recorre senderos hasta conocer el proceso artesanal del mezcal de la Sierra Norte de Puebla.",terrain:["Mezcal","Cultura","Senderos"],horarios:["11:00","15:00"],
+ {id:8,name:"Experiencia Mezcal",tag:"CULTURAL",exp:"panoramica",img:"img/rutas/experiencia-mezcal/foto-1.avif",gal:1,galeria:["img/rutas/experiencia-mezcal/foto-1.avif"],diff:"MODERADA",dur:"2.5 hrs",dist:"42 km",desc:"Off road y cultura local. Recorre senderos hasta conocer el proceso artesanal del mezcal de la Sierra Norte de Puebla.",terrain:["Mezcal","Cultura","Senderos"],horarios:["11:00","15:00"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1700},{personas:2,precio:2200}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:2800}]},
      {id:"commander-4",name:"Commander Max",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:2800},{personas:3,precio:3600},{personas:4,precio:4300}]},
      {id:"maverick-2",name:"Maverick X3",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3800}]},
      {id:"maverick-4",name:"Maverick X3 MAX",type:"SSV 4 plazas",seats:4,booked:[],tarifas:[{personas:2,precio:3800},{personas:3,precio:4600},{personas:4,precio:5300}]}]},
- {id:9,name:"Expedición al Volcán",tag:"DE ALTURA",exp:"extrema",img:"img/rutas/expedicion-al-volcan/foto-1.avif",gal:7,galeria:["img/rutas/expedicion-al-volcan/foto-1.avif","img/rutas/expedicion-al-volcan/foto-2.avif","img/rutas/expedicion-al-volcan/foto-3.avif","img/rutas/expedicion-al-volcan/foto-4.avif","img/rutas/expedicion-al-volcan/foto-5.avif","img/rutas/expedicion-al-volcan/foto-6.avif","img/rutas/expedicion-al-volcan/foto-7.avif"],diff:"INTENSA",dur:"2 hrs",dist:"60 km",desc:"El volcán más cercano a Chignahuapan. Off road de alto nivel con vistas que no tienen comparación en toda la Sierra Norte.",terrain:["Volcán","Paisaje","Extremo"],horarios:["10:00","15:00"],
+ {id:9,name:"Expedición al Volcán",tag:"ÉPICA",exp:"extrema",img:"img/rutas/expedicion-al-volcan/foto-1.avif",gal:7,galeria:["img/rutas/expedicion-al-volcan/foto-1.avif","img/rutas/expedicion-al-volcan/foto-2.avif","img/rutas/expedicion-al-volcan/foto-3.avif","img/rutas/expedicion-al-volcan/foto-4.avif","img/rutas/expedicion-al-volcan/foto-5.avif","img/rutas/expedicion-al-volcan/foto-6.avif","img/rutas/expedicion-al-volcan/foto-7.avif"],diff:"AVANZADA",dur:"2 hrs",dist:"60 km",desc:"El volcán más cercano a Chignahuapan. Off road de alto nivel con vistas que no tienen comparación en toda la Sierra Norte.",terrain:["Volcán","Paisaje","Extremo"],horarios:["10:00","15:00"],
    units:[]},
- {id:10,name:"Cascada Iluminada",tag:"NOCTURNA",exp:"extrema",img:"img/i5.avif",gal:5,diff:"DINÁMICA",dur:"3 hrs",dist:"45 km",desc:"Parque iluminado, cascada y experiencia 4x4 nocturna. Principalmente viernes, sábado, domingo y fechas especiales.",terrain:["Nocturno","Cascada","Iluminación"],horarios:["18:00"],
+ {id:10,name:"Cascada Iluminada",tag:"NOCTURNA",exp:"extrema",img:"img/i5.avif",gal:5,diff:"MODERADA",dur:"3 hrs",dist:"45 km",desc:"Parque iluminado, cascada y experiencia 4x4 nocturna. Principalmente viernes, sábado, domingo y fechas especiales.",terrain:["Nocturno","Cascada","Iluminación"],horarios:["18:00"],
    units:[
      {id:"cuatrimoto-2",name:"Cuatrimoto",type:"ATV 2 plazas",seats:2,booked:[],tarifas:[{personas:1,precio:1900},{personas:2,precio:2600}]},
      {id:"commander-2",name:"Commander Trail",type:"SSV 2 plazas",seats:2,booked:[],tarifas:[{personas:2,precio:3200}]},
@@ -110,7 +110,7 @@ let cart=[],bRoute=null,bStep=0,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],
 // Ahora la reserva puede llevar VARIAS máquinas: 2 cuatrimotos + 1 Maverick,
 // por ejemplo. bUnidades guarda cada renglón elegido y bDisp la
 // disponibilidad real de la fecha (la manda el servidor, no se adivina).
-let bUnidades=[],bDisp=null,bDispCargando=false,bCiudad='',bUnitAbierta=null;
+let bUnidades=[],bDisp=null,bDispCargando=false,bUnitAbierta=null;
 
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
 function toggleMobileMenu(){const h=document.getElementById('nav-hamburger');const d=document.getElementById('mob-drawer');const o=document.getElementById('mob-overlay');if(d.classList.contains('open')){closeMobileMenu();}else{h.classList.add('open');d.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';}}
@@ -125,7 +125,7 @@ document.addEventListener('click',(e)=>{const mp=document.getElementById('map-pi
 // el verde gladiador va para lo familiar y tranquilo, y el morado se reserva
 // para lo especial y lo más pesado (nocturnas, temporada, Día de Muertos).
 const MARCA={fire:'255,122,0',gladio:'163,214,60',neon:'176,38,255'};
-const TAGS_ESPECIALES=['ESPECIAL','TEMPORADA','DE TEMPORADA','NOCTURNA','AL AMANECER','DÍA DE MUERTOS','DIA DE MUERTOS'];
+const TAGS_ESPECIALES=['ESPECIAL','TEMPORADA','NOCTURNA','DÍA DE MUERTOS','DIA DE MUERTOS'];
 const TAGS_TRANQUILAS=['FAMILIAR','CULTURAL'];
 function colorTag(r){const t=(r.tag||'').toUpperCase();
   if(TAGS_ESPECIALES.includes(t))return MARCA.neon;
@@ -180,8 +180,10 @@ function renderRouteFicha(){
     <div class="rf-info">
       <div class="rf-tags"><span class="rf-tag" data-css="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${esc(r.tag)}</span></div>
       <div class="rf-desc">${esc(r.desc)}</div>
-      <div class="rf-stats rf-stats-1">
+      <div class="rf-stats">
         <div class="rf-st"><b>${esc(r.dur)}</b><small>DURACIÓN</small></div>
+        <div class="rf-st"><b>${esc(r.diff)}</b><small>DIFICULTAD</small></div>
+        <div class="rf-st"><b>${esc(r.dist)}</b><small>DISTANCIA</small></div>
       </div>
       <div class="rf-terrain">${(r.terrain||[]).map(t=>`<span class="rf-tr">${esc(t)}</span>`).join('')}</div>
       ${r.video?`<a class="rf-video" href="${esc(r.video)}" target="_blank" rel="noopener">▶ Ver video de la ruta</a>`:''}
@@ -193,7 +195,7 @@ function renderRouteFicha(){
     </div>`;
 }
 
-function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;bUnidades=[];bDisp=null;bDispCargando=false;bCiudad='';bUnitAbierta=null;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
+function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;bUnidades=[];bDisp=null;bDispCargando=false;bUnitAbierta=null;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
 function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
 
 function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -281,7 +283,6 @@ function renderStep(){
       <input type="text" id="input-nombre" class="date-in" placeholder="Nombre completo" value="${esc(bNombre)}" data-bind="nombre">
       <input type="email" id="input-email" class="date-in" placeholder="Correo electrónico" value="${esc(bEmail)}" data-bind="email">
       <input type="tel" id="input-whatsapp" class="date-in" placeholder="WhatsApp (10 dígitos)" maxlength="10" value="${esc(bWhatsapp)}" data-bind="whatsapp">
-      <input type="text" id="input-ciudad" class="date-in" placeholder="¿De qué ciudad nos visitas?" maxlength="80" value="${esc(bCiudad)}" data-bind="ciudad">
       <div data-css="background:rgba(163,214,60,0.07);border:1px solid rgba(163,214,60,0.28);border-radius:14px;padding:16px 18px;margin:16px 0 18px">
         <div data-css="font-weight:700;font-size:14px;color:var(--gladio);margin-bottom:4px">¿Necesitas algo distinto?</div>
         <div data-css="color:var(--muted);font-size:12.5px;line-height:1.6;margin-bottom:12px">Grupos grandes, cumpleaños, pedida de mano, empresas o cualquier detalle especial.</div>
@@ -370,7 +371,7 @@ async function enviarSolicitud(){
   const btn=document.querySelector('#mbody .btn-next');
   if(btn){btn.disabled=true;btn.textContent='Apartando…';}
   const datos={
-    nombre:bNombre,email:bEmail,whatsapp:bWhatsapp,ciudad:bCiudad,
+    nombre:bNombre,email:bEmail,whatsapp:bWhatsapp,
     ruta:bRoute.name,rutaId:bRoute.id,
     horario:bHorario,fecha:bFecha,
     unidades:bUnidades.map(u=>({categoriaId:u.categoriaId,personas:u.personas})),
@@ -405,7 +406,6 @@ function mostrarTicket(data){
     'Folio: '+data.folio,
     'Cliente: '+bNombre,
     'WhatsApp: '+bWhatsapp,
-    ...(bCiudad.trim()?['Ciudad: '+bCiudad.trim()]:[]),
     'Ruta: '+bRoute.name,
     'Fecha: '+fechaLegible,
     'Horario: '+bHorario,
@@ -742,7 +742,6 @@ const BINDS_IN={
  nombre:v=>{bNombre=v;checkDatos();},
  email:v=>{bEmail=v;checkDatos();},
  whatsapp:(v,el)=>{bWhatsapp=v.replace(/\D/g,'');el.value=bWhatsapp;checkDatos();},
- ciudad:v=>{bCiudad=v;},
  nota:v=>{bNota=v;}};
 const BINDS_CH={fecha:v=>{bFecha=v;renderStep();}};
 
