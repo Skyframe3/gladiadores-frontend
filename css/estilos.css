@@ -896,3 +896,11 @@ section.blk>*{position:relative;z-index:1;}
 .unit-card.abierta .bk-flecha{transform:rotate(-135deg);border-color:var(--fire);}
 .unit-card.abierta{border-color:rgba(255,122,0,.42);background:rgba(255,122,0,.05);}
 @media(max-width:560px){.bk-desde b{font-size:19px;}}
+
+/* VIDEO DE LA EXPERIENCIA */
+.video-wrap{max-width:1000px;margin:0 auto;position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(255,122,0,0.18);background:#0A0C08;line-height:0;}
+.video-el{width:100%;height:auto;display:block;aspect-ratio:16/9;background:#0A0C08;}
+.video-play{position:absolute;inset:0;margin:auto;width:82px;height:82px;border-radius:50%;border:2px solid rgba(255,255,255,.9);background:rgba(255,122,0,.9);color:#0A0C08;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .25s,opacity .25s,background .25s;padding-left:5px;}
+.video-play:hover{transform:scale(1.08);background:var(--fire);}
+.video-play.oculto{opacity:0;pointer-events:none;transform:scale(.7);}
+@media(max-width:560px){.video-play{width:64px;height:64px;}.video-wrap{border-radius:14px;}}

@@ -112,6 +112,16 @@ let cart=[],bRoute=null,bStep=0,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],
 // disponibilidad real de la fecha (la manda el servidor, no se adivina).
 let bUnidades=[],bDisp=null,bDispCargando=false,bUnitAbierta=null;
 
+// Arranca el video y esconde el botón grande: a partir de ahí manda el
+// control nativo (pausa, volumen, pantalla completa).
+function playVideo(){
+  const v=document.getElementById('video-gladiadores');
+  if(!v)return;
+  const b=document.querySelector('.video-play');
+  v.play().then(()=>{if(b)b.classList.add('oculto');}).catch(()=>{});
+  v.addEventListener('pause',()=>{if(b&&v.currentTime===0)b.classList.remove('oculto');},{once:true});
+}
+
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
 function toggleMobileMenu(){const h=document.getElementById('nav-hamburger');const d=document.getElementById('mob-drawer');const o=document.getElementById('mob-overlay');if(d.classList.contains('open')){closeMobileMenu();}else{h.classList.add('open');d.classList.add('open');o.classList.add('open');document.body.style.overflow='hidden';}}
 function closeMobileMenu(){document.getElementById('nav-hamburger').classList.remove('open');document.getElementById('mob-drawer').classList.remove('open');document.getElementById('mob-overlay').classList.remove('open');document.body.style.overflow='';}
@@ -726,7 +736,7 @@ window.addEventListener('scroll',()=>{
 // Un elemento con data-stop y sin data-a es zona muerta: absorbe el clic
 // para que no dispare la acción de su contenedor (reemplaza al viejo
 // event.stopPropagation() inline).
-const ACTS={addUnidad,delUnidad,abrirUnidad,jump,mobileJump,closeMobileMenu,toggleMobileMenu,closeReg,openReg,submitReg,closeBooking,openBooking,toggleChat,enviarChat,chatSugerido,goWhatsApp,closeRouteFicha,openRouteFicha,rfNav,rfGoto,rfReservar,closeCart,openCart,removeFromCart,addMerch,prevSlide,nextSlide,filterExp,pickDay,bCalNav,enviarSolicitud,tPrivacidad,tRegPrivacidad,
+const ACTS={addUnidad,delUnidad,abrirUnidad,playVideo,jump,mobileJump,closeMobileMenu,toggleMobileMenu,closeReg,openReg,submitReg,closeBooking,openBooking,toggleChat,enviarChat,chatSugerido,goWhatsApp,closeRouteFicha,openRouteFicha,rfNav,rfGoto,rfReservar,closeCart,openCart,removeFromCart,addMerch,prevSlide,nextSlide,filterExp,pickDay,bCalNav,enviarSolicitud,tPrivacidad,tRegPrivacidad,
  goStep:n=>{const antes=bStep;bStep=n;if(n===1&&(antes!==1)){cargarDisponibilidad();return;}renderStep();},
  setPay:m=>{bPayMode=m;renderStep();},
  setHorario:h=>{bHorario=h;renderStep();},
