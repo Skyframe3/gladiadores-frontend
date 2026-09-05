@@ -141,7 +141,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap"/>
-<link rel="stylesheet" href="css/estilos.css?v=10"></head><body>
+<link rel="stylesheet" href="css/estilos.css?v=11"></head><body>
 <div id="scroll-progress"></div>
 <canvas id="dust-canvas"></canvas>
 <!-- LOADER -->
@@ -233,9 +233,10 @@
 <section class="blk sx25" id="video">
   <div class="sec-hdr reveal"><span class="sec-eye">ASÍ SE VIVE</span><div class="sec-tit">LA EXPERIENCIA <em class="fire-em">EN VIDEO</em></div><div class="sec-sub">Un minuto y medio de lo que te espera en la Sierra Norte</div></div>
   <div class="video-wrap reveal">
-    <!-- preload="none": el video (20 MB) solo se descarga si le dan play,
-         no cada vez que alguien pasa por la sección desde el celular. -->
-    <video id="video-gladiadores" class="video-el" controls playsinline preload="none"
+    <!-- preload="metadata": solo la cabecera (unos KB) para que al dar play
+         arranque de inmediato. El cuerpo del video se descarga mientras se
+         reproduce, no de golpe: el servidor sirve por rangos. -->
+    <video id="video-gladiadores" class="video-el" controls playsinline preload="metadata"
            poster="video/gladiadores-poster.jpg"
            aria-label="Video de las rutas de Gladiadores Off Road">
       <source src="video/gladiadores-720.mp4" type="video/mp4" media="(max-width:900px)">
@@ -556,4 +557,4 @@
 <!-- CART -->
 <div class="cart-ovl" id="cart-ovl"><div class="cart-bk" data-a="closeCart"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" data-a="closeCart">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
 <script src="js/qrcode.min.js"></script>
-<script src="js/app.js?v=10"></script></body></html>
+<script src="js/app.js?v=11"></script></body></html>
