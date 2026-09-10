@@ -1,3 +1,22 @@
+/* Fuentes propias. Antes venían de fonts.googleapis.com + fonts.gstatic.com:
+   dos conexiones externas encadenadas antes de poder pintar la primera letra.
+   Inter va como fuente variable (un archivo cubre de 400 a 700) y de Barlow
+   solo los pesos que el sitio usa. Solo subconjuntos latinos: esto es español. */
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 700;font-display:swap;src:url('../fonts/inter-var-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 700;font-display:swap;src:url('../fonts/inter-var-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Barlow Condensed';font-style:italic;font-weight:700;font-display:swap;src:url('../fonts/barlow-condensed-700i-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Barlow Condensed';font-style:italic;font-weight:700;font-display:swap;src:url('../fonts/barlow-condensed-700i-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Barlow Condensed';font-style:italic;font-weight:800;font-display:swap;src:url('../fonts/barlow-condensed-800i-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Barlow Condensed';font-style:italic;font-weight:800;font-display:swap;src:url('../fonts/barlow-condensed-800i-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Barlow Condensed';font-style:italic;font-weight:900;font-display:swap;src:url('../fonts/barlow-condensed-900i-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Barlow Condensed';font-style:italic;font-weight:900;font-display:swap;src:url('../fonts/barlow-condensed-900i-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url('../fonts/barlow-condensed-700-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url('../fonts/barlow-condensed-700-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:800;font-display:swap;src:url('../fonts/barlow-condensed-800-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:800;font-display:swap;src:url('../fonts/barlow-condensed-800-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:900;font-display:swap;src:url('../fonts/barlow-condensed-900-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:900;font-display:swap;src:url('../fonts/barlow-condensed-900-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+
 
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{--fire:#FF7A00;--fire-dim:#E86200;--gladio:#A3D63C;--gladio-dim:#86B62A;--neon:#B026FF;--neon-dim:#8A1FD0;--bg:#080706;--bg2:#0D0B0A;--card:#16130F;--ink:#F5F1EC;--muted:#A79E92;}
@@ -752,15 +771,12 @@ section.blk>*{position:relative;z-index:1;}
 .sx1.sx1{background-image:url(../img/i2.avif)}
 .sx2.sx2{background:linear-gradient(180deg,rgba(8,10,7,0.55),rgba(8,10,7,0.35) 45%,rgba(8,10,7,0.9))}
 .sx3.sx3{display:block}
-.sx4.sx4{background-image:url(../img/i3.avif)}
 .sx5.sx5{background:linear-gradient(90deg,rgba(8,10,7,0.85),rgba(8,10,7,0.3))}
 .sx6.sx6{text-align:left;margin-left:2%;}
 .sx7.sx7{text-align:left;}
 .sx8.sx8{margin-left:0;}
 .sx9.sx9{justify-content:flex-start;}
-.sx10.sx10{background-image:url(../img/i4.avif)}
 .sx11.sx11{background:linear-gradient(180deg,rgba(8,7,6,0.5),rgba(8,10,7,0.85))}
-.sx12.sx12{background-image:url(../img/i5.avif)}
 .sx13.sx13{background:linear-gradient(135deg,rgba(60,10,80,0.6),rgba(8,10,7,0.85))}
 .sx14.sx14{background:linear-gradient(90deg,#FF7A00,#B026FF);color:#fff;}
 .sx15.sx15{position:absolute;bottom:34px;right:34px;z-index:5;}

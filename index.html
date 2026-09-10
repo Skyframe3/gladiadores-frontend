@@ -137,11 +137,13 @@
 }
 </script>
 
-<!-- Fuentes: preconnect + link en vez de @import, que bloquea el render -->
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap"/>
-<link rel="stylesheet" href="css/estilos.css?v=13"></head><body>
+<!-- Fuentes propias: se acabaron el preconnect y las dos peticiones a Google
+     que había que esperar antes de pintar. Se precargan las dos caras que
+     usa lo primero que se ve; las demás las pide el CSS cuando hacen falta. -->
+<link rel="preload" as="image" href="img/i2.avif" type="image/avif" fetchpriority="high"/>
+<link rel="preload" as="font" type="font/woff2" href="fonts/inter-var-latin.woff2" crossorigin/>
+<link rel="preload" as="font" type="font/woff2" href="fonts/barlow-condensed-900-latin.woff2" crossorigin/>
+<link rel="stylesheet" href="css/estilos.css?v=14"></head><body>
 <div id="scroll-progress"></div>
 <canvas id="dust-canvas"></canvas>
 <!-- LOADER -->
@@ -208,11 +210,11 @@
   <div class="slide active"><div class="slide-bg sx1"></div><div class="slide-ov sx2"></div>
     <div class="slide-content"><div class="slide-eyebrow">SIERRA NORTE DE PUEBLA</div><h1 class="slide-h1">NO ES UN PASEO<span class="hero-fire sx3">es una conquista</span></h1><div class="slide-sub">GLADIADORES OFF ROAD</div>
     <div class="hero-btns"><button class="btn-neon" data-a="jump" data-p="rutas">RESERVAR AVENTURA</button><button class="btn-ghost" data-a="jump" data-p="rutas">Ver rutas →</button></div></div></div>
-  <div class="slide"><div class="slide-bg sx4"></div><div class="slide-ov sx5"></div>
+  <div class="slide"><div class="slide-bg" data-bg="img/i3.avif"></div><div class="slide-ov sx5"></div>
     <div class="slide-content sx6"><div class="slide-eyebrow chip-fire">RUTAS EXTREMAS</div><h1 class="slide-h1 sx7">CRUZA EL RÍO<span class="hero-gladio">siente el poder 4×4</span></h1><p class="slide-desc sx8">Vados, lodo y adrenalina pura. Rutas para todos los niveles.</p><div class="hero-btns sx9"><button class="btn-fire" data-a="jump" data-p="rutas">Explorar rutas</button></div></div></div>
-  <div class="slide"><div class="slide-bg sx10"></div><div class="slide-ov sx11"></div>
+  <div class="slide"><div class="slide-bg" data-bg="img/i4.avif"></div><div class="slide-ov sx11"></div>
     <div class="slide-content"><div class="slide-eyebrow">FLOTA 100% CAN-AM</div><h1 class="slide-h1">MÁQUINAS<span class="hero-fire">de guerra</span></h1><p class="slide-desc">Maverick X3, Commander Max y Outlander. Equipo profesional.</p><div class="hero-btns"><button class="btn-neon" data-a="jump" data-p="unidades">Ver unidades</button></div></div></div>
-  <div class="slide"><div class="slide-bg sx12"></div><div class="slide-ov sx13"></div>
+  <div class="slide"><div class="slide-bg" data-bg="img/i5.avif"></div><div class="slide-ov sx13"></div>
     <div class="slide-content"><div class="badge-special">EDICIÓN ESPECIAL · PRÓXIMAMENTE</div><h1 class="slide-special-title">RUTA <span>DÍA DE MUERTOS</span></h1><p class="slide-desc">Recorrido nocturno con veladoras y cempasúchil. Próximamente anunciamos fechas y cupo.</p><div class="hero-btns"><button class="btn-neon sx14" data-a="jump" data-p="rutas">APARTAR MI LUGAR</button></div></div></div>
   <button class="car-arrow left" data-a="prevSlide">‹</button><button class="car-arrow right" data-a="nextSlide">›</button>
   <div class="carousel-dots" id="dots"></div>
@@ -544,4 +546,4 @@
 <!-- CART -->
 <div class="cart-ovl" id="cart-ovl"><div class="cart-bk" data-a="closeCart"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" data-a="closeCart">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
 <script src="js/qrcode.min.js"></script>
-<script src="js/app.js?v=13"></script></body></html>
+<script src="js/app.js?v=14"></script></body></html>

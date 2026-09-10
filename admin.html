@@ -14,7 +14,7 @@
   <link rel="manifest" href="manifest-admin.json">
   <link rel="icon" href="img/icon-panel-192.png">
   <link rel="apple-touch-icon" href="img/icon-panel-180.png">
-  <link rel="stylesheet" href="css/admin.css?v=10">
+  <link rel="stylesheet" href="css/admin.css?v=11">
 </head>
 <body>
   <div class="container">
@@ -152,15 +152,32 @@
             <button class="btn-action sm secondary" data-a="exportarReservasCSV">⬇ Descargar CSV</button>
           </div>
         </div>
+        <div class="rcal">
+          <div class="cal-header rcal-header">
+            <button class="cal-nav" data-a="rcalNav" data-p="-1" aria-label="Mes anterior">&larr;</button>
+            <h3 id="rcal-title"></h3>
+            <button class="cal-nav" data-a="rcalNav" data-p="1" aria-label="Mes siguiente">&rarr;</button>
+          </div>
+          <div class="cal-grid" id="rcal-grid"></div>
+          <div class="rcal-leyenda">
+            <span><i class="rcal-pt pend"></i> Falta pago</span>
+            <span><i class="rcal-pt conf"></i> Confirmada</span>
+            <span><i class="rcal-pt paus"></i> Pausada</span>
+          </div>
+        </div>
+        <div class="rcal-bar">
+          <div id="rcal-label">Todas las reservas</div>
+          <button class="btn-action sm secondary" data-a="rcalTodas" id="rcal-todas" hidden>Ver todas</button>
+        </div>
         <div class="table-wrap">
           <table id="tabla-reservas">
             <thead>
               <tr>
                 <th>Folio</th>
-                <th>Cliente</th>
+                <th>Cliente / contacto</th>
                 <th>Ruta</th>
                 <th>Fecha</th>
-                <th>Monto</th>
+                <th>Pagado / resta</th>
                 <th>Estado</th>
                 <th></th>
               </tr>
@@ -193,6 +210,6 @@
     </div>
   </div>
 
-  <script src="js/admin.js?v=10"></script>
+  <script src="js/admin.js?v=11"></script>
 </body>
 </html>

@@ -323,3 +323,28 @@
 .sax16.sax16{display:flex;gap:8px}
 .sax17.sax17{text-align:center;color:#777}
 .sax18.sax18{cursor:pointer;}
+
+    /* CALENDARIO DE RESERVAS (pestaña Reservas) */
+    .rcal { max-width: 520px; margin-bottom: 1rem; }
+    .rcal-header { max-width: 520px; }
+    .rcal-day { position: relative; padding: 0.6rem 0.2rem 0.9rem; }
+    .rcal-day.has-reservas::after { display: none; }
+    .rcal-n { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); min-width: 16px; height: 16px; line-height: 16px; border-radius: 8px; font-size: 0.62rem; font-weight: 800; color: #14110d; padding: 0 4px; }
+    .rcal-n.pend { background: #FF7A00; }
+    .rcal-n.conf { background: #4caf50; }
+    .rcal-n.paus { background: #8e9aa8; }
+    .cal-day.selected .rcal-n { box-shadow: 0 0 0 2px #fff; }
+    .rcal-leyenda { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.72rem; color: #888; margin-top: 0.2rem; }
+    .rcal-leyenda span { display: inline-flex; align-items: center; gap: 5px; }
+    .rcal-pt { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+    .rcal-pt.pend { background: #FF7A00; }
+    .rcal-pt.conf { background: #4caf50; }
+    .rcal-pt.paus { background: #8e9aa8; }
+    .rcal-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: #1a1c20; border: 1px solid #2a2d33; border-radius: 8px; padding: 0.6rem 0.9rem; margin-bottom: 0.8rem; }
+    #rcal-label { font-size: 0.85rem; font-weight: 700; color: #E8E8E8; text-transform: capitalize; }
+    .wa-link { color: #4caf50; text-decoration: none; }
+    .wa-link:hover { text-decoration: underline; }
+    @media (max-width: 560px) {
+      .rcal, .rcal-header { max-width: 100%; }
+      .rcal-day { padding: 0.6rem 0.1rem 0.95rem; font-size: 0.8rem; min-height: 44px; }  /* dedo, no ratón */
+    }

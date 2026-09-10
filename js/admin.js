@@ -164,6 +164,7 @@
         const data = await res.json();
         if (data.ok && data.reservas) {
           reservasCache = data.reservas;
+          rcalDraw();
           renderReservas(data.reservas);
           const marca = document.getElementById('reservas-actualizado');
           if (marca) marca.textContent = 'actualizado a las ' + new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
@@ -177,21 +178,30 @@
 
 function renderReservas(reservas) {
       const tbody = document.getElementById('tbody-reservas');
-      if (!reservas.length) { tbody.innerHTML = '<tr><td colspan="7" data-css="color:#777;text-align:center">Sin reservas</td></tr>'; return; }
-      tbody.innerHTML = reservas.map((r, idx) => {
+      // El índice tiene que ser el de reservasCache: el modal de detalle abre
+      // por posición, y si filtro la lista antes se abriría la reserva de otro.
+      const filas = (reservas || []).map((r, idx) => ({ r, idx }))
+        .filter(({ r }) => !rcalSel || fechaISO(r.fecha) === rcalSel);
+      if (!filas.length) {
+        tbody.innerHTML = `<tr><td colspan="7" data-css="color:#777;text-align:center">${rcalSel ? 'Sin reservas ese día' : 'Sin reservas'}</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = filas.map(({ r, idx }) => {
         const pagado = r.montoPagado || 0;
         const total = r.montoTotal || 0;
         const falta = Math.max(0, total - pagado);
         const unidades = (r.unidades || []).map(u => `${esc(u.nombre)} (${u.personas}p)`).join('<br>') || '—';
         // El anticipo sugerido es 25%; el botón lo propone pero se puede editar.
         const sugerido = r.modoPago === 'completo' ? total : Math.round(total * 0.25);
-        const accionPago = (userRole !== 'staff' && falta > 0)
+        const accionPago = falta > 0
           ? `<button class="btn-action sm" data-a="registrarPago" data-p="${esc(r.folio)}|${sugerido}|${total}">Registrar pago</button>`
           : '';
         return `
         <tr>
           <td><b>${esc(r.folio)}</b></td>
-          <td>${esc(r.cliente?.nombre)}<div class="celda-sub">${unidades}</div></td>
+          <td>${esc(r.cliente?.nombre)}
+              <div class="celda-sub"><a href="https://wa.me/52${esc(r.cliente?.whatsapp)}" target="_blank" rel="noopener" class="wa-link">WhatsApp ${esc(r.cliente?.whatsapp)}</a></div>
+              <div class="celda-sub">${unidades}</div></td>
           <td>${esc(r.ruta)}<div class="celda-sub">${esc(r.horario || '')}</div></td>
           <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
           <td>$${esc(String(pagado))} <span class="celda-sub">de $${esc(String(total))}</span>
@@ -281,6 +291,7 @@ function renderReservas(reservas) {
         ${reserva.nota ? `<div class="modal-detail"><b>Nota:</b> ${esc(reserva.nota)}</div>` : ''}
         ${reserva.aprobadaPor ? `<div class="modal-detail"><b>Aprobó:</b> ${esc(reserva.aprobadaPor)}</div>` : ''}
         <div class="modal-detail"><b>Estado:</b> <span class="estado-badge estado-${esc(reserva.estado)}">${esc(reserva.estado)}</span></div>
+        ${falta > 0 ? `<button class="btn-action" data-a="registrarPago" data-p="${esc(reserva.folio)}|${reserva.modoPago === 'completo' ? total : Math.round(total * 0.25)}|${total}">Registrar pago recibido</button>` : ''}
       `;
       document.getElementById('estado-select').value = reserva.estado;
       document.getElementById('modal').classList.add('open');
@@ -309,6 +320,102 @@ function renderReservas(reservas) {
       }
     }
     document.getElementById('estado-select').addEventListener('change', changeEstado);
+
+
+    /* ===== CALENDARIO DE RESERVAS ===== */
+    // Vive dentro de la pestaña de Reservas para que el mostrador vea el mes
+    // de un vistazo y pueda bajar a un día concreto. Usa el mismo cache que
+    // la tabla: no pide nada extra al servidor.
+    let rcalYear = new Date().getFullYear();
+    let rcalMonth = new Date().getMonth();
+    let rcalSel = null;
+
+    // Fecha local en YYYY-MM-DD. Con toISOString() una reserva de las 8 de la
+    // noche se iría al día siguiente, porque convierte a UTC.
+    function fechaISO(d) {
+      const f = (d instanceof Date) ? d : new Date(d);
+      return `${f.getFullYear()}-${String(f.getMonth() + 1).padStart(2, '0')}-${String(f.getDate()).padStart(2, '0')}`;
+    }
+
+    function rcalNav(dir) {
+      rcalMonth += dir;
+      if (rcalMonth > 11) { rcalMonth = 0; rcalYear++; }
+      if (rcalMonth < 0) { rcalMonth = 11; rcalYear--; }
+      rcalDraw();
+    }
+
+    function rcalPick(iso) {
+      rcalSel = (rcalSel === iso) ? null : iso;
+      rcalDraw();
+      renderReservas(reservasCache);
+    }
+
+    function rcalTodas() {
+      rcalSel = null;
+      rcalDraw();
+      renderReservas(reservasCache);
+    }
+
+    // Reservas por día del mes que se está viendo, ya sin las canceladas.
+    function rcalPorDia() {
+      const mapa = {};
+      (reservasCache || []).forEach(r => {
+        if (r.estado === 'cancelada') return;
+        const iso = fechaISO(r.fecha);
+        (mapa[iso] = mapa[iso] || []).push(r);
+      });
+      return mapa;
+    }
+
+    function rcalDraw() {
+      const grid = document.getElementById('rcal-grid');
+      if (!grid) return;
+      document.getElementById('rcal-title').textContent = MESES[rcalMonth] + ' ' + rcalYear;
+
+      const porDia = rcalPorDia();
+      const hoy = fechaISO(new Date());
+      let inicio = new Date(rcalYear, rcalMonth, 1).getDay();
+      inicio = inicio === 0 ? 6 : inicio - 1;              // la semana arranca en lunes
+      const dias = new Date(rcalYear, rcalMonth + 1, 0).getDate();
+
+      let html = DIAS_SEM.map(d => `<div class="cal-dow">${d}</div>`).join('');
+      for (let i = 0; i < inicio; i++) html += '<div class="cal-day empty"></div>';
+
+      for (let d = 1; d <= dias; d++) {
+        const iso = `${rcalYear}-${String(rcalMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const lista = porDia[iso] || [];
+        const clases = ['cal-day', 'rcal-day'];
+        if (iso === hoy) clases.push('today');
+        if (iso === rcalSel) clases.push('selected');
+        if (iso < hoy) clases.push('past');
+        let punto = '';
+        if (lista.length) {
+          clases.push('has-reservas');
+          // El color lo manda lo más urgente del día: si algo falta por pagar,
+          // el día se ve naranja aunque el resto ya esté confirmado.
+          const tipo = lista.some(r => r.estado === 'pendiente') ? 'pend'
+                     : lista.some(r => r.estado === 'pausada') ? 'paus' : 'conf';
+          punto = `<span class="rcal-n ${tipo}">${lista.length}</span>`;
+        }
+        html += `<div class="${clases.join(' ')}" data-a="rcalPick" data-p="${iso}" role="button" tabindex="0">${d}${punto}</div>`;
+      }
+      grid.innerHTML = html;
+
+      const label = document.getElementById('rcal-label');
+      const btn = document.getElementById('rcal-todas');
+      if (rcalSel) {
+        const lista = porDia[rcalSel] || [];
+        const resta = lista.reduce((t, r) => t + Math.max(0, (r.montoTotal || 0) - (r.montoPagado || 0)), 0);
+        const f = new Date(rcalSel + 'T12:00:00');
+        label.textContent = f.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })
+          + ` · ${lista.length} ${lista.length === 1 ? 'reserva' : 'reservas'}`
+          + (resta > 0 ? ` · faltan por cobrar $${resta.toLocaleString('es-MX')}` : '');
+        btn.hidden = false;
+      } else {
+        label.textContent = 'Todas las reservas';
+        btn.hidden = true;
+      }
+    }
 
     /* ===== TABS ===== */
     let catalogoCache = [];
@@ -729,12 +836,15 @@ function renderReservas(reservas) {
 
     // Cuando cae la transferencia: se anota cuánto entró y, si es la
     // primera vez, la reserva pasa de "pendiente" a "confirmada" sola.
-    async function registrarPago(arg) {
-      const [folio, sugerido, total] = String(arg).split('|');
-      const txt = prompt(`¿Cuánto se recibió de ${folio}? (total $${total})`, sugerido);
+    // El despachador ya parte data-p por "|", así que llegan tres argumentos.
+    // Antes se recibía uno solo y se volvía a partir: el total y el anticipo
+    // sugerido salían "undefined" en el recuadro.
+    async function registrarPago(folio, sugerido, total) {
+      const txt = prompt(`¿Cuánto se recibió de ${folio}?\n\nTotal de la reserva: $${total}\nAnticipo sugerido: $${sugerido}`, sugerido);
       if (txt === null) return;
       const monto = Number(String(txt).replace(/[^0-9.]/g, ''));
       if (!Number.isFinite(monto) || monto < 0) { alert('Monto inválido'); return; }
+      if (monto > Number(total)) { alert(`No puede ser más de $${total}, que es el total de la reserva.`); return; }
       try {
         const res = await fetch(`${API_URL}/api/reservas/${encodeURIComponent(folio)}/pago`, {
           method: 'PATCH',
@@ -743,6 +853,7 @@ function renderReservas(reservas) {
         });
         const d = await res.json();
         if (!d.ok) { alert(d.error || 'No se pudo registrar'); return; }
+        closeModal();   // si se registró desde el detalle, quedaría con el saldo viejo
         loadReservas();
       } catch (e) { alert('Error de conexión'); }
     }
@@ -1249,7 +1360,7 @@ function renderReservas(reservas) {
 // data-a="función" (+ data-p="arg1|arg2|...") cubre los clics; los inputs
 // de archivo y de tarifa tienen su propio listener porque necesitan el
 // elemento o el valor en vivo, no solo argumentos fijos.
-const ACTS={registrarPago,switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
+const ACTS={registrarPago,rcalNav,rcalPick,rcalTodas,switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
  clickFile:id=>document.getElementById(id).click()};
 
 const convArg=s=>{
