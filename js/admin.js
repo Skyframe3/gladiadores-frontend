@@ -191,8 +191,10 @@ function renderReservas(reservas) {
         const total = r.montoTotal || 0;
         const falta = Math.max(0, total - pagado);
         const unidades = (r.unidades || []).map(u => `${esc(u.nombre)} (${u.personas}p)`).join('<br>') || '—';
-        // El anticipo sugerido es 25%; el botón lo propone pero se puede editar.
-        const sugerido = r.modoPago === 'completo' ? total : Math.round(total * 0.25);
+        // Lo que el cliente dijo que iba a transferir: 25, 50 o el 100%.
+        // El botón lo propone tal cual; se puede editar si llegó otra cantidad.
+        const pct = r.porcentajePago || (r.modoPago === 'completo' ? 100 : 25);
+        const sugerido = Math.round(total * pct / 100);
         const accionPago = falta > 0
           ? `<button class="btn-action sm" data-a="registrarPago" data-p="${esc(r.folio)}|${sugerido}|${total}">Registrar pago</button>`
           : '';
@@ -205,7 +207,8 @@ function renderReservas(reservas) {
           <td>${esc(r.ruta)}<div class="celda-sub">${esc(r.horario || '')}</div></td>
           <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
           <td>$${esc(String(pagado))} <span class="celda-sub">de $${esc(String(total))}</span>
-              ${falta > 0 ? `<span class="pago-pill anticipo">falta $${esc(String(falta))}</span>` : '<span class="pago-pill completo">liquidado</span>'}</td>
+              ${falta > 0 ? `<span class="pago-pill anticipo">falta $${esc(String(falta))}</span>` : '<span class="pago-pill completo">liquidado</span>'}
+              <div class="celda-sub">eligió ${pct}% · espera $${esc(String(sugerido))}</div></td>
           <td><span class="estado-badge estado-${esc(r.estado)}">${esc(r.estado)}</span></td>
           <td><button class="btn-action sm secondary" data-a="openModalByIdx" data-p="${idx}">Ver</button> ${accionPago}</td>
         </tr>`;
@@ -224,7 +227,7 @@ function renderReservas(reservas) {
         if (!data.ok || !data.reservas) throw new Error(data.error || 'No se pudo descargar');
         const filas = data.reservas;
 
-        const encabezados = ['Folio','Nombre','Email','WhatsApp','Ruta','Fecha','Horario','Unidad','Personas','Monto Pagado','Monto Total','Modo Pago','Estado','Creada'];
+        const encabezados = ['Folio','Nombre','Email','WhatsApp','Ruta','Fecha','Horario','Unidad','Personas','Monto Pagado','Monto Total','% elegido','A transferir','Estado','Creada'];
         const csvEscape = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
         const lineas = [encabezados.map(csvEscape).join(',')];
         filas.forEach(r => {
@@ -236,11 +239,12 @@ function renderReservas(reservas) {
             r.ruta,
             new Date(r.fecha).toLocaleDateString('es-MX'),
             r.horario,
-            r.unidad,
+            (r.unidades || []).map(u => `${u.nombre} (${u.personas}p)`).join(' + '),
             r.personas,
-            r.monto,
+            r.montoPagado,
             r.montoTotal,
-            r.modoPago,
+            (r.porcentajePago || (r.modoPago === 'completo' ? 100 : 25)) + '%',
+            Math.round((r.montoTotal || 0) * (r.porcentajePago || (r.modoPago === 'completo' ? 100 : 25)) / 100),
             r.estado,
             new Date(r.creadaEn).toLocaleString('es-MX')
           ].map(csvEscape).join(','));
@@ -276,6 +280,8 @@ function renderReservas(reservas) {
       const pagado = reserva.montoPagado || 0;
       const total = reserva.montoTotal || 0;
       const falta = Math.max(0, total - pagado);
+      const pctM = reserva.porcentajePago || (reserva.modoPago === 'completo' ? 100 : 25);
+      const esperado = Math.round(total * pctM / 100);
       const listaUnidades = (reserva.unidades || [])
         .map(u => `<div class="celda-sub">• ${esc(u.nombre)} — ${u.personas} ${u.personas === 1 ? 'persona' : 'personas'} — $${esc(String(u.precio))}</div>`)
         .join('') || '<div class="celda-sub">—</div>';
@@ -287,11 +293,12 @@ function renderReservas(reservas) {
         <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)} · ${new Date(reserva.fecha).toLocaleDateString('es-MX')} · ${esc(reserva.horario)}</div>
         <div class="modal-detail"><b>Unidades:</b>${listaUnidades}</div>
         <div class="modal-detail"><b>Personas:</b> ${esc(String(reserva.personas ?? '—'))}</div>
-        <div class="modal-detail"><b>Pago:</b> $${esc(String(pagado))} recibido de $${esc(String(total))}${falta > 0 ? ` · <span data-css="color:#ff9800">falta $${esc(String(falta))}</span>` : ' · <span data-css="color:#4caf50">liquidado</span>'} (${esc(reserva.modoPago === 'completo' ? 'pago completo' : 'anticipo 25%')})</div>
+        <div class="modal-detail"><b>Pago:</b> $${esc(String(pagado))} recibido de $${esc(String(total))}${falta > 0 ? ` · <span data-css="color:#ff9800">falta $${esc(String(falta))}</span>` : ' · <span data-css="color:#4caf50">liquidado</span>'}</div>
+        <div class="modal-detail"><b>El cliente eligió:</b> ${pctM === 100 ? 'pagar el total' : `adelantar el ${pctM}%`} — $${esc(String(esperado))}${pctM < 100 ? ` y el resto el día de la ruta ($${esc(String(total - esperado))})` : ''}</div>
         ${reserva.nota ? `<div class="modal-detail"><b>Nota:</b> ${esc(reserva.nota)}</div>` : ''}
         ${reserva.aprobadaPor ? `<div class="modal-detail"><b>Aprobó:</b> ${esc(reserva.aprobadaPor)}</div>` : ''}
         <div class="modal-detail"><b>Estado:</b> <span class="estado-badge estado-${esc(reserva.estado)}">${esc(reserva.estado)}</span></div>
-        ${falta > 0 ? `<button class="btn-action" data-a="registrarPago" data-p="${esc(reserva.folio)}|${reserva.modoPago === 'completo' ? total : Math.round(total * 0.25)}|${total}">Registrar pago recibido</button>` : ''}
+        ${falta > 0 ? `<button class="btn-action" data-a="registrarPago" data-p="${esc(reserva.folio)}|${esperado}|${total}">Registrar pago recibido</button>` : ''}
       `;
       document.getElementById('estado-select').value = reserva.estado;
       document.getElementById('modal').classList.add('open');

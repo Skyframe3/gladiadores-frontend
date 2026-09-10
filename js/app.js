@@ -128,7 +128,7 @@ const corteA = ms => (typeof AbortSignal!=='undefined' && AbortSignal.timeout) ?
 const chequeoMantenimiento = fetch(API+'/api/config/estado', corteA(8000))
   .then(r=>r.json())
   .catch(()=>({mantenimiento:false,reservasPausadas:true}));
-let cart=[],bRoute=null,bStep=0,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],bPayMode='anticipo',bPayMethod=null,bNota='';
+let cart=[],bRoute=null,bStep=0,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],bPayPct=25,bPayMethod=null,bNota='';
 // Ahora la reserva puede llevar VARIAS máquinas: 2 cuatrimotos + 1 Maverick,
 // por ejemplo. bUnidades guarda cada renglón elegido y bDisp la
 // disponibilidad real de la fecha (la manda el servidor, no se adivina).
@@ -247,7 +247,7 @@ function renderRouteFicha(){
     </div>`;
 }
 
-function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayMode='anticipo';bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;bUnidades=[];bDisp=null;bDispCargando=false;bUnitAbierta=null;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
+function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayPct=25;bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;bUnidades=[];bDisp=null;bDispCargando=false;bUnitAbierta=null;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
 function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
 
 function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -348,7 +348,7 @@ function renderStep(){
 
   // ---------- PASO 4: RESUMEN Y ENVÍO (pago por transferencia) ----------
   const total=totalUnidades();
-  const anticipo=Math.round(total*0.25);
+  const montoDe=p=>Math.round(total*p/100);
   const fechaLegible=new Date(bFecha+'T00:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   bd.innerHTML=bar+`<div class="summ-box">
       <div class="summ-row"><span data-css="color:var(--fire);font-weight:600">Cliente</span><span>${esc(bNombre)}</span></div>
@@ -360,10 +360,12 @@ function renderStep(){
       </div>
       <div class="summ-tot"><span data-css="font-weight:600">Total</span><span class="summ-tot-p">$${total}</span></div>
     </div>
-    <span class="field-lbl">¿CÓMO QUIERES PAGAR?</span>
+    <span class="field-lbl">¿CUÁNTO QUIERES ADELANTAR?</span>
     <div class="pay-split">
-      <div class="pay-opt ${bPayMode==='anticipo'?'sel':''}" data-a="setPay" data-p="anticipo"><div class="pay-radio"></div><div class="po-name">Solo anticipo (25%)<div data-css="font-size:12px;color:var(--muted);font-weight:400">Resto el día de la ruta</div></div><div class="po-amt">$${anticipo}</div></div>
-      <div class="pay-opt ${bPayMode==='completo'?'sel':''}" data-a="setPay" data-p="completo"><div class="pay-radio"></div><div class="po-name">Pago completo<div data-css="font-size:12px;color:var(--muted);font-weight:400">Listo, sin pagar nada más</div></div><div class="po-amt">$${total}</div></div>
+      ${[[25,'Anticipo del 25%','Resto el día de la ruta'],
+         [50,'Adelanta el 50%','La mitad ahora, la mitad allá'],
+         [100,'Pago completo','Listo, sin pagar nada más']]
+        .map(([p,tit,sub])=>`<div class="pay-opt ${bPayPct===p?'sel':''}" data-a="setPay" data-p="${p}"><div class="pay-radio"></div><div class="po-name">${tit}<div data-css="font-size:12px;color:var(--muted);font-weight:400">${sub}</div></div><div class="po-amt">$${montoDe(p)}</div></div>`).join('')}
     </div>
     <div class="transf-box">
       <div class="transf-tit">Pago por transferencia</div>
@@ -427,7 +429,7 @@ async function enviarSolicitud(){
     ruta:bRoute.name,rutaId:bRoute.id,
     horario:bHorario,fecha:bFecha,
     unidades:bUnidades.map(u=>({categoriaId:u.categoriaId,personas:u.personas})),
-    modoPago:bPayMode,nota:bNota
+    porcentajePago:bPayPct,modoPago:bPayPct===100?'completo':'anticipo',nota:bNota
   };
   try{
     const res=await fetch(API+'/api/reservas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(datos)});
@@ -444,8 +446,9 @@ async function enviarSolicitud(){
 // tener que entrar al panel.
 function mostrarTicket(data){
   const total=data.montoTotal;
-  const anticipo=data.anticipo!=null?data.anticipo:Math.round(total*0.25);
-  const aPagar=bPayMode==='completo'?total:anticipo;
+  const pct=data.porcentajePago||bPayPct;
+  const aPagar=data.montoAPagar!=null?data.montoAPagar:Math.round(total*pct/100);
+  const resto=total-aPagar;
   const fechaLegible=new Date(bFecha+'T00:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   const unidades=(data.unidades&&data.unidades.length)?data.unidades:bUnidades;
   const listaTxt=unidades.map(u=>`${u.nombre} (${u.personas}p) $${u.precio}`).join(' + ');
@@ -457,15 +460,17 @@ function mostrarTicket(data){
   const wa=['Hola! Aparté mi reserva en la página:','',
     'Folio: '+data.folio,
     'Cliente: '+bNombre,
+    'Correo: '+bEmail,
     'WhatsApp: '+bWhatsapp,
+    '',
     'Ruta: '+bRoute.name,
     'Fecha: '+fechaLegible,
     'Horario: '+bHorario,
     '','Unidades:'];
   unidades.forEach(u=>wa.push('  • '+u.nombre+' — '+u.personas+(u.personas===1?' persona':' personas')+' — $'+u.precio));
-  wa.push('','Total: $'+total,
-    bPayMode==='completo'?('Voy a transferir el pago completo: $'+total)
-                         :('Voy a transferir el anticipo (25%): $'+anticipo+' · resto en la ruta: $'+(total-anticipo)));
+  wa.push('','Total de la reserva: $'+total,
+    pct===100?('Voy a transferir el pago completo: $'+total)
+             :('Voy a transferir el '+pct+'%: $'+aPagar+' · resto el día de la ruta: $'+resto));
   if(bNota.trim())wa.push('','Algo especial: '+bNota.trim());
   wa.push('','¿Me pasas los datos para la transferencia?');
   window.open('https://wa.me/527971001929?text='+encodeURIComponent(wa.join('\n')),'_blank');
@@ -484,7 +489,7 @@ function mostrarTicket(data){
         <div><b data-css="color:var(--muted);font-weight:400">Fecha:</b> ${fechaLegible} · ${esc(bHorario)}</div>
         ${unidades.map(u=>`<div><b data-css="color:var(--muted);font-weight:400">Unidad:</b> ${esc(u.nombre)} · ${u.personas} ${u.personas===1?'persona':'personas'}</div>`).join('')}
         <div data-css="border-top:1px solid rgba(255,255,255,.1);margin-top:6px;padding-top:6px"><b data-css="color:var(--muted);font-weight:400">Total:</b> <span data-css="color:var(--fire);font-weight:700">$${total}</span></div>
-        <div><b data-css="color:var(--muted);font-weight:400">Por transferir ahora:</b> <span data-css="color:var(--fire);font-weight:700">$${aPagar}</span>${bPayMode==='anticipo'?` <span data-css="color:var(--muted)">· resto en la ruta $${total-anticipo}</span>`:''}</div>
+        <div><b data-css="color:var(--muted);font-weight:400">Por transferir ahora${pct<100?` (${pct}%)`:''}:</b> <span data-css="color:var(--fire);font-weight:700">$${aPagar}</span>${resto>0?` <span data-css="color:var(--muted)">· resto el día de la ruta $${resto}</span>`:''}</div>
       </div>
     </div>
     <p data-css="color:var(--muted);font-size:12.5px;margin-bottom:18px">Tu lugar queda apartado mientras validamos el pago. ¿No se abrió WhatsApp? Escríbenos al <b data-css="color:var(--ink)">797 100 1929</b></p>
@@ -803,7 +808,7 @@ window.addEventListener('scroll',()=>{
 // event.stopPropagation() inline).
 const ACTS={addUnidad,delUnidad,abrirUnidad,playVideo,jump,mobileJump,closeMobileMenu,toggleMobileMenu,closeReg,openReg,submitReg,closeBooking,openBooking,toggleChat,enviarChat,chatSugerido,goWhatsApp,closeRouteFicha,openRouteFicha,openUnitFicha,closeUnitFicha,ufReservar,rfNav,rfGoto,rfReservar,closeCart,openCart,removeFromCart,addMerch,prevSlide,nextSlide,filterExp,pickDay,bCalNav,enviarSolicitud,tPrivacidad,tRegPrivacidad,
  goStep:n=>{const antes=bStep;bStep=n;if(n===1&&(antes!==1)){cargarDisponibilidad();return;}renderStep();},
- setPay:m=>{bPayMode=m;renderStep();},
+ setPay:p=>{bPayPct=Number(p);renderStep();},
  setHorario:h=>{bHorario=h;renderStep();},
  goTop:()=>scrollTo(0,0),
  galScroll:d=>{const tr=document.getElementById('gal-track');if(!tr)return;const s=tr.querySelector('.gal-slide');const w=s?s.getBoundingClientRect().width+14:320;tr.scrollBy({left:d*w,behavior:'smooth'});},

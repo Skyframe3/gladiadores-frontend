@@ -497,7 +497,8 @@ footer{background:#060804;padding:56px 34px 34px;border-top:1px solid rgba(255,1
 .summ-tot{border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;}
 .summ-tot-p{font-family:'Barlow Condensed';color:var(--fire);font-weight:900;font-size:26px;}
 .pay-split{background:rgba(255,122,0,0.06);border:1px solid rgba(255,122,0,0.2);border-radius:12px;padding:14px 16px;margin-bottom:18px;}
-.pay-opt{display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer;}
+.pay-opt{display:flex;align-items:center;gap:12px;padding:12px 0;min-height:52px;cursor:pointer;}
+.pay-opt+.pay-opt{border-top:1px solid rgba(255,255,255,.07);}
 .pay-radio{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);flex-shrink:0;position:relative;}
 .pay-opt.sel .pay-radio{border-color:var(--fire);}
 .pay-opt.sel .pay-radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--fire);}
