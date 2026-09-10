@@ -205,7 +205,7 @@ function renderReservas(reservas) {
               <div class="celda-sub"><a href="https://wa.me/52${esc(r.cliente?.whatsapp)}" target="_blank" rel="noopener" class="wa-link">WhatsApp ${esc(r.cliente?.whatsapp)}</a></div>
               <div class="celda-sub">${unidades}</div></td>
           <td>${esc(r.ruta)}<div class="celda-sub">${esc(r.horario || '')}</div></td>
-          <td>${new Date(r.fecha).toLocaleDateString('es-MX')}</td>
+          <td>${fechaCorta(r.fecha)}</td>
           <td>$${esc(String(pagado))} <span class="celda-sub">de $${esc(String(total))}</span>
               ${falta > 0 ? `<span class="pago-pill anticipo">falta $${esc(String(falta))}</span>` : '<span class="pago-pill completo">liquidado</span>'}
               <div class="celda-sub">eligió ${pct}% · espera $${esc(String(sugerido))}</div></td>
@@ -237,7 +237,7 @@ function renderReservas(reservas) {
             r.cliente?.email,
             r.cliente?.whatsapp,
             r.ruta,
-            new Date(r.fecha).toLocaleDateString('es-MX'),
+            fechaCorta(r.fecha),
             r.horario,
             (r.unidades || []).map(u => `${u.nombre} (${u.personas}p)`).join(' + '),
             r.personas,
@@ -254,7 +254,7 @@ function renderReservas(reservas) {
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        const hoy = new Date().toISOString().slice(0, 10);
+        const hoy = hoyISO();
         a.href = url;
         a.download = `reservas-gladiadores-${hoy}.csv`;
         document.body.appendChild(a);
@@ -290,7 +290,7 @@ function renderReservas(reservas) {
         <div class="modal-detail"><b>Cliente:</b> ${esc(reserva.cliente?.nombre)}</div>
         <div class="modal-detail"><b>Email:</b> ${esc(reserva.cliente?.email)}</div>
         <div class="modal-detail"><b>WhatsApp:</b> <a href="https://wa.me/52${esc(reserva.cliente?.whatsapp)}" target="_blank" data-css="color:#4caf50">${esc(reserva.cliente?.whatsapp)}</a></div>
-        <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)} · ${new Date(reserva.fecha).toLocaleDateString('es-MX')} · ${esc(reserva.horario)}</div>
+        <div class="modal-detail"><b>Ruta:</b> ${esc(reserva.ruta)} · ${fechaLarga(fechaISO(reserva.fecha), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · ${esc(reserva.horario)}</div>
         <div class="modal-detail"><b>Unidades:</b>${listaUnidades}</div>
         <div class="modal-detail"><b>Personas:</b> ${esc(String(reserva.personas ?? '—'))}</div>
         <div class="modal-detail"><b>Pago:</b> $${esc(String(pagado))} recibido de $${esc(String(total))}${falta > 0 ? ` · <span data-css="color:#ff9800">falta $${esc(String(falta))}</span>` : ' · <span data-css="color:#4caf50">liquidado</span>'}</div>
@@ -337,11 +337,33 @@ function renderReservas(reservas) {
     let rcalMonth = new Date().getMonth();
     let rcalSel = null;
 
-    // Fecha local en YYYY-MM-DD. Con toISOString() una reserva de las 8 de la
-    // noche se iría al día siguiente, porque convierte a UTC.
+    // El día de una reserva es una FECHA DE CALENDARIO, no un instante: el
+    // cliente eligió "sábado 12" y se guarda como medianoche UTC del 12. Si se
+    // lee en hora de México (UTC-6) eso son las 6 de la tarde del 11, y todo
+    // el panel mostraba las reservas un día antes. Por eso se lee en UTC.
     function fechaISO(d) {
       const f = (d instanceof Date) ? d : new Date(d);
-      return `${f.getFullYear()}-${String(f.getMonth() + 1).padStart(2, '0')}-${String(f.getDate()).padStart(2, '0')}`;
+      return f.toISOString().slice(0, 10);
+    }
+
+    // "12/9/2026" a partir de esa misma fecha de calendario.
+    function fechaCorta(d) {
+      const [a, m, dd] = fechaISO(d).split('-');
+      return `${Number(dd)}/${Number(m)}/${a}`;
+    }
+
+    // "Hoy" sí es un instante y va en hora local: en UTC, después de las 6 de
+    // la tarde en México ya sería mañana y el calendario marcaría el día
+    // equivocado toda la noche.
+    function hoyISO() {
+      const h = new Date();
+      return `${h.getFullYear()}-${String(h.getMonth() + 1).padStart(2, '0')}-${String(h.getDate()).padStart(2, '0')}`;
+    }
+
+    // "sábado, 12 de septiembre" sin que la zona horaria la mueva: se arma un
+    // Date a mediodía local, lo bastante lejos de las dos medianoches.
+    function fechaLarga(iso, opciones) {
+      return new Date(iso + 'T12:00:00').toLocaleDateString('es-MX', opciones);
     }
 
     function rcalNav(dir) {
@@ -380,7 +402,7 @@ function renderReservas(reservas) {
       document.getElementById('rcal-title').textContent = MESES[rcalMonth] + ' ' + rcalYear;
 
       const porDia = rcalPorDia();
-      const hoy = fechaISO(new Date());
+      const hoy = hoyISO();
       let inicio = new Date(rcalYear, rcalMonth, 1).getDay();
       inicio = inicio === 0 ? 6 : inicio - 1;              // la semana arranca en lunes
       const dias = new Date(rcalYear, rcalMonth + 1, 0).getDate();
@@ -413,8 +435,7 @@ function renderReservas(reservas) {
       if (rcalSel) {
         const lista = porDia[rcalSel] || [];
         const resta = lista.reduce((t, r) => t + Math.max(0, (r.montoTotal || 0) - (r.montoPagado || 0)), 0);
-        const f = new Date(rcalSel + 'T12:00:00');
-        label.textContent = f.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })
+        label.textContent = fechaLarga(rcalSel, { weekday: 'long', day: 'numeric', month: 'long' })
           + ` · ${lista.length} ${lista.length === 1 ? 'reserva' : 'reservas'}`
           + (resta > 0 ? ` · faltan por cobrar $${resta.toLocaleString('es-MX')}` : '');
         btn.hidden = false;
@@ -453,7 +474,7 @@ function renderReservas(reservas) {
       calReservasDots = {};
       reservasCache.forEach(r => {
         if (r.estado === 'cancelada') return;
-        const f = new Date(r.fecha).toISOString().slice(0, 10);
+        const f = fechaISO(r.fecha);
         calReservasDots[f] = (calReservasDots[f] || 0) + 1;
       });
     }
@@ -466,7 +487,7 @@ function renderReservas(reservas) {
     function drawCalendar() {
       const grid = document.getElementById('cal-grid');
       document.getElementById('cal-title').textContent = MESES[calMonth] + ' ' + calYear;
-      const hoy = new Date().toISOString().slice(0, 10);
+      const hoy = hoyISO();
       const primerDia = new Date(calYear, calMonth, 1);
       let diaInicio = primerDia.getDay();
       diaInicio = diaInicio === 0 ? 6 : diaInicio - 1;
@@ -1113,7 +1134,7 @@ function renderReservas(reservas) {
 
     function diasFines(i) {
       const { y, m } = diasCalMes[i];
-      const hoy = new Date().toISOString().slice(0, 10);
+      const hoy = hoyISO();
       if (!catalogoCache[i].diasActivos) catalogoCache[i].diasActivos = [];
       const set = new Set(catalogoCache[i].diasActivos);
       const daysInMonth = new Date(y, m + 1, 0).getDate();
@@ -1131,7 +1152,7 @@ function renderReservas(reservas) {
 
     function diasTodoMes(i) {
       const { y, m } = diasCalMes[i];
-      const hoy = new Date().toISOString().slice(0, 10);
+      const hoy = hoyISO();
       if (!catalogoCache[i].diasActivos) catalogoCache[i].diasActivos = [];
       const set = new Set(catalogoCache[i].diasActivos);
       const daysInMonth = new Date(y, m + 1, 0).getDate();

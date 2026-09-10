@@ -250,6 +250,11 @@ function renderRouteFicha(){
 function openBooking(id){bRoute=ROUTES.find(r=>r.id===id);bStep=0;bNombre='';bEmail='';bWhatsapp='';bHorario=null;bUnit=null;bPersonas=0;bExtras=[];bPayPct=25;bPayMethod=null;bFecha=null;bNota='';bPrivacidad=false;bUnidades=[];bDisp=null;bDispCargando=false;bUnitAbierta=null;document.getElementById('mname').textContent=bRoute.name;renderStep();document.getElementById('book-overlay').classList.add('open');}
 function closeBooking(){document.getElementById('book-overlay').classList.remove('open');}
 
+ // "Hoy" en hora de quien está viendo la página. Con toISOString() sería el
+// día UTC, y después de las 6 de la tarde en México eso ya es mañana: el
+// calendario apagaría el día de hoy toda la tarde-noche.
+function hoyISO(){const h=new Date();return `${h.getFullYear()}-${String(h.getMonth()+1).padStart(2,'0')}-${String(h.getDate()).padStart(2,'0')}`;}
+
 function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function checkDatos(){const b=document.getElementById('btn-datos');if(b)b.disabled=!bNombre||!bEmail||!bWhatsapp||bWhatsapp.length!==10||!bPrivacidad;}
 function tPrivacidad(){bPrivacidad=!bPrivacidad;checkDatos();const c=document.getElementById('chk-privacidad');if(c)c.classList.toggle('on',bPrivacidad);}
@@ -265,7 +270,7 @@ function renderStep(){
 
   // ---------- PASO 1: FECHA Y HORARIO ----------
   if(bStep===0){
-    const hoy=new Date().toISOString().split('T')[0];
+    const hoy=hoyISO();
     const diasOK=new Set(bRoute.diasActivos||[]);
     const hayDias=diasOK.size>0;
     const fechaValida=bFecha&&(!hayDias||diasOK.has(bFecha));
@@ -508,7 +513,7 @@ function pickDay(iso){bFecha=iso;renderStep();}
 function renderBookCal(){
   if(bCalY==null)initBookCal();
   const meses=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const hoy=new Date().toISOString().slice(0,10);
+  const hoy=hoyISO();
   const diasOK=new Set(bRoute.diasActivos||[]);
   const first=new Date(bCalY,bCalM,1);
   const startDow=(first.getDay()+6)%7;
