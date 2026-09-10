@@ -282,6 +282,11 @@ function renderReservas(reservas) {
       const falta = Math.max(0, total - pagado);
       const pctM = reserva.porcentajePago || (reserva.modoPago === 'completo' ? 100 : 25);
       const esperado = Math.round(total * pctM / 100);
+      const historial = (reserva.historial || []).length
+        ? `<div class="modal-detail"><b>Reagendada:</b>${reserva.historial.map(h =>
+            `<div class="celda-sub">• del ${fechaCorta(h.fechaAnterior)} ${esc(h.horarioAnterior || '')} al ${fechaCorta(h.fechaNueva)} ${esc(h.horarioNuevo || '')}${h.motivo ? ` — ${esc(h.motivo)}` : ''} <i>(${esc(h.por || '')})</i></div>`
+          ).join('')}</div>`
+        : '';
       const listaUnidades = (reserva.unidades || [])
         .map(u => `<div class="celda-sub">• ${esc(u.nombre)} — ${u.personas} ${u.personas === 1 ? 'persona' : 'personas'} — $${esc(String(u.precio))}</div>`)
         .join('') || '<div class="celda-sub">—</div>';
@@ -298,7 +303,12 @@ function renderReservas(reservas) {
         ${reserva.nota ? `<div class="modal-detail"><b>Nota:</b> ${esc(reserva.nota)}</div>` : ''}
         ${reserva.aprobadaPor ? `<div class="modal-detail"><b>Aprobó:</b> ${esc(reserva.aprobadaPor)}</div>` : ''}
         <div class="modal-detail"><b>Estado:</b> <span class="estado-badge estado-${esc(reserva.estado)}">${esc(reserva.estado)}</span></div>
-        ${falta > 0 ? `<button class="btn-action" data-a="registrarPago" data-p="${esc(reserva.folio)}|${esperado}|${total}">Registrar pago recibido</button>` : ''}
+        ${historial}
+        <div class="modal-acciones-fila">
+          ${falta > 0 ? `<button class="btn-action" data-a="registrarPago" data-p="${esc(reserva.folio)}|${esperado}|${total}">Registrar pago recibido</button>` : ''}
+          ${['cancelada','completada'].includes(reserva.estado) ? '' : `<button class="btn-action secondary" data-a="abrirReagendar" data-p="${esc(reserva.folio)}">Reagendar</button>`}
+        </div>
+        <div id="reag-caja" class="reag-caja" hidden></div>
       `;
       document.getElementById('estado-select').value = reserva.estado;
       document.getElementById('modal').classList.add('open');
@@ -328,6 +338,108 @@ function renderReservas(reservas) {
     }
     document.getElementById('estado-select').addEventListener('change', changeEstado);
 
+
+
+    /* ===== REAGENDAR ===== */
+    // Cuando el cliente avisa que ya no puede venir. No se cancela y se vuelve
+    // a crear: se mueve la MISMA reserva, con su folio y lo que ya pagó.
+    let rutasPublicas = null;
+    let reagFolio = null;
+
+    async function catalogoPublico() {
+      if (rutasPublicas) return rutasPublicas;
+      const r = await fetch(`${API_URL}/api/catalogo`);
+      const d = await r.json();
+      rutasPublicas = (d && d.ok) ? d.rutas : [];
+      return rutasPublicas;
+    }
+
+    async function abrirReagendar(folio) {
+      const reserva = reservasCache.find(r => r.folio === folio);
+      if (!reserva) return;
+      reagFolio = folio;
+      const caja = document.getElementById('reag-caja');
+      caja.hidden = false;
+      caja.innerHTML = '<p class="celda-sub">Buscando días disponibles…</p>';
+
+      const rutas = await catalogoPublico();
+      const ruta = rutas.find(r => r.id === reserva.rutaId || r.name === reserva.ruta);
+      if (!ruta) { caja.innerHTML = '<p class="reag-err">No se pudo leer el calendario de esa ruta.</p>'; return; }
+
+      const hoy = hoyISO();
+      const actual = fechaISO(reserva.fecha);
+      const dias = (ruta.diasActivos || []).filter(d => d >= hoy && d !== actual);
+      if (!dias.length) {
+        caja.innerHTML = '<p class="reag-err">Esa ruta no tiene más días activos por delante. Agrégalos en Catálogo y vuelve aquí.</p>';
+        return;
+      }
+      caja.innerHTML = `
+        <div class="reag-tit">Mover ${esc(folio)} a otro día</div>
+        <label class="reag-lbl">Nueva fecha</label>
+        <select id="reag-fecha" class="precio-input reag-campo">
+          ${dias.map(d => `<option value="${d}">${fechaLarga(d, { weekday: 'long', day: 'numeric', month: 'long' })}</option>`).join('')}
+        </select>
+        <label class="reag-lbl">Nuevo horario</label>
+        <select id="reag-horario" class="precio-input reag-campo">
+          ${(ruta.horarios || []).map(h => `<option value="${esc(h)}"${h === reserva.horario ? ' selected' : ''}>${esc(h)}</option>`).join('')}
+        </select>
+        <label class="reag-lbl">Motivo (opcional, queda en el historial)</label>
+        <input id="reag-motivo" class="precio-input reag-campo" maxlength="200" placeholder="El cliente no puede ese día">
+        <div class="reag-btns">
+          <button class="btn-action" data-a="confirmarReagendar">Mover la reserva</button>
+          <button class="btn-action secondary" data-a="cerrarReagendar">Cancelar</button>
+        </div>`;
+    }
+
+    function cerrarReagendar() {
+      reagFolio = null;
+      const c = document.getElementById('reag-caja');
+      c.hidden = true; c.innerHTML = '';
+    }
+
+    async function confirmarReagendar(btn) {
+      if (!reagFolio) return;
+      const fecha = document.getElementById('reag-fecha').value;
+      const horario = document.getElementById('reag-horario').value;
+      const motivo = document.getElementById('reag-motivo').value.trim();
+      const reserva = reservasCache.find(r => r.folio === reagFolio);
+      if (btn) { btn.disabled = true; btn.textContent = 'Moviendo…'; }
+      try {
+        const res = await fetch(`${API_URL}/api/reservas/${encodeURIComponent(reagFolio)}/reagendar`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ fecha, horario, motivo })
+        });
+        const d = await res.json();
+        if (!d.ok) { alert(d.error || 'No se pudo reagendar'); return; }
+
+        // Avisarle al cliente es parte del trabajo, no un extra: se abre
+        // WhatsApp con el mensaje ya escrito para que solo lo mande.
+        const texto = [
+          `Hola ${reserva.cliente?.nombre || ''}, te escribimos de Gladiadores Off Road.`,
+          '',
+          `Tu reserva ${reagFolio} quedó movida:`,
+          `${fechaLarga(fecha, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} a las ${horario}`,
+          `Ruta: ${reserva.ruta}`,
+          (reserva.unidades || []).map(u => `  • ${u.nombre} — ${u.personas} ${u.personas === 1 ? 'persona' : 'personas'}`).join('\n'),
+          '',
+          (reserva.montoTotal - (reserva.montoPagado || 0)) > 0
+            ? `Tu pago de $${reserva.montoPagado || 0} sigue aplicado. Quedan $${reserva.montoTotal - (reserva.montoPagado || 0)} por cubrir.`
+            : 'Tu reserva ya está liquidada, no tienes que pagar nada más.',
+          '',
+          '¿Te queda bien esa fecha?'
+        ].join('\n');
+        window.open(`https://wa.me/52${reserva.cliente?.whatsapp}?text=${encodeURIComponent(texto)}`, '_blank');
+
+        cerrarReagendar();
+        closeModal();
+        loadReservas();
+      } catch (e) {
+        alert('Error de conexión');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Mover la reserva'; }
+      }
+    }
 
     /* ===== CALENDARIO DE RESERVAS ===== */
     // Vive dentro de la pestaña de Reservas para que el mostrador vea el mes
@@ -1388,7 +1500,7 @@ function renderReservas(reservas) {
 // data-a="función" (+ data-p="arg1|arg2|...") cubre los clics; los inputs
 // de archivo y de tarifa tienen su propio listener porque necesitan el
 // elemento o el valor en vivo, no solo argumentos fijos.
-const ACTS={registrarPago,rcalNav,rcalPick,rcalTodas,switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
+const ACTS={registrarPago,rcalNav,rcalPick,rcalTodas,abrirReagendar,cerrarReagendar,confirmarReagendar,switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
  clickFile:id=>document.getElementById(id).click()};
 
 const convArg=s=>{

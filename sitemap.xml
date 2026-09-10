@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Solo páginas de verdad. Las anclas de la portada (#rutas, #unidades) no
-     son URLs distintas para Google: las descarta y las cuenta como duplicados
-     de la portada. El panel no va: está en robots.txt y lleva noindex. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.gladiadoresoffroad.com/</loc>
