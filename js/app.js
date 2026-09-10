@@ -386,8 +386,10 @@ function libresDeCategoria(catId){
   return u?Math.max(0,u.seats?1:0):0;
 }
 function totalUnidades(){return bUnidades.reduce((s,u)=>s+u.precio,0);}
-function addUnidad(arg){
-  const [catId,personas]=String(arg).split('|');
+// El despachador ya parte data-p por "|", así que llegan dos argumentos.
+// Antes se recibía uno solo y se volvía a partir: personas salía undefined,
+// no encontraba la tarifa y la unidad nunca se agregaba a la reserva.
+function addUnidad(catId,personas){
   const u=unitsOf(bRoute).find(x=>x.id===catId);
   if(!u)return;
   const usadas=bUnidades.filter(x=>x.categoriaId===catId).length;
