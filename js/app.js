@@ -115,7 +115,19 @@ const EXTRAS=[{id:"e1",emo:"",name:"Sesión de fotos profesional",desc:"Fotógra
 const API = "https://gladiadores-backend.vercel.app";
 // Se dispara de inmediato para que el loader ya tenga la respuesta lista
 // cuando termine de cargar la página (ver window 'load' más abajo).
-const chequeoMantenimiento = fetch(API+'/api/config/estado').then(r=>r.json()).catch(()=>({mantenimiento:false,reservasPausadas:true}));
+// Nada de lo que pase con el servidor puede dejar al visitante mirando la
+// pantalla de carga: el backend duerme en Vercel y despertarlo ha tardado
+// hasta 25 segundos. Si no contesta a tiempo, el sitio abre igual.
+const conLimite = (promesa, ms, alterno) => Promise.race([
+  promesa,
+  new Promise(r => setTimeout(() => r(alterno), ms))
+]);
+// AbortSignal.timeout no existe en navegadores viejos: sin esta guarda, un
+// teléfono de hace unos años reventaría aquí y no cargaría nada.
+const corteA = ms => (typeof AbortSignal!=='undefined' && AbortSignal.timeout) ? {signal:AbortSignal.timeout(ms)} : {};
+const chequeoMantenimiento = fetch(API+'/api/config/estado', corteA(8000))
+  .then(r=>r.json())
+  .catch(()=>({mantenimiento:false,reservasPausadas:true}));
 let cart=[],bRoute=null,bStep=0,bHorario=null,bUnit=null,bPersonas=0,bExtras=[],bPayMode='anticipo',bPayMethod=null,bNota='';
 // Ahora la reserva puede llevar VARIAS máquinas: 2 cuatrimotos + 1 Maverick,
 // por ejemplo. bUnidades guarda cada renglón elegido y bDisp la
@@ -616,27 +628,38 @@ function cargarFondosDiferidos(){
 window.addEventListener('load',()=>{
   if('requestIdleCallback' in window)requestIdleCallback(cargarFondosDiferidos,{timeout:2500});
   else setTimeout(cargarFondosDiferidos,600);
-  chequeoMantenimiento.then(d=>{
+  const mostrarMantenimiento=()=>{
     const l=document.getElementById('loader');
     if(!l)return;
-    if(d && d.mantenimiento){
-      l.innerHTML='<div class="loader-helmet"><img src="img/i1.png" alt="Gladiadores Off Road" width="110" height="110"/></div><div class="loader-txt">EN MANTENIMIENTO</div><div class="mant-msg">Estamos afinando la aventura para que la vivas mejor. Volvemos muy pronto.</div><a class="mant-wsp" href="https://wa.me/527971001929" target="_blank" rel="noopener">¿Dudas? Escríbenos por WhatsApp</a>';
-      document.title='En mantenimiento · Gladiadores Off Road';
-      return;
-    }
+    l.classList.remove('hide');
+    l.innerHTML='<div class="loader-helmet"><img src="img/i1.png" alt="Gladiadores Off Road" width="110" height="110"/></div><div class="loader-txt">EN MANTENIMIENTO</div><div class="mant-msg">Estamos afinando la aventura para que la vivas mejor. Volvemos muy pronto.</div><a class="mant-wsp" href="https://wa.me/527971001929" target="_blank" rel="noopener">¿Dudas? Escríbenos por WhatsApp</a>';
+    document.title='En mantenimiento · Gladiadores Off Road';
+  };
+  conLimite(chequeoMantenimiento, 2000, {mantenimiento:false}).then(d=>{
+    const l=document.getElementById('loader');
+    if(!l)return;
+    if(d && d.mantenimiento)return mostrarMantenimiento();
     setTimeout(()=>l.classList.add('hide'),1400);
   });
+  // Y si la respuesta llegó tarde pero venía en mantenimiento, se aplica igual.
+  chequeoMantenimiento.then(d=>{if(d && d.mantenimiento)mostrarMantenimiento();});
 });
 (function(){if(localStorage.getItem('reg_done'))return;var fired=false;window.addEventListener('scroll',function(){if(fired)return;var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight);if(pct>0.35){fired=true;openReg();}});})();
 renderUnits();renderMerch();
 // Los precios vivos mandan: pintamos las rutas hasta que llega el catálogo del admin,
 // así nunca se alcanza a ver el precio del respaldo. Si falla, se usa el respaldo.
 document.getElementById('routes-grid').innerHTML='<p data-css="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0">Cargando rutas…</p>';
-fetch('https://gladiadores-backend.vercel.app/api/catalogo',{cache:'no-store'})
+let rutasPintadas=false;
+const pintarRutas=()=>{rutasPintadas=true;renderRoutes(lastFilter);};
+// Si el catálogo tarda más de dos segundos se pintan las rutas del respaldo
+// para que la página no se vea vacía; cuando llegue el bueno se repinta con
+// los precios y las fechas de verdad.
+setTimeout(()=>{if(!rutasPintadas)pintarRutas();},2000);
+fetch('https://gladiadores-backend.vercel.app/api/catalogo',{cache:'no-store',...corteA(15000)})
   .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
   .then(d=>{if(d&&d.ok&&Array.isArray(d.rutas)&&d.rutas.length)ROUTES=d.rutas;})
   .catch(e=>console.warn('Catálogo remoto no disponible, usando respaldo:',e.message))
-  .finally(()=>renderRoutes(lastFilter));
+  .finally(pintarRutas);
 
 // ── DUST PARTICLE SYSTEM ──
 // El polvo de fondo reacciona a qué tan rápido se scrollea la página, como
