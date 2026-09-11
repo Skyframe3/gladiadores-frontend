@@ -1,8 +1,69 @@
+# Cloudflare le pega ARRIBA de este archivo un bloque propio que le prohíbe el
+# paso a los rastreadores de IA (GPTBot, ClaudeBot, Google-Extended, CCBot...).
+# No se puede borrar desde aquí: es un ajuste del panel de Cloudflare.
+#
+# Lo que sí se puede es contrarrestarlo. Según el estándar de robots.txt
+# (RFC 9309), cuando hay varios grupos para el mismo rastreador se juntan en
+# uno solo, y si un Allow y un Disallow son igual de específicos, MANDA EL
+# ALLOW. Por eso cada uno lleva aquí su permiso explícito.
+
 User-agent: *
 Allow: /
 
 # El panel de administración no debe indexarse
 Disallow: /admin
 Disallow: /admin.html
+
+# --- Buscadores y asistentes de IA ---
+# Se les deja entrar a propósito: que Gladiadores pueda salir como respuesta
+# cuando alguien pregunte por rutas 4x4 en Chignahuapan.
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-User
+Allow: /
+Disallow: /admin
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /admin
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /admin
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin
 
 Sitemap: https://www.gladiadoresoffroad.com/sitemap.xml
