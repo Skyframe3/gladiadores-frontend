@@ -1,13 +1,25 @@
 # OJO: Cloudflare inyecta ARRIBA de este archivo un bloque propio (su opción
-# de robots.txt administrado). Eso trae dos consecuencias:
+# de robots.txt administrado) que le prohíbe el paso a GPTBot, ClaudeBot,
+# Google-Extended, CCBot y otros. No se puede borrar desde el repo: se
+# comprobó pidiendo el archivo directo a Vercel, donde sale limpio.
 #
-# 1. Su bloque prohíbe el paso a GPTBot, ClaudeBot, Google-Extended, CCBot y
-#    otros. Como casi todos los rastreadores usan el PRIMER grupo que coincide
-#    con su nombre —no la unión de todos— su Disallow gana sobre lo que se
-#    escriba aquí. Desbloquearlos SOLO se puede apagando esa opción en el
-#    panel de Cloudflare. Los permisos de abajo quedan listos para ese día.
+# Lo de abajo lo contrarresta. Los rastreadores que siguen el estándar
+# (RFC 9309) usan el grupo cuyo nombre de agente es el MÁS ESPECÍFICO y, ante
+# un Allow y un Disallow igual de específicos, se quedan con el Allow.
+# Verificado con un analizador compatible con Google: con estos grupos,
+# GPTBot, ClaudeBot, Google-Extended y CCBot vuelven a tener paso.
+# Un rastreador que use "el primer grupo que aparezca" seguiría viendo el
+# Disallow de Cloudflare; para esos, el único arreglo es apagar esa opción
+# en el panel de Cloudflare.
 #
-# 2. Su bloque define un "User-agent: *" propio que NO lleva el Disallow del
+# El bloque de Cloudflare también trae su propio "User-agent: *" SIN el
+# Disallow del panel. Por eso cada buscador tiene aquí grupo con nombre
+# propio: sin ellos, /admin le quedaba permitido a Googlebot.
+#
+# Bytespider (TikTok) se queda fuera a propósito: rastrea muy agresivo y no
+# aporta nada a que encuentren a Gladiadores.
+
+User-agent: *" propio que NO lleva el Disallow del
 #    panel, y por la misma regla del primer grupo, dejaba /admin destapado.
 #    Por eso cada buscador tiene aquí su grupo con nombre y apellido: un
 #    grupo específico le gana siempre al comodín.
