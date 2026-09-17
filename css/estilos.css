@@ -215,12 +215,12 @@ section.blk{padding:90px 34px;}
 .place-num{font-family:'Barlow Condensed';font-size:13px;font-weight:900;letter-spacing:1.5px;color:var(--fire);display:block;margin-bottom:3px;}
 .place-body b{display:block;font-size:16px;margin-bottom:5px;line-height:1.25;}
 .place-body small{color:var(--muted);font-size:12.5px;line-height:1.55;display:block;}
-.pf-base{background-image:url(../img/lugares/base-n.avif)}
-.pf-laguna{background-image:url(../img/lugares/laguna-n.avif)}
-.pf-piscicola{background-image:url(../img/lugares/piscicola-n.avif)}
-.pf-inmaculada{background-image:url(../img/lugares/inmaculada-n.avif)}
-.pf-volcan{background-image:url(../img/lugares/volcan-n.avif)}
-.pf-artesanal{background-image:url(../img/lugares/artesanal-n.avif)}
+.pf-base{background-image:url(../img/lugares/base-s.avif)}
+.pf-laguna{background-image:url(../img/lugares/laguna-s.avif)}
+.pf-piscicola{background-image:url(../img/lugares/piscicola-s.avif)}
+.pf-inmaculada{background-image:url(../img/lugares/inmaculada-s.avif)}
+.pf-volcan{background-image:url(../img/lugares/volcan-s.avif)}
+.pf-artesanal{background-image:url(../img/lugares/artesanal-s.avif)}
 @media(max-width:560px){
   .chigna-places{grid-template-columns:1fr 1fr;gap:12px;}
   .place-foto{aspect-ratio:4/3;}
