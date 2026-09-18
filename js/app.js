@@ -640,12 +640,21 @@ async function submitReg(){
     // queda el aviso y puede reservar igual.
     conObsequio=false;
   }
-  // A quien no alcanzó no se le anuncia que se acabaron los lugares, pero
-  // tampoco se le promete un obsequio que no va a recibir.
+  // Dos finales distintos. A quien no alcanzó obsequio no se le anuncia que
+  // se acabaron los lugares ni se le promete algo que no va a recibir: entra
+  // a la comunidad, y esa bienvenida se sostiene sola.
+  const tit=document.getElementById('reg-success-tit');
   const sub=document.getElementById('reg-success-sub');
-  if(sub)sub.textContent=conObsequio
-    ? 'Tu obsequio quedó apartado. Descúbrelo al hacer tu reservación.'
-    : 'Quedaste registrado. Te avisaremos de las próximas sorpresas y promociones.';
+  const lista=document.getElementById('reg-success-lista');
+  if(conObsequio){
+    tit.innerHTML='¡BIENVENIDO,<br><span>GLADIADOR!</span>';
+    sub.textContent='Tu obsequio quedó apartado. Descúbrelo al hacer tu reservación.';
+    lista.hidden=true;
+  }else{
+    tit.innerHTML='BIENVENIDO A LA<br><span>COMUNIDAD GLADIADORES</span>';
+    sub.textContent='Ya eres de los nuestros. Prepárate, porque la Sierra Norte no se recorre igual desde aquí.';
+    lista.hidden=false;
+  }
   document.getElementById('reg-form-wrap').style.display='none';
   document.getElementById('reg-success').classList.add('show');
   localStorage.setItem('reg_done','1');

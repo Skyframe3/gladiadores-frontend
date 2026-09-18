@@ -143,7 +143,7 @@
 <link rel="preload" as="image" href="img/i2.avif" type="image/avif" fetchpriority="high"/>
 <link rel="preload" as="font" type="font/woff2" href="fonts/inter-var-latin.woff2" crossorigin/>
 <link rel="preload" as="font" type="font/woff2" href="fonts/barlow-condensed-900-latin.woff2" crossorigin/>
-<link rel="stylesheet" href="css/estilos.css?v=21"></head><body>
+<link rel="stylesheet" href="css/estilos.css?v=22"></head><body>
 <div id="scroll-progress"></div>
 <canvas id="dust-canvas"></canvas>
 <!-- LOADER -->
@@ -536,8 +536,17 @@
       <div class="reg-skip"><button data-a="closeReg">Ahora no, gracias</button></div>
       <div class="reg-legal">Promoción válida por tiempo limitado en reservaciones realizadas a través del sitio web. Aplican términos y condiciones.</div>
     </div></div>
-  <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title sx82">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub sx83" id="reg-success-sub">Tu obsequio quedó apartado. Descúbrelo al hacer tu reservación.</div><button class="reg-submit sx84" data-a="closeReg">EMPEZAR</button></div>
-</div></div>
+  <div class="reg-success" id="reg-success">
+    <img class="reg-exito-casco" src="img/i1.png" alt="Gladiadores Off Road" width="64" height="64" loading="lazy"/>
+    <div class="reg-title sx82" id="reg-success-tit">¡BIENVENIDO,<br><span>GLADIADOR!</span></div>
+    <div class="reg-sub sx83" id="reg-success-sub">Tu obsequio quedó apartado. Descúbrelo al hacer tu reservación.</div>
+    <div class="reg-comunidad" id="reg-success-lista" hidden>
+      <div><i>▸</i><span>Te avisamos primero de rutas nuevas y fechas especiales.</span></div>
+      <div><i>▸</i><span>Promociones y sorpresas solo para la comunidad.</span></div>
+      <div><i>▸</i><span>Eres parte de la tribu que rueda la Sierra Norte.</span></div>
+    </div>
+    <button class="reg-submit sx84" data-a="closeReg">EMPEZAR LA AVENTURA</button>
+  </div></div>
 
 <!-- FICHA DE RUTA -->
 <!-- FICHA DE UNIDAD -->
@@ -551,4 +560,4 @@
 <!-- CART -->
 <div class="cart-ovl" id="cart-ovl"><div class="cart-bk" data-a="closeCart"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" data-a="closeCart">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
 <script src="js/qrcode.min.js"></script>
-<script src="js/app.js?v=21"></script></body></html>
+<script src="js/app.js?v=22"></script></body></html>
