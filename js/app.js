@@ -180,7 +180,7 @@ function tarifasDe(u){return (u.tarifas||[]).filter(t=>t.precio>0&&t.personas<=c
 function desdeDe(u){const t=tarifasDe(u);return t.length?t[0].precio:0;}
 function precioDe(u,p){const t=tarifasDe(u).find(x=>x.personas===p);return t?t.precio:0;}
 function unitsOf(r){return (r.units||[]).filter(u=>u.activo!==false&&tarifasDe(u).length);}
-function renderRoutes(filter){const f=filter||'todas';lastFilter=f;document.getElementById('routes-grid').innerHTML=ROUTES.filter(r=>f==='todas'||r.exp===f).filter(r=>unitsOf(r).length).map(r=>{const us=unitsOf(r);const tot=us.reduce((s,u)=>s+u.seats,0),bk=us.reduce((s,u)=>s+u.booked.length,0),avl=tot-bk,pocos=avl>0&&avl<=Math.max(2,Math.round(tot*0.3)),minp=Math.min(...us.map(desdeDe));const imgStyle=r.img?`background-image:url(${r.img})`:`background:linear-gradient(135deg,var(--card) 0%,rgba(255,122,0,0.12) 50%,rgba(163,214,60,0.08) 100%)`;return `<div class="rc ${r.exp==='extrema'?'extrema':''}" data-a="openRouteFicha" data-p="${r.id}"><div class="rc-img" data-css="${imgStyle}"><div class="rc-img-ov"></div><div class="rc-tags-top"><span class="rc-tag" data-css="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${r.tag}</span><span class="rc-tag" data-css="background:rgb(${colorDif(r)});color:${tinta(colorDif(r))}">${r.diff}</span></div>${r.gal?`<div class="rc-galcount">${r.gal} fotos</div>`:''}<div class="rc-name">${r.name}</div></div><div class="rc-body"><div class="rc-desc">${r.desc}</div><div class="rc-tags">${r.terrain.map(t=>`<span class="rc-tr">${t}</span>`).join('')}</div><div class="rc-stats rc-stats-1"><div class="rc-st"><div class="rc-st-lbl">DUR</div><div class="rc-sv">${r.dur}</div><div class="rc-sl">Duración</div></div></div><div class="rc-foot"><div class="rc-price"><span class="from">desde</span>$${minp}<small>/unidad</small></div><button class="btn-book" data-stop="1" data-a="openBooking" data-p="${r.id}">RESERVAR →</button></div></div></div>`;}).join('');}
+function renderRoutes(filter){const f=filter||'todas';lastFilter=f;document.getElementById('routes-grid').innerHTML=ROUTES.filter(r=>f==='todas'||r.exp===f).filter(r=>unitsOf(r).length).map(r=>{const us=unitsOf(r);const tot=us.reduce((s,u)=>s+u.seats,0),bk=us.reduce((s,u)=>s+u.booked.length,0),avl=tot-bk,pocos=avl>0&&avl<=Math.max(2,Math.round(tot*0.3)),minp=Math.min(...us.map(desdeDe));const imgStyle=r.img?`background-image:url(${r.img})`:`background:linear-gradient(135deg,var(--card) 0%,rgba(255,122,0,0.12) 50%,rgba(163,214,60,0.08) 100%)`;return `<div class="rc ${r.exp==='extrema'?'extrema':''}" data-a="openRouteFicha" data-p="${r.id}"><div class="rc-img" data-css="${imgStyle}"><div class="rc-img-ov"></div><div class="rc-tags-top"><span class="rc-tag" data-css="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${r.tag}</span><span class="rc-tag" data-css="background:rgb(${colorDif(r)});color:${tinta(colorDif(r))}">${r.diff}</span></div>${r.gal?`<div class="rc-galcount">${r.gal} fotos</div>`:''}<div class="rc-name">${r.name}</div></div><div class="rc-body"><div class="rc-desc">${r.desc}</div><div class="rc-tags">${r.terrain.map(t=>`<span class="rc-tr">${t}</span>`).join('')}</div><div class="rc-stats rc-stats-1"><div class="rc-st"><div class="rc-st-lbl">DUR</div><div class="rc-sv">Aprox. ${r.dur}</div><div class="rc-sl">Duración</div></div></div><div class="rc-foot"><div class="rc-price"><span class="from">desde</span>$${minp}<small>/unidad</small></div><button class="btn-book" data-stop="1" data-a="openBooking" data-p="${r.id}">RESERVAR →</button></div></div></div>`;}).join('');}
 function filterExp(f,el){document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderRoutes(f);}
 function renderUnits(){document.getElementById('units-grid').innerHTML=UNITS_FLEET.map(u=>`<div class="uc" data-a="openUnitFicha" data-p="${u.uid}" role="button" tabindex="0" aria-label="Ver la ficha de ${esc(u.name)}"><div class="uc-img"><img src="${u.img}" alt="${u.name} — vehículo 4x4 Can-Am de Gladiadores Off Road" loading="lazy" width="300" height="280"/></div><div class="uc-body"><div class="uc-cat">${u.cat}</div><div class="uc-name">${esc(u.name)}</div><div class="uc-specs"><div class="uc-spec"><b>${u.seats}</b><small>Capacidad</small></div></div><span class="uc-tag">${esc(u.tag)}</span><br><span class="canam-badge">100% Can-Am</span><div class="uc-ver">¿Por qué elegirla? <i>→</i></div></div></div>`).join('');}
 function renderMerch(){document.getElementById('merch-grid').innerHTML=MERCH.map(m=>`<div class="mc${m.sold?' mc-sold':''}">${m.sold?'<div class="mc-ribbon">AGOTADO</div>':''}<div class="mc-emo">${m.emo}</div><div class="mc-tag">${m.tag}</div><div class="mc-name">${m.name}</div><div class="mc-price">$${m.price}</div>${m.sold?`<button class="mc-btn agotado" disabled>AGOTADO</button>`:`<button class="mc-btn" id="mb-${m.id}" data-a="addMerch" data-p="${m.id}">+ CARRITO</button>`}</div>`).join('');}
@@ -233,9 +233,8 @@ function renderRouteFicha(){
       <div class="rf-tags"><span class="rf-tag" data-css="background:rgb(${colorTag(r)});color:${tinta(colorTag(r))}">${esc(r.tag)}</span></div>
       <div class="rf-desc">${esc(r.desc)}</div>
       <div class="rf-stats">
-        <div class="rf-st"><b>${esc(r.dur)}</b><small>DURACIÓN</small></div>
+        <div class="rf-st"><b>Aprox. ${esc(r.dur)}</b><small>DURACIÓN</small></div>
         <div class="rf-st"><b>${esc(r.diff)}</b><small>DIFICULTAD</small></div>
-        <div class="rf-st"><b>${esc(r.dist)}</b><small>DISTANCIA</small></div>
       </div>
       <div class="rf-terrain">${(r.terrain||[]).map(t=>`<span class="rf-tr">${esc(t)}</span>`).join('')}</div>
       ${r.video?`<a class="rf-video" href="${esc(r.video)}" target="_blank" rel="noopener">▶ Ver video de la ruta</a>`:''}
@@ -368,7 +367,6 @@ function renderStep(){
     <span class="field-lbl">¿CUÁNTO QUIERES ADELANTAR?</span>
     <div class="pay-split">
       ${[[25,'Anticipo del 25%','Resto el día de la ruta'],
-         [50,'Adelanta el 50%','La mitad ahora, la mitad allá'],
          [100,'Pago completo','Listo, sin pagar nada más']]
         .map(([p,tit,sub])=>`<div class="pay-opt ${bPayPct===p?'sel':''}" data-a="setPay" data-p="${p}"><div class="pay-radio"></div><div class="po-name">${tit}<div data-css="font-size:12px;color:var(--muted);font-weight:400">${sub}</div></div><div class="po-amt">$${montoDe(p)}</div></div>`).join('')}
     </div>
@@ -429,8 +427,8 @@ async function cargarDisponibilidad(){
 // folio real. Si el servidor rechaza la reserva (unidad ya no libre,
 // fecha ya no disponible), se avisa en vez de fingir que se envió.
 async function enviarSolicitud(){
-  const btn=document.querySelector('#mbody .btn-next');
-  if(btn){btn.disabled=true;btn.textContent='Apartando…';}
+  pantallaEnviando();
+  const total=totalUnidades();
   const datos={
     nombre:bNombre,email:bEmail,whatsapp:bWhatsapp,
     ruta:bRoute.name,rutaId:bRoute.id,
@@ -441,12 +439,84 @@ async function enviarSolicitud(){
   try{
     const res=await fetch(API+'/api/reservas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(datos)});
     const data=await res.json();
-    if(!res.ok||!data.ok||!data.folio)throw new Error(data.error||'No se pudo apartar. Intenta de nuevo.');
-    mostrarTicket(data);
+    if(res.ok&&data.ok&&data.folio){mostrarTicket(data);return;}
+
+    // Lo único que de verdad obliga a regresar es que la unidad ya se haya
+    // apartado: ahí sí hay que elegir otra. Cualquier otra cosa (reservas en
+    // pausa, servidor dormido, red) no es culpa del cliente y no debe
+    // costarle la reserva: se sigue por WhatsApp.
+    if(res.status===409){
+      document.getElementById('mbody').innerHTML=`<div class="env-wrap">
+        <div class="env-tit">ESA UNIDAD<br><em>ACABA DE APARTARSE</em></div>
+        <div class="env-txt">${esc(data.error||'Alguien se adelantó por segundos.')}</div>
+        <div class="env-btns"><button class="btn-fw" data-a="goStep" data-p="1">← ELEGIR OTRAS UNIDADES</button></div></div>`;
+      return;
+    }
+    throw new Error('respaldo');
   }catch(err){
-    document.getElementById('mbody').innerHTML=`<div data-css="text-align:center;padding:20px;color:#ff6b6b"><div data-css="font-size:22px;margin-bottom:10px;line-height:1.4">⚠ ${esc(err.message||'Error de conexión')}</div><button class="btn-fw" data-css="background:#ff6b6b;margin-top:16px;" data-a="goStep" data-p="1">← ELEGIR OTRAS UNIDADES</button></div>`;
+    // Respaldo: sin folio, pero el cliente aparta igual y a Gladiadores le
+    // llega el detalle completo.
+    const url=mensajeWhatsApp(null,bUnidades,total);
+    window.open(url,'_blank');
+    pantallaGracias(url,null);
   }
 }
+
+
+// Arma el mensaje que le llega a Gladiadores por WhatsApp. Lo comparten el
+// camino normal (reserva guardada, con folio) y el de respaldo (cuando las
+// reservas en línea están en pausa): en los dos casos el cliente no se queda
+// sin poder apartar, y a Gladiadores le llega el detalle completo.
+function mensajeWhatsApp(folio, unidades, total){
+  const fechaLegible=new Date(bFecha+'T00:00:00').toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const pct=bPayPct;
+  const aPagar=Math.round(total*pct/100);
+  const wa=['Hola! Quiero apartar mi aventura:',''];
+  if(folio)wa.push('Folio: '+folio);
+  wa.push('Cliente: '+bNombre,'Correo: '+bEmail,'WhatsApp: '+bWhatsapp,'',
+    'Ruta: '+bRoute.name,'Fecha: '+fechaLegible,'Horario: '+bHorario,'','Unidades:');
+  unidades.forEach(u=>wa.push('  • '+u.nombre+' — '+u.personas+(u.personas===1?' persona':' personas')+' — $'+u.precio));
+  wa.push('','Total de la reserva: $'+total,
+    pct===100?('Voy a transferir el pago completo: $'+total)
+             :('Voy a transferir el '+pct+'%: $'+aPagar+' · resto el día de la ruta: $'+(total-aPagar)));
+  if(bNota.trim())wa.push('','Algo especial: '+bNota.trim());
+  wa.push('','¿Me pasas los datos para la transferencia?');
+  return 'https://wa.me/527971001929?text='+encodeURIComponent(wa.join('\n'));
+}
+
+// Casco latiendo mientras se aparta. Antes el botón solo decía "Apartando…"
+// y la espera se sentía muerta.
+function pantallaEnviando(){
+  document.getElementById('mbody').innerHTML=`
+    <div class="env-wrap">
+      <div class="env-casco"><div class="env-anillo"></div><img src="img/i1.png" alt="Gladiadores Off Road" width="92" height="92"></div>
+      <div class="env-tit">APARTANDO<br><em>TU AVENTURA</em></div>
+      <div class="env-txt">Un momento, estamos reservando tus unidades…</div>
+    </div>`;
+}
+
+// Pantalla de gracias. Se usa cuando la reserva quedó guardada y también
+// cuando hubo que caer al respaldo por WhatsApp: para el cliente la
+// experiencia es la misma, amable y sin un error rojo en la cara.
+function pantallaGracias(waUrl, folio){
+  document.getElementById('mbody').innerHTML=`
+    <div class="env-wrap">
+      <div class="env-casco"><img src="img/i1.png" alt="Gladiadores Off Road" width="92" height="92"></div>
+      <div class="env-tit">GRACIAS POR SUMARTE<br><em>A LA AVENTURA</em></div>
+      <div class="env-txt">En un momento nos ponemos en contacto contigo para confirmar tu lugar.</div>
+      ${folio?`<div class="env-caja"><b>Tu folio:</b> ${esc(folio)}<br>Guárdalo, es tu referencia.</div>`:''}
+      <div class="env-caja">Se abrió <b>WhatsApp</b> con tu solicitud. Mándanos ese mensaje y te pasamos los datos para la transferencia.</div>
+      <div class="env-btns">
+        <button class="env-btn-wa" data-a="abrirWA">Abrir WhatsApp de nuevo</button>
+        <button class="btn-fw" data-css="background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--ink)" data-a="goStep" data-p="1">+ AGREGAR MÁS UNIDADES</button>
+        <button class="btn-fw" data-css="background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--muted)" data-a="closeBooking">LISTO, CERRAR</button>
+      </div>
+    </div>`;
+  ultimoWA=waUrl;
+}
+let ultimoWA=null;
+function abrirWA(){if(ultimoWA)window.open(ultimoWA,'_blank');}
+
 
 // Ticket + aviso por WhatsApp. El mensaje va con TODO el detalle para que
 // quien valida el pago sepa exactamente qué se apartó y por cuánto, sin
@@ -464,28 +534,15 @@ function mostrarTicket(data){
   let qrSvg='';
   try{const qr=qrcode(0,'M');qr.addData(qrTexto);qr.make();qrSvg=qr.createSvgTag({cellSize:5,margin:8});}catch(e){}
 
-  const wa=['Hola! Aparté mi reserva en la página:','',
-    'Folio: '+data.folio,
-    'Cliente: '+bNombre,
-    'Correo: '+bEmail,
-    'WhatsApp: '+bWhatsapp,
-    '',
-    'Ruta: '+bRoute.name,
-    'Fecha: '+fechaLegible,
-    'Horario: '+bHorario,
-    '','Unidades:'];
-  unidades.forEach(u=>wa.push('  • '+u.nombre+' — '+u.personas+(u.personas===1?' persona':' personas')+' — $'+u.precio));
-  wa.push('','Total de la reserva: $'+total,
-    pct===100?('Voy a transferir el pago completo: $'+total)
-             :('Voy a transferir el '+pct+'%: $'+aPagar+' · resto el día de la ruta: $'+resto));
-  if(bNota.trim())wa.push('','Algo especial: '+bNota.trim());
-  wa.push('','¿Me pasas los datos para la transferencia?');
-  window.open('https://wa.me/527971001929?text='+encodeURIComponent(wa.join('\n')),'_blank');
+  const urlWA=mensajeWhatsApp(data.folio,unidades,total);
+  ultimoWA=urlWA;
+  window.open(urlWA,'_blank');
 
   document.getElementById('mbody').innerHTML=`
   <div id="ticket-print" data-css="text-align:center;padding:8px 0">
-    <div data-css="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;color:var(--fire);margin-bottom:4px">UNIDADES APARTADAS</div>
-    <p data-css="color:var(--muted);font-size:13px;margin-bottom:18px">Se abrió WhatsApp con tu solicitud. Mándanos el mensaje, te pasamos los datos de la cuenta y con tu comprobante confirmamos el lugar.</p>
+    <div class="env-casco" data-css="width:78px;height:78px;margin:0 auto 14px"><img src="img/i1.png" alt="Gladiadores Off Road" width="78" height="78"></div>
+    <div class="env-tit">GRACIAS POR SUMARTE<br><em>A LA AVENTURA</em></div>
+    <p data-css="color:var(--muted);font-size:13.5px;line-height:1.7;margin-bottom:18px">En un momento nos ponemos en contacto contigo. Se abrió WhatsApp con tu solicitud: mándanos ese mensaje y te pasamos los datos para la transferencia.</p>
     <div data-css="background:var(--card);border:1px solid rgba(255,122,0,0.3);border-radius:16px;padding:22px 18px;margin-bottom:16px">
       <img src="img/i1.png" alt="Gladiadores Off Road" width="44" height="44" data-css="margin-bottom:8px">
       <div data-css="color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase">Folio</div>
@@ -500,9 +557,13 @@ function mostrarTicket(data){
       </div>
     </div>
     <p data-css="color:var(--muted);font-size:12.5px;margin-bottom:18px">Tu lugar queda apartado mientras validamos el pago. ¿No se abrió WhatsApp? Escríbenos al <b data-css="color:var(--ink)">797 100 1929</b></p>
-    <div data-css="display:flex;gap:10px">
-      <button class="btn-fw" data-css="background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--ink)" data-a="printTicket">IMPRIMIR / GUARDAR</button>
-      <button class="btn-fw" data-a="closeBooking">LISTO, CERRAR</button>
+    <div class="env-btns">
+      <button class="env-btn-wa" data-a="abrirWA">Abrir WhatsApp de nuevo</button>
+      <button class="btn-fw" data-css="background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--ink)" data-a="goStep" data-p="1">+ AGREGAR MÁS UNIDADES</button>
+      <div data-css="display:flex;gap:10px">
+        <button class="btn-fw" data-css="background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--ink)" data-a="printTicket">IMPRIMIR</button>
+        <button class="btn-fw" data-a="closeBooking">LISTO, CERRAR</button>
+      </div>
     </div>
   </div>`;
 }
@@ -551,7 +612,44 @@ let regPrivacidad=false;
 function openReg(){regPrivacidad=false;const c=document.getElementById('chk-reg-privacidad');if(c)c.classList.remove('on');document.getElementById('reg-overlay').classList.add('open');}
 function closeReg(){document.getElementById('reg-overlay').classList.remove('open');localStorage.setItem('reg_done','1');}
 function tRegPrivacidad(){regPrivacidad=!regPrivacidad;document.getElementById('chk-reg-privacidad').classList.toggle('on',regPrivacidad);}
-function submitReg(){const n=document.getElementById('r-nombre').value,e=document.getElementById('r-email').value;if(!n||!e){alert('Completa nombre y correo');return;}if(!regPrivacidad){alert('Acepta el Aviso de Privacidad para continuar');return;}document.getElementById('reg-form-wrap').style.display='none';document.getElementById('reg-success').classList.add('show');localStorage.setItem('reg_done','1');}
+// El formulario del popup NO guardaba nada: enseñaba el "gracias" y tiraba
+// los datos. Ahora sí se registran, y es el servidor quien decide si alcanzó
+// obsequio (el tope no puede vivir en el navegador o cualquiera lo esquiva
+// borrando una cookie).
+async function submitReg(){
+  const n=document.getElementById('r-nombre').value.trim();
+  const e=document.getElementById('r-email').value.trim();
+  const t=document.getElementById('r-tel').value.replace(/\D/g,'');
+  if(!n||!e){alert('Completa nombre y correo');return;}
+  if(!regPrivacidad){alert('Acepta el Aviso de Privacidad para continuar');return;}
+  const btn=document.querySelector('.reg-submit');
+  if(btn){btn.disabled=true;btn.textContent='Registrando…';}
+  let conObsequio=true;
+  try{
+    const r=await fetch(API+'/api/registros',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({nombre:n,email:e,whatsapp:t})});
+    const d=await r.json();
+    if(!r.ok||!d.ok){
+      if(btn){btn.disabled=false;btn.textContent='QUIERO MI OBSEQUIO';}
+      alert(d.error||'No se pudo completar tu registro. Intenta de nuevo.');
+      return;
+    }
+    conObsequio=d.conObsequio;
+  }catch(err){
+    // Si el servidor no responde no se le cierra la puerta al cliente:
+    // queda el aviso y puede reservar igual.
+    conObsequio=false;
+  }
+  // A quien no alcanzó no se le anuncia que se acabaron los lugares, pero
+  // tampoco se le promete un obsequio que no va a recibir.
+  const sub=document.getElementById('reg-success-sub');
+  if(sub)sub.textContent=conObsequio
+    ? 'Tu obsequio quedó apartado. Descúbrelo al hacer tu reservación.'
+    : 'Quedaste registrado. Te avisaremos de las próximas sorpresas y promociones.';
+  document.getElementById('reg-form-wrap').style.display='none';
+  document.getElementById('reg-success').classList.add('show');
+  localStorage.setItem('reg_done','1');
+}
 
 // CHATBOT
 function toggleChat(){document.getElementById('chat-win').classList.toggle('open');document.getElementById('chat-input').focus();}
@@ -813,7 +911,7 @@ window.addEventListener('scroll',()=>{
 // Un elemento con data-stop y sin data-a es zona muerta: absorbe el clic
 // para que no dispare la acción de su contenedor (reemplaza al viejo
 // event.stopPropagation() inline).
-const ACTS={addUnidad,delUnidad,abrirUnidad,playVideo,jump,mobileJump,closeMobileMenu,toggleMobileMenu,closeReg,openReg,submitReg,closeBooking,openBooking,toggleChat,enviarChat,chatSugerido,goWhatsApp,closeRouteFicha,openRouteFicha,openUnitFicha,closeUnitFicha,ufReservar,rfNav,rfGoto,rfReservar,closeCart,openCart,removeFromCart,addMerch,prevSlide,nextSlide,filterExp,pickDay,bCalNav,enviarSolicitud,tPrivacidad,tRegPrivacidad,
+const ACTS={addUnidad,delUnidad,abrirUnidad,playVideo,jump,mobileJump,closeMobileMenu,toggleMobileMenu,closeReg,openReg,submitReg,closeBooking,openBooking,toggleChat,enviarChat,chatSugerido,goWhatsApp,closeRouteFicha,openRouteFicha,abrirWA,openUnitFicha,closeUnitFicha,ufReservar,rfNav,rfGoto,rfReservar,closeCart,openCart,removeFromCart,addMerch,prevSlide,nextSlide,filterExp,pickDay,bCalNav,enviarSolicitud,tPrivacidad,tRegPrivacidad,
  goStep:n=>{const antes=bStep;bStep=n;if(n===1&&(antes!==1)){cargarDisponibilidad();return;}renderStep();},
  setPay:p=>{bPayPct=Number(p);renderStep();},
  setHorario:h=>{bHorario=h;renderStep();},

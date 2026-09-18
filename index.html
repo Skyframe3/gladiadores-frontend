@@ -143,7 +143,7 @@
 <link rel="preload" as="image" href="img/i2.avif" type="image/avif" fetchpriority="high"/>
 <link rel="preload" as="font" type="font/woff2" href="fonts/inter-var-latin.woff2" crossorigin/>
 <link rel="preload" as="font" type="font/woff2" href="fonts/barlow-condensed-900-latin.woff2" crossorigin/>
-<link rel="stylesheet" href="css/estilos.css?v=20"></head><body>
+<link rel="stylesheet" href="css/estilos.css?v=21"></head><body>
 <div id="scroll-progress"></div>
 <canvas id="dust-canvas"></canvas>
 <!-- LOADER -->
@@ -522,16 +522,21 @@
 </div>
 
 <!-- POPUP REGISTRO -->
-<div class="reg-overlay" id="reg-overlay"><div class="reg-modal"><div class="reg-glow"></div><button class="reg-x" data-a="closeReg">✕</button>
-  <div id="reg-form-wrap"><div class="reg-head"><img class="reg-helmet" src="img/i1.png" alt="Gladiadores Off Road" width="60" height="60" loading="lazy"/><div class="reg-title">RECLAMA TU<br><span>RECOMPENSA</span></div><div class="reg-sub">10% off en tu primera ruta</div></div>
-    <div class="reg-body"><div class="reg-perk"><div class="reg-perk-txt">Regístrate hoy y obtén tu <b>descuento</b> al instante.</div></div>
+<div class="reg-overlay" id="reg-overlay"><div class="reg-modal"><div class="reg-glow"></div><button class="reg-x" data-a="closeReg" aria-label="Cerrar">✕</button>
+  <div id="reg-form-wrap"><div class="reg-head"><img class="reg-helmet" src="img/i1.png" alt="Gladiadores Off Road" width="60" height="60" loading="lazy"/><div class="reg-title">RECOMPENSA<br><span>DE BIENVENIDA</span></div></div>
+    <div class="reg-body">
+      <div class="reg-msg"><b>¡Estrenamos nuevo sitio!</b><br>Para celebrar esta nueva etapa, Gladiadores Off Road quiere darte un obsequio sorpresa al realizar tu reservación desde nuestra página.</div>
+      <div class="reg-regalo"><span>🎁</span><span>Beneficio exclusivo por tiempo limitado.</span></div>
+      <div class="reg-msg">Déjanos tus datos y descubre tu recompensa al reservar.</div>
       <div class="reg-field"><input type="text" placeholder="Nombre completo" id="r-nombre"/></div>
       <div class="reg-field"><input type="email" placeholder="Correo electrónico" id="r-email"/></div>
       <div class="reg-field"><input type="tel" placeholder="WhatsApp (10 dígitos)" id="r-tel"/></div>
       <label data-prev="1" data-a="tRegPrivacidad" class="sx79"><div id="chk-reg-privacidad" class="chk-box"></div><span class="sx80">Acepto el <a href="aviso-privacidad.html" target="_blank" data-stop="1" class="sx81">Aviso de Privacidad</a>.</span></label>
-      <button class="reg-submit" data-a="submitReg">QUIERO MI DESCUENTO</button>
-      <div class="reg-skip"><button data-a="closeReg">Ahora no, gracias</button></div></div></div>
-  <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title sx82">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub sx83">Tu descuento está activo. Revisa tu WhatsApp.</div><button class="reg-submit sx84" data-a="closeReg">EMPEZAR</button></div>
+      <button class="reg-submit" data-a="submitReg">QUIERO MI OBSEQUIO</button>
+      <div class="reg-skip"><button data-a="closeReg">Ahora no, gracias</button></div>
+      <div class="reg-legal">Promoción válida por tiempo limitado en reservaciones realizadas a través del sitio web. Aplican términos y condiciones.</div>
+    </div></div>
+  <div class="reg-success" id="reg-success"><div class="reg-success-check">✓</div><div class="reg-title sx82">¡BIENVENIDO,<br><span>GLADIADOR!</span></div><div class="reg-sub sx83" id="reg-success-sub">Tu obsequio quedó apartado. Descúbrelo al hacer tu reservación.</div><button class="reg-submit sx84" data-a="closeReg">EMPEZAR</button></div>
 </div></div>
 
 <!-- FICHA DE RUTA -->
@@ -546,4 +551,4 @@
 <!-- CART -->
 <div class="cart-ovl" id="cart-ovl"><div class="cart-bk" data-a="closeCart"></div><div class="cart-drw"><div class="cart-hd"><div class="cart-tit">Carrito</div><button class="cart-x" data-a="closeCart">✕</button></div><div class="cart-its" id="cart-its"></div><div class="cart-ft" id="cart-ft"></div></div></div>
 <script src="js/qrcode.min.js"></script>
-<script src="js/app.js?v=20"></script></body></html>
+<script src="js/app.js?v=21"></script></body></html>

@@ -340,6 +340,70 @@ function renderReservas(reservas) {
 
 
 
+
+    /* ===== REGISTROS DEL POPUP DE BIENVENIDA ===== */
+    // El obsequio de estreno es para los primeros 25. El tope lo decide el
+    // servidor; aquí solo se muestra quién alcanzó y quién ya lo recibió.
+    let registrosCache = [];
+
+    async function loadRegistros() {
+      const tb = document.getElementById('tbody-registros');
+      try {
+        const res = await fetch(`${API_URL}/api/registros`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const d = await res.json();
+        if (!d.ok) { tb.innerHTML = `<tr><td colspan="5" data-css="color:#ff6b6b">${esc(d.error || 'Error')}</td></tr>`; return; }
+        registrosCache = d.registros;
+        document.getElementById('reg-resumen').textContent =
+          `${d.total} registrados · ${d.conObsequio} con obsequio · ${d.lugaresLibres} lugares libres de ${d.limite}`;
+        if (!d.registros.length) { tb.innerHTML = '<tr><td colspan="5" data-css="color:#777;text-align:center">Todavía nadie se registra</td></tr>'; return; }
+        tb.innerHTML = d.registros.map(r => `
+          <tr>
+            <td><b>${esc(String(r.posicion ?? '—'))}</b></td>
+            <td>${esc(r.nombre)}
+              <div class="celda-sub">${esc(r.email)}</div>
+              ${r.whatsapp ? `<div class="celda-sub"><a href="https://wa.me/52${esc(r.whatsapp)}" target="_blank" rel="noopener" class="wa-link">WhatsApp ${esc(r.whatsapp)}</a></div>` : ''}</td>
+            <td>${r.conObsequio
+                  ? (r.entregado
+                      ? `<span class="pago-pill completo">entregado</span><div class="celda-sub">${esc(r.entregadoPor || '')}</div>`
+                      : '<span class="pago-pill anticipo">por entregar</span>')
+                  : '<span class="celda-sub">sin obsequio</span>'}</td>
+            <td>${fechaCorta(r.creadoEn)}</td>
+            <td>${r.conObsequio ? `<button class="btn-action sm ${r.entregado ? 'secondary' : ''}" data-a="marcarEntregado" data-p="${esc(r._id)}">${r.entregado ? 'Deshacer' : 'Marcar entregado'}</button>` : ''}</td>
+          </tr>`).join('');
+      } catch (e) {
+        tb.innerHTML = '<tr><td colspan="5" data-css="color:#ff6b6b">Error de conexión</td></tr>';
+      }
+    }
+
+    async function marcarEntregado(id) {
+      try {
+        const res = await fetch(`${API_URL}/api/registros/${encodeURIComponent(id)}/entregado`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({})
+        });
+        const d = await res.json();
+        if (!d.ok) { alert(d.error || 'No se pudo actualizar'); return; }
+        loadRegistros();
+      } catch (e) { alert('Error de conexión'); }
+    }
+
+    function exportarRegistrosCSV() {
+      if (!registrosCache.length) { alert('Todavía no hay registros'); return; }
+      const esc2 = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const filas = [['#','Nombre','Email','WhatsApp','Con obsequio','Entregado','Folio','Registrado'].map(esc2).join(',')];
+      registrosCache.forEach(r => filas.push([
+        r.posicion, r.nombre, r.email, r.whatsapp,
+        r.conObsequio ? 'sí' : 'no', r.entregado ? 'sí' : 'no',
+        r.folioReserva || '', fechaCorta(r.creadoEn)
+      ].map(esc2).join(',')));
+      const blob = new Blob(['\ufeff' + filas.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `registros-gladiadores-${hoyISO()}.csv`;
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+
     /* ===== REAGENDAR ===== */
     // Cuando el cliente avisa que ya no puede venir. No se cancela y se vuelve
     // a crear: se mueve la MISMA reserva, con su folio y lo que ya pagó.
@@ -564,6 +628,7 @@ function renderReservas(reservas) {
       document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === nombre));
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + nombre));
       if (nombre === 'catalogo' && catalogoCache.length === 0) loadCatalogo();
+      if (nombre === 'registros') loadRegistros();
       if (nombre === 'seguridad') { loadSeguridad(); loadMantenimiento(); loadReservasToggle(); }
       if (nombre === 'agente') loadAgente();
       if (nombre === 'promos') loadPromos();
@@ -1500,7 +1565,7 @@ function renderReservas(reservas) {
 // data-a="función" (+ data-p="arg1|arg2|...") cubre los clics; los inputs
 // de archivo y de tarifa tienen su propio listener porque necesitan el
 // elemento o el valor en vivo, no solo argumentos fijos.
-const ACTS={registrarPago,rcalNav,rcalPick,rcalTodas,abrirReagendar,cerrarReagendar,confirmarReagendar,switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
+const ACTS={registrarPago,loadRegistros,marcarEntregado,exportarRegistrosCSV,rcalNav,rcalPick,rcalTodas,abrirReagendar,cerrarReagendar,confirmarReagendar,switchTab,login,logout,loadReservas,openModalByIdx,closeModal,toggleRuta,toggleHorario,agregarHorario,toggleUnidad,toggleAsiento,guardarPrecio,hacerPortada,quitarFotoGaleria,guardarGaleria,guardarRuta,calNav,calSelectDay,diasCalNav,toggleDia,diasFines,diasTodoMes,diasLimpiarMes,guardarDias,exportarReservasCSV,crearPromo,togglePromo,eliminarPromo,toggleAgente,guardarInstruccionesAgente,renderSeguridad,preparar2FA,activar2FA,desactivar2FA,verificar2FA,copiarCodigos,toggleMantenimiento,toggleReservas,
  clickFile:id=>document.getElementById(id).click()};
 
 const convArg=s=>{

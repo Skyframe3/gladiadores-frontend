@@ -14,7 +14,7 @@
   <link rel="manifest" href="manifest-admin.json">
   <link rel="icon" href="img/icon-panel-192.png">
   <link rel="apple-touch-icon" href="img/icon-panel-180.png">
-  <link rel="stylesheet" href="css/admin.css?v=14">
+  <link rel="stylesheet" href="css/admin.css?v=15">
 </head>
 <body>
   <div class="container">
@@ -70,6 +70,7 @@
         <button class="tab" data-tab="catalogo" data-a="switchTab" data-p="catalogo">Catálogo</button>
         <button class="tab" data-tab="flotilla" data-a="switchTab" data-p="flotilla">Flotilla</button>
         <button class="tab" data-tab="promos" id="tab-btn-promos" data-a="switchTab" data-p="promos" data-css="display:none">Promociones</button>
+        <button class="tab" data-tab="registros" data-a="switchTab" data-p="registros">Registros</button>
         <button class="tab" data-tab="seguridad" data-a="switchTab" data-p="seguridad">Seguridad</button>
         <button class="tab" data-tab="agente" id="tab-btn-agente" data-a="switchTab" data-p="agente" data-css="display:none">Agente IA</button>
       </div>
@@ -126,6 +127,19 @@
       </div>
 
       <!-- SEGURIDAD -->
+      <!-- REGISTROS DEL POPUP DE BIENVENIDA -->
+      <div id="tab-registros" class="tab-panel">
+        <p class="tab-hint">Quien dejó sus datos en el popup del sitio. El obsequio de estreno es para los primeros 25; los demás quedan guardados como clientes interesados.</p>
+        <div class="rcal-bar"><div id="reg-resumen">Cargando…</div>
+          <button class="btn-action sm secondary" data-a="exportarRegistrosCSV">⬇ Descargar CSV</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Nombre / contacto</th><th>Obsequio</th><th>Registrado</th><th></th></tr></thead>
+            <tbody id="tbody-registros"><tr><td colspan="5" class="sax17">Cargando…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
       <div id="tab-seguridad" class="tab-panel">
         <p class="tab-hint">Protege tu cuenta con un segundo factor. Aunque alguien descubra tu contraseña, no podrá entrar sin tu teléfono.</p>
         <div id="seguridad-cuerpo"><p class="sax9">Cargando...</p></div>
@@ -210,6 +224,6 @@
     </div>
   </div>
 
-  <script src="js/admin.js?v=14"></script>
+  <script src="js/admin.js?v=15"></script>
 </body>
 </html>
